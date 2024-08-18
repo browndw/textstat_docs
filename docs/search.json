@@ -1,0 +1,1695 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Text Analysis for Statistics & Data Science",
+    "section": "",
+    "text": "Schedule\n\n\n\nTopic\nLabs\nRequired Readings\nOptional Readings\nLecture Slides\n\n\n\n\nLinguistic Facts of Life\n\n\n\n\n\n\nSentiment & syuzhet\n\n\n\n\n\n\nClassification & the Federalist Papers",
+    "crumbs": [
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html",
+    "href": "labs/classification-federalist-papers.html",
+    "title": "1  Mosteller & Wallace",
+    "section": "",
+    "text": "1.1 Variables\nBecause of computational limits, they needed to identify potentially productive variables ahead of building their regression model. This is not how we would go about it now, but it was a constraint at the time. They ended up creating 6 bins of likely words, and those are reported in 3 groupings in their study.\nTheir first group contains 70 tokens…\nmw_group1 &lt;- c(\"a\", \"all\", \"also\", \"an\", \"and\", \"any\", \"are\", \"as\", \"at\", \"be\", \"been\", \"but\", \"by\", \"can\", \"do\", \"down\", \"even\", \"every\", \"for\", \"from\", \"had\", \"has\", \"have\", \"her\", \"his\", \"if\", \"in\", \"into\", \"is\", \"it\",  \"its\", \"may\", \"more\", \"must\", \"my\", \"no\", \"not\", \"now\", \"of\", \"on\", \"one\", \"only\", \"or\", \"our\", \"shall\", \"should\", \"so\", \"some\", \"such\", \"than\", \"that\", \"the\", \"their\", \"then\", \"there\", \"things\", \"this\", \"to\", \"up\", \"upon\", \"was\", \"were\", \"what\", \"when\", \"which\", \"who\", \"will\", \"with\", \"would\", \"your\")\nTheir second an additional 47…\nmw_group2 &lt;- c(\"affect\", \"again\", \"although\", \"among\", \"another\", \"because\", \"between\", \"both\", \"city\", \"commonly\", \"consequently\", \"considerable\", \"contribute\", \"defensive\", \"destruction\", \"did\", \"direction\", \"disgracing\", \"either\", \"enough\", \"fortune\", \"function\", \"himself\", \"innovation\", \"join\", \"language\", \"most\", \"nor\", \"offensive\", \"often\", \"pass\", \"perhaps\", \"rapid\", \"same\", \"second\", \"still\", \"those\", \"throughout\", \"under\", \"vigor\", \"violate\", \"violence\", \"voice\", \"where\", \"whether\", \"while\", \"whilst\")\nAnd their third another 48 (though they identify some by lemmas and another “expence” doesn’t appear in our data, possibly because of later editing done in our particular edition)…\nmw_group3 &lt;- c(\"about\", \"according\", \"adversaries\", \"after\", \"aid\", \"always\", \"apt\", \"asserted\", \"before\", \"being\", \"better\", \"care\", \"choice\", \"common\", \"danger\", \"decide\", \"decides\", \"decided\", \"deciding\", \"degree\", \"during\", \"expense\", \"expenses\", \"extent\", \"follow\", \"follows\", \"followed\", \"following\", \"i\", \"imagine\", \"imagined\", \"intrust\", \"intrusted\", \"intrusting\",\"kind\", \"large\", \"likely\", \"matter\", \"matters\", \"moreover\", \"necessary\", \"necessity\", \"necessities\", \"others\", \"particularly\", \"principle\", \"probability\", \"proper\", \"propriety\", \"provision\", \"provisions\", \"requisite\", \"substance\", \"they\", \"though\", \"truth\", \"truths\", \"us\", \"usage\", \"usages\", \"we\", \"work\", \"works\")\nAll together, they list 165 candidate variables, though it works out to be 180 unlemmatized tokens as potential variables for their model.\nWe’ll concatenate a vector of all their variables into a single vector.\nmw_all &lt;- sort(c(mw_group1, mw_group2, mw_group3))",
+    "crumbs": [
+      "Labs",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Mosteller & Wallace</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#training-and-testing-data",
+    "href": "labs/classification-federalist-papers.html#training-and-testing-data",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "5.1 Training and testing data",
+    "text": "5.1 Training and testing data\nNow we can subset out our training and testing data.\n\ntrain_dfm &lt;- fed_dfm %&gt;% filter(author_id == \"Hamilton\" | author_id == \"Madison\")\ntest_dfm &lt;- fed_dfm %&gt;% filter(author_id == \"Disputed\")\n\nFor the next step we’re going to again separate our training data. We want a subset of known data against which we can validate our model.\nFor this, we’ll use some handy functions from the rsample package. First, we make an 80/20 split. From that we create a new, smaller training set, and a validation set.\n\nset.seed(123)\nvalid_split &lt;- initial_split(train_dfm, .8)\ntrain_dfm_v2 &lt;- analysis(valid_split)\ntrain_valid &lt;- assessment(valid_split)\n\nNext, we’ll select only those 70 tokens from Mosteller & Wallace’s first group. We also need to convert the author_id into a 2-level factor, and to move the text_id to row names. The same for the validation data, but we don’t need to worry about the factor conversion.\n\ntrain_dfm_v2_1 &lt;- train_dfm_v2 %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_group1)) %&gt;%\n  mutate(doc_id = factor(doc_id)) %&gt;%\n  column_to_rownames(\"doc_id\")\n\ntrain_valid_1 &lt;- train_valid %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_group1)) %&gt;%\n  column_to_rownames(\"doc_id\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#ridge-lasso-regression",
+    "href": "labs/classification-federalist-papers.html#ridge-lasso-regression",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "6.1 Ridge & lasso regression",
+    "text": "6.1 Ridge & lasso regression\nLeast squares fits a model by minimizing the sum of squared residuals.\n\\[RSS = \\sum_{i=1}^{n}(y_{i}-\\beta_0-\\sum_{j=1}^{p}\\beta_jx_ij)^2\\]\nRidge Regression is similar, but it includes another term.\n\\[\\sum_{i=1}^{n}(y_{i}-\\beta_0-\\sum_{j=1}^{p}\\beta_jx_ij)^2 + \\lambda \\sum_{j=1}^{p}\\beta_{j}^{2} = RSS + \\lambda \\sum_{j=1}^{p}\\beta_{j}^{2}\\]\nIn order to minimize this equation \\(\\beta_1,...\\beta_p\\) should be close to zero and so it shrinks the coefficients. The tuning parameter, \\(\\lambda\\), controls the impact.\nRidge regression does have some disadvantages.\n\nUnlike subset selection, ridge regression includes all p predictors.\nThe penalty term will shrink all of the coefficients towards zero, but none of them will be exactly zero.\nSuch a large model often makes interpretation difficult.\n\nThe lasso helps overcome these problems. It is similar to ridge regression, but the penalty term is slightly different.\n\\[\\sum_{i=1}^{n}(y_{i}-\\beta_0-\\sum_{j=1}^{p}\\beta_jx_ij)^2 + \\lambda \\sum_{j=1}^{p}|\\beta_{j}| = RSS + \\lambda \\sum_{j=1}^{p}|\\beta_{j}|\\]\nLike ridge regression it shrinks the coefficients towards zero. However, the lasso allows some of the coefficients to be exactly zero.\nFor more detail on lasso regression you can look here:\nhttps://eight2late.wordpress.com/2017/07/11/a-gentle-introduction-to-logistic-regression-and-lasso-regularisation-using-r/\nThis is a very useful technique for variable selection and can reduce the likelihood of overfitting. This is particularly helpful in linguistic analysis where we’re often working with many variables making the implementation of functions like step() sometimes tedious.",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#using-glmnet",
+    "href": "labs/classification-federalist-papers.html#using-glmnet",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "6.2 Using glmnet",
+    "text": "6.2 Using glmnet\nTo help you decide which lambda to use, the cv.glmnet() function does cross-validation. The default sets alpha=1 for lasso. If we wanted ridge, we would set alpha=0.\n\ncv_fit &lt;- cv.glmnet(as.matrix(train_dfm_v2_1[, -1]), train_dfm_v2_1[, 1], family = \"binomial\")\n\nWe can plot the log of the resulting lambdas.\n\nplot(cv_fit)\n\n\n\n\n\n\n\n\nThe plot displays the cross-validation error according to the log of lambda. The left dashed vertical line indicates that the log of the optimal value of lambda is approximately -6, which is the one that minimizes the prediction error. This lambda value will give the most accurate model.\nThe exact value of lambda can also be viewed. We’ll save our regression coefficients.\n\nlambda_min &lt;- cv_fit$lambda.min\nlambda_lse &lt;- cv_fit$lambda.1se\n\nBy filtering those variables with coefficients of zero, we see only the variables have been included in the model. Ours has 13.\n\ncoef(cv_fit, s = \"lambda.min\") %&gt;%\n  as.matrix() %&gt;%\n  data.frame() %&gt;%\n  rownames_to_column(\"Variable\") %&gt;%\n  filter(s1 !=0) %&gt;%\n  dplyr::rename(Coeff = s1) %&gt;%\n  knitr::kable(digits = 2)\n\n\n\n\nVariable\nCoeff\n\n\n\n\n(Intercept)\n5.16\n\n\nand\n109.28\n\n\nat\n-423.42\n\n\nby\n273.33\n\n\ninto\n180.70\n\n\nis\n25.16\n\n\nno\n236.10\n\n\nof\n-40.02\n\n\non\n176.93\n\n\nthere\n-1205.46\n\n\nthis\n-152.95\n\n\nto\n-137.28\n\n\nup\n-208.23\n\n\nupon\n-1218.02",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#create-a-new-training-and-validation-set",
+    "href": "labs/classification-federalist-papers.html#create-a-new-training-and-validation-set",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.1 Create a new training and validation set",
+    "text": "8.1 Create a new training and validation set\n\ntrain_dfm_v2_2 &lt;- train_dfm_v2 %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_all)) %&gt;%\n  mutate(author_id = factor(author_id)) %&gt;%\n  column_to_rownames(\"doc_id\")\n\ntrain_valid_2 &lt;- train_valid %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_all)) %&gt;%\n  column_to_rownames(\"doc_id\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#carry-out-cross-validation",
+    "href": "labs/classification-federalist-papers.html#carry-out-cross-validation",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.2 Carry out cross-validation",
+    "text": "8.2 Carry out cross-validation\n\ncv_fit &lt;- cv.glmnet(as.matrix(train_dfm_v2_2[, -1]), train_dfm_v2_2[, 1], family = \"binomial\")\n\nLook at our coefficients… 17 this time…\n\ncoef(cv_fit, s = \"lambda.min\") %&gt;%\n  as.matrix() %&gt;%\n  data.frame() %&gt;%\n  rownames_to_column(\"Variable\") %&gt;%\n  filter(s1 !=0) %&gt;%\n  dplyr::rename(Coeff = s1) %&gt;%\n  knitr::kable(digits = 2)\n\n\n\n\nVariable\nCoeff\n\n\n\n\n(Intercept)\n-7.01\n\n\namong\n81.37\n\n\nand\n113.93\n\n\nboth\n631.34\n\n\nby\n308.59\n\n\nconsequently\n691.28\n\n\nfollowed\n407.75\n\n\nkind\n-441.51\n\n\nlanguage\n1001.80\n\n\non\n287.74\n\n\nparticularly\n1406.99\n\n\nprobability\n-483.88\n\n\nthere\n-224.77\n\n\nto\n-1.07\n\n\nupon\n-1503.67\n\n\nvigor\n-1770.60\n\n\nwhilst\n4871.85\n\n\nwould\n-22.64\n\n\n\n\n\nSave our minimum lambda and our regression coefficients.\n\nlambda_min &lt;- cv_fit$lambda.min\nlambda_lse &lt;- cv_fit$lambda.1se",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#create-a-matrix-from-the-validation-set",
+    "href": "labs/classification-federalist-papers.html#create-a-matrix-from-the-validation-set",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.3 Create a matrix from the validation set",
+    "text": "8.3 Create a matrix from the validation set\n\nx_test &lt;- model.matrix(author_id ~., train_valid_2)[,-1]",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#predict-the-author_id-of-the-validation-set.",
+    "href": "labs/classification-federalist-papers.html#predict-the-author_id-of-the-validation-set.",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.4 Predict the author_id of the validation set.",
+    "text": "8.4 Predict the author_id of the validation set.\n\nlasso_prob &lt;- predict(cv_fit, newx = x_test, s = lambda_lse, type = \"response\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#return-the-predicted-authors.",
+    "href": "labs/classification-federalist-papers.html#return-the-predicted-authors.",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.5 Return the predicted authors.",
+    "text": "8.5 Return the predicted authors.\n\nlasso_predict &lt;- ifelse(lasso_prob &gt; 0.5, \"Madison\", \"Hamilton\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#check-confusion-matrix",
+    "href": "labs/classification-federalist-papers.html#check-confusion-matrix",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.6 Check confusion matrix",
+    "text": "8.6 Check confusion matrix\n\n table(pred=lasso_predict, true=train_valid_1$author_id) %&gt;% knitr::kable()\n\n\n\n\n\nHamilton\nMadison\n\n\n\n\nHamilton\n10\n0\n\n\nMadison\n0\n3\n\n\n\n\n\nThe model looks good… So let’s proceed with the data in question.",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#prepare-full-training-set",
+    "href": "labs/classification-federalist-papers.html#prepare-full-training-set",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.7 Prepare full training set",
+    "text": "8.7 Prepare full training set\n\ntrain_dfm &lt;- train_dfm %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_all)) %&gt;%\n  mutate(author_id = factor(author_id)) %&gt;%\n  column_to_rownames(\"doc_id\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#prepare-test-data",
+    "href": "labs/classification-federalist-papers.html#prepare-test-data",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.8 Prepare test data",
+    "text": "8.8 Prepare test data\n\ntest_dfm &lt;- test_dfm %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_all)) %&gt;%\n  column_to_rownames(\"doc_id\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#carry-out-cross-validation-1",
+    "href": "labs/classification-federalist-papers.html#carry-out-cross-validation-1",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.9 Carry out cross-validation",
+    "text": "8.9 Carry out cross-validation\n\ncv_fit &lt;- cv.glmnet(as.matrix(train_dfm[, -1]), train_dfm[, 1], family = \"binomial\")\n\nAs we would expect, this is close to what we saw previously.\n\ncoef(cv_fit, s = \"lambda.min\") %&gt;%\n  as.matrix() %&gt;%\n  data.frame() %&gt;%\n  rownames_to_column(\"Variable\") %&gt;%\n  filter(s1 !=0) %&gt;%\n  dplyr::rename(Coeff = s1) %&gt;%\n  knitr::kable(digits = 2)\n\n\n\n\nVariable\nCoeff\n\n\n\n\n(Intercept)\n-6.75\n\n\nalthough\n210.14\n\n\namong\n248.45\n\n\nand\n132.41\n\n\nboth\n212.07\n\n\nby\n331.66\n\n\nfollowed\n831.92\n\n\nkind\n-487.71\n\n\nlanguage\n167.35\n\n\non\n352.43\n\n\nparticularly\n1426.48\n\n\nthere\n-342.61\n\n\nto\n-32.91\n\n\nup\n-99.57\n\n\nupon\n-1112.23\n\n\nvigor\n-1555.14\n\n\nwhilst\n5136.21\n\n\nwould\n-52.19",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#run-lasso",
+    "href": "labs/classification-federalist-papers.html#run-lasso",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.10 Run lasso",
+    "text": "8.10 Run lasso\n\nlasso_fit &lt;- glmnet(as.matrix(train_dfm[, -1]), train_dfm[, 1], alpha = 1, family = \"binomial\", lambda = cv_fit$lambda.min)",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#create-a-matrix-from-the-test-set-and-predict-author",
+    "href": "labs/classification-federalist-papers.html#create-a-matrix-from-the-test-set-and-predict-author",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.11 Create a matrix from the test set and predict author",
+    "text": "8.11 Create a matrix from the test set and predict author\n\nx_test &lt;- model.matrix(author_id ~., test_dfm)[,-1]\nlasso_prob &lt;- predict(cv_fit, newx = x_test, s = lambda_lse, type = \"response\")\nlasso_predict &lt;- ifelse(lasso_prob &gt; 0.5, \"Madison\", \"Hamilton\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#check-results",
+    "href": "labs/classification-federalist-papers.html#check-results",
+    "title": "2  Classification & the Federalist Papers",
+    "section": "8.12 Check results",
+    "text": "8.12 Check results\n\ndata.frame(lasso_predict, lasso_prob) %&gt;% \n  dplyr::rename(Author = s1, Prob = s1.1) %&gt;%\n  knitr::kable(digits = 2)\n\n\n\n\n\nAuthor\nProb\n\n\n\n\nFEDERALIST_49\nMadison\n0.94\n\n\nFEDERALIST_50\nMadison\n0.83\n\n\nFEDERALIST_51\nMadison\n1.00\n\n\nFEDERALIST_52\nMadison\n0.86\n\n\nFEDERALIST_53\nMadison\n0.96\n\n\nFEDERALIST_54\nMadison\n0.73\n\n\nFEDERALIST_55\nHamilton\n0.24\n\n\nFEDERALIST_56\nMadison\n0.96\n\n\nFEDERALIST_57\nMadison\n1.00\n\n\nFEDERALIST_58\nMadison\n0.79\n\n\nFEDERALIST_62\nMadison\n0.84\n\n\nFEDERALIST_63\nMadison\n0.94\n\n\n\n\n\nOur model predicts all but 55 were written by Madison. Our model is not particularly confident about that result. This hews pretty closely to Mosteller & Wallace’s findings, through they come down (sort of) on the side of Madison for 55. However, they also acknowledge that the evidence is weak and not very convincing.\nIt’s worth noting, too, that other studies using other techniques have suggested that 55 was authored by Hamilton. See, for example, here:\nhttps://journals.plos.org/plosone/article?id=10.1371/journal.pone.0054998\n\n\n\n\n\n\nMosteller, Frederick, and David L Wallace. 1963. “Inference in an Authorship Problem: A Comparative Study of Discrimination Methods Applied to the Authorship of the Disputed Federalist Papers.” Journal Article. Journal of the American Statistical Association 58 (302): 275–309. https://doi.org/10.1080/01621459.1963.10500849.",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/sentiment-and-syuzhet.html",
+    "href": "labs/sentiment-and-syuzhet.html",
+    "title": "2  Sentiment & syuzhet",
+    "section": "",
+    "text": "2.1 Texts, algorithms, and black-boxes\nWe’re going to start by unpacking the controversy regarding the syuzhet R package. (The readings are short and posted on Canvas, if you haven’t looked at them already.) This is a useful exercise, I think, because it gets to some foundational issues in text analysis–you’re going to encounter them in your work so they’re worth considering from the beginning.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Sentiment & syuzhet</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#mosteller-wallace",
+    "href": "labs/classification-federalist-papers.html#mosteller-wallace",
+    "title": "1  Classification & the Federalist Papers",
+    "section": "",
+    "text": "Important\n\n\n\nBefore proceeding, review Mosteller and Wallace’s original study. You should also have read this article that discusses their methods. There is also an overview of their reasearch here",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#variables",
+    "href": "labs/classification-federalist-papers.html#variables",
+    "title": "1  Classification & the Federalist Papers",
+    "section": "1.2 Variables",
+    "text": "1.2 Variables\nBecause of computational limits, they needed to identify potentially productive variables ahead of building their regression model. This is not how we would go about it now, but it was a constraint at the time. They ended up creating 6 bins of likely words, and those are reported in 3 groupings in their study.\nTheir first group contains 70 tokens…\n\nmw_group1 &lt;- c(\"a\", \"all\", \"also\", \"an\", \"and\", \"any\", \"are\", \"as\", \"at\", \"be\", \"been\", \"but\", \"by\", \"can\", \"do\", \"down\", \"even\", \"every\", \"for\", \"from\", \"had\", \"has\", \"have\", \"her\", \"his\", \"if\", \"in\", \"into\", \"is\", \"it\",  \"its\", \"may\", \"more\", \"must\", \"my\", \"no\", \"not\", \"now\", \"of\", \"on\", \"one\", \"only\", \"or\", \"our\", \"shall\", \"should\", \"so\", \"some\", \"such\", \"than\", \"that\", \"the\", \"their\", \"then\", \"there\", \"things\", \"this\", \"to\", \"up\", \"upon\", \"was\", \"were\", \"what\", \"when\", \"which\", \"who\", \"will\", \"with\", \"would\", \"your\")\n\nTheir second an additional 47…\n\nmw_group2 &lt;- c(\"affect\", \"again\", \"although\", \"among\", \"another\", \"because\", \"between\", \"both\", \"city\", \"commonly\", \"consequently\", \"considerable\", \"contribute\", \"defensive\", \"destruction\", \"did\", \"direction\", \"disgracing\", \"either\", \"enough\", \"fortune\", \"function\", \"himself\", \"innovation\", \"join\", \"language\", \"most\", \"nor\", \"offensive\", \"often\", \"pass\", \"perhaps\", \"rapid\", \"same\", \"second\", \"still\", \"those\", \"throughout\", \"under\", \"vigor\", \"violate\", \"violence\", \"voice\", \"where\", \"whether\", \"while\", \"whilst\")\n\nAnd their third another 48 (though they identify some by lemmas and another “expence” doesn’t appear in our data, possibly because of later editing done in our particular edition)…\n\nmw_group3 &lt;- c(\"about\", \"according\", \"adversaries\", \"after\", \"aid\", \"always\", \"apt\", \"asserted\", \"before\", \"being\", \"better\", \"care\", \"choice\", \"common\", \"danger\", \"decide\", \"decides\", \"decided\", \"deciding\", \"degree\", \"during\", \"expense\", \"expenses\", \"extent\", \"follow\", \"follows\", \"followed\", \"following\", \"i\", \"imagine\", \"imagined\", \"intrust\", \"intrusted\", \"intrusting\",\"kind\", \"large\", \"likely\", \"matter\", \"matters\", \"moreover\", \"necessary\", \"necessity\", \"necessities\", \"others\", \"particularly\", \"principle\", \"probability\", \"proper\", \"propriety\", \"provision\", \"provisions\", \"requisite\", \"substance\", \"they\", \"though\", \"truth\", \"truths\", \"us\", \"usage\", \"usages\", \"we\", \"work\", \"works\")\n\nAll together, they list 165 candidate variables, though it works out to be 180 unlemmatized tokens as potential variables for their model.\nWe’ll concatenate a vector of all their variables into a single vector.\n\nmw_all &lt;- sort(c(mw_group1, mw_group2, mw_group3))",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Classification & the Federalist Papers</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#the-federalist-papers",
+    "href": "labs/classification-federalist-papers.html#the-federalist-papers",
+    "title": "1  Mosteller & Wallace",
+    "section": "1.2 The Federalist Papers",
+    "text": "1.2 The Federalist Papers\nFor their task, Mosteller & Wallace were interested in solving a long-standing historical debate about the disputed authorship of 12 of the Federalist Papers.\nThe Federalist Papers are made up of 85 articles and essays written by Alexander Hamilton, James Madison, and John Jay under the pseudonym “Publius” to promote the ratification of the United States Constitution.\nAuthorship of the articles has been disputed since their publication, with Hamilton providing a list to his lawyer before his death, and Madison another disputed some of Hamilton’s claims.\nWe’re going to work from the generally accepted authorship designations, which assign authorship of 51 articles to Hamilton, 14 to Madison, 5 to Jay, and 3 to joint authorship. The other 12 are in doubt as to whether they were written by Hamilton or Madison.\nSo let’s begin. First, we’ll get the metadata.\n\nload(\"../data/federalist_meta.rda\")\nload(\"../data/federalist_papers.rda\")\n\n\nfed_meta &lt;- federalist_meta %&gt;%\n  dplyr::select(doc_id, author_id)\n\nAnd we’re going to read in ALL of the data. Why do it this way? We could build out separate data sets for training, validating, and predicting. HOWEVER, we need our data to be identical in structure at every step. This can become tedious if you’re forever wrangling data.frames to get them as the need to be. It’s much easier to begin with one dfm and subset as necessary for the classification process.\nSo let’s read in the text.\n\nfed_txt &lt;- federalist_papers",
+    "crumbs": [
+      "Labs",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Mosteller & Wallace</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#preparing-the-data",
+    "href": "labs/classification-federalist-papers.html#preparing-the-data",
+    "title": "1  Mosteller & Wallace",
+    "section": "1.3 Preparing the Data",
+    "text": "1.3 Preparing the Data\nNow, we’ll tokenize the data.\n\nfed_tokens &lt;- fed_txt %&gt;%\n  corpus() %&gt;%\n  tokens(remove_punct = T, remove_symbols = T, what = \"word\")\n\nAnd create a weighted dfm. The 3rd line preps the column so it can be merged with our metadata. The 4th orders the tokens by their mean frequencies. This isn’t necessary here, but can be useful when doing quick sub-setting of variables. And the 5th changes the column name for easy joining.\n\nfed_dfm &lt;- fed_tokens %&gt;% dfm() %&gt;% dfm_weight(scheme = \"prop\") %&gt;%\n  convert(to = \"data.frame\") %&gt;%\n  select(doc_id, names(sort(colMeans(.[,-1]), decreasing = TRUE)))\n\nNow let’s join the author_id from the metadata.\n\nfed_dfm &lt;- fed_dfm %&gt;% \n  right_join(fed_meta) %&gt;% \n  dplyr::select(doc_id, author_id, everything()) %&gt;% \n  as_tibble()\n\n\n1.3.1 Training and testing data\nNow we can subset out our training and testing data.\n\ntrain_dfm &lt;- fed_dfm %&gt;% filter(author_id == \"Hamilton\" | author_id == \"Madison\")\ntest_dfm &lt;- fed_dfm %&gt;% filter(author_id == \"Disputed\")\n\nFor the next step we’re going to again separate our training data. We want a subset of known data against which we can validate our model.\nFor this, we’ll use some handy functions from the rsample package. First, we make an 80/20 split. From that we create a new, smaller training set, and a validation set.\n\nset.seed(123)\nvalid_split &lt;- initial_split(train_dfm, .8)\ntrain_dfm_v2 &lt;- analysis(valid_split)\ntrain_valid &lt;- assessment(valid_split)\n\nNext, we’ll select only those 70 tokens from Mosteller & Wallace’s first group. We also need to convert the author_id into a 2-level factor, and to move the text_id to row names. The same for the validation data, but we don’t need to worry about the factor conversion.\n\ntrain_dfm_v2_1 &lt;- train_dfm_v2 %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_group1)) %&gt;%\n  mutate(doc_id = factor(doc_id)) %&gt;%\n  column_to_rownames(\"doc_id\")\n\ntrain_valid_1 &lt;- train_valid %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_group1)) %&gt;%\n  column_to_rownames(\"doc_id\")",
+    "crumbs": [
+      "Labs",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Mosteller & Wallace</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#lasso",
+    "href": "labs/classification-federalist-papers.html#lasso",
+    "title": "1  Mosteller & Wallace",
+    "section": "1.4 Lasso",
+    "text": "1.4 Lasso\nFor our regression, we’re going to take advantage of lasso regression. This is a form of penalized logistic regression, which imposes a penalty to the logistic model for having too many variables. This results in shrinking the coefficients of the less contributive variables toward zero. This is also known as regularization.\nFor this, we’ll use the glmnet package.\n\nlibrary(glmnet)\n\n\n1.4.1 Ridge & lasso regression\nLeast squares fits a model by minimizing the sum of squared residuals.\n\\[RSS = \\sum_{i=1}^{n}(y_{i}-\\beta_0-\\sum_{j=1}^{p}\\beta_jx_ij)^2\\]\nRidge Regression is similar, but it includes another term.\n\\[\\sum_{i=1}^{n}(y_{i}-\\beta_0-\\sum_{j=1}^{p}\\beta_jx_ij)^2 + \\lambda \\sum_{j=1}^{p}\\beta_{j}^{2} = RSS + \\lambda \\sum_{j=1}^{p}\\beta_{j}^{2}\\]\nIn order to minimize this equation \\(\\beta_1,...\\beta_p\\) should be close to zero and so it shrinks the coefficients. The tuning parameter, \\(\\lambda\\), controls the impact.\nRidge regression does have some disadvantages.\n\nUnlike subset selection, ridge regression includes all p predictors.\nThe penalty term will shrink all of the coefficients towards zero, but none of them will be exactly zero.\nSuch a large model often makes interpretation difficult.\n\nThe lasso helps overcome these problems. It is similar to ridge regression, but the penalty term is slightly different.\n\\[\\sum_{i=1}^{n}(y_{i}-\\beta_0-\\sum_{j=1}^{p}\\beta_jx_ij)^2 + \\lambda \\sum_{j=1}^{p}|\\beta_{j}| = RSS + \\lambda \\sum_{j=1}^{p}|\\beta_{j}|\\]\nLike ridge regression it shrinks the coefficients towards zero. However, the lasso allows some of the coefficients to be exactly zero.\nFor more detail on lasso regression you can look here:\nhttps://eight2late.wordpress.com/2017/07/11/a-gentle-introduction-to-logistic-regression-and-lasso-regularisation-using-r/\nThis is a very useful technique for variable selection and can reduce the likelihood of overfitting. This is particularly helpful in linguistic analysis where we’re often working with many variables making the implementation of functions like step() sometimes tedious.\n\n\n1.4.2 Using glmnet\nTo help you decide which lambda to use, the cv.glmnet() function does cross-validation. The default sets alpha=1 for lasso. If we wanted ridge, we would set alpha=0.\n\ncv_fit &lt;- cv.glmnet(as.matrix(train_dfm_v2_1[, -1]), train_dfm_v2_1[, 1], family = \"binomial\")\n\nWe can plot the log of the resulting lambdas.\n\nplot(cv_fit)\n\n\n\n\n\n\n\n\nThe plot displays the cross-validation error according to the log of lambda. The left dashed vertical line indicates that the log of the optimal value of lambda is approximately -6, which is the one that minimizes the prediction error. This lambda value will give the most accurate model.\nThe exact value of lambda can also be viewed. We’ll save our regression coefficients.\n\nlambda_min &lt;- cv_fit$lambda.min\nlambda_lse &lt;- cv_fit$lambda.1se\n\nBy filtering those variables with coefficients of zero, we see only the variables have been included in the model. Ours has 13.\n\ncoef(cv_fit, s = \"lambda.min\") %&gt;%\n  as.matrix() %&gt;%\n  data.frame() %&gt;%\n  rownames_to_column(\"Variable\") %&gt;%\n  filter(s1 !=0) %&gt;%\n  dplyr::rename(Coeff = s1) %&gt;%\n  knitr::kable(digits = 2)\n\n\n\n\nVariable\nCoeff\n\n\n\n\n(Intercept)\n5.16\n\n\nand\n109.28\n\n\nat\n-423.42\n\n\nby\n273.33\n\n\ninto\n180.70\n\n\nis\n25.16\n\n\nno\n236.10\n\n\nof\n-40.02\n\n\non\n176.93\n\n\nthere\n-1205.46\n\n\nthis\n-152.95\n\n\nto\n-137.28\n\n\nup\n-208.23\n\n\nupon\n-1218.02",
+    "crumbs": [
+      "Labs",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Mosteller & Wallace</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#validate-the-model",
+    "href": "labs/classification-federalist-papers.html#validate-the-model",
+    "title": "1  Mosteller & Wallace",
+    "section": "1.5 Validate the model",
+    "text": "1.5 Validate the model\nTo validate the model, let’s create a model matrix from the texts we’ve split off for that purpose.\n\nx_test &lt;- model.matrix(author_id ~., train_valid_1)[,-1]\n\nFrom our model, we’ll predict the author_id of the validation set.\n\nlasso_prob &lt;- predict(cv_fit, newx = x_test, s = lambda_lse, type = \"response\")\n\nFrom the probabilities, we can return the predicted authors.\n\nlasso_predict &lt;- ifelse(lasso_prob &gt; 0.5, \"Madison\", \"Hamilton\")\n\n\n\n\n\n\n\nAuthor\n\n\n\n\nFEDERALIST_08\nHamilton\n\n\nFEDERALIST_27\nHamilton\n\n\nFEDERALIST_29\nHamilton\n\n\nFEDERALIST_31\nHamilton\n\n\nFEDERALIST_37\nMadison\n\n\nFEDERALIST_45\nMadison\n\n\nFEDERALIST_47\nMadison\n\n\nFEDERALIST_65\nHamilton\n\n\nFEDERALIST_66\nHamilton\n\n\nFEDERALIST_73\nHamilton\n\n\nFEDERALIST_76\nHamilton\n\n\nFEDERALIST_77\nHamilton\n\n\nFEDERALIST_81\nHamilton\n\n\n\n\n\nRetrieve what they actually are and calculate our model accuracy.\n\ntable(pred=lasso_predict, true=train_valid_1$author_id) %&gt;% knitr::kable()\n\n\n\n\n\nHamilton\nMadison\n\n\n\n\nHamilton\n10\n0\n\n\nMadison\n0\n3\n\n\n\n\n\n\npaste0(mean(lasso_predict == train_valid_1$author_id)*100, \"%\")\n\n[1] \"100%\"\n\n\nOurs is 100% accurate. Not bad. Note that if you wanted to really test the model, we could create a function to run through this process starting with the sampling.That way, we could generate a range of accuracy over repeated sampling of training and validation data.",
+    "crumbs": [
+      "Labs",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Mosteller & Wallace</span>"
+    ]
+  },
+  {
+    "objectID": "labs/classification-federalist-papers.html#mosteller-wallaces-experiment",
+    "href": "labs/classification-federalist-papers.html#mosteller-wallaces-experiment",
+    "title": "1  Mosteller & Wallace",
+    "section": "1.6 Mosteller & Wallace’s Experiment",
+    "text": "1.6 Mosteller & Wallace’s Experiment\nLet’s repeat the process, but this time we’ll start with all of Mosteller & Wallace’s candidate variables.\n\n1.6.1 Create a new training and validation set\n\ntrain_dfm_v2_2 &lt;- train_dfm_v2 %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_all)) %&gt;%\n  mutate(author_id = factor(author_id)) %&gt;%\n  column_to_rownames(\"doc_id\")\n\ntrain_valid_2 &lt;- train_valid %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_all)) %&gt;%\n  column_to_rownames(\"doc_id\")\n\n\n\n1.6.2 Carry out cross-validation\n\ncv_fit &lt;- cv.glmnet(as.matrix(train_dfm_v2_2[, -1]), train_dfm_v2_2[, 1], family = \"binomial\")\n\nLook at our coefficients… 17 this time…\n\ncoef(cv_fit, s = \"lambda.min\") %&gt;%\n  as.matrix() %&gt;%\n  data.frame() %&gt;%\n  rownames_to_column(\"Variable\") %&gt;%\n  filter(s1 !=0) %&gt;%\n  dplyr::rename(Coeff = s1) %&gt;%\n  knitr::kable(digits = 2)\n\n\n\n\nVariable\nCoeff\n\n\n\n\n(Intercept)\n-7.01\n\n\namong\n81.37\n\n\nand\n113.93\n\n\nboth\n631.34\n\n\nby\n308.59\n\n\nconsequently\n691.28\n\n\nfollowed\n407.75\n\n\nkind\n-441.51\n\n\nlanguage\n1001.80\n\n\non\n287.74\n\n\nparticularly\n1406.99\n\n\nprobability\n-483.88\n\n\nthere\n-224.77\n\n\nto\n-1.07\n\n\nupon\n-1503.67\n\n\nvigor\n-1770.60\n\n\nwhilst\n4871.85\n\n\nwould\n-22.64\n\n\n\n\n\nSave our minimum lambda and our regression coefficients.\n\nlambda_min &lt;- cv_fit$lambda.min\nlambda_lse &lt;- cv_fit$lambda.1se\n\n\n\n1.6.3 Create a matrix from the validation set\n\nx_test &lt;- model.matrix(author_id ~., train_valid_2)[,-1]\n\n\n\n1.6.4 Predict the author_id of the validation set.\n\nlasso_prob &lt;- predict(cv_fit, newx = x_test, s = lambda_lse, type = \"response\")\n\n\n\n1.6.5 Return the predicted authors.\n\nlasso_predict &lt;- ifelse(lasso_prob &gt; 0.5, \"Madison\", \"Hamilton\")\n\n\n\n1.6.6 Check confusion matrix\n\n table(pred=lasso_predict, true=train_valid_1$author_id) %&gt;% knitr::kable()\n\n\n\n\n\nHamilton\nMadison\n\n\n\n\nHamilton\n10\n0\n\n\nMadison\n0\n3\n\n\n\n\n\nThe model looks good… So let’s proceed with the data in question.\n\n\n1.6.7 Prepare full training set\n\ntrain_dfm &lt;- train_dfm %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_all)) %&gt;%\n  mutate(author_id = factor(author_id)) %&gt;%\n  column_to_rownames(\"doc_id\")\n\n\n\n1.6.8 Prepare test data\n\ntest_dfm &lt;- test_dfm %&gt;% \n  dplyr::select(doc_id, author_id, all_of(mw_all)) %&gt;%\n  column_to_rownames(\"doc_id\")\n\n\n\n1.6.9 Carry out cross-validation\n\ncv_fit &lt;- cv.glmnet(as.matrix(train_dfm[, -1]), train_dfm[, 1], family = \"binomial\")\n\nAs we would expect, this is close to what we saw previously.\n\ncoef(cv_fit, s = \"lambda.min\") %&gt;%\n  as.matrix() %&gt;%\n  data.frame() %&gt;%\n  rownames_to_column(\"Variable\") %&gt;%\n  filter(s1 !=0) %&gt;%\n  dplyr::rename(Coeff = s1) %&gt;%\n  knitr::kable(digits = 2)\n\n\n\n\nVariable\nCoeff\n\n\n\n\n(Intercept)\n-6.75\n\n\nalthough\n210.14\n\n\namong\n248.45\n\n\nand\n132.41\n\n\nboth\n212.07\n\n\nby\n331.66\n\n\nfollowed\n831.92\n\n\nkind\n-487.71\n\n\nlanguage\n167.35\n\n\non\n352.43\n\n\nparticularly\n1426.48\n\n\nthere\n-342.61\n\n\nto\n-32.91\n\n\nup\n-99.57\n\n\nupon\n-1112.23\n\n\nvigor\n-1555.14\n\n\nwhilst\n5136.21\n\n\nwould\n-52.19\n\n\n\n\n\n\n\n1.6.10 Run lasso\n\nlasso_fit &lt;- glmnet(as.matrix(train_dfm[, -1]), train_dfm[, 1], alpha = 1, family = \"binomial\", lambda = cv_fit$lambda.min)\n\n\n\n1.6.11 Create a matrix from the test set and predict author\n\nx_test &lt;- model.matrix(author_id ~., test_dfm)[,-1]\nlasso_prob &lt;- predict(cv_fit, newx = x_test, s = lambda_lse, type = \"response\")\nlasso_predict &lt;- ifelse(lasso_prob &gt; 0.5, \"Madison\", \"Hamilton\")\n\n\n\n1.6.12 Check results\n\ndata.frame(lasso_predict, lasso_prob) %&gt;% \n  dplyr::rename(Author = s1, Prob = s1.1) %&gt;%\n  knitr::kable(digits = 2)\n\n\n\n\n\nAuthor\nProb\n\n\n\n\nFEDERALIST_49\nMadison\n0.94\n\n\nFEDERALIST_50\nMadison\n0.83\n\n\nFEDERALIST_51\nMadison\n1.00\n\n\nFEDERALIST_52\nMadison\n0.86\n\n\nFEDERALIST_53\nMadison\n0.96\n\n\nFEDERALIST_54\nMadison\n0.73\n\n\nFEDERALIST_55\nHamilton\n0.24\n\n\nFEDERALIST_56\nMadison\n0.96\n\n\nFEDERALIST_57\nMadison\n1.00\n\n\nFEDERALIST_58\nMadison\n0.79\n\n\nFEDERALIST_62\nMadison\n0.84\n\n\nFEDERALIST_63\nMadison\n0.94\n\n\n\n\n\nOur model predicts all but 55 were written by Madison. Our model is not particularly confident about that result. This hews pretty closely to Mosteller & Wallace’s findings, through they come down (sort of) on the side of Madison for 55. However, they also acknowledge that the evidence is weak and not very convincing.\nIt’s worth noting, too, that other studies using other techniques have suggested that 55 was authored by Hamilton. See, for example, here:\nhttps://journals.plos.org/plosone/article?id=10.1371/journal.pone.0054998\n\n\n\n\n\n\nMosteller, Frederick, and David L Wallace. 1963. “Inference in an Authorship Problem: A Comparative Study of Discrimination Methods Applied to the Authorship of the Disputed Federalist Papers.” Journal Article. Journal of the American Statistical Association 58 (302): 275–309. https://doi.org/10.1080/01621459.1963.10500849.",
+    "crumbs": [
+      "Labs",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Mosteller & Wallace</span>"
+    ]
+  },
+  {
+    "objectID": "labs/sentiment-and-syuzhet.html#load-packages-and-data",
+    "href": "labs/sentiment-and-syuzhet.html#load-packages-and-data",
+    "title": "2  Sentiment & syuzhet",
+    "section": "2.2 Load packages and data",
+    "text": "2.2 Load packages and data\nLoad the package that we’ll use in this short lab.\n\nlibrary(gt)\nlibrary(syuzhet)\nlibrary(tidyverse)\n\nLoad data from file:\n\nload(\"../data/sentiment_data.rda\")\n\nThe novels that Jockers uses as examples are included as data, which can be accessed as sentiment_data. There are 4 novels, and we’ll check their names stored in the doc_id column.\nFor this demonstration, we’ll be using Madame Bovary.\n\n\n\n\n\n\nA small corpus included in the cmu.textstat package.\n\n\ndoc_id\n\n\n\n\nmadame_bovary\n\n\nportrait_artist\n\n\nragged_dick\n\n\nsilas_lapham",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Sentiment & syuzhet</span>"
+    ]
+  },
+  {
+    "objectID": "labs/sentiment-and-syuzhet.html#prep-the-data-and-calculate-sentiment",
+    "href": "labs/sentiment-and-syuzhet.html#prep-the-data-and-calculate-sentiment",
+    "title": "2  Sentiment & syuzhet",
+    "section": "2.3 Prep the data and calculate sentiment",
+    "text": "2.3 Prep the data and calculate sentiment\nNext, we do some simple cleaning using str_squish from the stringr package. Then we’ll split the the novel into sentences and calculate a sentiment score for each.\n\n# str_squish() is a useful function from readr for getting rid of extra spaces, carriage returns, etc.\nmb &lt;- str_squish(sentiment_data$text[1])\n\n# chunk the novel into sentences\nmb_sentences &lt;- get_sentences(mb)\n\n# calculate and return sentiment scores\nmb_sentiment &lt;- get_sentiment(mb_sentences)\n\nLet’s check the data:\n\n\n\n\n\n\nSample sentiment scores.\n\n\nmb_sentiment\n\n\n\n\n1.20\n\n\n0.25\n\n\n0.00\n\n\n1.50\n\n\n1.05\n\n\n1.20\n\n\n1.00\n\n\n-0.25\n\n\n0.00\n\n\n0.40",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Sentiment & syuzhet</span>"
+    ]
+  },
+  {
+    "objectID": "labs/sentiment-and-syuzhet.html#transforming-the-data",
+    "href": "labs/sentiment-and-syuzhet.html#transforming-the-data",
+    "title": "2  Sentiment & syuzhet",
+    "section": "2.4 Transforming the data",
+    "text": "2.4 Transforming the data\nThe next step is to transform the data. Originally, Jockers used a Fourier transformation, which he described as follows:\n\nAaron introduced me to a mathematical formula from signal processing called the Fourier transformation. The Fourier transformation provides a way of decomposing a time based signal and reconstituting it in the frequency domain. A complex signal (such as the one seen above in the first figure in this post) can be decomposed into series of symmetrical waves of varying frequencies. And one of the magical things about the Fourier equation is that these decomposed component sine waves can be added back together (summed) in order to reproduce the original wave form–this is called a backward or reverse transformation. Fourier provides a way of transforming the sentiment-based plot trajectories into an equivalent data form that is independent of the length of the trajectory from beginning to end. The frequency domain begins to solve the book length problem.\n\nThis introduced some unwanted outcomes, namely that the resulting wave-forms must begin and end at the same point. The updated function uses a Discrete Cosine Transform (DCT), which is commonly used in data compression.\n\nmb_dct &lt;- get_dct_transform(mb_sentiment, low_pass_size = 5, x_reverse_len = 100, scale_vals = FALSE, scale_range = TRUE)\n\nmb_dct &lt;- data.frame(dct = mb_dct) %&gt;%\n  rownames_to_column(\"time\") %&gt;%\n  mutate(time = as.numeric(time))\n\nCheck the data:\n\n\n\n\n\n\nSample transformed scores.\n\n\ntime\ndct\n\n\n\n\n1\n1.0000000\n\n\n2\n0.9974733\n\n\n3\n0.9924392\n\n\n4\n0.9849363\n\n\n5\n0.9750217\n\n\n6\n0.9627711\n\n\n7\n0.9482778\n\n\n8\n0.9316520\n\n\n9\n0.9130198\n\n\n10\n0.8925224\n\n\n\n\n\n\n\nFinally, the values can be plotted.\n\nplot(mb_dct, type =\"l\", xlab = \"Narrative Time\", ylab = \"Emotional Valence\", col = \"red\")\n\n\n\n\nSentiment in using transformed values.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Sentiment & syuzhet</span>"
+    ]
+  },
+  {
+    "objectID": "labs/collocations.html",
+    "href": "labs/collocations.html",
+    "title": "5  Collocations & Association Measures",
+    "section": "",
+    "text": "5.1 Load the needed packages\nlibrary(ggraph)\nlibrary(gt)\nlibrary(quanteda)\nlibrary(quanteda.textstats)\nlibrary(tidyverse)\nLoad data:\nload(\"../data/sample_corpus.rda\")\nLoad functions:\nsource(\"../R/helper_functions.R\")\nsource(\"../R/utility_functions.R\")\nsource(\"../R/collocation_functions.R\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Collocations & Association Measures</span>"
+    ]
+  },
+  {
+    "objectID": "labs/collocations.html#prepare-the-data",
+    "href": "labs/collocations.html#prepare-the-data",
+    "title": "5  Collocations & Association Measures",
+    "section": "5.2 Prepare the data",
+    "text": "5.2 Prepare the data\nFirst, we’ll pre-process our text, create a corpus and tokenize the data:\n\nsc_tokens &lt;- sample_corpus %&gt;%\n  mutate(text = preprocess_text(text)) %&gt;%\n  corpus() %&gt;%\n  tokens(what=\"fastestword\", remove_numbers=TRUE)",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Collocations & Association Measures</span>"
+    ]
+  },
+  {
+    "objectID": "labs/collocations.html#collocates-by-mutual-information-mi",
+    "href": "labs/collocations.html#collocates-by-mutual-information-mi",
+    "title": "5  Collocations & Association Measures",
+    "section": "5.3 Collocates by mutual information (MI)",
+    "text": "5.3 Collocates by mutual information (MI)\nThe collocates_by_MI( ) function produces collocation measures (by pointwise mutual information) for a specified token in a quanteda tokens object. In addition to a token, a span or window (as given by a number of words to the left and right of the node word) is required. The default is 5 to the left and 5 to the right.\nThe formula for calculating MI is as follows:\n\\[log_{2} \\frac{O_{11}}{E_{11}}\\] Where O11 and E11 are the observed (i.e., node + collocate) and expected frequencies of the node word within a given window. The expected frequency is given by:\n\\[E_{11} = \\frac{R_{1} \\times C_{1}}{N}\\]\n\nN is the number of words in the corpus\nR1 is the frequency of the node in the whole corpus\nC1 is the frequency of the collocate in the whole corpus\n\nWe’ll start by making a table of tokens that collocate with the token money.\n\nmoney_collocations &lt;- collocates_by_MI(sc_tokens, \"money\")\n\nCheck the result:\n\n\n\n\n\n\n\n\ntoken\ncol_freq\ntotal_freq\nMI_1\n\n\n\n\n10:29\n1\n1\n11.08049\n\n\n38th\n1\n1\n11.08049\n\n\nallocations\n1\n1\n11.08049\n\n\namericanizing\n1\n1\n11.08049\n\n\nanthedon\n1\n1\n11.08049\n\n\nassignats\n1\n1\n11.08049\n\n\nbamboozling\n1\n1\n11.08049\n\n\nbaser\n1\n1\n11.08049\n\n\nborrowers\n1\n1\n11.08049\n\n\nbridegrooms\n1\n1\n11.08049\n\n\n\n\n\n\n\nNow, let’s make a similar table for collocates of time.\n\ntime_collocations &lt;- collocates_by_MI(sc_tokens, \"time\")\n\n\n\n\n\n\n\n\n\ntoken\ncol_freq\ntotal_freq\nMI_1\n\n\n\n\ndecleat\n2\n1\n10.135473\n\n\npoignantly\n2\n1\n10.135473\n\n\n16a\n1\n1\n9.135473\n\n\n17a\n1\n1\n9.135473\n\n\n21h\n1\n1\n9.135473\n\n\naba\n1\n1\n9.135473\n\n\nablution\n1\n1\n9.135473\n\n\nabnegate\n1\n1\n9.135473\n\n\nadmonitions\n1\n1\n9.135473\n\n\naguada\n1\n1\n9.135473\n\n\n\n\n\n\n\nAs is clear from the above table, MI is sensitive to rare/infrequent words. Because of that sensitivity, it is common to make thresholds for both token frequency (absolute frequency) and MI score (usually at some value \\(\\ge\\) 3).\nFor our purposes, we’ll filter for AF \\(\\ge\\) 5 and MI \\(\\ge\\) 5.\n\ntc &lt;- time_collocations %&gt;% filter(col_freq &gt;= 5 & MI_1 &gt;= 5)\nmc &lt;- money_collocations %&gt;% filter(col_freq &gt;= 5 & MI_1 &gt;= 5)\n\nCheck the result:\n\n\n\n\n\n\n\n\n\n\n\n\nTime collocations\n\n\ntoken\ncol_freq\ntotal_freq\nMI_1\n\n\n\n\nwarner\n6\n8\n8.720435\n\n\ncessation\n5\n7\n8.650046\n\n\nirradiation\n5\n7\n8.650046\n\n\nlag\n5\n7\n8.650046\n\n\nwasting\n7\n11\n8.483396\n\n\nframe\n7\n16\n7.942828\n\n\nperiods\n5\n14\n7.650046\n\n\nspent\n34\n122\n7.292199\n\n\nspend\n26\n111\n7.041497\n\n\nwaste\n11\n58\n6.736924\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMoney collocations.\n\n\ntoken\ncol_freq\ntotal_freq\nMI_1\n\n\n\n\nowe\n5\n21\n9.010102\n\n\nraise\n10\n79\n8.098639\n\n\nextra\n6\n64\n7.665454\n\n\nspend\n10\n111\n7.608004\n\n\ninsurance\n5\n64\n7.402420\n\n\nspent\n9\n122\n7.319679\n\n\namount\n6\n109\n6.897270\n\n\nmaking\n14\n343\n6.465782\n\n\ncost\n6\n154\n6.398668\n\n\nbuy\n5\n150\n6.173601",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Collocations & Association Measures</span>"
+    ]
+  },
+  {
+    "objectID": "labs/collocations.html#create-a-tbl_graph-object-for-plotting",
+    "href": "labs/collocations.html#create-a-tbl_graph-object-for-plotting",
+    "title": "5  Collocations & Association Measures",
+    "section": "5.4 Create a tbl_graph object for plotting",
+    "text": "5.4 Create a tbl_graph object for plotting\nA tbl_graph is a data structure for tidyverse (ggplot2) network plotting.\nFor this, we’ll use the col_network( ) function.\n\nnet &lt;- col_network(tc, mc)",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Collocations & Association Measures</span>"
+    ]
+  },
+  {
+    "objectID": "labs/collocations.html#plot-network",
+    "href": "labs/collocations.html#plot-network",
+    "title": "5  Collocations & Association Measures",
+    "section": "5.5 Plot network",
+    "text": "5.5 Plot network\nThe network plot shows the tokens that distinctly collocate with either time or money, as well as those that intersect. The distance from the central tokens (time and money) is governed by the MI score and the transparency (or alpha) is governed by the token frequency.\nThe aesthetic details of the plot can be manipulated in the various ggraph options.\n\nggraph(net, weight = link_weight, layout = \"stress\") + \n  geom_edge_link(color = \"gray80\", alpha = .75) + \n  geom_node_point(aes(alpha = node_weight, size = 3, color = n_intersects)) +\n  geom_node_text(aes(label = label), repel = T, size = 3) +\n  scale_alpha(range = c(0.2, 0.9)) +\n  theme_graph() +\n  theme(legend.position=\"none\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Collocations & Association Measures</span>"
+    ]
+  },
+  {
+    "objectID": "labs/collocations.html#reading-in-local-files",
+    "href": "labs/collocations.html#reading-in-local-files",
+    "title": "5  Collocations & Association Measures",
+    "section": "5.6 Reading in local files",
+    "text": "5.6 Reading in local files\n\n5.6.1 Create a vector of file paths\nFirst, go to Canvas and download the screenplay_corpus (in the Data folder under Files). Unzip the corpus and note/copy the path to the folder.\nNext, we’ll create a vector of the file paths. Remember to replace your path with the place-holder path in the list.files() function.\n\nfiles_list &lt;- list.files(\"/Users/user/Downloads/screenplay_corpus\", full.names = T, pattern = \"*.txt\")\n\n\n\n5.6.2 Read in all files using readtext\nNext, we’ll read in the files using readtext. And for the purposes of efficiency, we’ll sample out 50 rows.\n\nset.seed(1234)\n\nsp &lt;- sample(files_list, 50) %&gt;%\n  readtext::readtext()\n\n\n\n5.6.3 Extract the dialogue\nThese particular files are formatted using some simple markup. So we’ll use the from_play() function to extract the dialogue.\n\nsp &lt;- from_play(sp, extract = \"dialogue\")\n\n\n\n5.6.4 Tokenize\n\nsp &lt;-   sp %&gt;%\n  mutate(text = preprocess_text(text)) %&gt;%\n  corpus() %&gt;%\n  tokens(what=\"fastestword\", remove_numbers=TRUE)\n\n\n\n5.6.5 Calculate MI\nNow we’ll calculate collocations for the tokens boy and girl, and filter. Note that we’re only looking for tokens 3 words to the left of the node word.\n\nb &lt;- collocates_by_MI(sp, \"boy\", left = 3, right = 0)\nb &lt;- b %&gt;% filter(col_freq &gt;= 3 & MI_1 &gt;= 3)\n\ng  &lt;- collocates_by_MI(sp, \"girl\", left = 3, right = 0)\ng &lt;- g %&gt;% filter(col_freq &gt;= 3 & MI_1 &gt;= 3)\n\n\n\n5.6.6 Plot the network\n\nnet &lt;- col_network(b, g)\n\nggraph(net, weight = link_weight, layout = \"stress\") + \n  geom_edge_link(color = \"gray80\", alpha = .75) + \n  geom_node_point(aes(alpha = node_weight, size = 3, color = n_intersects)) +\n  geom_node_text(aes(label = label), repel = T, size = 3) +\n  scale_alpha(range = c(0.2, 0.9)) +\n  theme_graph() +\n  theme(legend.position=\"none\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Collocations & Association Measures</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html",
+    "href": "labs/feature-engineering.html",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "",
+    "text": "6.1 What does udpipe do?\nBefore we start processing in R, let’s get some sense of what “universal dependency parsing” is and what its output looks like.",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#what-does-udpipe-do",
+    "href": "labs/feature-engineering.html#what-does-udpipe-do",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "",
+    "text": "6.1.1 Parse a sample sentence online\nGo to this webpage: http://lindat.mff.cuni.cz/services/udpipe/.\nAnd paste the following sentence into the text field:\n\nThe company offers credit cards, loans and interest-generating accounts.\n\nThen, click the “Process Input” button. You should now see an output. If you choose the “Table” tab, you can view the output in a tablular format.\n\n\n6.1.2 Basic parse structure\nThere is a column for the token and one for the token’s base form or lemma.\nThose are followed by a tag for the general lexical class or “universal part-of-speech” (upos) tag, and a tree-bank specific (xpos) part-of-speech tag.\nThe xpos tags are Penn Treebank tags, which you can find here: https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html\nThe part-of-speech tags are followed by a column of integers that refer to the id of the token that is at the head of the dependency structure, which is followed by the dependency relation identifier.\nFor a list of all dependency abbreviaitons see here: https://universaldependencies.org/u/dep/index.html.\n\n\n6.1.3 Visualize the dependency\nFrom the “Output Text” tab, copy the output start with the sent_id including the pound sign\nPaste the information into the text field here: https://urd2.let.rug.nl/~kleiweg/conllu/. Then click the “Submit Query” button below the text field. This should generate a visualization of the dependency structure.",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#load-the-needed-packages",
+    "href": "labs/feature-engineering.html#load-the-needed-packages",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "6.2 Load the needed packages",
+    "text": "6.2 Load the needed packages\n\nlibrary(tidyverse)\nlibrary(quanteda)\nlibrary(quanteda.textstats)\nlibrary(udpipe)\n\nLoad the functions:\n\nsource(\"../R/keyness_functions.R\")\n\nLoad the data:\n\nload(\"../data/sample_corpus.rda\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#preparing-a-corpus",
+    "href": "labs/feature-engineering.html#preparing-a-corpus",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "7.1 Preparing a corpus",
+    "text": "7.1 Preparing a corpus\nWhen we parse texts using a model like ones available in udpipe or spacy, we need to do very little to prepare the corpus. We could trim extra spaces and returns using str_squish() or remove urls, but generally we want the text to be mostly “as is” so the model can do its job.",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#download-a-model",
+    "href": "labs/feature-engineering.html#download-a-model",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "7.2 Download a model",
+    "text": "7.2 Download a model\nYou only need to run this line of code once. To run it, remove the pound sign, run the line, then add the pound sign after you’ve downloaded the model. Or you can run the next chunk and the model will automatically be downloaded in your working directory.\n\n# udpipe_download_model(language = \"english\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#annotate-a-sentence",
+    "href": "labs/feature-engineering.html#annotate-a-sentence",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "7.3 Annotate a sentence",
+    "text": "7.3 Annotate a sentence\n\ntxt &lt;- \"The company offers credit cards, loans and interest-generating accounts.\"\nud_model &lt;- udpipe_load_model(\"../models/english-ewt-ud-2.5-191206.udpipe\")\nannotation &lt;- udpipe(txt, ud_model)\n\n\n\n\nAnnotation of a sample sentence.\n\n\ntoken_id\ntoken\nlemma\nupos\nxpos\nfeats\nhead_token_id\ndep_rel\n\n\n\n\n1\nThe\nthe\nDET\nDT\nDefinite=Def|PronType=Art\n2\ndet\n\n\n2\ncompany\ncompany\nNOUN\nNN\nNumber=Sing\n3\nnsubj\n\n\n3\noffers\noffer\nVERB\nVBZ\nMood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin\n0\nroot\n\n\n4\ncredit\ncredit\nNOUN\nNN\nNumber=Sing\n5\ncompound\n\n\n5\ncards\ncard\nNOUN\nNNS\nNumber=Plur\n3\nobj\n\n\n6\n,\n,\nPUNCT\n,\nNA\n7\npunct\n\n\n7\nloans\nloans\nNOUN\nNNS\nNumber=Plur\n5\nconj\n\n\n8\nand\nand\nCCONJ\nCC\nNA\n12\ncc\n\n\n9\ninterest\ninterest\nNOUN\nNN\nNumber=Sing\n11\ncompound\n\n\n10\n-\n-\nPUNCT\nHYPH\nNA\n11\npunct\n\n\n11\ngenerating\ngenera\nNOUN\nNN\nNumber=Sing\n12\ncompound\n\n\n12\naccounts\naccount\nNOUN\nNNS\nNumber=Plur\n5\nconj\n\n\n13\n.\n.\nPUNCT\n.\nNA\n3\npunct",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#plot-the-annotation",
+    "href": "labs/feature-engineering.html#plot-the-annotation",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "7.4 Plot the annotation",
+    "text": "7.4 Plot the annotation\nWe can also plot the dependency structure using igraph:\n\nlibrary(igraph)\nlibrary(ggraph)\n\nFirst we’ll create a plotting function.\n\nplot_annotation &lt;- function(x, size = 3){\n  stopifnot(is.data.frame(x) & all(c(\"sentence_id\", \"token_id\", \"head_token_id\", \"dep_rel\",\n                                     \"token_id\", \"token\", \"lemma\", \"upos\", \"xpos\", \"feats\") %in% colnames(x)))\n  x &lt;- x[!is.na(x$head_token_id), ]\n  x &lt;- x[x$sentence_id %in% min(x$sentence_id), ]\n  edges &lt;- x[x$head_token_id != 0, c(\"token_id\", \"head_token_id\", \"dep_rel\")]\n  edges &lt;- edges[edges$dep_rel != \"punct\",]\n  edges$head_token_id &lt;- ifelse(edges$head_token_id == 0, edges$token_id, edges$head_token_id)\n  nodes = x[, c(\"token_id\", \"token\", \"lemma\", \"upos\", \"xpos\", \"feats\")]\n  edges$label &lt;- edges$dep_rel\n  g &lt;- graph_from_data_frame(edges,\n                             vertices = nodes,\n                             directed = TRUE)\n  ggraph(g, layout = \"linear\") +\n    geom_edge_arc(ggplot2::aes(label = dep_rel, vjust = -0.20), fold = T,linemitre = 2,\n                  arrow = grid::arrow(length = unit(3, 'mm'), ends = \"last\", type = \"closed\"),\n                  end_cap = ggraph::label_rect(\"wordswordswords\"),\n                  label_colour = \"red\", check_overlap = TRUE, label_size = size) +\n    geom_node_label(ggplot2::aes(label = token), col = \"black\", size = size, fontface = \"bold\") +\n    geom_node_text(ggplot2::aes(label = xpos), nudge_y = -0.35, size = size) +\n    theme_graph(base_family = \"Arial Narrow\")\n}\n\nAnd plot the annotation:\n\nplot_annotation(annotation, size = 2.5)\n\n\n\n\nDependency structure of a sample parsed sentence.",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#parallel-processing",
+    "href": "labs/feature-engineering.html#parallel-processing",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "8.1 Parallel processing",
+    "text": "8.1 Parallel processing\nParallel processing is a method whereby separate parts of an overall complex task are broken up and run simultaneously on multiple CPUs, thereby reducing the amount of time for processing. Part-of-speech tagging and dependency parsing are computationally intensive, so using parallel processing can save valuable time.\nThe udpipe() function has an argument for assigning cores: parallel.cores = 1L. It’s easy to set up, so feel free to use that option.\nA second option, requires more preparation, but is even faster. So we’ll walk through how it works. First, we will split the corpus based on available cores.\n\ncorpus_split &lt;- split(sub_corpus, seq(1, nrow(sub_corpus), by = 10))\n\nFor parallel processing in R, we’ll us the package future.apply.\n\nlibrary(future.apply)\n\nNext, we set up our parallel session by specifying the number of cores, and creating a simple annotation function.\n\nncores &lt;- 4L\nplan(multisession, workers = ncores)\n\nannotate_splits &lt;- function(corpus_text) {\n  ud_model &lt;- udpipe_load_model(\"../models/english-ewt-ud-2.5-191206.udpipe\")\n  x &lt;- data.table::as.data.table(udpipe_annotate(ud_model, x = corpus_text$text,\n                                                 doc_id = corpus_text$doc_id))\n  return(x)\n}\n\nFinally, we annotate using future_lapply. On my machine, this takes roughly 32 seconds.\n\nannotation &lt;- future_lapply(corpus_split, annotate_splits, future.seed = T)\n\nAs you might guess, the output is a list of data frames, so we’ll combine them using rbindlist().\n\nannotation &lt;- data.table::rbindlist(annotation)",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#format-the-data-for-quanteda",
+    "href": "labs/feature-engineering.html#format-the-data-for-quanteda",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "9.1 Format the data for quanteda",
+    "text": "9.1 Format the data for quanteda\nIf we want to do any further processing in quanteda, we need to make a couple of adjustments to our data frame.\n\nanno_edit &lt;- annotation %&gt;%\n  dplyr::select(doc_id, sentence_id, token_id, token, lemma, upos, xpos, head_token_id, dep_rel) %&gt;%\n  rename(pos = upos, tag = xpos)\n\nanno_edit &lt;- structure(anno_edit, class = c(\"spacyr_parsed\", \"data.frame\"))",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#convert-to-tokens",
+    "href": "labs/feature-engineering.html#convert-to-tokens",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "9.2 Convert to tokens",
+    "text": "9.2 Convert to tokens\n\nsub_tkns &lt;- as.tokens(anno_edit, include_pos = \"tag\", concatenator = \"_\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#create-a-dfm",
+    "href": "labs/feature-engineering.html#create-a-dfm",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "9.3 Create a dfm",
+    "text": "9.3 Create a dfm\nWe will also extract and assign the variable text_type to the tokens object.\n\ndoc_categories &lt;- names(sub_tkns) %&gt;%\n  data.frame(text_type = .) %&gt;%\n  mutate(text_type = str_extract(text_type, \"^[a-z]+\"))\n\ndocvars(sub_tkns) &lt;- doc_categories\n\nsub_dfm &lt;- dfm(sub_tkns)\n\nAnd check the frequencies:\n\n\n\nMost frequent tokens tagged for part-of-speech in sub-sample of the corpus.\n\n\nfeature\nfrequency\nrank\ndocfreq\ngroup\n\n\n\n\n._.\n6452\n1\n40\nall\n\n\n,_,\n5900\n2\n40\nall\n\n\nthe_dt\n5217\n3\n40\nall\n\n\nand_cc\n2596\n4\n40\nall\n\n\nof_in\n2513\n5\n40\nall\n\n\na_dt\n2256\n6\n40\nall\n\n\nto_to\n1702\n7\n40\nall\n\n\nin_in\n1645\n8\n40\nall\n\n\ni_prp\n1497\n9\n36\nall\n\n\nyou_prp\n1202\n10\n36\nall",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#filterselect-tokens",
+    "href": "labs/feature-engineering.html#filterselect-tokens",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "9.4 Filter/select tokens",
+    "text": "9.4 Filter/select tokens\nThere are multiple ways to filter/select the tokens we want to count. We could, for example, just filter out all rows in the annotation data frame tagged as PUNCT, if we wanted to exclude punctuation from our counts.\nI would, however, advise against altering the original parsed file. We may want to try different options, and we want to avoid having to re-parse our corpus, as that is the most computationally intensive step in the processing pipeline. In fact, if this were part of an actual project, I would advise that you save the parsed data frame as a .csv file using write_csv() for later use.\nSo we will try an alternative. We use the tokens_select() function to either keep or remove tokens based on regular expressions.\n\nsub_dfm &lt;- sub_tkns %&gt;%\n  tokens_select(\"^.*[a-zA-Z0-9]+.*_[a-z]\", selection = \"keep\", valuetype = \"regex\", case_insensitive = T) %&gt;%\n  dfm()\n\nAnd check the frequencies:\n\n\n\nMost frequent tokens tagged for part-of-speech in sub-sample of the corpus.\n\n\nfeature\nfrequency\nrank\ndocfreq\ngroup\n\n\n\n\nthe_dt\n5217\n1\n40\nall\n\n\nand_cc\n2596\n2\n40\nall\n\n\nof_in\n2513\n3\n40\nall\n\n\na_dt\n2256\n4\n40\nall\n\n\nto_to\n1702\n5\n40\nall\n\n\nin_in\n1645\n6\n40\nall\n\n\ni_prp\n1497\n7\n36\nall\n\n\nyou_prp\n1202\n8\n36\nall\n\n\nit_prp\n1168\n9\n39\nall\n\n\nis_vbz\n1042\n10\n40\nall\n\n\n\n\n\n\n\nIf we want to compare one text-type (as our target corpus) to another (as our reference corpus), we can easily subset the data.\n\nacad_dfm &lt;- dfm_subset(sub_dfm, text_type == \"acad\") %&gt;% dfm_trim(min_termfreq = 1)\nfic_dfm &lt;- dfm_subset(sub_dfm, text_type == \"fic\") %&gt;% dfm_trim(min_termfreq = 1)\n\nAnd finally, we can generate a keyness table,\n\nacad_v_fic &lt;- keyness_table(acad_dfm, fic_dfm) %&gt;%\n  separate(col = Token, into = c(\"Token\", \"Tag\"), sep = \"_\")\n\nFrom that data, we can filter specific lexical classes, like modal verbs:\n\n\n\nA keyness comparision of modal verbs in a sub-sample of the academic vs. fiction text-types.\n\n\nToken\nTag\nLL\nLR\nPV\nAF_Tar\nAF_Ref\nPer_10.4_Tar\nPer_10.4_Ref\nDP_Tar\nDP_Ref\n\n\n\n\nmay\nmd\n3.99\n1.43\n0.05\n13\n5\n10.28\n3.81\n0.16\n0.40\n\n\nwill\nmd\n3.66\n1.14\n0.06\n17\n8\n13.44\n6.09\n0.54\n0.60\n\n\nill\nmd\n1.42\n1.05\n0.23\n1\n0\n0.79\n0.00\n0.80\nNA\n\n\nought\nmd\n1.42\n1.05\n0.23\n1\n0\n0.79\n0.00\n0.80\nNA\n\n\nmust\nmd\n0.13\n0.32\n0.72\n6\n5\n4.74\n3.81\n0.43\n0.60\n\n\nwo\nmd\n0.00\n0.05\n0.98\n1\n1\n0.79\n0.76\n0.80\n0.80\n\n\nca\nmd\n-0.17\n-0.53\n0.68\n2\n3\n1.58\n2.28\n0.80\n0.60\n\n\nshould\nmd\n-0.22\n-0.36\n0.64\n6\n8\n4.74\n6.09\n0.26\n0.35\n\n\ncan\nmd\n-3.34\n-0.80\n0.07\n16\n29\n12.65\n22.08\n0.35\n0.22\n\n\nmight\nmd\n-3.63\n-1.95\n0.06\n2\n8\n1.58\n6.09\n0.60\n0.68\n\n\ncould\nmd\n-6.15\n-0.91\n0.01\n22\n43\n17.39\n32.74\n0.26\n0.24\n\n\nwould\nmd\n-9.22\n-1.31\n0.00\n14\n36\n11.07\n27.41\n0.31\n0.21\n\n\n'll\nmd\n-12.97\n-3.75\n0.00\n1\n14\n0.79\n10.66\n0.80\n0.24\n\n\n'd\nmd\n-32.38\n-5.53\n0.00\n0\n24\n0.00\n18.28\nNA\n0.23",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#extract-phrases",
+    "href": "labs/feature-engineering.html#extract-phrases",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "9.5 Extract phrases",
+    "text": "9.5 Extract phrases\nWe can also extract phrases of specific types. To so so, we first use the function as_phrasemachine() to add a new column to our annotation called phrase_tag.\n\nannotation$phrase_tag &lt;- as_phrasemachine(annotation$upos, type = \"upos\")\n\nNext, we can use the function keywords_phrases() to extract phrase-types based on regular expressions. Refer to the documentation for suggested regex patterns: https://www.rdocumentation.org/packages/udpipe/versions/0.8.6/topics/keywords_phrases.\nYou can also read examples of use cases: https://bnosac.github.io/udpipe/docs/doc7.html.\nFirst, we’ll subset our data into annotations by text-type.\n\nacad_anno &lt;- annotation %&gt;% filter(str_detect(doc_id, \"acad\"))\nfic_anno &lt;- annotation %&gt;% filter(str_detect(doc_id, \"fic\"))\n\n\nacad_nps &lt;- keywords_phrases(x = acad_anno$phrase_tag, term = tolower(acad_anno$token), \n                          pattern = \"(A|N)*N(P+D*(A|N)*N)*\", \n                          is_regex = TRUE, detailed = T)\n\n\nfic_nps &lt;- keywords_phrases(x = fic_anno$phrase_tag, term = tolower(fic_anno$token), \n                             pattern = \"(A|N)*N(P+D*(A|N)*N)*\", \n                             is_regex = TRUE, detailed = T)\n\n\n\n\nNoun phrases extracted from a sub-sample of the corpus.\n\n\nkeyword\nngram\npattern\nstart\nend\n\n\n\n\nlargest creatures\n2\nAN\n2\n3\n\n\ncreatures\n1\nN\n3\n3\n\n\nearth\n1\nN\n9\n9\n\n\nanimals\n1\nN\n11\n11\n\n\napatosaurus\n1\nN\n14\n14\n\n\naka\n1\nN\n16\n16\n\n\n\n\n\n\n\nNote that although the function uses the term keywords, it is NOT executing a hypothesis test of any kind.",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/feature-engineering.html#extract-only-unique-phrases",
+    "href": "labs/feature-engineering.html#extract-only-unique-phrases",
+    "title": "6  Part-of-speech tagging and dependency parsing",
+    "section": "9.6 Extract only unique phrases",
+    "text": "9.6 Extract only unique phrases\nNote that udpipe extracts overlapping constituents of phrase structures. Normally, we would want only unique phrases. To find those we’ll take advantage of the start and end indexes, using the between() function from the data.table package.\nThat will generate a logical vector, which we can use to filter out only those phrases that don’t overlap with another.\n\nidx &lt;- seq(1:nrow(acad_nps))\n\nis_unique &lt;- lapply(idx, function(i) sum(data.table::between(acad_nps$start[i], acad_nps$start, acad_nps$end) & data.table::between(acad_nps$end[i], acad_nps$start, acad_nps$end)) == 1) %&gt;% unlist()\n\nacad_nps &lt;- acad_nps[is_unique, ]\n\n\nidx &lt;- seq(1:nrow(fic_nps))\n\nis_unique &lt;- lapply(idx, function(i) sum(data.table::between(fic_nps$start[i], fic_nps$start, fic_nps$end) & data.table::between(fic_nps$end[i], fic_nps$start, fic_nps$end)) == 1) %&gt;% unlist()\n\nfic_nps &lt;- fic_nps[is_unique, ]\n\nWe can also add a rough accounting of the lengths of the noun phrases by summing the spaces and adding 1.\n\nacad_nps &lt;- acad_nps %&gt;%\n  mutate(phrase_length = str_count(keyword, \" \") + 1)\n\nfic_nps &lt;- fic_nps %&gt;%\n  mutate(phrase_length = str_count(keyword, \" \") + 1)\n\n\n\n\nUnique noun phrases extracted from a sub-sample of the corpus.\n\n\n\nkeyword\nngram\npattern\nstart\nend\nphrase_length\n\n\n\n\n1\nit\n1\nN\n1\n1\n1\n\n\n3\npleasant summer night\n3\nANN\n4\n6\n3\n\n\n8\nwind off the ocean\n4\nNPDN\n10\n13\n4\n\n\n12\ntrees along copley square\n4\nNPNN\n16\n19\n4\n\n\n16\ni\n1\nN\n21\n21\n1\n\n\n19\nboston public library\n3\nNNN\n25\n27\n3",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>"
+    ]
+  },
+  {
+    "objectID": "labs/corpus-basics.html",
+    "href": "labs/corpus-basics.html",
+    "title": "2  NLP Basics",
+    "section": "",
+    "text": "2.1 A simple processing pipeline\nLet’s begin by creating an object consisting of a character string. In this case, the first sentence from A Tale of Two Cities.\ntotc_txt &lt;- \"It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.\"\nAnd we’ll load the tidyverse libraries.\nlibrary(gt)\nlibrary(tidyverse)\nWe could then split the vector, say at each space.\ntotc_tkns &lt;- totc_txt %&gt;% str_split(\" \")\nThen, we can create a table of counts.\ntotc_df &lt;- table(totc_tkns) %&gt;% # make a table of counts\n  as_tibble() %&gt;%\n  rename(Token = totc_tkns, AF = n) %&gt;% # rename columns\n  arrange(-AF) # sort the data by frequency\nToken\nAF\n\n\n\n\nof\n10\n\n\nthe\n10\n\n\nwas\n10\n\n\nit\n9\n\n\nage\n2\n\n\nepoch\n2\n\n\nseason\n2\n\n\ntimes,\n2\n\n\nbelief,\n1\n\n\nbest\n1\nThe process of splitting the string vector into constituent parts is called tokenizing. Think of this as telling the computer how to define a word (or a “token”, which is a more precise, technical term). In this case, we’ve done it in an extremely simple way–by defining a token as any string that is bounded by spaces.\nToken\nAF\n\n\n\n\nit\n9\n\n\nIt\n1\n\n\n\n\n\nCase sensitive counts of the token it\nNote that in doing so, we are counting capitalized and non-capitalized words as distinct tokens.\nThere may be specific instances when we want to do this. But normally, we’d want it and It to be the same token. To do that, we can add a step in the processing pipeline that converts our vector to lower case before tokenizing.\ntotc_df &lt;- tolower(totc_txt) %&gt;%\n  str_split(\" \") %&gt;%\n  table() %&gt;% # make a table of counts\n  as_tibble() %&gt;%\n  rename(Token = \".\", AF = n) %&gt;% # rename columns\n  arrange(-AF) # sort the data by frequency\nToken\nAF\n\n\n\n\nit\n10\n\n\nof\n10\n\n\nthe\n10\n\n\nwas\n10\n\n\nage\n2\n\n\nepoch\n2\n\n\nseason\n2\n\n\ntimes,\n2\n\n\nbelief,\n1\n\n\nbest\n1\n\n\n\n\n\nToken counts of sample sentence.",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>NLP Basics</span>"
+    ]
+  },
+  {
+    "objectID": "labs/processing-pipelines.html",
+    "href": "labs/processing-pipelines.html",
+    "title": "3  Tokenizing with quanteda",
+    "section": "",
+    "text": "3.1 Create a corpus\nThe first step is to create a corpus object:\ntotc_corpus &lt;- corpus(totc_txt)\nAnd see what we have:\nCode\ntotc_corpus |&gt;\n  summary() |&gt;\n  gt()\n\n\n\n\n\n\nSummary of a corpus.\n\n\nText\nTypes\nTokens\nSentences\n\n\n\n\ntext1\n23\n70\n1\nNote that if we had more than 1 document, we would get a count of how many documents in which the token appear, and that we can assign documents to grouping variable. This will become useful later.",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Tokenizing with quanteda</span>"
+    ]
+  },
+  {
+    "objectID": "labs/processing-pipelines.html#tokenize-the-corpus",
+    "href": "labs/processing-pipelines.html#tokenize-the-corpus",
+    "title": "3  Tokenizing with quanteda",
+    "section": "3.2 Tokenize the corpus",
+    "text": "3.2 Tokenize the corpus\n\ntotc_tkns &lt;- tokens(totc_corpus, what = \"word\", remove_punct = TRUE)",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Tokenizing with quanteda</span>"
+    ]
+  },
+  {
+    "objectID": "labs/processing-pipelines.html#create-a-document-feature-matrix-dfm",
+    "href": "labs/processing-pipelines.html#create-a-document-feature-matrix-dfm",
+    "title": "3  Tokenizing with quanteda",
+    "section": "3.3 Create a document-feature matrix (dfm)",
+    "text": "3.3 Create a document-feature matrix (dfm)\n\ntotc_dfm &lt;- dfm(totc_tkns)\n\nA dfm is an important data structure to understand, as it often serves as the foundation for all kinds of downstream statistical processing. It is a table with rows for documents (or observations) and columns for tokens (or variables)\n\n\n\n\n\n\nPart of a document-feature matrix.\n\n\ndoc_id\nit\nwas\nthe\nbest\nof\ntimes\nworst\nage\nwisdom\nfoolishness\nepoch\n\n\n\n\ntext1\n10\n10\n10\n1\n10\n2\n1\n2\n1\n1\n2",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Tokenizing with quanteda</span>"
+    ]
+  },
+  {
+    "objectID": "labs/processing-pipelines.html#and-count-our-tokens",
+    "href": "labs/processing-pipelines.html#and-count-our-tokens",
+    "title": "3  Tokenizing with quanteda",
+    "section": "3.4 And count our tokens",
+    "text": "3.4 And count our tokens\n\n\n\n\n\n\nToken counts of sample sentence.\n\n\nfeature\nfrequency\nrank\ndocfreq\ngroup\n\n\n\n\nit\n10\n1\n1\nall\n\n\nwas\n10\n1\n1\nall\n\n\nthe\n10\n1\n1\nall\n\n\nof\n10\n1\n1\nall\n\n\ntimes\n2\n5\n1\nall\n\n\nage\n2\n5\n1\nall\n\n\nepoch\n2\n5\n1\nall\n\n\nseason\n2\n5\n1\nall\n\n\nbest\n1\n9\n1\nall\n\n\nworst\n1\n9\n1\nall\n\n\nwisdom\n1\n9\n1\nall\n\n\nfoolishness\n1\n9\n1\nall\n\n\nbelief\n1\n9\n1\nall\n\n\nincredulity\n1\n9\n1\nall\n\n\nlight\n1\n9\n1\nall\n\n\ndarkness\n1\n9\n1\nall\n\n\nspring\n1\n9\n1\nall\n\n\nhope\n1\n9\n1\nall\n\n\nwinter\n1\n9\n1\nall\n\n\ndespair\n1\n9\n1\nall",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Tokenizing with quanteda</span>"
+    ]
+  },
+  {
+    "objectID": "labs/processing-pipelines.html#using-pipes-to-expidite-the-process",
+    "href": "labs/processing-pipelines.html#using-pipes-to-expidite-the-process",
+    "title": "3  Tokenizing with quanteda",
+    "section": "3.5 Using pipes to expidite the process",
+    "text": "3.5 Using pipes to expidite the process\nThis time, we will change remove_punct to FALSE.\n\ntotc_freq &lt;- totc_corpus %&gt;%\n  tokens(what = \"word\", remove_punct = FALSE) %&gt;%\n  dfm() %&gt;%\n  textstat_frequency()\n\n\n\n\n\n\n\nToken counts of sample sentence.\n\n\nfeature\nfrequency\nrank\ndocfreq\ngroup\n\n\n\n\nit\n10\n1\n1\nall\n\n\nwas\n10\n1\n1\nall\n\n\nthe\n10\n1\n1\nall\n\n\nof\n10\n1\n1\nall\n\n\n,\n9\n5\n1\nall\n\n\ntimes\n2\n6\n1\nall\n\n\nage\n2\n6\n1\nall\n\n\nepoch\n2\n6\n1\nall\n\n\nseason\n2\n6\n1\nall\n\n\nbest\n1\n10\n1\nall\n\n\nworst\n1\n10\n1\nall\n\n\nwisdom\n1\n10\n1\nall\n\n\nfoolishness\n1\n10\n1\nall\n\n\nbelief\n1\n10\n1\nall\n\n\nincredulity\n1\n10\n1\nall\n\n\nlight\n1\n10\n1\nall\n\n\ndarkness\n1\n10\n1\nall\n\n\nspring\n1\n10\n1\nall\n\n\nhope\n1\n10\n1\nall\n\n\nwinter\n1\n10\n1\nall\n\n\ndespair\n1\n10\n1\nall\n\n\n.\n1\n10\n1\nall",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Tokenizing with quanteda</span>"
+    ]
+  },
+  {
+    "objectID": "labs/processing-pipelines.html#pre-processing",
+    "href": "labs/processing-pipelines.html#pre-processing",
+    "title": "3  Tokenizing with quanteda",
+    "section": "4.1 Pre-processing",
+    "text": "4.1 Pre-processing\nAn alternative to making tokenizing decisions inside the tokenizing process, you can process the text before tokenizing using functions for manipulating strings in stringr, stringi, textclean, or base R (like grep( )). Some common and convenient transformations are wrapped in a cmu.textstat function called preprocess_text( )\n\ntext_2_freq &lt;- text_2 %&gt;%\n  preprocess_text() %&gt;%\n  corpus() %&gt;%\n  tokens(what = \"fastestword\") %&gt;%\n  dfm() %&gt;%\n  textstat_frequency() %&gt;%\n  as_tibble() %&gt;%\n  dplyr::select(feature, frequency) %&gt;%\n  rename(Token = feature, AF = frequency) %&gt;%\n  mutate(New = NA)\n\n\n\n\n\n\n\nTToken counts of sample Tweet\n\n\nToken\nAF\nNew\n\n\n\n\nwas\n3\nNA\n\n\nthe\n3\nNA\n\n\nausten\n2\nNA\n\n\nauthor\n2\nNA\n\n\nof\n2\nNA\n\n\nand\n2\nNA\n\n\njane\n1\nNA\n\n\nnot\n1\nNA\n\n\ncredited\n1\nNA\n\n\nas\n1\nNA\n\n\npride\n1\nNA\n\n\nprejudice\n1\nNA\n\n\nin\n1\nNA\n\n\n1813\n1\nNA\n\n\ntitle\n1\nNA\n\n\npage\n1\nNA\n\n\nsimply\n1\nNA\n\n\nread\n1\nNA\n\n\nby\n1\nNA\n\n\nsense\n1\nNA\n\n\nsensibility\n1\nNA\n\n\nit\n1\nNA\n\n\nn't\n1\nNA\n\n\nuntil\n1\nNA\n\n\nafter\n1\nNA\n\n\ns\n1\nNA\n\n\ndeath\n1\nNA\n\n\nthat\n1\nNA\n\n\nher\n1\nNA\n\n\nidentity\n1\nNA\n\n\nrevealed\n1\nNA\n\n\nmentalflossbookclub\n1\nNA\n\n\nwith\n1\nNA\n\n\nhowlifeunfolds\n1\nNA\n\n\n15pages\n1\nNA\n\n\nhttpspbs.twimg.com/media/ebouqbfwwaabeoj.jpg\n1\nNA\n\n\n\n\n\n\n\nNote how the default arguments treat negation and possessive markers. As with the tokens () function, many of these (options)[http://htmlpreview.github.io/?https://raw.githubusercontent.com/browndw/quanteda.extras/main/vignettes/preprocess_introduction.html] are logical.\nNote, too, that we’ve renamed the columns and added a new one using mutate().",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Tokenizing with quanteda</span>"
+    ]
+  },
+  {
+    "objectID": "labs/processing-pipelines.html#adding-a-grouping-variable",
+    "href": "labs/processing-pipelines.html#adding-a-grouping-variable",
+    "title": "3  Tokenizing with quanteda",
+    "section": "5.1 Adding a grouping variable",
+    "text": "5.1 Adding a grouping variable\nWe have 2 short texts (one from fiction and one from Twitter). Let’s first combine them into a single corpus. First, a data frame is created that has 2 columns (doc_id and text). Then, the text column is passed to the preprocess_text() function before creating the corpus.\n\ncomb_corpus &lt;-   data.frame(doc_id = c(\"text_1\", \"text_2\"), text = c(totc_txt, text_2)) %&gt;%\n  mutate(text = preprocess_text(text)) %&gt;%\n  corpus()\n\nNext well assign a grouping variable using docvars(). In later labs, we’ll use a similar process to assign variables from tables of metadata.\n\ndocvars(comb_corpus) &lt;- data.frame(text_type = c(\"Fiction\", \"Twitter\"))\n\nNow we can tokenize.\n\ncomb_tkns &lt;- comb_corpus %&gt;%\n  tokens(what = \"fastestword\")\n\nOnce we have done this, we can use that grouping variable to manipulate the data in a vraiety of ways. We could use dfm_group() to aggregate by group instead of individual text. (Though because we have only 2 texts here, it amounts to the same thing.)\n\ncomb_dfm &lt;- dfm(comb_tkns) %&gt;% \n  dfm_group(groups = text_type)\n\n\n\n\n\nTable 5.1: Composition of corpus.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTExt Type\nTexts\nTokens\n\n\n\n\n\nFiction\n1\n60\n\n\n\nTwitter\n1\n44\n\n\nTotal\n—\n2\n104",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Tokenizing with quanteda</span>"
+    ]
+  },
+  {
+    "objectID": "labs/distributions.html",
+    "href": "labs/distributions.html",
+    "title": "\n4  Distributions\n",
+    "section": "",
+    "text": "4.1 Prepare a corpus",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Distributions</span>"
+    ]
+  },
+  {
+    "objectID": "labs/distributions.html#prepare-a-corpus",
+    "href": "labs/distributions.html#prepare-a-corpus",
+    "title": "\n4  Distributions\n",
+    "section": "",
+    "text": "4.1.1 Load the needed packages\n\nlibrary(gt)\nlibrary(quanteda)\nlibrary(quanteda.textstats)\nlibrary(tidyverse)\n\n\n4.1.2 Load a corpus\nThe repository comes with some data sets. The conventional way to format text data prior to processing is as a table with a column of document ids (which correspond to the the file names) and a column of texts. Such a table is easy to create from text data on your own local drive using the package readtext.\n\nload(\"../data/sample_corpus.rda\")\nload(\"../data/multiword_expressions.rda\")\n\nTo peek at the data, we’ll look at the first 100 characters in the “text” column of the first row:\n\n\n\n\n\n\ndoc_id\ntext\n\n\n\nacad_01\nTeachers and other school personnel are often counseled to use research findings in making curricula\n\n\nacad_02\nAbstract Does the conflict in El Salvador, conceptualized by the U.S. government as a battle in the\n\n\nacad_03\nJanuary 17, 1993, will mark the 100th anniversary of the deposing of the Hawaiian monarchy. \"Prior t\n\n\nacad_04\nThirty years have passed since the T1961 meeting of the National Council for the Social Studies in C\n\n\nacad_05\nABSTRACT -- A common property resource with open access, such as a fishery, will be used to excess w\n\n\nacad_06\nDespite some encouraging signs and hopeful expectations that democracy has made reasonable progress\n\n\nacad_07\nevaluation component. Similarly, Stewart ( 1982,1989 ) has shown that a common response to unfamilia\n\n\nacad_08\nSection: Education \"A lab is where you do science\" ( Thornton 1972 ). An investigative laboratory (\n\n\nacad_09\nIn 1968, the thirtieth anniversary issue of the Journal of Politics celebrated the great advance in\n\n\nacad_10\nmonologue -- and of Novas Calvo's story -- may thus be clarified, not as that of facilitating an obj\n\n\n\n\n\n\n\n4.1.3 Load functions\nThe repository also contains a number of useful functions. Here, will load some that will calculate a number of common dispersion measures.\n\nsource(\"../R/dispersion_functions.R\")\n\n\n4.1.4 Create and corpus\nMake a corpus object.\n\nsc &lt;- corpus(sample_corpus)\n\nAnd check the result:\n\n\n\nTable 4.1: Partial summary of sample corpus.\n\n\n\n\n\n\nText\nTypes\nTokens\nSentences\n\n\n\nacad_01\n842\n2818\n95\n\n\nacad_02\n983\n2845\n88\n\n\nacad_03\n968\n2885\n126\n\n\nacad_04\n1017\n2864\n102\n\n\nacad_05\n914\n2837\n109\n\n\nacad_06\n1007\n2813\n86\n\n\nacad_07\n663\n2952\n92\n\n\nacad_08\n870\n2830\n118\n\n\nacad_09\n980\n2899\n131\n\n\nacad_10\n1118\n2883\n77",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Distributions</span>"
+    ]
+  },
+  {
+    "objectID": "labs/distributions.html#document-variables-name-your-files-systematically",
+    "href": "labs/distributions.html#document-variables-name-your-files-systematically",
+    "title": "\n4  Distributions\n",
+    "section": "\n4.2 Document variables (Name your files systematically!)",
+    "text": "4.2 Document variables (Name your files systematically!)\n\n\n\n\n\n\nImportant\n\n\n\nFile names can encode important meta-data. In this case, the names include text-types, much like the Corpus of Contemporary American English.\nThis is extremely important. When you build your own corpora, you want to purposefully and systematically name your files and organize your directories. This will save you time and effort later in your analysis.\n\n\nWe are now going to extract the meta-data from the file names and pass them as a variable.\n\ndoc_categories &lt;- str_extract(sample_corpus$doc_id, \"^[a-z]+\")\n\nCheck the result:\n\n\n\n\n\nDocument categories.\n\ndoc_cats\n\n\n\nacad\n\n\nblog\n\n\nfic\n\n\nmag\n\n\nnews\n\n\nspok\n\n\ntvm\n\n\nweb\n\n\n\n\n\n\nWe will now assign the variable to the corpus. The following command might look backwards, with the function on the left hand side of the &lt;- operator. That is because it’s an accessor function, which lets us add or modify data in an object. You can tell when a function is an accessor function like this because its help file will show that you can use it with &lt;-, for example in ?docvars.\n\ndocvars(sc, field = \"text_type\") &lt;- doc_categories\n\nAnd check the summary again:\n\n\n\n\n\nPartial summary of sample corpus.\n\nText\nTypes\nTokens\nSentences\ntext_type\n\n\n\nacad_01\n842\n2818\n95\nacad\n\n\nacad_02\n983\n2845\n88\nacad\n\n\nacad_03\n968\n2885\n126\nacad\n\n\nacad_04\n1017\n2864\n102\nacad\n\n\nacad_05\n914\n2837\n109\nacad\n\n\nacad_06\n1007\n2813\n86\nacad\n\n\nacad_07\n663\n2952\n92\nacad\n\n\nacad_08\n870\n2830\n118\nacad\n\n\nacad_09\n980\n2899\n131\nacad\n\n\nacad_10\n1118\n2883\n77\nacad\n\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nAssigning docvars is based entirely on ordering. In other words, you are simply attaching a vector of categories to the corpus object. There is no merging by shared keys. Thus, you always need to be sure that your docvars are in the same order as your doc_ids. This is the reason why we extracted them directly from the doc_ids.",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Distributions</span>"
+    ]
+  },
+  {
+    "objectID": "labs/distributions.html#tokenize-the-corpus",
+    "href": "labs/distributions.html#tokenize-the-corpus",
+    "title": "\n4  Distributions\n",
+    "section": "\n4.3 Tokenize the corpus",
+    "text": "4.3 Tokenize the corpus\nWe’ll use quanteda to tokenize. And after tokenization, we’ll convert them to lower case. Why do that here? As a next step, we’ll being combining tokens like a and lot into single units. And we’ll be using a list of expressions that isn’t case sensitive.\n\nsc_tokens &lt;- tokens(sc, include_docvars=TRUE, remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, what = \"word\")\n\nsc_tokens &lt;- tokens_tolower(sc_tokens)",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Distributions</span>"
+    ]
+  },
+  {
+    "objectID": "labs/distributions.html#multi-word-expressions",
+    "href": "labs/distributions.html#multi-word-expressions",
+    "title": "\n4  Distributions\n",
+    "section": "\n4.4 Multi-word Expressions",
+    "text": "4.4 Multi-word Expressions\nAn issue that we run into frequently with corpus analysis is what to do with multi-word expressions. For example, consider a common English quantifier: “a lot”. Typical tokenization rules will split this into two tokens: a and lot. But counting a lot as a single unit might be important depending on our task. We have a way of telling quanteda to account for these tokens.\nAll that we need is a list of multi-word expressions.\nThe cmu.textstat comes with an example of an mwe list called multiword_expressions:\n\n\n\nExamples of multi-word expressions.\n\n\nwinter haven\n\n\nwith a view to\n\n\nwith reference to\n\n\nwith regard to\n\n\nwith relation to\n\n\nwith respect to\n\n\n\n\n\nThe tokens_compound() function looks for token sequences that match our list and combines them using an underscore.\n\nsc_tokens &lt;- tokens_compound(sc_tokens, pattern = phrase(multiword_expressions))",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Distributions</span>"
+    ]
+  },
+  {
+    "objectID": "labs/distributions.html#create-a-document-feature-matrix",
+    "href": "labs/distributions.html#create-a-document-feature-matrix",
+    "title": "\n4  Distributions\n",
+    "section": "\n4.5 Create a document-feature matrix",
+    "text": "4.5 Create a document-feature matrix\nWith our tokens object we can now create a document-feature-matrix using the dfm() function. As a reminder, a dfm is table with one row per document in the corpus, and one column per unique token in the corpus. Each cell contains a count of how many times a token shows up in that document.\n\nsc_dfm &lt;- dfm(sc_tokens)\n\nNext we’ll create a dfm with proportionally weighted counts.\n\nprop_dfm &lt;- dfm_weight(sc_dfm, scheme = \"prop\")",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Distributions</span>"
+    ]
+  },
+  {
+    "objectID": "labs/distributions.html#distributions-of-the",
+    "href": "labs/distributions.html#distributions-of-the",
+    "title": "\n4  Distributions\n",
+    "section": "\n5.1 Distributions of the\n",
+    "text": "5.1 Distributions of the\n\nLet’s start by selecting frequencies of the most common token in the corpus:\n\nfreq_df &lt;- textstat_frequency(sc_dfm) %&gt;%\n  data.frame(stringsAsFactors = F)\n\n\n\n\nThe 10 most frequent tokens in the sample corpus.\n\nfeature\nfrequency\nrank\ndocfreq\ngroup\n\n\n\nthe\n50920\n1\n399\nall\n\n\nand\n25232\n2\n398\nall\n\n\nto\n24753\n3\n397\nall\n\n\nof\n22060\n4\n399\nall\n\n\na\n21614\n5\n398\nall\n\n\nin\n15969\n6\n399\nall\n\n\ni\n12568\n7\n348\nall\n\n\nthat\n12537\n8\n396\nall\n\n\nyou\n10951\n9\n341\nall\n\n\nis\n9901\n10\n389\nall\n\n\n\n\n\nFrom the weighted dfm, we can select any token that we’d like to look at more closely. In this case, we’ll select the most frequent token: the.\nAfter selecting the variable, we will convert the data into a more friendly data structure.\nThere are easier ways of doing this, but the first bit of the code-chunk allows us to filter by rank and return a character vector that we can pass. This way, we can find a word of any arbitrary rank.\nAlso note how the rename() function is set up. Let’s say our token is the. The dfm_select() function would result with a column named the that we’d want to rename RF. So our typical syntax would be: rename(RF = the). In the chunk below, however, our column name is the variable word. To pass that variable to rename, we use !!name(word).\n\nword &lt;- freq_df %&gt;% \n  filter(rank == 1) %&gt;% \n  dplyr::select(feature) %&gt;%\n  as.character()\n\nword_df &lt;- dfm_select(prop_dfm, word, valuetype = \"fixed\") # select the token\n\nword_df &lt;- word_df %&gt;% \n  convert(to = \"data.frame\") %&gt;% \n  cbind(docvars(word_df)) %&gt;% \n  rename(RF = !!as.name(word)) %&gt;% \n  mutate(RF = RF*1000000)\n\nWith that data it is a simple matter to generate basic summary statistics using the group_by() function:\n\nsummary_table &lt;- word_df %&gt;% \n  group_by(text_type) %&gt;%\n  summarize(MEAN = mean(RF),\n              SD = sd(RF),\n              N = n())\n\n\n\n\nMeans and standard deviations by text-type.\n\ntext_type\nMEAN\nSD\nN\n\n\n\nacad\n68619.64\n18327.10\n50\n\n\nblog\n51270.54\n13389.38\n50\n\n\nfic\n54202.41\n14254.79\n50\n\n\nmag\n57117.76\n13986.30\n50\n\n\nnews\n50574.84\n18333.09\n50\n\n\nspok\n42693.44\n9727.79\n50\n\n\ntvm\n32532.85\n11981.88\n50\n\n\nweb\n60592.68\n21641.35\n50\n\n\n\n\n\nAnd we can inspect a histogram of the frequencies. To set the width of our bins we’ll use the Freedman-Diaconis rule. The bin-width is set to: \\[h = 2 x \\frac{IQR(x)}{n^{1/3}}\\]\nSo the number of bins is (max-min)/h, where n is the number of observations, max is the maximum value and min is the minimum value.\n\nbin_width &lt;- function(x){\n  2 * IQR(x) / length(x)^(1/3)\n  }\n\nNow we can plot a histogram. We’re also adding a dashed line showing the mean. Note we’re also going to use the scales package to remove scientific notation from our tick labels.\n\nggplot(word_df,aes(RF)) + \n  geom_histogram(binwidth = bin_width(word_df$RF), colour=\"black\", fill=\"white\", size=.25) +\n  geom_vline(aes(xintercept=mean(RF)), color=\"red\", linetype=\"dashed\", size=.5) +\n  theme_classic() +\n  scale_x_continuous(labels = scales::comma) +\n  xlab(\"RF (per mil. words)\")\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\n\n\n\n\nHistogram of the token .",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Distributions</span>"
+    ]
+  },
+  {
+    "objectID": "labs/distributions.html#distributions-of-the-and-of",
+    "href": "labs/distributions.html#distributions-of-the-and-of",
+    "title": "\n4  Distributions\n",
+    "section": "\n5.2 Distributions of the and of\n",
+    "text": "5.2 Distributions of the and of\n\nNow let’s try plotting histograms of two tokens on the same plot. First we’re going to use regular expressions to select the columns. The carat or hat ^ looks for the start of line. Without it, we would also get words like “blather”. The dollar symbol $ looks for the end of a line. The straight line | means OR. Think about how useful this flexibility can be. You could, for example, extract all words that end in -ion.\n\n# Note \"regex\" rather than \"fixed\"\nword_df &lt;- dfm_select(prop_dfm, \"^the$|^of$\", valuetype = \"regex\")\n\n# Now we'll convert our selection and normalize to 10000 words.\nword_df &lt;- word_df %&gt;% \n  convert(to = \"data.frame\") %&gt;%\n  mutate(the = the*10000) %&gt;%\n  mutate(of = of*10000)\n\n# Use \"pivot_longer\" to go from a wide format to a long one\nword_df &lt;- word_df %&gt;% \n  pivot_longer(!doc_id, names_to = \"token\", values_to = \"RF\") %&gt;% \n  mutate(token = factor(token))\n\nNow let’s make a new histogram. Here we assign the values of color and fill to the “token” column. We also make the columns a little transparent using the “alpha” setting.\n\nggplot(word_df,aes(x = RF, color = token, fill = token)) + \n  geom_histogram(binwidth = bin_width(word_df$RF), alpha=.5, position = \"identity\") +\n  theme_classic() +\n  xlab(\"RF (per mil. words)\") +\n  theme(axis.text = element_text(size=5))\n\n\n\nHistogram of the tokens and .\n\n\n\nIf we don’t want overlapping histograms, we can use facet_wrap() to split the plots.\n\nggplot(word_df,aes(x = RF, color = token, fill = token)) + \n  geom_histogram(binwidth = bin_width(word_df$RF), alpha=.5, position = \"identity\") +\n  theme_classic() +\n  theme(axis.text = element_text(size=5)) +\n  theme(legend.position = \"none\") +\n  xlab(\"RF (per mil. words)\") +\n  facet_wrap(~ token)\n\n\n\nHistogram of the tokens and .",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Distributions</span>"
+    ]
+  },
+  {
+    "objectID": "labs/distributions.html#dispersions-for-all-tokens",
+    "href": "labs/distributions.html#dispersions-for-all-tokens",
+    "title": "\n4  Distributions\n",
+    "section": "\n6.1 Dispersions for all tokens",
+    "text": "6.1 Dispersions for all tokens\nWe can also calculate selected dispersion measures for all tokens using dispersions_all():\n\nd &lt;- dispersions_all(sc_dfm)\n\n\n\n\nDispersion measures for all tokens.\n\nToken\nAF\nPer_10.5\nCarrolls_D2\nRosengrens_S\nLynes_D3\nDC\nJuillands_D\nDP\nDP_norm\n\n\n\nthe\n50920\n5240.015\n0.989\n0.966\n0.968\n0.963\n0.982\n0.139\n0.139\n\n\nand\n25232\n2596.545\n0.990\n0.970\n0.973\n0.967\n0.983\n0.123\n0.124\n\n\nto\n24753\n2547.252\n0.993\n0.980\n0.983\n0.976\n0.987\n0.090\n0.090\n\n\nof\n22060\n2270.124\n0.978\n0.933\n0.935\n0.932\n0.974\n0.199\n0.199\n\n\na\n21614\n2224.228\n0.992\n0.977\n0.978\n0.973\n0.986\n0.109\n0.109\n\n\nin\n15969\n1643.319\n0.988\n0.962\n0.963\n0.960\n0.981\n0.146\n0.146",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Distributions</span>"
+    ]
+  },
+  {
+    "objectID": "labs/distributions.html#generating-a-frequency-table",
+    "href": "labs/distributions.html#generating-a-frequency-table",
+    "title": "\n4  Distributions\n",
+    "section": "\n6.2 Generating a frequency table",
+    "text": "6.2 Generating a frequency table\nAlternatively, frequency_table() returns only Deviation of Proportions and Average Reduced Frequency.\nNote that ARF requires a tokens object and takes a couple of minutes to calculate.\n\nft &lt;- frequency_table(sc_tokens)\n\n\n\n\nFrequency and dispersion measures for all tokens.\n\n\nToken\nAF\nPer_10.5\nARF\nDP\n\n\n\n1\nthe\n50920\n5240.015\n31901.106\n0.139\n\n\n2\nand\n25232\n2596.545\n15914.149\n0.123\n\n\n3\nto\n24753\n2547.252\n15468.494\n0.090\n\n\n5\nof\n22060\n2270.124\n13089.728\n0.199\n\n\n4\na\n21614\n2224.228\n13239.704\n0.109\n\n\n6\nin\n15969\n1643.319\n9772.267\n0.146",
+    "crumbs": [
+      "Curriculum",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Distributions</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html",
+    "href": "lectures/llms-history.html",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "",
+    "text": "8 Overview",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#overview-1",
+    "href": "lectures/llms-history.html#overview-1",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "8.1 Overview",
+    "text": "8.1 Overview\n\n8.1.1 How did we get to large language models (LLMs)\n\nOur topics\n\nReview some history of natural language processing (NLP) and digital writing technologies\nLook at the architectures of models and how they’ve changed over time\nShare the results of some research by our team and discuss some of the potential implications",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#overview-2",
+    "href": "lectures/llms-history.html#overview-2",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "8.2 Overview",
+    "text": "8.2 Overview\n\n8.2.1 How did we get to large language models (LLMs)\n\nOur goals\n\nShow how these technologies fundamentally work.\nHighlight the affordances and limitations of LLMs and similar technologies.\nEquip you with tools to use/study/teach about these technologies",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-1",
+    "href": "lectures/llms-history.html#history-1",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.1 History",
+    "text": "9.1 History\n\n9.1.1 Writing is inseparable from technological change (Gabrial 2007)",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-2",
+    "href": "lectures/llms-history.html#history-2",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.2 History",
+    "text": "9.2 History\n\n9.2.1 Writing is inseparable from technological change\n\n\nNew surfaces:\n\n\npapyrus\n\n\nparchment\n\n\nwood-pulp paper",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-3",
+    "href": "lectures/llms-history.html#history-3",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.3 History",
+    "text": "9.3 History\n\n9.3.1 Writing is inseparable from technological change",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-4",
+    "href": "lectures/llms-history.html#history-4",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.4 History",
+    "text": "9.4 History\n\n9.4.1 Writing is inseparable from technological change\n\n\nNew implements:\n\n\nstylus\n\n\nmetal-tipped pen\n\n\nmass-produced pencil",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-5",
+    "href": "lectures/llms-history.html#history-5",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.5 History",
+    "text": "9.5 History\n\n9.5.1 Writing is inseparable from technological change",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-6",
+    "href": "lectures/llms-history.html#history-6",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.6 History",
+    "text": "9.6 History\n\n9.6.1 Writing is inseparable from technological change\n\n\nNew systems:\n\n\nlibraries\n\n\npostal networks\n\n\ncommercial publishers",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-7",
+    "href": "lectures/llms-history.html#history-7",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.7 History",
+    "text": "9.7 History\n\n9.7.1 Writing is inseparable from technological change\n\nTechnological change is often met with skepticism, if not hostility and fear.\n\n\n\n\n\n\n\nThink of the moral and intellectual training that comes to a student who writes a manuscript with the knowledge that his [sic] errors will stand out on the page as honestly confessed and openly advertised mistakes. (S. Y. G. 1908)",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-8",
+    "href": "lectures/llms-history.html#history-8",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.8 History",
+    "text": "9.8 History\n\n9.8.1 Writing is inseparable from technological change\n\nTechnological change is often met with skepticism, if not hostility and fear.\n\n\n\n\n\n\n\nThe eraser is an instrument of the devil because it perpetuates a culture of shame about error. It’s a way of lying to the world, which says ‘I didn’t make a mistake. I got it right first time.’ That’s what happens when you can rub it out and replace it. Instead, we need a culture where children are not afraid to make mistakes, they look at their mistakes and they learn from them, where they are continuously reflecting and improving on what they’ve done, not being enthralled to getting the right answer quickly and looking smart. (Espinoza 2015)",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-9",
+    "href": "lectures/llms-history.html#history-9",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.9 History",
+    "text": "9.9 History\n\n9.9.1 Writing is inseparable from technological change\n\nIn 2009, researchers at Google published an article that coincided with the release of its N-gram Viewer and the corresponding data tables (Halevy, Norvig, and Pereira 2009).\n\n\n\nBut the fact that it’s a million times larger than the Brown Corpus outweighs these drawbacks. A trillion-word corpus—along with other Web-derived corpora of millions, billions, or trillions of links, videos, images, tables, and user interactions—captures even very rare aspects of human behavior. So, this corpus could serve as the basis of a complete model for certain tasks—if only we knew how to extract the model from the data.\n\n\n\nWe will return to this excerpt, but for now, let’s focus on this final claim…",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-10",
+    "href": "lectures/llms-history.html#history-10",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.10 History",
+    "text": "9.10 History\n\n9.10.1 The concept of a language model has been around for a long time…\n\nspeech recognition (Bahl, Jelinek, and Mercer 1983; Jelinek 1985)\nspelling correction (Mays, Damerau, and Mercer 1991)\nmachine translation (Brown et al. 1990)",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-11",
+    "href": "lectures/llms-history.html#history-11",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.11 History",
+    "text": "9.11 History\n\n9.11.1 The concept of a language model has been around for a long time…\n\nmachine translation (Brown et al. 1990)",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-12",
+    "href": "lectures/llms-history.html#history-12",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.12 History",
+    "text": "9.12 History\n\n9.12.1 The concept of a language model has been around for a long time…\n\nmachine translation (Brown et al. 1990)",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-13",
+    "href": "lectures/llms-history.html#history-13",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.13 History",
+    "text": "9.13 History\n\n9.13.1 The concept of a language model has been around for a long time…\n\n\n\n1960-1980\nBeginnings of NLP\n\n\n1980-2015\nTowards Computation\n\n\n2015-\nEmergence of ML",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#history-14",
+    "href": "lectures/llms-history.html#history-14",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "9.14 History",
+    "text": "9.14 History\n\n9.14.1 The concept of a language model has been around for a long time…",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-1",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-1",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.1 The beginnings of NLP",
+    "text": "10.1 The beginnings of NLP\n\n10.1.1 The question of multiple meanings (or polysemy)\n\n\n\n\n\n\nA memo shared with a small group of researchers who were at the forefront of machine translation after WWII, anticipates the challenges and possibilities of the computer analysis of text. (Weaver 1949)",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-2",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-2",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.2 The beginnings of NLP",
+    "text": "10.2 The beginnings of NLP\n\n10.2.1 The question of multiple meanings (or polysemy)\n\n\n\n\n\n\nIf one examines the words in a book, one at a time as through an opaque mask with a hole in it on word wide, then it is obviously impossible to determine, one at a time, the meaning of words.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-3",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-3",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.3 The beginnings of NLP",
+    "text": "10.3 The beginnings of NLP\n\n10.3.1 The question of multiple meanings (or polysemy)\n\n\n\n\n\n\nBut if one lengthens the slit in the opaque mask, until one can see not only the central word in question, but also say N words on either side, then if N is large enough one can unambiguously decide the meaning of the central word.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-4",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-4",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.4 The beginnings of NLP",
+    "text": "10.4 The beginnings of NLP\n\n10.4.1 The question of multiple meanings (or polysemy)\n\n\n\n\n\n\nThe practical question is, what minimum value of N will, at least in a tolerable fraction of cases, lead to the correct choice of meaning for the central word?",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-5",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-5",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.5 The beginnings of NLP",
+    "text": "10.5 The beginnings of NLP\n\n10.5.1 The question of multiple meanings (or polysemy)\n\n“You shall know a word by the company it keeps.” (Firth 1957)\nThe meaning of word can be determined by examining the contextual window or span around that word.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-6",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-6",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.6 The beginnings of NLP",
+    "text": "10.6 The beginnings of NLP\n\n10.6.1 The question of multiple meanings (or polysemy)\n\n\n\n\n\n\n\n\n\n\nPreceding\nWord\nFollowing\n\n\n\n\nupscaling generally hold\nfast\nduring a 4K 60FPS gaming session.\n\n\na dragster, going\nfast\nin a straight line is actually pretty boring\n\n\nThe benefits of the\nfast\ncan be maintained long term,\n\n\nadopted slowly, but comes on\nfast\nonce it’s hit the mainstream\n\n\nThey simply disagree on how\nfast\nto go and how best to get there in superseding it.\n\n\nwhich appeared stuck\nfast\nin the ground it had plowed up",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-7",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-7",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.7 The beginnings of NLP",
+    "text": "10.7 The beginnings of NLP\n\n10.7.1 The question of multiple meanings (or polysemy)\n\n\n\n\n\n\n\n\n\n\nPreceding\nWord\nFollowing\n\n\n\n\nupscaling generally hold\nfast\nduring a 4K 60FPS gaming session.\n\n\na dragster, going\nfast\nin a straight line is actually pretty boring\n\n\nThe benefits of the\nfast\ncan be maintained long term,\n\n\nadopted slowly, but comes on\nfast\nonce it’s hit the mainstream\n\n\nThey simply disagree on how\nfast\nto go and how best to get there in superseding it.\n\n\nwhich appeared stuck\nfast\nin the ground it had plowed up",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-8",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-8",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.8 The beginnings of NLP",
+    "text": "10.8 The beginnings of NLP\n\n10.8.1 The question of multiple meanings (or polysemy)\n\n\n\n\n\n\n\n\n\n\nPreceding\nWord\nFollowing\n\n\n\n\nupscaling generally hold\nfast\nduring a 4K 60FPS gaming session.\n\n\na dragster, going\nfast\nin a straight line is actually pretty boring\n\n\nThe benefits of the\nfast\ncan be maintained long term,\n\n\nadopted slowly, but comes on\nfast\nonce it’s hit the mainstream\n\n\nThey simply disagree on how\nfast\nto go and how best to get there in superseding it.\n\n\nwhich appeared stuck\nfast\nin the ground it had plowed up",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-9",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-9",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.9 The beginnings of NLP",
+    "text": "10.9 The beginnings of NLP\n\nThe “context window” is a fundamental insight that powers the training of LLMs (from word2vec to BERT to ChatGPT).",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-10",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-10",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.10 The beginnings of NLP",
+    "text": "10.10 The beginnings of NLP\n\n10.10.1 As early as the mid-twentieth century, researchers…\n\nhad considered the potential for a “context window” to solve word-sense disambiguation\nwere developing the statistical tools that would eventually power the training of LLMs (i.e., neural networks).\n\n\n\n\n\n\n\nQuestion\n\n\n\nWhy didn’t we have LLMs sooner?",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-11",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-11",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.11 The beginnings of NLP",
+    "text": "10.11 The beginnings of NLP\n\n\n\n\n\n\nQuestion\n\n\n\nWhy didn’t we have LLMs sooner?\n\n\n\nlimited computational power\nlack of training data\nascendance of universal grammar",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-12",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-12",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.12 The beginnings of NLP",
+    "text": "10.12 The beginnings of NLP\n\n10.12.1 Context free grammar\n\nTo cope with these limitations (and beliefs about language structure) early models resorted to hard-coding rules\n\n\nS → NP VP\nNP → the N\nVP → V NP\nV → sings | eats\nN → cat | song | canary\n– the canary sings the song\n– the song eats the cat",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-13",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-13",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.13 The beginnings of NLP",
+    "text": "10.13 The beginnings of NLP\n\n10.13.1 Context free grammar\n\n\n\n\n\n\nThe ALPAC Report, which was released in 1966, was highly skeptical of these kinds of approaches.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-14",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-14",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.14 The beginnings of NLP",
+    "text": "10.14 The beginnings of NLP\n\n10.14.1 Context free grammar\n\n\n\n\n\n\n…we do not have useful machine translation. Furthermore, there is no immediate or predictable prospect of useful machine translation.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#the-beginnings-of-nlp-15",
+    "href": "lectures/llms-history.html#the-beginnings-of-nlp-15",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "10.15 The beginnings of NLP",
+    "text": "10.15 The beginnings of NLP\n\n10.15.1 Context free grammar\n\n\n\n\n\n\nSome of the work must be done on a rather large scale, since small-scale experiments and work with miniature models of language have proved seriously deceptive in the past, and one can come to grips with real problems only above a certain scale of grammar size, dictionary size, and available corpus.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#towards-computation-1",
+    "href": "lectures/llms-history.html#towards-computation-1",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "11.1 Towards computation",
+    "text": "11.1 Towards computation\n\n11.1.1 Converting words into numbers (a typical processing pipeline)",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#towards-computation-2",
+    "href": "lectures/llms-history.html#towards-computation-2",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "11.2 Towards computation",
+    "text": "11.2 Towards computation\n\n11.2.1 A document-feature matrix (or a document-term matrix)\n\n\n\n\n\n\nThe make-up or sampling frame of the Brown family of corpora. (Kučera and Francis 1967)\nFrom the 15 categories, 2000-word text samples were selected.\n2000 x 500 ≈ 1,000,000 words\n\n\n\n\n\nRows: 15 Columns: 3\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (2): ID, Category Name\ndbl (1): Number of Texts\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n\n\nID\nCategory Name\nNumber of Texts\n\n\n\n\nA\nPress: Reportage\n44\n\n\nB\nPress: Editorial\n27\n\n\nC\nPress: Reviews\n17\n\n\nD\nReligion\n17\n\n\nE\nSkill And Hobbies\n36\n\n\nF\nPopular Lore\n48\n\n\nG\nBelles-Lettres\n75\n\n\nH\nMiscellaneous: Government & House Organs\n30\n\n\nJ\nLearned\n80\n\n\nK\nFiction: General\n29\n\n\nL\nFiction: Mystery\n24\n\n\nM\nFiction: Science\n6\n\n\nN\nFiction: Adventure\n29\n\n\nP\nFiction: Romance\n29\n\n\nR\nHumor\n9",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#towards-computation-3",
+    "href": "lectures/llms-history.html#towards-computation-3",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "11.3 Towards computation",
+    "text": "11.3 Towards computation\n\n11.3.1 A document-feature matrix (or a document-term matrix)\n\n\nRows: 16 Columns: 17\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (17): doc_id, the, of, and, to, a, in, that, is, was, he, for, it, with,...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\nAbsolute frequency in the Brown Corpus.\n\n\ndoc_id\nthe\nof\nand\nto\na\nin\nthat\nis\nwas\nhe\nfor\nit\nwith\nas\nhis\n→\n\n\n\n\nA01\n155\n65\n40\n55\n54\n40\n28\n12\n18\n7\n22\n19\n6\n13\n12\n→\n\n\nA02\n134\n94\n33\n56\n51\n36\n11\n11\n15\n13\n24\n15\n6\n14\n6\n→\n\n\nA03\n150\n65\n40\n62\n43\n42\n12\n12\n11\n19\n34\n5\n7\n7\n9\n→\n\n\nA04\n160\n68\n45\n52\n38\n58\n33\n14\n13\n12\n19\n13\n9\n17\n6\n→\n\n\nA05\n167\n61\n34\n72\n54\n42\n41\n14\n15\n45\n27\n9\n10\n8\n6\n→\n\n\nA06\n150\n77\n37\n52\n54\n43\n18\n28\n12\n32\n31\n10\n15\n8\n15\n→\n\n\nA07\n167\n65\n43\n54\n39\n55\n17\n32\n12\n11\n29\n8\n16\n16\n9\n→\n\n\nA08\n183\n69\n29\n58\n39\n49\n15\n25\n4\n9\n14\n22\n15\n11\n8\n→\n\n\nA09\n187\n64\n44\n42\n51\n37\n18\n10\n28\n10\n40\n8\n8\n10\n9\n→\n\n\nA10\n134\n64\n36\n64\n38\n48\n21\n19\n10\n20\n29\n12\n12\n14\n9\n→\n\n\nA11\n151\n40\n49\n55\n71\n58\n5\n3\n14\n6\n22\n6\n12\n15\n11\n→\n\n\nA12\n113\n38\n44\n29\n58\n54\n14\n7\n14\n35\n25\n16\n11\n11\n13\n→\n\n\nA13\n161\n50\n47\n39\n63\n55\n6\n8\n27\n11\n12\n12\n18\n11\n20\n→\n\n\nA14\n172\n61\n41\n39\n76\n40\n15\n15\n20\n34\n22\n14\n18\n15\n17\n→\n\n\nA15\n136\n24\n46\n46\n60\n35\n27\n11\n19\n17\n23\n7\n18\n22\n17\n→\n\n\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#towards-computation-4",
+    "href": "lectures/llms-history.html#towards-computation-4",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "11.4 Towards computation",
+    "text": "11.4 Towards computation\n\n11.4.1 A document-feature matrix (or a document-term matrix)\n\n\nRows: 16 Columns: 17\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (17): doc_id, the, of, and, to, a, in, that, is, was, he, for, it, with,...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\nObservations.\n\n\ndoc_id\nthe\nof\nand\nto\na\nin\nthat\nis\nwas\nhe\nfor\nit\nwith\nas\nhis\n→\n\n\n\n\nA01\n155\n65\n40\n55\n54\n40\n28\n12\n18\n7\n22\n19\n6\n13\n12\n→\n\n\nA02\n134\n94\n33\n56\n51\n36\n11\n11\n15\n13\n24\n15\n6\n14\n6\n→\n\n\nA03\n150\n65\n40\n62\n43\n42\n12\n12\n11\n19\n34\n5\n7\n7\n9\n→\n\n\nA04\n160\n68\n45\n52\n38\n58\n33\n14\n13\n12\n19\n13\n9\n17\n6\n→\n\n\nA05\n167\n61\n34\n72\n54\n42\n41\n14\n15\n45\n27\n9\n10\n8\n6\n→\n\n\nA06\n150\n77\n37\n52\n54\n43\n18\n28\n12\n32\n31\n10\n15\n8\n15\n→\n\n\nA07\n167\n65\n43\n54\n39\n55\n17\n32\n12\n11\n29\n8\n16\n16\n9\n→\n\n\nA08\n183\n69\n29\n58\n39\n49\n15\n25\n4\n9\n14\n22\n15\n11\n8\n→\n\n\nA09\n187\n64\n44\n42\n51\n37\n18\n10\n28\n10\n40\n8\n8\n10\n9\n→\n\n\nA10\n134\n64\n36\n64\n38\n48\n21\n19\n10\n20\n29\n12\n12\n14\n9\n→\n\n\nA11\n151\n40\n49\n55\n71\n58\n5\n3\n14\n6\n22\n6\n12\n15\n11\n→\n\n\nA12\n113\n38\n44\n29\n58\n54\n14\n7\n14\n35\n25\n16\n11\n11\n13\n→\n\n\nA13\n161\n50\n47\n39\n63\n55\n6\n8\n27\n11\n12\n12\n18\n11\n20\n→\n\n\nA14\n172\n61\n41\n39\n76\n40\n15\n15\n20\n34\n22\n14\n18\n15\n17\n→\n\n\nA15\n136\n24\n46\n46\n60\n35\n27\n11\n19\n17\n23\n7\n18\n22\n17\n→\n\n\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#towards-computation-5",
+    "href": "lectures/llms-history.html#towards-computation-5",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "11.5 Towards computation",
+    "text": "11.5 Towards computation\n\n11.5.1 A document-feature matrix (or a document-term matrix)\n\n\nRows: 16 Columns: 17\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (17): doc_id, the, of, and, to, a, in, that, is, was, he, for, it, with,...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\nVariables.\n\n\ndoc_id\nthe\nof\nand\nto\na\nin\nthat\nis\nwas\nhe\nfor\nit\nwith\nas\nhis\n→\n\n\n\n\nA01\n155\n65\n40\n55\n54\n40\n28\n12\n18\n7\n22\n19\n6\n13\n12\n→\n\n\nA02\n134\n94\n33\n56\n51\n36\n11\n11\n15\n13\n24\n15\n6\n14\n6\n→\n\n\nA03\n150\n65\n40\n62\n43\n42\n12\n12\n11\n19\n34\n5\n7\n7\n9\n→\n\n\nA04\n160\n68\n45\n52\n38\n58\n33\n14\n13\n12\n19\n13\n9\n17\n6\n→\n\n\nA05\n167\n61\n34\n72\n54\n42\n41\n14\n15\n45\n27\n9\n10\n8\n6\n→\n\n\nA06\n150\n77\n37\n52\n54\n43\n18\n28\n12\n32\n31\n10\n15\n8\n15\n→\n\n\nA07\n167\n65\n43\n54\n39\n55\n17\n32\n12\n11\n29\n8\n16\n16\n9\n→\n\n\nA08\n183\n69\n29\n58\n39\n49\n15\n25\n4\n9\n14\n22\n15\n11\n8\n→\n\n\nA09\n187\n64\n44\n42\n51\n37\n18\n10\n28\n10\n40\n8\n8\n10\n9\n→\n\n\nA10\n134\n64\n36\n64\n38\n48\n21\n19\n10\n20\n29\n12\n12\n14\n9\n→\n\n\nA11\n151\n40\n49\n55\n71\n58\n5\n3\n14\n6\n22\n6\n12\n15\n11\n→\n\n\nA12\n113\n38\n44\n29\n58\n54\n14\n7\n14\n35\n25\n16\n11\n11\n13\n→\n\n\nA13\n161\n50\n47\n39\n63\n55\n6\n8\n27\n11\n12\n12\n18\n11\n20\n→\n\n\nA14\n172\n61\n41\n39\n76\n40\n15\n15\n20\n34\n22\n14\n18\n15\n17\n→\n\n\nA15\n136\n24\n46\n46\n60\n35\n27\n11\n19\n17\n23\n7\n18\n22\n17\n→\n\n\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#towards-computation-6",
+    "href": "lectures/llms-history.html#towards-computation-6",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "11.6 Towards computation",
+    "text": "11.6 Towards computation\n\n11.6.1 Zipf’s Law\n\n\nMost frequent words:\n\n\nthe\n\n\nof\n\n\nand",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#towards-computation-7",
+    "href": "lectures/llms-history.html#towards-computation-7",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "11.7 Towards computation",
+    "text": "11.7 Towards computation\n\n11.7.1 Zipf’s Law",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#towards-computation-8",
+    "href": "lectures/llms-history.html#towards-computation-8",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "11.8 Towards computation",
+    "text": "11.8 Towards computation\n\n11.8.1 Zipf’s Law\n\n\n\n\n\n\nZipf’s Law: the frequency of a token is inversely proportional to its rank.\nMost tokens are infrequent.\nThe absence of evidence is not evidence of absence.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#towards-computation-9",
+    "href": "lectures/llms-history.html#towards-computation-9",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "11.9 Towards computation",
+    "text": "11.9 Towards computation\n\n11.9.1 While some words may be normally distributed, most are not.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml",
+    "href": "lectures/llms-history.html#emergence-of-ml",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.1 Emergence of ML",
+    "text": "12.1 Emergence of ML\n\n12.1.1 Let’s return to the excerpt from the Google researchers.\n\n\nBut the fact that it’s a million times larger than the Brown Corpus outweighs these drawbacks. A trillion-word corpus—along with other Web-derived corpora of millions, billions, or trillions of links, videos, images, tables, and user interactions—captures even very rare aspects of human behavior. So, this corpus could serve as the basis of a complete model for certain tasks—if only we knew how to extract the model from the data.\n\n\n\n\n\n\n\n\nQuestion\n\n\n\nWhat developments are taking place at this time (the early 2000s)?",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-1",
+    "href": "lectures/llms-history.html#emergence-of-ml-1",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.2 Emergence of ML",
+    "text": "12.2 Emergence of ML\n\n\n\n\n\n\nQuestion\n\n\n\nWhat developments are taking place at this time (the early 2000s)?\n\n\n\nExpansion of the Internet.\nAdvances in memory and processing.\nOh & Jung publish “GPU implementation of neural networks” in Pattern Recognition. (2004)",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-2",
+    "href": "lectures/llms-history.html#emergence-of-ml-2",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.3 Emergence of ML",
+    "text": "12.3 Emergence of ML\n\nWord2vec is released. (Mikolov et al. 2013)\n\nShallow (2-layer) neural network.\nTrained using a relatively small context window (~10-12 words).\nIntroduces “embeddings”.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-3",
+    "href": "lectures/llms-history.html#emergence-of-ml-3",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.4 Emergence of ML",
+    "text": "12.4 Emergence of ML\n\n12.4.1 Embeddings from a vector model.\n\n\nRows: 16 Columns: 14\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (14): token, X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, →\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\nEmbedding space.\n\n\ntoken\nX1\nX2\nX3\nX4\nX5\nX6\nX7\nX8\nX9\nX10\nX11\nX12\n→\n\n\n\n\nthe\n-0.168845\n-0.461962\n-0.19786\n0.274797\n-0.125103\n-0.706765\n-0.003869\n0.433402\n0.346452\n0.040093\n0.203006\n0.090101\n→\n\n\nof\n-0.156332\n-0.205717\n0.227799\n0.168333\n-0.124179\n-0.942517\n-0.006047\n0.354843\n0.581821\n0.178699\n0.115994\n0.260422\n→\n\n\nand\n-0.35421\n-0.577716\n-0.264329\n0.391706\n-0.121148\n-0.53797\n-0.02144\n0.292083\n0.166029\n0.122325\n0.112165\n0.363388\n→\n\n\nto\n-0.188663\n-0.475612\n-0.165088\n0.557264\n-0.175906\n-0.470315\n-0.143031\n0.54875\n0.024778\n0.027579\n0.337273\n0.035197\n→\n\n\na\n-0.746083\n-0.16305\n-0.068605\n0.621801\n0.339663\n-0.257003\n-0.076629\n0.699464\n0.013988\n-0.189733\n0.005224\n0.551253\n→\n\n\nin\n-0.234889\n-0.871305\n0.186019\n-0.099154\n-0.243639\n-0.591907\n-0.049697\n0.545955\n-0.03968\n0.095335\n0.02752\n0.127082\n→\n\n\ni\n-0.187752\n-0.189067\n0.54628\n0.98086\n-0.063788\n-0.047667\n-0.040399\n0.858812\n-0.089908\n-0.080435\n-0.035776\n-0.223912\n→\n\n\nthat\n-0.122229\n-1.068663\n0.203545\n-0.139743\n-0.047583\n0.257451\n0.241411\n0.277364\n0.427474\n0.194155\n-0.288758\n-0.192211\n→\n\n\nit\n-0.116662\n-0.151302\n-0.215672\n0.597628\n0.053331\n-0.452194\n0.164938\n0.62079\n0.213103\n-0.325304\n0.023041\n-0.108058\n→\n\n\nhe\n0.264217\n-1.258926\n0.16205\n0.105418\n0.100143\n0.165211\n0.135424\n0.320132\n0.002697\n0.306683\n-0.366043\n0.273684\n→\n\n\nwas\n0.228962\n-0.237645\n-0.334393\n0.621722\n0.014987\n0.193712\n0.389216\n-0.200413\n-0.368847\n0.021749\n0.178661\n0.271978\n→\n\n\nhis\n-0.255955\n-0.587171\n-0.257692\n0.766715\n-0.266811\n0.074266\n0.100724\n0.117419\n-0.405978\n0.719568\n-0.003845\n0.628617\n→\n\n\nis\n-0.491186\n-0.487561\n-0.074739\n-0.115964\n0.181698\n-0.465943\n0.267144\n0.468609\n0.971713\n0.199609\n-0.013295\n0.234851\n→\n\n\nas\n-0.242131\n-0.138365\n-0.660047\n0.03217\n-0.077236\n-0.672038\n-0.807216\n0.308242\n0.058584\n0.009522\n0.121514\n0.359722\n→\n\n\nwith\n-0.114715\n-0.390149\n0.115776\n-0.170354\n0.055223\n-0.112999\n-0.208434\n0.254655\n0.562462\n0.362516\n-0.401538\n0.353187\n→\n\n\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-4",
+    "href": "lectures/llms-history.html#emergence-of-ml-4",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.5 Emergence of ML",
+    "text": "12.5 Emergence of ML\n\n12.5.1 Embeddings from a vector model.\n\n\nRows: 16 Columns: 14\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (14): token, X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, →\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\nDimensions.\n\n\ntoken\nX1\nX2\nX3\nX4\nX5\nX6\nX7\nX8\nX9\nX10\nX11\nX12\n→\n\n\n\n\nthe\n-0.168845\n-0.461962\n-0.19786\n0.274797\n-0.125103\n-0.706765\n-0.003869\n0.433402\n0.346452\n0.040093\n0.203006\n0.090101\n→\n\n\nof\n-0.156332\n-0.205717\n0.227799\n0.168333\n-0.124179\n-0.942517\n-0.006047\n0.354843\n0.581821\n0.178699\n0.115994\n0.260422\n→\n\n\nand\n-0.35421\n-0.577716\n-0.264329\n0.391706\n-0.121148\n-0.53797\n-0.02144\n0.292083\n0.166029\n0.122325\n0.112165\n0.363388\n→\n\n\nto\n-0.188663\n-0.475612\n-0.165088\n0.557264\n-0.175906\n-0.470315\n-0.143031\n0.54875\n0.024778\n0.027579\n0.337273\n0.035197\n→\n\n\na\n-0.746083\n-0.16305\n-0.068605\n0.621801\n0.339663\n-0.257003\n-0.076629\n0.699464\n0.013988\n-0.189733\n0.005224\n0.551253\n→\n\n\nin\n-0.234889\n-0.871305\n0.186019\n-0.099154\n-0.243639\n-0.591907\n-0.049697\n0.545955\n-0.03968\n0.095335\n0.02752\n0.127082\n→\n\n\ni\n-0.187752\n-0.189067\n0.54628\n0.98086\n-0.063788\n-0.047667\n-0.040399\n0.858812\n-0.089908\n-0.080435\n-0.035776\n-0.223912\n→\n\n\nthat\n-0.122229\n-1.068663\n0.203545\n-0.139743\n-0.047583\n0.257451\n0.241411\n0.277364\n0.427474\n0.194155\n-0.288758\n-0.192211\n→\n\n\nit\n-0.116662\n-0.151302\n-0.215672\n0.597628\n0.053331\n-0.452194\n0.164938\n0.62079\n0.213103\n-0.325304\n0.023041\n-0.108058\n→\n\n\nhe\n0.264217\n-1.258926\n0.16205\n0.105418\n0.100143\n0.165211\n0.135424\n0.320132\n0.002697\n0.306683\n-0.366043\n0.273684\n→\n\n\nwas\n0.228962\n-0.237645\n-0.334393\n0.621722\n0.014987\n0.193712\n0.389216\n-0.200413\n-0.368847\n0.021749\n0.178661\n0.271978\n→\n\n\nhis\n-0.255955\n-0.587171\n-0.257692\n0.766715\n-0.266811\n0.074266\n0.100724\n0.117419\n-0.405978\n0.719568\n-0.003845\n0.628617\n→\n\n\nis\n-0.491186\n-0.487561\n-0.074739\n-0.115964\n0.181698\n-0.465943\n0.267144\n0.468609\n0.971713\n0.199609\n-0.013295\n0.234851\n→\n\n\nas\n-0.242131\n-0.138365\n-0.660047\n0.03217\n-0.077236\n-0.672038\n-0.807216\n0.308242\n0.058584\n0.009522\n0.121514\n0.359722\n→\n\n\nwith\n-0.114715\n-0.390149\n0.115776\n-0.170354\n0.055223\n-0.112999\n-0.208434\n0.254655\n0.562462\n0.362516\n-0.401538\n0.353187\n→\n\n\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓\n↓",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-5",
+    "href": "lectures/llms-history.html#emergence-of-ml-5",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.6 Emergence of ML",
+    "text": "12.6 Emergence of ML\n\n12.6.1 Embeddings from a vector model.\n\nWhen treated as coordinates in space, embeddings locate words that tend to appear together or in similar contexts near each other.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-6",
+    "href": "lectures/llms-history.html#emergence-of-ml-6",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.7 Emergence of ML",
+    "text": "12.7 Emergence of ML\n\n12.7.1 Embeddings from a vector model.\n\nThe proximity of words can be assessed using measures like cosine similarity.\n\n\\[\ncosine~similarity = S_{c}(A, B) := cos(\\theta) = \\frac{A \\cdot B}{||A||~||B||}\n\\]",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-7",
+    "href": "lectures/llms-history.html#emergence-of-ml-7",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.8 Emergence of ML",
+    "text": "12.8 Emergence of ML\n\nAn example of a vector model rendered in 3 dimensions from https://projector.tensorflow.org/.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-8",
+    "href": "lectures/llms-history.html#emergence-of-ml-8",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.9 Emergence of ML",
+    "text": "12.9 Emergence of ML\n\n12.9.1 Embeddings from a vector model.\n\n\n\n\nTokens closest to fast\n\n\ntoken\nsimilarity\n\n\n\n\nslow\n0.448\n\n\nquick\n0.519\n\n\nfaster\n0.568\n\n\nslower\n0.593\n\n\nspeed\n0.602\n\n\nbusy\n0.646\n\n\nsimple\n0.663\n\n\nfood\n0.676\n\n\nspeeds\n0.688\n\n\nfastest\n0.688\n\n\npace\n0.697\n\n\nefficient\n0.703\n\n\neasy\n0.707\n\n\nsmall\n0.710\n\n\ntoo\n0.712\n\n\nstraight\n0.717\n\n\nrapid\n0.717\n\n\nlow\n0.718\n\n\nquickly\n0.718\n\n\npacket\n0.718",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-9",
+    "href": "lectures/llms-history.html#emergence-of-ml-9",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.10 Emergence of ML",
+    "text": "12.10 Emergence of ML\n\n\nAfter the introduction of vector representations and, a short time later, the transformer architecture (Vaswani et al. 2017), language models have rapidly evolved. They can be grouped into roughly 3 generations.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-10",
+    "href": "lectures/llms-history.html#emergence-of-ml-10",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.11 Emergence of ML",
+    "text": "12.11 Emergence of ML\n\n12.11.1 Advances in LLMs…\n\nAllowing for out-of-vocabulary words (using sub-words or word-pieces for tokenizing).\nAdding a sequence layer.\nSliding a context window both left-to-right and right-to-left.\nImplementing self-attention architecture.\nTraining on more and more data.\nExpanding the context window (from 512 word-pieces for BERT to 128,000 word-pieces for GPT-4 Turbo 128K).\nIntroducing reinforcement learning from human feedback (RLHF) with Instruct GPT.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-11",
+    "href": "lectures/llms-history.html#emergence-of-ml-11",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.12 Emergence of ML",
+    "text": "12.12 Emergence of ML\n\n12.12.1 An example of contextual embeddings using BERT\n\n\nsentences = [\"bank\",\n    \"He eventually sold the shares back to the bank at a premium.\",\n    \"The bank strongly resisted cutting interest rates.\",\n    \"The bank will supply and buy back foreign currency.\",\n    \"The bank is pressing us for repayment of the loan.\",\n    \"The bank left its lending rates unchanged.\",\n    \"The river flowed over the bank.\",\n    \"Tall, luxuriant plants grew along the river bank.\",\n    \"His soldiers were arrayed along the river bank.\",\n    \"Wild flowers adorned the river bank.\",\n    \"Two fox cubs romped playfully on the river bank.\",\n    \"The jewels were kept in a bank vault.\",\n    \"You can stow your jewelry away in the bank.\",\n    \"Most of the money was in storage in bank vaults.\",\n    \"The diamonds are shut away in a bank vault somewhere.\",\n    \"Thieves broke into the bank vault.\",\n    \"Can I bank on your support?\",\n    \"You can bank on him to hand you a reasonable bill for your services.\",\n    \"Don't bank on your friends to help you out of trouble.\",\n    \"You can bank on me when you need money.\",\n    \"I bank on your help.\"]",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-12",
+    "href": "lectures/llms-history.html#emergence-of-ml-12",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.13 Emergence of ML",
+    "text": "12.13 Emergence of ML\n\n12.13.1 An example of contextual embeddings using BERT\n\n\nfrom collections import OrderedDict\n\ncontext_embeddings = []\ncontext_tokens = []\nfor sentence in sentences:\n    tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(sentence, tokenizer)\n    list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model)\n  # make ordered dictionary to keep track of the position of each word\n    tokens = OrderedDict()\n  # loop over tokens in sensitive sentence\n    for token in tokenized_text[1:-1]:\n        # keep track of position of word and whether it occurs multiple times\n        if token in tokens:\n            tokens[token] += 1\n        else:\n        tokens[token] = 1\n    # compute the position of the current token\n        token_indices = [i for i, t in enumerate(tokenized_text) if t == token]\n        current_index = token_indices[tokens[token]-1]\n    # get the corresponding embedding\n        token_vec = list_token_embeddings[current_index]\n    # save values\n        context_tokens.append(token)\n        context_embeddings.append(token_vec)\n\n\n\n\nA Colab with the full code is here",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-13",
+    "href": "lectures/llms-history.html#emergence-of-ml-13",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.14 Emergence of ML",
+    "text": "12.14 Emergence of ML",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-14",
+    "href": "lectures/llms-history.html#emergence-of-ml-14",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.15 Emergence of ML",
+    "text": "12.15 Emergence of ML",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-15",
+    "href": "lectures/llms-history.html#emergence-of-ml-15",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.16 Emergence of ML",
+    "text": "12.16 Emergence of ML",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-16",
+    "href": "lectures/llms-history.html#emergence-of-ml-16",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.17 Emergence of ML",
+    "text": "12.17 Emergence of ML",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-17",
+    "href": "lectures/llms-history.html#emergence-of-ml-17",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.18 Emergence of ML",
+    "text": "12.18 Emergence of ML\n\n12.18.1 LLMs have a broad range of applications…\n\nGeneration tasks\n\nChat bots\nContent creation\nSummarization\nTranslation\n\nClassification tasks\n\nText classification\nSegment classification",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#emergence-of-ml-18",
+    "href": "lectures/llms-history.html#emergence-of-ml-18",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "12.19 Emergence of ML",
+    "text": "12.19 Emergence of ML\n\n12.19.1 Just as they raise questions regarding…\n\nThe production of content hallucinations (Ji et al. 2023; Zhang et al. 2023)\nExpressions of bias (Santurkar et al. 2023)\nA tendency to repeat back a user’s stated views (“sycophancy”) (Perez et al. 2022)",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#implications",
+    "href": "lectures/llms-history.html#implications",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "13.1 Implications",
+    "text": "13.1 Implications\n\nAdditionally, machine-authored prose and human-authored prose don’t always look the same. (Herbold et al. 2023; Markey et al. 2024)\n\n\n\n\nProjection of student, published, and ChatGPT-generated writing onto the first two linear discriminants, based on the 67 Biber features.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#implications-1",
+    "href": "lectures/llms-history.html#implications-1",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "13.2 Implications",
+    "text": "13.2 Implications\n\n13.2.1 Human-generated vs. machine-generated text\n\n\nRows: 17 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (2): variable, direction\ndbl (5): ChatGPT, Published, Student, r.squared, p.value\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nWarning: Since gt v0.9.0, the `colors` argument has been deprecated.\n• Please use the `fn` argument instead.\nThis warning is displayed once every 8 hours.\n\n\n\n  \n  \n\nTop text features discriminating between human- and machine-generated writing. Color-coded cells show the average z score of each feature. R2 and p-value correspond to one-way ANOVAs predicting each feature with text type.\n\n\n\n\n\n\n\n\n\n\n\nChatGPTn:100\nPublishedn:100\nStudentn:100\nR2\np-value\n\n\n\n\nFeatures indicating human-generated writing\n\n\nadverbs\n−0.97\n0.23\n0.74\n0.52\n0.00\n\n\nconjuncts\n−0.75\n0.62\n0.13\n0.32\n0.00\n\n\nmodal possibility\n−0.71\n0.04\n0.66\n0.32\n0.00\n\n\npronoun it\n−0.56\n0.04\n0.53\n0.20\n0.00\n\n\nverb private\n−0.56\n0.04\n0.51\n0.19\n0.00\n\n\nsplit auxiliary\n−0.56\n0.37\n0.19\n0.16\n0.00\n\n\nthat verb comp\n−0.48\n0.48\n0.00\n0.15\n0.00\n\n\nprepositions\n−0.46\n0.34\n0.12\n0.11\n0.00\n\n\nverb suasive\n−0.45\n0.12\n0.34\n0.11\n0.00\n\n\nverb public\n−0.47\n0.23\n0.24\n0.11\n0.00",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#implications-2",
+    "href": "lectures/llms-history.html#implications-2",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "13.3 Implications",
+    "text": "13.3 Implications\n\n13.3.1 Human-generated vs. machine-generated text\n\n\nRows: 17 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (2): variable, direction\ndbl (5): ChatGPT, Published, Student, r.squared, p.value\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n  \n  \n\nTop text features discriminating between human- and machine-generated writing. Color-coded cells show the average z score of each feature. R2 and p-value correspond to one-way ANOVAs predicting each feature with text type.\n\n\n\n\n\n\n\n\n\n\n\nChatGPTn:100\nPublishedn:100\nStudentn:100\nR2\np-value\n\n\n\n\nFeatures indicating machine-generated writing\n\n\nmean word length\n1.14\n−0.13\n−1.01\n0.78\n0.00\n\n\nmodal predictive\n1.22\n−0.72\n−0.51\n0.76\n0.00\n\n\ngerunds\n1.11\n−0.56\n−0.55\n0.62\n0.00\n\n\nother adv sub\n0.94\n−0.70\n−0.24\n0.47\n0.00\n\n\ndemonstratives\n0.88\n−0.70\n−0.19\n0.43\n0.00\n\n\nnominalizations\n0.71\n0.00\n−0.71\n0.34\n0.00\n\n\nphrasal coordination\n0.65\n−0.20\n−0.45\n0.22\n0.00",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#implications-3",
+    "href": "lectures/llms-history.html#implications-3",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "13.4 Implications",
+    "text": "13.4 Implications\n\nWe also created an experiment at scale, with 10,000 samples, across 9 text-types, and querying 4 different models (ChatGPT 3.5, ChatGPT 4.0, Llama 3 8B-Base, and Llama 3 8B-Instruct).\n\n\n\n\n  \n  \n\nA confusion matrix for a classifier pridicting all 4 LLMs and human-generated text.\n\n\nGenerator\nHuman\nGPT-3.5\nGPT-4\n8B-Base\n8B-Instruct\n\n\n\n\nHuman\n94.0%\n1.7%\n1.0%\n1.9%\n1.3%\n\n\nGPT-3.5\n5.9%\n72.7%\n3.0%\n5.4%\n13.0%\n\n\nGPT-4\n1.3%\n2.6%\n93.1%\n1.8%\n1.2%\n\n\n8B-Base\n5.7%\n2.3%\n2.3%\n85.3%\n4.5%\n\n\n8B-Instruct\n3.5%\n11.5%\n1.8%\n6.3%\n76.9%",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#implications-4",
+    "href": "lectures/llms-history.html#implications-4",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "13.5 Implications",
+    "text": "13.5 Implications\n\nMany of the features are the same ones we saw in the smaller study.\n\n\n\n\n  \n  \n\nThe 10 features with the highest importance.\n\n\nFeatures in human- and LLM-written text\n\n\nRate per 1,000 tokens; LLM rates relative to Chunk 2\n\n\nFeature\nHuman\nGPT\nLlama 3\nImportance\n\n\nChunk 1\nChunk 2\nGPT-3.5\nGPT-4\n8B-Base\n8B-Instruct\n\n\n\n\npresent participle\n1.9\n1.8\n343%\n404%\n83%\n200%\n1,930.5\n\n\nadverbs\n61.8\n64.9\n70%\n95%\n105%\n76%\n1,271.3\n\n\nprepositions\n102.8\n100.1\n121%\n115%\n86%\n98%\n1,014.7\n\n\nphrasal coordination\n6.7\n6.5\n216%\n191%\n82%\n195%\n1,010.7\n\n\ndowntoners\n2.0\n2.1\n71%\n154%\n70%\n53%\n947.8\n\n\nthat subj\n2.7\n2.5\n218%\n217%\n78%\n186%\n929.3\n\n\ninfinitives\n15.8\n16.9\n105%\n78%\n122%\n142%\n814.5\n\n\nadj attr\n48.3\n45.8\n126%\n160%\n79%\n100%\n800.3\n\n\nnominalizations\n16.1\n16.1\n192%\n207%\n90%\n147%\n770.1\n\n\nmean word length\n4.6\n4.6\n107%\n114%\n99%\n101%\n716.0",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#implications-5",
+    "href": "lectures/llms-history.html#implications-5",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "13.6 Implications",
+    "text": "13.6 Implications\n\n13.6.1 Human-generated vs. machine-generated text\n\nExcerpts from texts produced by ChatGPT\n\n\n\nThe LLM has a propensity to condense information into chunked noun phrases, constructed as either noun + noun or adjective + noun sequences. Such sequences are sometimes aggregated using the coordinator and. On the one hand, these phrases can project a kind of authoritative voice. On the other, their content can range from vague, to ambiguous, to vapid. (What exactly is “a comprehensive dataset encompassing […] healthcare utilization”?) At issue here is what pertinent information is compressed out of these phrases.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#implications-6",
+    "href": "lectures/llms-history.html#implications-6",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "13.7 Implications",
+    "text": "13.7 Implications\n\n\nChatGPT, for example, produces a more restricted set of modal verbs – one that is different from both expert and novice writers.\n\n\n\n\n  \n  Frequency of different modal verbs, often modulating the confidence\nof claims, in the different types of writing.\n  \n    \n      Modal verb\n\n      \n        Absolute Frequency\n      \n      \n        Relative Frequency (per 105 words)\n\n      \n    \n    \n      ChatGPT\n\n      Published\n\n      Student\n\n      ChatGPT\n\n      Published\n\n      Student\n\n    \n  \n  \n    \n      Prediction\n    \n    will\n199\n96\n39\n206.75\n15.25\n28.52\n    would\n0\n28\n10\n0.00\n4.45\n7.31\n    'll\n0\n0\n1\n0.00\n0.00\n0.73\n    \n      Possiblity\n    \n    can\n5\n199\n68\n5.19\n31.61\n49.72\n    may\n0\n91\n46\n0.00\n14.45\n33.64\n    could\n0\n43\n15\n0.00\n6.83\n10.97\n    might\n0\n19\n6\n0.00\n3.02\n4.39\n    \n      Necessity\n    \n    should\n0\n20\n10\n0.00\n3.18\n7.31\n    must\n0\n16\n0\n0.00\n2.54\n0.00",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#implications-7",
+    "href": "lectures/llms-history.html#implications-7",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "13.8 Implications",
+    "text": "13.8 Implications\n\n13.8.1 Key takeaways\n\nChatGPT produces sentences that are more informationally dense than that of student writing, but the information density is created using repetitive grammatical patterns.\nHuman-generated writing demonstrates more modulation of stress or confidence.\nBroadly, LLMs are not as grammatically nimble as human writers.\nLLM-generated text generally does not produce academic prose that engages with core, disciplinary concepts either in the way that experts do or in the way that novice students do. (Though LLMs can arrive at something more like expert writing with iterative prompting.)\nIt is a open question as to the effects of LLMs on the development of students’ disciplinary expertise.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/llms-history.html#works-cited",
+    "href": "lectures/llms-history.html#works-cited",
+    "title": "7  How Did We Get to LLMs?",
+    "section": "13.9 Works Cited",
+    "text": "13.9 Works Cited\n\n\n\n\nBahl, Lalit R, Frederick Jelinek, and Robert L Mercer. 1983. “A Maximum Likelihood Approach to Continuous Speech Recognition.” Journal Article. IEEE Transactions on Pattern Analysis and Machine Intelligence, no. 2: 179–90.\n\n\nBrown, Peter F, John Cocke, Stephen A Della Pietra, Vincent J Della Pietra, Frederick Jelinek, John Lafferty, Robert L Mercer, and Paul S Roossin. 1990. “A Statistical Approach to Machine Translation.” Journal Article. Computational Linguistics 16 (2): 79–85.\n\n\nEspinoza, Javier. 2015. “Erasers Are an ‘Instrument of the Devil’ Which Should Be Banned, Says Academic.” Newspaper Article. https://www.telegraph.co.uk/education/educationnews/11630639/Ban-erasers-from-the-classroom-says-academic.html.\n\n\nFirth, John Rupert. 1957. Papers in Linguistics, 1934-1951. Book. Oxford: Oxford University Press. https://books.google.com/books?id=ilzingEACAAJ.\n\n\nGabrial, Brian. 2007. “History of Writing Technologies.” Book Section. In Handbook of Research on Writing, edited by Charles Bazerman, 23–33. New York: Routledge. https://doi.org/10.4324/9781410616470.ch2.\n\n\nHalevy, Alon, Peter Norvig, and Fernando Pereira. 2009. “The Unreasonable Effectiveness of Data.” Journal Article. IEEE Intelligent Systems 24 (2): 8–12. https://doi.org/10.1109/MIS.2009.36.\n\n\nHerbold, Steffen, Annette Hautli-Janisz, Ute Heuer, Zlata Kikteva, and Alexander Trautsch. 2023. “A Large-Scale Comparison of Human-Written Versus ChatGPT-Generated Essays.” Scientific Reports 13 (1): 18617.\n\n\nJelinek, Frederick. 1985. “A Real-Time, Isolated-Word, Speech Recognition System for Dictation Transcription.” Conference Proceedings. In ICASSP ’85. IEEE International Conference on Acoustics, Speech, and Signal Processing, 10:858–61. https://doi.org/10.1109/ICASSP.1985.1168313.\n\n\nJi, Ziwei, Nayeon Lee, Rita Frieske, Tiezheng Yu, Dan Su, Yan Xu, Etsuko Ishii, Ye Jin Bang, Andrea Madotto, and Pascale Fung. 2023. “Survey of Hallucination in Natural Language Generation.” Journal Article. ACM Computing Surveys 55 (12): 1–38.\n\n\nKučera, Henry, and W. Nelson Francis. 1967. Computational Analysis of Present-Day American English. Book. Providence: Brown University Press.\n\n\nMarkey, Ben, David West Brown, Michael Laudenbach, and Alan Kohler. 2024. “Dense and Disconnected: Analyzing the Sedimented Style of ChatGPT-Generated Text at Scale.” Written Communication, 07410883241263528.\n\n\nMays, Eric, Fred J Damerau, and Robert L Mercer. 1991. “Context Based Spelling Correction.” Journal Article. Information Processing & Management 27 (5): 517–22.\n\n\nMikolov, Tomas, Kai Chen, Greg Corrado, and Jeffrey Dean. 2013. “Efficient Estimation of Word Representations in Vector Space.” Journal Article. arXiv Preprint arXiv:1301.3781.\n\n\nOh, Kyoung-Su, and Keechul Jung. 2004. “GPU Implementation of Neural Networks.” Journal Article. Pattern Recognition 37 (6): 1311–14. https://doi.org/https://doi.org/10.1016/j.patcog.2004.01.013.\n\n\nPerez, Ethan, Sam Ringer, Kamilė Lukošiūtė, Karina Nguyen, Edwin Chen, Scott Heiner, Craig Pettit, Catherine Olsson, Sandipan Kundu, and Saurav Kadavath. 2022. “Discovering Language Model Behaviors with Model-Written Evaluations.” Journal Article. arXiv Preprint arXiv:2212.09251.\n\n\nS. Y. G. 1908. “Do Your Pupils Use Erasers?” Journal Article. Western Teacher: Devoted to Schoolroom Methods. Practical Aids and Usable Materials for Progressive Teachers 16 (5): 175–76. https://books.google.com/books?id=CKOfn_EPJNgC.\n\n\nSanturkar, Shibani, Esin Durmus, Faisal Ladhak, Cinoo Lee, Percy Liang, and Tatsunori Hashimoto. 2023. “Whose Opinions Do Language Models Reflect?” Journal Article. arXiv Preprint arXiv:2303.17548.\n\n\nVaswani, Ashish, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. 2017. “Attention Is All You Need.” Journal Article. Advances in Neural Information Processing Systems 30: 6000–6010.\n\n\nWeaver, Warren. 1949. “Translation.” Unpublished Work. New York: The Rockefeller Foundation.\n\n\nZhang, Muru, Ofir Press, William Merrill, Alisa Liu, and Noah A Smith. 2023. “How Language Model Hallucinations Can Snowball.” Journal Article. arXiv Preprint arXiv:2305.13534.",
+    "crumbs": [
+      "Support",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>How Did We Get to LLMs?</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/embed_llms-history.html",
+    "href": "lectures/embed_llms-history.html",
+    "title": "8  LLMs History",
+    "section": "",
+    "text": "View slides in full screen\n       \n      \n    \n  \n\n8.0.0.1 There is a lot of information here. Some of this we’ll just touch, but make sure you read the key takeways at the end of the presentation.",
+    "crumbs": [
+      "Lectures",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>LLMs History</span>"
+    ]
+  },
+  {
+    "objectID": "lectures/embed_linguistic-facts.html",
+    "href": "lectures/embed_linguistic-facts.html",
+    "title": "7  Linguistic Facts of Life",
+    "section": "",
+    "text": "View slides in full screen",
+    "crumbs": [
+      "Lectures",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Linguistic Facts of Life</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_01.html",
+    "href": "lab_sets/LabSet_01.html",
+    "title": "9  Lab Set 1",
+    "section": "",
+    "text": "9.1 Questions related to the lecture on LLMs",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Lab Set 1</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_01.html#questions-related-to-the-lecture-on-llms",
+    "href": "lab_sets/LabSet_01.html#questions-related-to-the-lecture-on-llms",
+    "title": "9  Lab Set 1",
+    "section": "",
+    "text": "9.1.1 Task 1\nConsider the results of the preliminary study described in slides 65-70:\nIf you were working on this project, what would you suggest the team do next? In other words, what limitations do you see in the results of this initial study? What might be done to increase its reliability? Or its generalizability? And what potential challenges do you foresee in applying your suggestions?\nDiscuss with a couple of your neighbors and write your response in a short paragraph.\n\nYour response:\n\n\n\n9.1.2 Task 2\nAnswer the the following question:\nWhat interests you about the quantitative analysis of text?\n\nYour response:",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Lab Set 1</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_01.html#lab-01",
+    "href": "lab_sets/LabSet_01.html#lab-01",
+    "title": "9  Lab Set 1",
+    "section": "9.2 Lab 01",
+    "text": "9.2 Lab 01\n\n9.2.1 What counts as a token?\nThese choices are important. To carry our any statistical analysis on texts, we radically reorganize texts into counts. Precisely how we choose to do that–the decisions we make in exactly what to count–affects everything else downstream.\nSo let’s consider a chunk of text that is a little more complicated than the example from A Tale of Two Cities.\n\n\n9.2.2 Task 1\nConsider the following text:\n\nIn spite of some problems, we saw a 35% uptick in our user-base in the U.S. But that’s still a lot fewer than we had last year. We’d like to get that number closer to what we’ve experienced in the U.K.–something close to 3 million users.\n\nYou are a member of team tasked with tokenizing 20,000 texts that are similar to this one. A member of the suggests using a regular expression that splits on word boundaries: \\\\b using the str_split() function, try splitting the example string above.\nBased on the result, do you think the suggested strategy is a good one? Why or why not?\n\nYour response\n\n\n\n9.2.3 Task 2\nBriefly describe the tokens that you want to output\n\nYour response:\n\nWhat are some kinds of tokens that you think are particularly challenging to deal with (e.g., hyphenated words, contractions, abbreviations, etc.)?\n\nYour response:",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Lab Set 1</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_01.html#lab-03",
+    "href": "lab_sets/LabSet_01.html#lab-03",
+    "title": "9  Lab Set 1",
+    "section": "9.3 Lab 03",
+    "text": "9.3 Lab 03\n\n9.3.1 Task 1\nUse the following text:\n\n“The more I dove in, though, the less I cared. I watched BTS perform their 2018 anthem”Idol” on The Tonight Show and wondered how their lungs didn’t explode from exertion. I watched the sumptuous short film for their 2016 hit “Blood, Sweat, and Tears” and couldn’t tell whether I was more impressed by the choreography or the high-concept storytelling. And I was entranced by the video for “Spring Day,” with its dreamlike cinematography and references to Ursula K. Le Guin and Bong Joon-ho’s film Snowpiercer. When I learned that the video is often interpreted as a tribute to the school-age victims of 2014’s Sewol ferry disaster, I replayed it and cried.”\n\nIn the code chunk below, construct a pipeline that:\n\ntokenizes the text\ncreates a corpus object\ncreates a dfm\ngenerates a frequency count of tokens\nuses the mutate() function to add a RF column (for “relative frequency”) to the data frame.\n\nHint: Relative frequency (or normalized frequency) just takes the frequency, divides it by total number of tokens/words, and multiplies by a normalizing factor (e.g., by 100 for percent of tokens).\nAnd report the results in a gt table:\n\n\n9.3.2 Task 2\nData from Lab 02:\n\nlibrary(tidyverse)\nlibrary(quanteda)\n\n\nsource(\"../R/helper_functions.R\")\n\n\ntotc_txt &lt;- \"It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.\"\n\ntext_2 &lt;- \"Jane Austen was not credited as the author of 'Pride and Prejudice.' In 1813, the title page simply read \\\"by the author of Sense and Sensibility.\\\" It wasn't until after Austen's death that her identity was revealed. #MentalFlossBookClub with @HowLifeUnfolds #15Pages https://pbs.twimg.com/media/EBOUqbfWwAABEoj.jpg\"\n\ncomb_corpus &lt;-   data.frame(doc_id = c(\"text_1\", \"text_2\"), text = c(totc_txt, text_2)) %&gt;%\n  mutate(text = preprocess_text(text)) %&gt;%\n  corpus()\n\ndocvars(comb_corpus) &lt;- data.frame(text_type = c(\"Fiction\", \"Twitter\"))\n\ncomb_tkns &lt;- comb_corpus %&gt;%\n  tokens(what = \"fastestword\")\n\n\n# structure 1:\ncomb_dfm &lt;- dfm(comb_tkns) %&gt;% dfm_group(groups = text_type)\ncomb_freq &lt;- dfm(comb_tkns) %&gt;% quanteda.textstats::textstat_frequency(groups = text_type)\n\n# structure 2:\ncomb_ntoken &lt;- data.frame(\"Tokens\" = ntoken(comb_tkns), docvars(comb_tkns))\n\nUse one of these 2 data structures (comb_freq or comb_ntoken) to make a corpus composition table. It should have 2 columns (one for “Text Type” and the other for “Tokens”) and 3 rows (“Fiction”, “Twitter” and “Total”). And report the results in a gt table.\n\n\n\n\n\n\nAggregating across columns\n\n\n\nUse the gt function grand_summary_rows() to create a count of totals or other measures.\n\n\n# your code for a gt table goes here",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Lab Set 1</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_02.html",
+    "href": "lab_sets/LabSet_02.html",
+    "title": "10  Lab Set 2",
+    "section": "",
+    "text": "10.1 Lab 04",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Lab Set 2</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_02.html#task-4",
+    "href": "lab_sets/LabSet_02.html#task-4",
+    "title": "10  Lab Set 2",
+    "section": "10.2 Task 4",
+    "text": "10.2 Task 4\nDescribe at least one statistical and one methodological implication of what the plot is illustrating.\n\nYour response",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Lab Set 2</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_02.html#lab-05",
+    "href": "lab_sets/LabSet_02.html#lab-05",
+    "title": "10  Lab Set 2",
+    "section": "10.3 Lab 05",
+    "text": "10.3 Lab 05\n\n10.3.1 Task 1\n\nlibrary(tidyverse)\nlibrary(quanteda)\nlibrary(quanteda.textstats)\n\n\nsource(\"../R/helper_functions.R\")\nsource(\"../R/utility_functions.R\")\nsource(\"../R/collocation_functions.R\")\n\n\nsc_tokens &lt;- sample_corpus %&gt;%\n  mutate(text = preprocess_text(text)) %&gt;%\n  corpus() %&gt;%\n  tokens(what=\"fastestword\", remove_numbers=TRUE)\n\n\nmoney_collocations &lt;- collocates_by_MI(sc_tokens, \"money\")\ntime_collocations &lt;- collocates_by_MI(sc_tokens, \"time\")\n\nReport the collocations of time and money in 2 or 3 sentences following the conventions described in Brezina (pg. 75).\n\nYour response\n\n\n\n10.3.2 Task 2\n\ntc &lt;- time_collocations %&gt;% filter(col_freq &gt;= 5 & MI_1 &gt;= 5)\nmc &lt;- money_collocations %&gt;% filter(col_freq &gt;= 5 & MI_1 &gt;= 5)\nnet &lt;- col_network(tc, mc)\n\n\nlibrary(ggraph)\n\n\nggraph(net, weight = link_weight, layout = \"stress\") + \n  geom_edge_link(color = \"gray80\", alpha = .75) + \n  geom_node_point(aes(alpha = node_weight, size = 3, color = n_intersects)) +\n  geom_node_text(aes(label = label), repel = T, size = 3) +\n  scale_alpha(range = c(0.2, 0.9)) +\n  theme_graph() +\n  theme(legend.position=\"none\")\n\n\n\n\n\n\n\n\nWrite a 2-4 sentence interpretation of the time vs. money collocational network.\n\nYour response\n\n\n\n10.3.3 Task 3\n\nset.seed(1234)\n\n# set file path\nfiles_list &lt;- list.files(\"../data/screenplay_corpus\", full.names = T, pattern = \"*.txt\")\n\nsp &lt;- sample(files_list, 50) %&gt;%\n  readtext::readtext() %&gt;%\n  from_play(extract = \"dialogue\") %&gt;%\n  mutate(text = preprocess_text(text)) %&gt;%\n  corpus() %&gt;%\n  tokens(what=\"fastestword\", remove_numbers=TRUE)\n\n\nb &lt;- collocates_by_MI(sp, \"boy\", left = 3, right = 0)\nb &lt;- b %&gt;% filter(col_freq &gt;= 3 & MI_1 &gt;= 3)\n\ng  &lt;- collocates_by_MI(sp, \"girl\", left = 3, right = 0)\ng &lt;- g %&gt;% filter(col_freq &gt;= 3 & MI_1 &gt;= 3)\n\n\n\n10.3.4 Plot the network\n\nnet &lt;- col_network(b, g)\n\nggraph(net, weight = link_weight, layout = \"stress\") + \n  geom_edge_link(color = \"gray80\", alpha = .75) + \n  geom_node_point(aes(alpha = node_weight, size = 3, color = n_intersects)) +\n  geom_node_text(aes(label = label), repel = T, size = 3) +\n  scale_alpha(range = c(0.2, 0.9)) +\n  theme_graph() +\n  theme(legend.position=\"none\")\n\n\n\n\n\n\n\n\nWrite a 3-5 sentence interpretation of the boy vs. girl collocational network, which includes reporting relevant association measures following the example in Brezina (pg. 75).\n\nYour response",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Lab Set 2</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_02.html#task-1-2",
+    "href": "lab_sets/LabSet_02.html#task-1-2",
+    "title": "10  Lab Set 2",
+    "section": "11.1 Task 1",
+    "text": "11.1 Task 1\n\n11.1.1 Create a keyness table\n\nsource(\"../R/keyness_functions.R\")\nsource(\"../R/helper_functions.R\")\nload(\"../data/sample_corpus.rda\")\n\n\nIn the code block below, create a document-feature matrix of the blog text-type.\nIn the same code-block create a keyness table with the blog text-type as the target corpus and the news text-type as the reference.\n\n\n# your code goes here\n\n\nUse the code block below to output the head of the keyness table with an accompanying caption.\n\n\n# your table goes here\n\n\n\n11.1.2 Answer the following questions\n\nWhat are the 2 tokens with the highest keyness values?\n\n\nYour response\n\n\nPosit an explanation for their greater frequency in blog corpus, being as descriptive as possible. Think about the communicative purposes of these text-types, as opposed to value judgments about the writers or the genres.\n\n\nYour response\n\n\nWhat are the 2 tokens with the greatest effect sizes?\n\n\nYour response\n\n\nPosit a reason for that result.\n\n\nYour response",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Lab Set 2</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_03.html",
+    "href": "lab_sets/LabSet_03.html",
+    "title": "11  Lab Set 3",
+    "section": "",
+    "text": "11.1 Lab 07",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Lab Set 3</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_03.html#lab-07",
+    "href": "lab_sets/LabSet_03.html#lab-07",
+    "title": "11  Lab Set 3",
+    "section": "",
+    "text": "11.1.1 Task 1\nFrom the keyness table (acad_v_fic, line 271), identify the preposition with the highest keyness value. Report the relevant statistics (including frequencies and dispersions) following the conventions described in Brezina.\n\nYour response\n\nCreate a KWIC table (with the preposition as the node word and a context window of 3) of 10 rows.\n\n# Your table...\n\nPosit an explanation for the higher frequency of the preposition in the target corpus (academic writing) vs. the reference corpus (fiction).\n\nYour response\n\n\n\n11.1.2 Task 2\nCalculate the mean length of the noun phrases in the 2 two text-types (acad_nps and fic_nps). Report the results and posit an explanation for the findings that connects to the previous findings related to prepositions.\n\nYour response",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Lab Set 3</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_03.html#lab-08",
+    "href": "lab_sets/LabSet_03.html#lab-08",
+    "title": "11  Lab Set 3",
+    "section": "11.2 Lab 08",
+    "text": "11.2 Lab 08\n\n11.2.1 Task 1\nFollowing the example in Brezina (pg. 129), report and briefly interpret the output of the regression model (wt_regs, line 245).\n\nYour response",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Lab Set 3</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_03.html#task-2-1",
+    "href": "lab_sets/LabSet_03.html#task-2-1",
+    "title": "11  Lab Set 3",
+    "section": "11.3 Task 2",
+    "text": "11.3 Task 2\nWrite a brief interpretation of the probability curves illustrated in Figure 5.\n\nYour response",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Lab Set 3</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_03.html#lab-9",
+    "href": "lab_sets/LabSet_03.html#lab-9",
+    "title": "11  Lab Set 3",
+    "section": "11.4 Lab 9",
+    "text": "11.4 Lab 9\n\n11.4.1 Task 1\nBrezina similarly plots the Brown corpus registers on pg. 169. His process is a little different. Rather than extracting factor loadings from the Brown corpus, he uses the loadings from the original Biber data (some of which are listed on pg. 168).\nOur loadings for dimension 1 are similar to Biber’s, though with some differences. Likewise, the resulting plot is similar to the one on pg. 169. Why is this the case, do you think? (If you want to check Biber’s description of his corpus, it’s on pg. 66 of his book.)\n\nYour response\n\n\n\n11.4.2 Task 2\nUsing information from the factor loadings, the positions of the disciplines along the dimension, and KWIC tables, name dimension 1 following the X vs. Y convention. In a couple of sentences, explain your reasoning.\n\nYour response",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Lab Set 3</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_04.html",
+    "href": "lab_sets/LabSet_04.html",
+    "title": "12  Lab Set 4",
+    "section": "",
+    "text": "12.0.1 Task 1\nWhich linkage method gives the strongest clustering structure?",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Lab Set 4</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_04.html#lab-11",
+    "href": "lab_sets/LabSet_04.html#lab-11",
+    "title": "12  Lab Set 4",
+    "section": "12.1 Lab 11",
+    "text": "12.1 Lab 11\n\n12.1.1 Task 1\nWhy might it be important to periodize data from “the ground up” (using a technique like VNC), rather than just splitting data into intervals of, say, 10, 25, or 50 years?\n\nYour response\n\nFollowing the conventions described in Brezina (pgs. 240-241) report the results produced by the “witch hunt” VNC.\n\nYour response",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Lab Set 4</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_04.html#lab-12",
+    "href": "lab_sets/LabSet_04.html#lab-12",
+    "title": "12  Lab Set 4",
+    "section": "12.2 Lab 12",
+    "text": "12.2 Lab 12\n\n12.2.1 Task 1\nOur model predicts all but 55 were written by Madison. Our model is not particularly confident about that result. This hews pretty closely to Mosteller & Wallace’s findings, through they come down (sort of) on the side of Madison for 55. However, they also acknowledge that the evidence is weak and not very convincing.\nGive at least 3 possible factors that might explain that low probability?",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Lab Set 4</span>"
+    ]
+  },
+  {
+    "objectID": "lab_sets/LabSet_02.html#lab-04",
+    "href": "lab_sets/LabSet_02.html#lab-04",
+    "title": "10  Lab Set 2",
+    "section": "",
+    "text": "10.1.1 Task 1\n\nlibrary(tidyverse)\nlibrary(quanteda)\nlibrary(quanteda.textstats)\n\n\nload(\"../data/sample_corpus.rda\")\nsource(\"../R/dispersion_functions.R\")\n\n\nsc_tokens &lt;- sample_corpus %&gt;%\n  corpus() %&gt;%\n  tokens(remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, what = \"word\") %&gt;%\n  tokens_tolower()\n\nsc_dfm &lt;- sc_tokens %&gt;%\n  dfm()\n\nsc_freq &lt;- sc_dfm %&gt;%\n  textstat_frequency() %&gt;%\n  mutate(RF = (frequency/sum(frequency))*1000000)\n\nPlot a histogram (or histograms) for the the 1st, 10th, and 100th most frequent tokens in the sample corpus.\nWhat do you notice (or what conclusions can you draw) from the plots you’ve generated about the distributions of tokens as their frequency decreases?\n\nYour response\n\n\n\n10.1.2 Task 2\n\nthe &lt;- dispersions_token(sc_dfm, \"the\") %&gt;% unlist()\ndata &lt;- dispersions_token(sc_dfm, \"data\") %&gt;% unlist()\n\n\nthe['Deviation of proportions DP']\n\nDeviation of proportions DP \n                  0.1388907 \n\ndata['Deviation of proportions DP']\n\nDeviation of proportions DP \n                   0.845857 \n\n\nWhat do you note about the difference in the Deviation of Proportions for the vs. data?\n\nYour response\n\n\n\n10.1.3 Task 3\n\nsc_ft &lt;- frequency_table(sc_tokens)\n\nWhich token is the most frequent? The most dispersed?\n\nYour response\n\nWrite a sentence or two reporting the frequencies and dispersions of the and data fowling the examples on page 53 of Brezina:\n\nYour response\n\n\nggplot(sc_freq %&gt;% filter(rank &lt; 101), aes(x = rank, y = frequency)) +\n  geom_point(shape = 1, alpha = .5) +\n  theme_classic() +\n  ylab(\"Absolute frequency\") +\n  xlab(\"Rank\")\n\n\n\n\nfig.cap=“Token rank vs. frequency.”\n\n\n\n\nThe relationship you’re seeing between the rank of a token and it’s frequency holds true for almost any corpus and is referred to as Zipf’s Law (see Brezina pg. 44).",
+    "crumbs": [
+      "Labs Sets",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Lab Set 2</span>"
+    ]
+  }
+]
