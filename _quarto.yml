@@ -1,0 +1,39 @@
+project:
+  type: book
+  output-dir: docs
+  
+book:
+  title: Text Analysis for Statistics & Data Science
+  author: David Brown
+  navbar:
+    search: true
+    logo: _images/text_analysis.png
+  repo-url: https://github.com/browndw/textstat_tools
+  repo-branch: master
+  repo-actions: [issue]
+  chapters:
+    - index.qmd
+    - part: Labs
+      chapters:
+        - labs/classification-federalist-papers.qmd
+        - labs/corpus-basics.qmd
+        - labs/processing-pipelines.qmd
+        - labs/distributions.qmd
+        - labs/collocations.qmd
+        - labs/feature-engineering.qmd     
+    - part: Lectures
+      chapters:
+         - lectures/embed_linguistic-facts.qmd
+         - lectures/embed_llms-history.qmd     
+    - part: Labs Sets
+      chapters:
+         - lab_sets/LabSet_01.qmd
+         - lab_sets/LabSet_02.qmd
+         - lab_sets/LabSet_03.qmd
+         - lab_sets/LabSet_04.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo

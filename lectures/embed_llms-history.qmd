@@ -1,0 +1,8 @@
+
+## LLMs History
+
+{{< revealjs file="slides/lec_llms-history.html" height="500px" class="ratio ratio-16x9" >}}
+
+#### There is a lot of information here. Some of this we'll just touch, but make sure you read the key takeways at the end of the presentation.
+
+* 

@@ -1,0 +1,1236 @@
+---
+title: A Short History of LLMs
+subtitle: Background and introduction to NLP
+format: 
+  clean-revealjs:
+    transition: fade
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: David Brown
+    orcid: 0000-0001-7745-6354
+    email: dwb2@andrew.cmu.edu
+    affiliations: Statistics & Data Science 36-468/668
+date: last-modified
+date-format: "[Fall] YYYY"
+title-slide-attributes: 
+  data-background-image: img/img_shared/text_analysis.png
+  data-background-size: 5%
+  data-background-position: 30% 50%
+bibliography: refs/refs_llms-history.bib
+---
+
+# Overview {background-color="#40666e"}
+
+## Overview
+
+### How did we get to large language models (LLMs)
+
+-   Our topics
+    -   Review some history of natural language processing (NLP) and digital writing technologies
+    -   Look at the architectures of models and how they've changed over time
+    -   Share the results of some research and discuss some of the potential implications
+
+## Overview
+
+### How did we get to large language models (LLMs)
+
+-   Our goals
+    -   Show how these technologies fundamentally work.
+    -   Introduce some foundational concepts in NLP.
+    -   Walk though some considerations of research design. 
+
+# History {background-color="#40666e"}
+
+## History {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### Writing is inseparable from technological change [@gabrial2007history]
+
+\
+\
+
+::: r-stack
+::: {data-id="time1" auto-animate-delay="0" style="background-image: url('img/img_llms-history/writing_timeline.svg');  background-repeat: no-repeat; background-size: cover; width: 900px; height: 200px; background-position: center;"}
+:::
+:::
+
+## History {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### Writing is inseparable from technological change
+
+::: r-vstack
+::: {data-id="box0" auto-animate-delay="0" style="background: white; width: 200px; height: 50px; margin: 4px; font-size: 20px; color: black; text-align: center; vertical-align: middle;"}
+New surfaces:
+:::
+
+::: {data-id="box1" auto-animate-delay="0" style="background: #d98b19; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle;"}
+papyrus
+:::
+
+::: {data-id="box2" auto-animate-delay="0" style="background: #b71848; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle"}
+parchment
+:::
+
+::: {data-id="box3" auto-animate-delay="0" style="background: #40666e; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle"}
+wood-pulp paper
+:::
+
+::: {data-id="time1" auto-animate-delay="0" style="background-image: url('img/img_llms-history/writing_timeline.svg');  background-repeat: no-repeat; background-size: cover; width: 1200px; height: 300px; margin: 10px;"}
+:::
+:::
+
+## History {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### Writing is inseparable from technological change
+
+::: r-stack
+::: {data-id="box1" auto-animate-delay="0" style="background: #d98b19; width: 260px; height: 20px; position: absolute; top: 70%; left: 22%; opacity: 0.5;"}
+:::
+
+::: {data-id="time1" auto-animate-delay="0" style="background-image: url('img/img_llms-history/writing_timeline.svg');  background-repeat: no-repeat; background-size: cover; width: 1200px; height: 400px; margin: 10px;"}
+:::
+:::
+
+## History {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### Writing is inseparable from technological change
+
+::: r-vstack
+::: {data-id="box0" auto-animate-delay="0" style="background: white; width: 200px; height: 50px; margin: 4px; font-size: 20px; color: black; text-align: center; vertical-align: middle;"}
+New implements:
+:::
+
+::: {data-id="box1" auto-animate-delay="0" style="background: #d98b19; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle;"}
+stylus
+:::
+
+::: {data-id="box2" auto-animate-delay="0" style="background: #b71848; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle"}
+metal-tipped pen
+:::
+
+::: {data-id="box3" auto-animate-delay="0" style="background: #40666e; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle"}
+mass-produced pencil
+:::
+
+::: {data-id="time1" auto-animate-delay="0" style="background-image: url('img/img_llms-history/writing_timeline.svg');  background-repeat: no-repeat; background-size: cover; width: 1200px; height: 300px; margin: 10px;"}
+:::
+:::
+
+## History {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### Writing is inseparable from technological change
+
+::: r-stack
+::: {data-id="box3" auto-animate-delay="0" style="background: #40666e; width: 225px; height: 45px; position: absolute; top: 35%; left: 48%; opacity: 0.5;"}
+:::
+
+::: {data-id="time1" auto-animate-delay="0" style="background-image: url('img/img_llms-history/writing_timeline.svg');  background-repeat: no-repeat; background-size: cover; width: 1200px; height: 400px; background-position: right;"}
+:::
+:::
+
+## History {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### Writing is inseparable from technological change
+
+::: r-vstack
+::: {data-id="box0" auto-animate-delay="0" style="background: white; width: 200px; height: 50px; margin: 4px; font-size: 20px; color: black; text-align: center; vertical-align: middle;"}
+New systems:
+:::
+
+::: {data-id="box1" auto-animate-delay="0" style="background: #d98b19; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle;"}
+libraries
+:::
+
+::: {data-id="box2" auto-animate-delay="0" style="background: #b71848; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle"}
+postal networks
+:::
+
+::: {data-id="box3" auto-animate-delay="0" style="background: #40666e; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle"}
+commercial publishers
+:::
+
+::: {data-id="time1" auto-animate-delay="0" style="background-image: url('img/img_llms-history/writing_timeline.svg');  background-repeat: no-repeat; background-size: cover; width: 1200px; height: 300px; margin: 10px; background-position: right;"}
+:::
+:::
+
+## History
+
+### Writing is inseparable from technological change
+
+-   Technological change is often met with skepticism, if not hostility and fear.
+
+::: columns
+::: {.column width="50%"}
+![](img/img_llms-history/syg_erasers.png)
+:::
+
+::: {.column width="50%"}
+::: {style="font-size: 75%; padding-top: 25px;"}
+> *Think of the moral and intellectual training that comes to a student who writes a manuscript with the knowledge that his \[sic\] [errors will stand out on the page as honestly confessed and openly advertised mistakes.]{.bg style="--col: #f5b2c6"}* [@syg1908erasers]
+:::
+:::
+:::
+
+## History
+
+### Writing is inseparable from technological change
+
+-   Technological change is often met with skepticism, if not hostility and fear.
+
+::: columns
+::: {.column width="50%"}
+![](img/img_llms-history/claxton_erasers.png)
+:::
+
+::: {.column width="50%"}
+::: {style="font-size: 75%;"}
+> *The eraser is an instrument of the devil because it perpetuates a culture of shame about error. It’s a way of lying to the world, which says ‘I didn’t make a mistake. I got it right first time.’ That’s what happens when you can rub it out and replace it. Instead, [we need a culture where children are not afraid to make mistakes, they look at their mistakes and they learn from them,]{.bg style="--col: #f5b2c6"} where they are continuously reflecting and improving on what they’ve done, not being enthralled to getting the right answer quickly and looking smart.* [@espinoza2015erasers]
+:::
+:::
+:::
+
+## History
+
+### Writing is inseparable from technological change
+
+::: {style="font-size: 75%;"}
+In 2009, researchers at Google published an article that coincided with the release of its N-gram Viewer and the corresponding data tables [@halevy2009unreasonable].
+:::
+
+::: {style="font-size: 90%;"}
+> *But the fact that it’s a million times larger than the Brown Corpus outweighs these drawbacks. A trillion-word corpus—along with other Web-derived corpora of millions, billions, or trillions of links, videos, images, tables, and user interactions—captures even very rare aspects of human behavior. So, this corpus could serve as the basis of a complete model for certain tasks—[if only we knew how to extract the model from the data]{.bg style="--col: #f5b2c6"}.*
+:::
+
+::: {style="font-size: 75%; color: #636363;"}
+We will return to this excerpt, but for now, let's focus on this final claim...
+:::
+
+## History
+
+### The concept of a language model has been around for a long time…
+
+-   speech recognition [@bahl1983maximum; @jelinek1985realtime]
+-   spelling correction [@mays1991context]
+-   machine translation [@brown1990statistical]
+
+## History {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### The concept of a language model has been around for a long time…
+
+-   machine translation [@brown1990statistical]
+
+\
+
+::: r-stack
+::: {data-id="time1" auto-animate-delay="0" style="background-image: url('img/img_llms-history/mt_timeline_01.svg');  background-repeat: no-repeat; background-size: cover; width: 900px; height: 200px; background-position: center;"}
+:::
+:::
+
+## History {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### The concept of a language model has been around for a long time…
+
+-   machine translation [@brown1990statistical]
+
+\
+
+::: r-stack
+::: {data-id="time1" auto-animate-delay="0" style="background-image: url('img/img_llms-history/mt_timeline_01.svg');  background-repeat: no-repeat; background-size: cover; width: 900px; height: 400px; background-position: left;"}
+:::
+:::
+
+## History {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### The concept of a language model has been around for a long time…
+
+![](img/img_llms-history/mt_timeline_02.png)
+
+::: r-hstack
+::: {data-id="box1" auto-animate-delay="0" style="background: #d98b19; width: 250px; height: 150px; margin: 10px; font-size: 75%; color: white; text-align: center;"}
+1960-1980
+
+Beginnings of NLP
+:::
+
+::: {data-id="box2" auto-animate-delay="0.1" style="background: #b71848; width: 250px; height: 150px; margin: 10px; font-size: 75%; color: white; text-align: center;"}
+1980-2015
+
+Towards Computation
+:::
+
+::: {data-id="box3" auto-animate-delay="0.2" style="background: #40666e; width: 250px; height: 150px; margin: 10px; font-size: 75%; color: white; text-align: center;"}
+2015-
+
+Emergence of ML
+:::
+:::
+
+## History {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### The concept of a language model has been around for a long time…
+
+![](img/img_llms-history/mt_timeline_02.png)
+
+::: r-hstack
+::: {data-id="box1" style="background: #d98b19; width: 375px; height: 10px; margin: 10px;"}
+:::
+
+::: {data-id="box2" style="background: #b71848; width: 475px; height: 10px; margin: 10px;"}
+:::
+
+::: {data-id="box3" style="background: #40666e; width: 150px; height: 10px; margin: 10px;"}
+:::
+:::
+
+# [The beginnings of NLP]{style="color: white;"} {background-color="#d98b19"}
+
+## The beginnings of NLP
+
+### The question of multiple meanings (or polysemy)
+
+::: columns
+::: {.column width="60%"}
+![](img/img_llms-history/weaver_memo_01.png)
+:::
+
+::: {.column width="40%"}
+::: {style="font-size: 75%; padding-top: 25px;"}
+> A memo shared with a small group of researchers who were at the forefront of machine translation after WWII, anticipates the challenges and possibilities of the computer analysis of text. [@weaver1949translation]
+:::
+:::
+:::
+
+## The beginnings of NLP
+
+### The question of multiple meanings (or polysemy)
+
+::: columns
+::: {.column width="50%"}
+![](img/img_llms-history/weaver_memo_02.png)
+:::
+
+::: {.column width="50%"}
+::: {style="font-size: 75%; padding-top: 25px;"}
+> *If one examines the words in a book, one at a time as through an opaque mask with a hole in it on word wide, then it is obviously impossible to determine, one at a time, the meaning of words.*
+:::
+:::
+:::
+
+## The beginnings of NLP
+
+### The question of multiple meanings (or polysemy)
+
+::: columns
+::: {.column width="50%"}
+![](img/img_llms-history/weaver_memo_02.png)
+:::
+
+::: {.column width="50%"}
+::: {style="font-size: 75%; padding-top: 25px;"}
+> *But if one lengthens the slit in the opaque mask, until one can see not only the central word in question, but also say N words on either side, then if N is large enough one can unambiguously decide the meaning of the central word.*
+:::
+:::
+:::
+
+## The beginnings of NLP
+
+### The question of multiple meanings (or polysemy)
+
+::: columns
+::: {.column width="50%"}
+![](img/img_llms-history/weaver_memo_02.png)
+:::
+
+::: {.column width="50%"}
+::: {style="font-size: 75%; padding-top: 25px;"}
+> *The practical question is, what minimum value of N will, at least in a tolerable fraction of cases, lead to the correct choice of meaning for the central word?*
+:::
+:::
+:::
+
+## The beginnings of NLP
+
+### The question of multiple meanings (or polysemy)
+
+-   "You shall know a word by the company it keeps." [@firth1957papers]
+-   The meaning of word can be determined by examining the contextual window or span around that word.
+
+## The beginnings of NLP
+
+### The question of multiple meanings (or polysemy)
+
+::: {style="font-size: 70%; font-family: monospace; padding-top: 25px;"}
+|                    Pre-node | Node | Post-node                                          |
+|--------------------:|:---:|-----------------------------------|
+|     upscaling generally hold | fast | during a 4K 60FPS gaming session.                  |
+|            a dragster, going | fast | in a straight line is actually pretty boring       |
+|          The benefits of the | fast | can be maintained long term,                       |
+| adopted slowly, but comes on | fast | once it's hit the mainstream                       |
+|  They simply disagree on how | fast | to go and how best to get there in superseding it. |
+|         which appeared stuck | fast | in the ground it had plowed up                     |
+:::
+
+## The beginnings of NLP
+
+### The question of multiple meanings (or polysemy)
+
+::: {style="font-size: 70%; font-family: monospace; padding-top: 25px;"}
+|                                                                         Pre-node | Node | Post-node                                                                                               |
+|--------------------:|:---:|-----------------------------------|
+|     upscaling generally [hold]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [during]{style="background-color: #f5b2c6; opacity: 0.75;"} a 4K 60FPS gaming session.                  |
+|            a dragster, [going]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [in]{style="background-color: #f5b2c6; opacity: 0.75;"} a straight line is actually pretty boring       |
+|          The benefits of [the]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [can]{style="background-color: #f5b2c6; opacity: 0.75;"} be maintained long term,                       |
+| adopted slowly, but comes [on]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [once]{style="background-color: #f5b2c6; opacity: 0.75;"} it's hit the mainstream                       |
+|  They simply disagree on [how]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [to]{style="background-color: #f5b2c6; opacity: 0.75;"} go and how best to get there in superseding it. |
+|         which appeared [stuck]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [in]{style="background-color: #f5b2c6; opacity: 0.75;"} the ground it had plowed up                     |
+:::
+
+## The beginnings of NLP
+
+### The question of multiple meanings (or polysemy)
+
+::: {style="font-size: 70%; font-family: monospace; padding-top: 25px;"}
+|                                                                         Pre-node | Node | Post-node                                                                                               |
+|--------------------:|:---:|-----------------------------------|
+|     upscaling [generally hold]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [during a]{style="background-color: #f5b2c6; opacity: 0.75;"} 4K 60FPS gaming session.                  |
+|            a [dragster, going]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [in a]{style="background-color: #f5b2c6; opacity: 0.75;"} straight line is actually pretty boring       |
+|          The benefits [of the]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [can be]{style="background-color: #f5b2c6; opacity: 0.75;"} maintained long term,                       |
+| adopted slowly, but [comes on]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [once it's]{style="background-color: #f5b2c6; opacity: 0.75;"} hit the mainstream                       |
+|  They simply disagree [on how]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [to go]{style="background-color: #f5b2c6; opacity: 0.75;"} and how best to get there in superseding it. |
+|         which [appeared stuck]{style="background-color: #f5b2c6; opacity: 0.75;"} | fast | [in the]{style="background-color: #f5b2c6; opacity: 0.75;"} ground it had plowed up                     |
+:::
+
+## The beginnings of NLP
+
+-   The ["context window"]{.bg style="--col: #f5b2c6"} is a fundamental insight that powers the training of LLMs (from word2vec to BERT to ChatGPT).
+
+\
+
+![](img/img_llms-history/context_window.png)
+
+## The beginnings of NLP
+
+### As early as the mid-twentieth century, researchers…
+
+-   had considered the potential for a "context window" to solve word-sense disambiguation
+
+-   were developing the statistical tools that would eventually power the training of LLMs (i.e., neural networks).
+
+::: callout-warning
+## Question
+
+Why didn’t we have LLMs sooner?
+:::
+
+## The beginnings of NLP
+
+### Context free grammar
+
+-   To cope with these limitations (and beliefs about language structure) early models resorted to hard-coding rules
+
+::: {style="font-size: 75%; font-family: monospace; text-indent: 30%;"}
+S → NP VP
+
+NP → the N
+
+VP → V NP
+
+V → sings \| eats
+
+N → cat \| song \| canary
+
+-- the canary sings the song
+
+-- the song eats the cat
+:::
+
+## The beginnings of NLP
+
+### Context free grammar
+
+::: columns
+::: {.column width="50%"}
+![](img/img_llms-history/alpac_01.png)
+:::
+
+::: {.column width="50%"}
+::: {style="font-size: 75%; padding-top: 25px;"}
+> The ALPAC Report, which was released in 1966, was highly skeptical of these kinds of approaches.
+:::
+:::
+:::
+
+## The beginnings of NLP
+
+### Context free grammar
+
+::: columns
+::: {.column width="50%"}
+![](img/img_llms-history/alpac_02.png)
+:::
+
+::: {.column width="50%"}
+::: {style="font-size: 75%; padding-top: 25px;"}
+> *…we do not have useful machine translation. Furthermore, there is no immediate or predictable prospect of useful machine translation.*
+:::
+:::
+:::
+
+## The beginnings of NLP
+
+### Context free grammar
+
+::: columns
+::: {.column width="50%"}
+![](img/img_llms-history/alpac_03.png)
+:::
+
+::: {.column width="50%"}
+::: {style="font-size: 75%; padding-top: 25px;"}
+> *Some of the work must be done on a rather large scale, since small-scale experiments and work with miniature models of language have proved seriously deceptive in the past, and one can come to grips with real problems only above a certain scale of grammar size, dictionary size, and available corpus.*
+:::
+:::
+:::
+
+# [Towards computation]{style="color: white;"} {background-color="#b71848"}
+
+## Towards computation
+
+### Converting words into numbers (a typical processing pipeline)
+
+\
+
+![](img/img_llms-history/pipeline.svg)
+
+## Towards computation
+
+### A document-feature matrix (or a document-term matrix)
+
+\
+
+::: columns
+::: {.column width="40%"}
+::: {style="font-size: 75%; padding-top: 25px;"}
+-   The make-up or sampling frame of the Brown family of corpora. [@kucera1967computational]
+-   From the 15 categories, 2000-word text samples were selected.
+-   2000 x 500 ≈ 1,000,000 words
+:::
+:::
+
+::: {.column width="60%"}
+```{r}
+#| echo: false
+
+readr::read_csv("data/data_llms-history/brown_sampling_frame.csv") |>
+  knitr::kable("html") |>
+  kableExtra::kable_styling(font_size = 18)
+```
+:::
+:::
+
+## Towards computation
+
+### A document-feature matrix (or a document-term matrix)
+
+```{r}
+#| echo: false
+#| tbl-cap: "Absolute frequency in the Brown Corpus."
+
+readr::read_csv("data/data_llms-history/brown_dtm.csv", na = "NA") |> 
+  knitr::kable("html", align = "r", table.attr = "style='width:90%;'") |>
+  kableExtra::kable_styling(font_size = 18)
+```
+
+## Towards computation
+
+### A document-feature matrix (or a document-term matrix)
+
+```{r}
+#| echo: false
+#| tbl-cap: "Observations."
+
+readr::read_csv("data/data_llms-history/brown_dtm.csv", na = "NA") |> 
+  knitr::kable("html", align = "r", table.attr = "style='width:90%;'") |>
+  kableExtra::kable_styling(font_size = 18) |>
+  kableExtra::column_spec(1, background = "#f5b2c6")
+```
+
+## Towards computation
+
+### A document-feature matrix (or a document-term matrix)
+
+```{r}
+#| echo: false
+#| tbl-cap: "Variables."
+
+readr::read_csv("data/data_llms-history/brown_dtm.csv", na = "NA") |> 
+  knitr::kable("html", align = "r", table.attr = "style='width:90%;'") |>
+  kableExtra::kable_styling(font_size = 18) |>
+  kableExtra::row_spec(0, background = "#f5b2c6")
+```
+
+## Towards computation {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### Zipf's Law
+
+::: r-vstack
+::: {data-id="box0" auto-animate-delay="0" style="background: white; width: 200px; height: 50px; margin: 4px; font-size: 20px; color: black; text-align: center; vertical-align: middle;"}
+Most frequent words:
+:::
+
+::: {data-id="box1" auto-animate-delay="0" style="background: #d98b19; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle;"}
+the
+:::
+
+::: {data-id="box2" auto-animate-delay="0" style="background: #b71848; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle"}
+of
+:::
+
+::: {data-id="box3" auto-animate-delay="0" style="background: #40666e; width: 200px; height: 50px; margin: 2px; font-size: 16px; color: white; text-align: center; vertical-align: middle"}
+and
+:::
+
+::: {data-id="scatter1" auto-animate-delay="0" style="background-image: url('img/img_llms-history/brown_scatter.svg');  background-repeat: no-repeat; background-size: cover; width: 800px; height: 400px; background-position: left;"}
+:::
+:::
+
+## Towards computation {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### Zipf's Law
+
+::: r-stack
+::: {data-id="scatter1" auto-animate-delay="0" style="background-image: url('img/img_llms-history/brown_scatter.svg');  background-repeat: no-repeat; background-size: cover; width: 800px; height: 400px; background-position: left;"}
+:::
+
+::: {data-id="box1" auto-animate-delay="0" style="background: #d98b19; width: 20px; height: 20px; border-radius: 20px; position: absolute; top: 18%; left: 20.5%; opacity: 0.5;"}
+:::
+
+::: {data-id="box2" auto-animate-delay="0" style="background: #b71848; width: 20px; height: 20px; border-radius: 20px; position: absolute; top: 40%; left: 20.5%; opacity: 0.5;"}
+:::
+
+::: {data-id="box3" auto-animate-delay="0" style="background: #40666e; width: 20px; height: 20px; border-radius: 20px; position: absolute; top: 45%; left: 20.5%; opacity: 0.5;"}
+:::
+:::
+
+## Towards computation {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+### Zipf's Law
+
+::: r-stack
+::: {data-id="scatter1" auto-animate-delay="0" style="background-image: url('img/img_llms-history/brown_scatter.svg');  background-repeat: no-repeat; background-size: cover; width: 1200px; height: 600px; background-position: left;"}
+:::
+
+::: {data-id="box0" auto-animate-delay="0" style="background: white; width: 500px; height: 200px; margin: 4px; font-size: 20px; color: black; text-align: center; vertical-align: middle; position: absolute; top: 18%; left: 35%;"}
+-   Zipf's Law: the frequency of a token is inversely proportional to its rank.
+-   Most tokens are infrequent.
+-   The absence of evidence is not evidence of absence.
+:::
+:::
+
+## Towards computation
+
+### While some words may be normally distributed, most are not.
+
+::: columns
+::: {.column width="50%"}
+![](img/img_llms-history/histogram_the.svg)
+:::
+
+::: {.column width="50%"}
+![](img/img_llms-history/histogram_data.svg)
+:::
+:::
+
+# Emergence of machine learning {background-color="#40666e"}
+
+## Emergence of ML
+
+### Let's return to the excerpt from the Google researchers.
+
+::: {style="font-size: 90%;"}
+> *But the fact that it’s a million times larger than the Brown Corpus outweighs these drawbacks. A trillion-word corpus—along with other Web-derived corpora of millions, billions, or trillions of links, videos, images, tables, and user interactions—captures even very rare aspects of human behavior. So, this corpus could serve as the basis of a complete model for certain tasks—if only we knew how to extract the model from the data.*
+:::
+
+::: callout-warning
+## Question
+
+What developments are taking place at this time (the early 2000s)?
+:::
+
+## Emergence of ML
+
+-   Word2vec is released. [@mikolov2013efficient]
+    -   Shallow (2-layer) neural network.
+    -   Trained using a relatively small context window (\~10-12 words).
+    -   Introduces "embeddings".
+
+## Emergence of ML
+
+### Embeddings from a vector model.
+
+```{r}
+#| echo: false
+#| tbl-cap: "Embedding space."
+
+readr::read_csv("data/data_llms-history/vector_embeddings.csv", na = "NA") |> 
+  knitr::kable("html", align = "r", table.attr = "style='width:90%;'") |>
+  kableExtra::kable_styling(font_size = 14)
+```
+
+## Emergence of ML
+
+### Embeddings from a vector model.
+
+```{r}
+#| echo: false
+#| tbl-cap: "Dimensions."
+
+readr::read_csv("data/data_llms-history/vector_embeddings.csv", na = "NA") |> 
+  knitr::kable("html", align = "r", table.attr = "style='width:90%;'") |>
+  kableExtra::kable_styling(font_size = 14) |>
+  kableExtra::row_spec(0, background = "#f5b2c6")
+```
+
+## Emergence of ML {background-image="img/img_llms-history/cos_similarity_02.png" background-size="60%" background-opacity=".5"}
+
+### Embeddings from a vector model.
+
+-   When treated as coordinates in space, embeddings locate words that tend to appear together or in similar contexts near each other.
+
+## Emergence of ML
+
+### Embeddings from a vector model.
+
+-   The proximity of words can be assessed using measures like cosine similarity.
+
+$$
+cosine~similarity = S_{c}(A, B) := cos(\theta) = \frac{A \cdot B}{||A||~||B||}
+$$ ![](img/img_llms-history/cos_similarity.png)
+
+## Emergence of ML {background-video="img/img_llms-history/vector_model_01.mp4" background-video-loop="true" background-video-muted="true"}
+
+-   [An example of a vector model rendered in 3 dimensions]{style="color: white; background-color: #e64173; opacity: 0.75;"} from <https://projector.tensorflow.org/>.
+
+## Emergence of ML {background-image="img/img_llms-history/vector_model_02.png"}
+
+### Embeddings from a vector model.
+
+::: columns
+::: {.column width="25%"}
+::: {style="font-size: 18px; padding-top: 10px;"}
+|     token | similarity |
+|----------:|-----------:|
+|      slow |      0.448 |
+|     quick |      0.519 |
+|    faster |      0.568 |
+|    slower |      0.593 |
+|     speed |      0.602 |
+|      busy |      0.646 |
+|    simple |      0.663 |
+|      food |      0.676 |
+|    speeds |      0.688 |
+|   fastest |      0.688 |
+|      pace |      0.697 |
+| efficient |      0.703 |
+|      easy |      0.707 |
+|     small |      0.710 |
+|       too |      0.712 |
+|  straight |      0.717 |
+|     rapid |      0.717 |
+|       low |      0.718 |
+|   quickly |      0.718 |
+|    packet |      0.718 |
+
+: Tokens closest to *fast*
+:::
+:::
+
+::: {.column width="75%"}
+:::
+:::
+
+## Emergence of ML 
+
+::: {style="font-size: 70%;"}
+-   After the introduction of vector representations and, a short time later, the transformer architecture [@vaswani2017attention], language models have rapidly evolved. They can be grouped into roughly 3 generations.
+:::
+
+![](img/img_llms-history/llms_generations.png)
+
+## Emergence of ML
+
+### Advances in LLMs…
+
+-   Allowing for out-of-vocabulary words (using sub-words or word-pieces for tokenizing).
+
+-   Adding a sequence layer.
+
+-   Sliding a context window both left-to-right and right-to-left.
+
+-   Implementing self-attention architecture.
+
+-   Training on more and more data.
+
+-   Expanding the context window (from 512 word-pieces for BERT to 128,000 word-pieces for GPT-4 Turbo 128K).
+
+-   Introducing reinforcement learning from human feedback (RLHF) with Instruct GPT.
+
+## Emergence of ML
+
+### An example of contextual embeddings using BERT
+
+::: {style="font-size: 80%;"}
+```{.python}
+
+sentences = ["bank",
+	"He eventually sold the shares back to the bank at a premium.",
+	"The bank strongly resisted cutting interest rates.",
+	"The bank will supply and buy back foreign currency.",
+	"The bank is pressing us for repayment of the loan.",
+	"The bank left its lending rates unchanged.",
+	"The river flowed over the bank.",
+	"Tall, luxuriant plants grew along the river bank.",
+	"His soldiers were arrayed along the river bank.",
+	"Wild flowers adorned the river bank.",
+	"Two fox cubs romped playfully on the river bank.",
+	"The jewels were kept in a bank vault.",
+	"You can stow your jewelry away in the bank.",
+	"Most of the money was in storage in bank vaults.",
+	"The diamonds are shut away in a bank vault somewhere.",
+	"Thieves broke into the bank vault.",
+	"Can I bank on your support?",
+	"You can bank on him to hand you a reasonable bill for your services.",
+	"Don't bank on your friends to help you out of trouble.",
+	"You can bank on me when you need money.",
+	"I bank on your help."]
+
+```
+:::
+
+## Emergence of ML
+
+### An example of contextual embeddings using BERT
+
+::: {style="font-size: 80%;"}
+```{.python}
+
+from collections import OrderedDict
+
+context_embeddings = []
+context_tokens = []
+for sentence in sentences:
+	tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(sentence, tokenizer)
+	list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model)
+  # make ordered dictionary to keep track of the position of each word
+	tokens = OrderedDict()
+  # loop over tokens in sensitive sentence
+	for token in tokenized_text[1:-1]:
+		# keep track of position of word and whether it occurs multiple times
+		if token in tokens:
+			tokens[token] += 1
+		else:
+		tokens[token] = 1
+  	# compute the position of the current token
+		token_indices = [i for i, t in enumerate(tokenized_text) if t == token]
+		current_index = token_indices[tokens[token]-1]
+  	# get the corresponding embedding
+		token_vec = list_token_embeddings[current_index]
+  	# save values
+		context_tokens.append(token)
+		context_embeddings.append(token_vec)
+		
+```
+:::
+
+::: aside
+A Colab with the full code is [here](https://colab.research.google.com/drive/1ea3zDFrCQFQhkvinaQfdbvXlOhR7hw01?usp=sharing#scrollTo=4wf0epYMLh22)
+:::
+
+## Emergence of ML {background-video="img/img_llms-history/bert_model_01.mp4" background-video-loop="true" background-video-muted="true"}
+
+## Emergence of ML {background-video="img/img_llms-history/bert_model_02.mp4" background-video-loop="true" background-video-muted="true"}
+
+## Emergence of ML {background-video="img/img_llms-history/bert_model_03.mp4" background-video-loop="true" background-video-muted="true"}
+
+## Emergence of ML {background-video="img/img_llms-history/bert_model_04.mp4" background-video-loop="true" background-video-muted="true"}
+
+## Emergence of ML
+
+### LLMs have a broad range of applications…
+
+-   Generation tasks
+    -   Chat bots
+    -   Content creation
+    -   Summarization
+    -   Translation
+-   Classification tasks
+    -   Text classification
+    -   Segment classification
+
+## Emergence of ML
+
+### Just as they raise questions regarding…
+
+-   The production of content hallucinations [@ji2023survey; @zhang2023language]
+-   Expressions of bias [@santurkar2023opinions]
+-   A tendency to repeat back a user’s stated views (“sycophancy”) [@perez2022discovering]
+
+# Investigating LLM-Generated Text {background-color="#40666e"}
+
+## Investigating LLM-generated text
+
+-  A group in the Statistics & Data Science Department was inspired by claims that were circulating when ChatGPT was first introduced. (e.g., "Wow! I asked ChatGPT to write a podcast and [it looks pretty good](https://www.npr.org/transcripts/1178290105)!!!")
+-  We wondered what the text it produces looks like when it is repeated. (e.g., "What happens if you ask it to write 100 podcasts?")
+-  We gave it the same writing prompt that students are given in 36-200, generated 100 introduction, and compared those with introductions written by the actual students and introductions that appear in published, data-driven, academic papers.
+-  Then, we tagged the data using Biber's [-@biber1991variation] features (which counts things like [passives, nominalizations, attributive adjectives](https://cmu-textstat-docs.readthedocs.io/en/latest/pseudobibeR/pseudobibeR.html#categories), etc.).
+
+## Investigating LLM-generated text
+
+-   It turns out, machine-authored prose and human-authored prose don’t really look the same in their morphosyntactic and functional features. [@herbold2023large; @markey2024dense]
+
+![Projection of student, published, and ChatGPT-generated writing onto the first two linear discriminants, based on the 67 Biber features.](img/img_llms-history/lda_scatter.svg)
+
+## Investigating LLM-generated text
+
+### Human-generated vs. machine-generated text
+
+```{r}
+#| echo: false
+#| tbl-cap: "Top text features discriminating between human- and machine-generated writing. Color-coded cells show the average z score of each feature. R2 and p-value correspond to one-way ANOVAs predicting each feature with text type."
+
+ld1_tbl <- readr::read_csv("data/data_llms-history/ld1_tbl.csv")
+
+ld1_tbl <- ld1_tbl |> 
+  dplyr::mutate(direction = paste0("Features indicating ", direction, "-generated writing")) |>
+  dplyr::mutate(variable = stringr::str_remove(variable, "f_\\d+_")) |>
+  dplyr::mutate(variable = stringr::str_replace_all(variable, "_", " ")) |>
+  dplyr::filter(direction == "Features indicating human-generated writing") |>
+  gt::gt(groupname_col = 'direction') |>
+  gt::cols_label(
+    variable = gt::md("  "),
+    ChatGPT = gt::md("**ChatGPT<br>n:100**"),
+    Published = gt::md("**Published<br>n:100**"),
+    Student = gt::md("**Student<br>n:100**"),
+    r.squared = gt::md("***R*^2^**"),
+    p.value = gt::md("***p*-value**")
+  ) |> 
+  gt::fmt_number(
+    columns = dplyr::everything(),
+    decimals = 2
+  )  |> 
+  gt::data_color(
+    columns = c(ChatGPT:Student),
+    colors = scales::col_numeric(
+      palette = c(
+        "#FF6666", "white", "#336699"),
+      domain = c(pmin(ld1_tbl$ChatGPT, ld1_tbl$Published, ld1_tbl$Student), 
+                 0, 
+                 pmax(ld1_tbl$ChatGPT, ld1_tbl$Published, ld1_tbl$Student)))
+  ) |>
+  gt::tab_style(
+    style = list(
+      gt::cell_text(style = "italic",
+                align = "right")
+      ),
+    locations = gt::cells_body(
+      columns = variable)
+    ) |>
+  gt::tab_options(quarto.use_bootstrap = TRUE)
+
+ld1_tbl |>
+  gt::opt_table_font(weight = "bolder") |>
+  gt::as_raw_html()
+```
+
+## Investigating LLM-generated text
+
+### Human-generated vs. machine-generated text
+
+```{r}
+#| echo: false
+#| tbl-cap: "Top text features discriminating between human- and machine-generated writing. Color-coded cells show the average z score of each feature. R2 and p-value correspond to one-way ANOVAs predicting each feature with text type."
+
+ld1_tbl <- readr::read_csv("data/data_llms-history/ld1_tbl.csv")
+
+ld1_tbl <- ld1_tbl |> 
+  dplyr::mutate(direction = paste0("Features indicating ", direction, "-generated writing")) |>
+  dplyr::mutate(variable = stringr::str_remove(variable, "f_\\d+_")) |>
+  dplyr::mutate(variable = stringr::str_replace_all(variable, "_", " ")) |>
+  dplyr::filter(direction == "Features indicating machine-generated writing") |>
+  gt::gt(groupname_col = 'direction') |>
+  gt::cols_label(
+    variable = gt::md("  "),
+    ChatGPT = gt::md("**ChatGPT<br>n:100**"),
+    Published = gt::md("**Published<br>n:100**"),
+    Student = gt::md("**Student<br>n:100**"),
+    r.squared = gt::md("***R*^2^**"),
+    p.value = gt::md("***p*-value**")
+  ) |> 
+  gt::fmt_number(
+    columns = dplyr::everything(),
+    decimals = 2
+  )  |> 
+  gt::data_color(
+    columns = c(ChatGPT:Student),
+    colors = scales::col_numeric(
+      palette = c(
+        "#FF6666", "white", "#336699"),
+      domain = c(pmin(ld1_tbl$ChatGPT, ld1_tbl$Published, ld1_tbl$Student), 
+                 0, 
+                 pmax(ld1_tbl$ChatGPT, ld1_tbl$Published, ld1_tbl$Student)))
+  ) |>
+  gt::tab_style(
+    style = list(
+      gt::cell_text(style = "italic",
+                align = "right")
+      ),
+    locations = gt::cells_body(
+      columns = variable)
+    ) |>
+  gt::tab_options(quarto.use_bootstrap = TRUE)
+
+ld1_tbl |>
+  gt::opt_table_font(weight = "bolder") |>
+  gt::as_raw_html()
+```
+
+## Investigating LLM-generated text
+
+::: {style="font-size: 60%;"}
+-   ChatGPT, for example, produces a more restricted set of modal verbs -- one that is different from both expert and novice writers.
+:::
+
+```{r}
+#| echo: false
+#| warning: false
+#| results: asis
+#| tbl-cap: "Frequency of different modal verbs, often modulating the confidence of claims, in the different types of writing."
+
+modal_freq <- readr::read_csv("data/data_llms-history/modal_freq.csv")
+
+modal_freq <- modal_freq |>
+  gt::gt(groupname_col = 'modal_type') |>
+  gt::cols_label(
+    token =  gt::md("Modal verb"),
+    AF_chatgpt =  gt::md("ChatGPT"),
+    AF_published =  gt::md("Published"),
+    AF_student =  gt::md("Student"),
+    RF_chatgpt =  gt::md("ChatGPT"),
+    RF_published =  gt::md("Published"),
+    RF_student =  gt::md("Student"),
+  ) |> 
+  gt::tab_spanner(
+    label = "Absolute Frequency",
+    columns = c(AF_chatgpt, AF_published, AF_student)
+  ) |>
+  gt::tab_spanner(
+    label =  gt::md("Relative Frequency (per 10^5^ words)"),
+    columns = c(RF_chatgpt, RF_published, RF_student)
+  ) |>
+  gt::fmt_number(
+    columns = c(RF_chatgpt, RF_published, RF_student),
+    decimals = 2
+  ) |>
+  gt::tab_style(
+    style = list(
+      gt::cell_text(style = "italic",
+                align = "right")
+    ),
+    locations =  gt::cells_body(
+      columns = token,
+    )
+  )
+
+modal_freq |>
+  gt::opt_table_font(weight = "bolder") |>
+  gt::tab_options(quarto.disable_processing = TRUE,
+                  table.font.size = 14) |>
+  gt::as_raw_html()
+```
+
+## Investigating LLM-generated text
+
+### Human-generated vs. machine-generated text
+
+![Excerpts from texts produced by ChatGPT](img/img_llms-history/gpt_excerpts_01.png){width=80%}
+
+::: aside
+The LLM has a propensity to condense information into chunked noun phrases, constructed as either *noun* + *noun* or *adjective* + *noun* sequences. Such sequences are sometimes aggregated using the coordinator *and*. On the one hand, these phrases can project a kind of authoritative voice. On the other, their content can range from vague, to ambiguous, to vapid. (What exactly is “a comprehensive dataset encompassing [..] healthcare utilization”?) At issue here is what pertinent information is compressed out of these phrases.
+:::
+
+## Investigating LLM-generated text
+
+::: callout-important
+## Lab Set Question
+
+If you were working on this project, what would you suggest the team do next? In other words, what limitations do you see in the results of this initial study? What might be done to increase its reliability? Or its generalizability? And what potential challenges do you foresee in applying your suggestions? (Discuss with a couple of your neighbors and write your response)
+:::
+
+## Investigating LLM-generated text
+
+::: {style="font-size: 60%;"}
+-   We also created an experiment at scale, with 10,000 samples, across 9 text-types.
+:::
+
+```{r}
+#| echo: false
+#| warning: false
+#| results: asis
+#| tbl-cap: "Model evaluation for human vs. ChatGPT 3.5."
+
+readr::read_csv("data/data_llms-history/eval_gpt3.csv") |>
+  gt::gt()  |>
+  gt::opt_table_font(weight = "bolder") |>
+  gt::tab_options(quarto.disable_processing = TRUE,
+                  table.font.size = 12,
+                  table.width = gt::pct(50)) |>
+  gt::as_raw_html()
+
+```
+
+## Investigating LLM-generated text
+
+::: {style="font-size: 60%;"}
+-   We also created an experiment at scale, with 10,000 samples, across 9 text-types.
+:::
+
+![[ROC curve](https://medium.com/@shaileydash/understanding-the-roc-and-auc-intuitively-31ca96445c02) for human vs. ChatGPT 3.5.](img/img_llms-history/roc_gpt3.svg){width=60% fig-align="center"}
+
+## Investigating LLM-generated text
+
+::: {style="font-size: 60%;"}
+-   We also created an experiment at scale, with 10,000 samples, across 9 text-types.
+:::
+
+![[ROC curve](https://medium.com/@shaileydash/understanding-the-roc-and-auc-intuitively-31ca96445c02) for human vs. ChatGPT 4.](img/img_llms-history/roc_gpt4.svg){width=60% fig-align="center"}
+
+## Investigating LLM-generated text
+
+::: {style="font-size: 60%;"}
+-   We also created an experiment at scale, with 10,000 samples, across 9 text-types.
+:::
+
+![](img/img_llms-history/roc_gpt4.svg){width=60% fig-align="center"}
+
+::: callout-warning
+## Question
+
+Does this set off alarm bells? Does it look too good to you? How would you check that something hasn't gone wrong?
+:::
+
+## Investigating LLM-generated text
+
+::: {style="font-size: 60%;"}
+-   One way would be to test the consecutive chunks of human-generated text.
+:::
+
+![[ROC curve](https://medium.com/@shaileydash/understanding-the-roc-and-auc-intuitively-31ca96445c02) for human chunk 1 vs. human chunk 2.](img/img_llms-history/roc_coca.svg){width=60% fig-align="center"}
+
+## Investigating LLM-generated text
+
+-   What if we tried multiclass (rather than binary) classification of 4 different models (ChatGPT 3.5, ChatGPT 4.0, Llama 3 8B-Base, and Llama 3 8B-Instruct) and human generated text?
+
+```{r}
+#| echo: false
+#| warning: false
+#| tbl-cap: "A confusion matrix for a classifier pridicting all 4 LLMs and human-generated text."
+
+test_preds <- readr::read_csv("data/data_llms-history/test_preds.csv")
+
+test_preds <- test_preds |>
+  dplyr::group_by(label, prediction) |>
+  dplyr::summarize(n = dplyr::n(), .groups = "drop") |>
+  tidyr::pivot_wider(id_cols = label,
+              names_from = prediction,
+              values_from = n) |>
+  dplyr::mutate(dplyr::across(dplyr::where(is.numeric),
+                ~ .x / (chunk_2 + chunk_gpt3 + chunk_gpt4 + llama_3_8b + llama_3_8b_instruct))) |>
+  dplyr::mutate(label = stringr::str_replace_all(label, "_", " ")) |>
+  dplyr::mutate(label = stringr::str_remove(label, "chunk ")) |>
+  dplyr::mutate(label = stringr::str_remove(label, "llama 3 ")) |>
+  dplyr::mutate(label = stringr::str_replace(label, "2", "Human")) |>
+  dplyr::mutate(label = stringr::str_replace(label, "gpt", "GPT-")) |>
+  dplyr::mutate(label = stringr::str_replace(label, "3", "3.5")) |>
+  dplyr::mutate(label = stringr::str_replace(label, "8b", "8B-Base")) |>
+  dplyr::mutate(label = stringr::str_replace(label, "-Base instruct", "-Instruct")) |>
+  gt::gt() |>
+  gt::fmt_percent(c(chunk_2, chunk_gpt3, chunk_gpt4, llama_3_8b, llama_3_8b_instruct), decimals = 1)  |>
+  gt::cols_label(label = "Generator",
+             chunk_2 = "Human",
+             chunk_gpt3 = "GPT-3.5",
+             chunk_gpt4 = "GPT-4",
+             llama_3_8b = "8B-Base",
+             llama_3_8b_instruct = "8B-Instruct")
+
+test_preds |>
+  gt::opt_table_font(weight = "bolder") |>
+  gt::as_raw_html()
+
+```
+
+## Investigating LLM-generated text
+
+-   Many of the features are the same ones we saw in the smaller study.
+
+```{r}
+#| echo: false
+#| warning: false
+#| tbl-cap: "The 10 features with the highest importance."
+
+feature_imp <- readr::read_csv("data/data_llms-history/feature_importance.csv")
+
+feature_imp <- feature_imp |>
+  dplyr::mutate(feature = stringr::str_remove(feature, "f_\\d+_")) |>
+  dplyr::mutate(feature = stringr::str_replace_all(feature, "_", " ")) |>
+  head(10) |>
+  gt::gt() |>
+  gt::cols_label(feature = "Feature",
+             chunk_1 = "Chunk 1",
+             chunk_2 = "Chunk 2",
+             chunk_gpt3 = "GPT-3.5",
+             chunk_gpt4 = "GPT-4",
+             llama_3_8b = "8B-Base",
+             llama_3_8b_instruct = "8B-Instruct",
+             importance = "Importance") |>
+  gt::tab_spanner("Human", c(chunk_1, chunk_2)) |>
+  gt::tab_spanner("GPT", chunk_gpt3:chunk_gpt4) |>
+  gt::tab_spanner("Llama 3", llama_3_8b:llama_3_8b_instruct) |>
+  gt::fmt_percent(c(chunk_gpt3, chunk_gpt4, llama_3_8b, llama_3_8b_instruct), decimals = 0) |>
+  gt::fmt_number(c(chunk_1, chunk_2, importance), decimals = 1) |>
+  gt::tab_header(title = "Features in human- and LLM-written text",
+             subtitle = "Rate per 1,000 tokens; LLM rates relative to Chunk 2") |> 
+  gt::data_color(
+    columns = c(chunk_gpt3:llama_3_8b_instruct),
+    direction = "row",
+    method = "numeric",
+    palette = c("#FF6666", "white", "#336699"),
+    domain = c(0, 1 ,2),
+    na_color = "#336699"
+  ) |>
+  gt::tab_style(
+    style = list(
+      gt::cell_text(style = "italic",
+                align = "right")
+    ),
+    locations = gt::cells_body(
+      columns = feature,
+    )
+  )
+
+feature_imp |>
+  gt::opt_table_font(weight = "bolder") |>
+  gt::as_raw_html()
+```
+
+## Implications
+
+### Key takeaways
+
+1.  Although ChatGPT seemed to explode into the public consciousness, it is part of a surprisingly long history of technological development.
+2. The engineering behind LLMs is incredibly complex; however, the linguistic principles that they're based on are relatively simple.
+3.  Understanding both these principles and this history can help you if you're tasked with building, evaluating, or using these systems.
+4.  Even a relatively simple-seeming research inspiration ("Hey, let's compare human writing to ChatGPT!!!") can lead to a complex set of choices and an iterative process of research design and evaluation.
+5.  We'll talk more about this in our first lab next week and the need for considered research questions and project planning.
+
+## Works Cited

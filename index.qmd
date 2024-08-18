@@ -1,0 +1,12 @@
+---
+author: "David Brown"
+---
+
+# Schedule {.unnumbered}
+
+| Topic                                  | Labs                                           | Required Readings                                | Optional Readings                          | Lecture Slides                                 |
+|----------------------------------------|------------------------------------------------|--------------------------------------------------|--------------------------------------------|------------------------------------------------|
+| Linguistic Facts of Life               |                                                |                                                  |                                            | ![](_images/icon_presentation.png){width="24"} |
+| Sentiment & syuzhet                    |                                                |                                                  |                                            |                                                |
+| Classification & the Federalist Papers | [![](_images/icon_quarto.png){width="24"}](#0) | [![](_images/icon_required.png){width="24"}](#0) | ![](_images/icon_optional.png){width="24"} | ![](_images/icon_presentation.png){width="24"} |
+|                                        |                                                |                                                  |                                            |                                                |
