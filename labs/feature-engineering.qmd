@@ -40,11 +40,16 @@ Paste the information into the text field here: <https://urd2.let.rug.nl/~kleiwe
 
 ## Load the needed packages 
 
-```{r setup, message = FALSE, error=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| error: false
+#| warning: false
+
 library(tidyverse)
 library(quanteda)
 library(quanteda.textstats)
 library(udpipe)
+library(gt)
 ```
 
 Load the functions:
@@ -61,13 +66,13 @@ load("../data/sample_corpus.rda")
 ```
 
 
-# Parsing
+## Parsing
 
-## Preparing a corpus
+### Preparing a corpus
 
 When we parse texts using a model like ones available in **udpipe** or **spacy**, we need to do very little to prepare the corpus. We could trim extra spaces and returns using **str_squish()** or remove urls, but generally we want the text to be mostly "as is" so the model can do its job.
 
-## Download a model
+### Download a model
 
 You only need to run this line of code **once**. To run it, remove the pound sign, run the line, then add the pound sign after you've downloaded the model. Or you can run the next chunk and the model will automatically be downloaded in your working directory.
 
@@ -75,26 +80,36 @@ You only need to run this line of code **once**. To run it, remove the pound sig
 # udpipe_download_model(language = "english")
 ```
 
-## Annotate a sentence
+### Annotate a sentence
 
-```{r simple_sentence, message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
+
 txt <- "The company offers credit cards, loans and interest-generating accounts."
 ud_model <- udpipe_load_model("../models/english-ewt-ud-2.5-191206.udpipe")
 annotation <- udpipe(txt, ud_model)
 ```
 
 
-```{r echo=FALSE}
-kableExtra::kbl(annotation[,8:15], caption = "Annotation of a sample sentence.", booktabs = T, linesep = "", digits = 2) %>%
-  kableExtra::kable_styling(latex_options = c("striped", "scale_down", "HOLD_position")) %>%
-  kableExtra::kable_classic()
+```{r}
+#| code-fold: true
+#| tbl-cap: "Annotation of a sample sentence."
+
+annotation[,8:15] |>
+  gt() |>
+  as_raw_html()
 ```
 
-## Plot the annotation
+### Plot the annotation
 
 We can also plot the dependency structure using **igraph**:
 
-```{r, message = FALSE, error=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
+#| error: false
+
 library(igraph)
 library(ggraph)
 ```
@@ -128,15 +143,23 @@ plot_annotation <- function(x, size = 3){
 
 And plot the annotation:
 
-```{r anno_plot, fig.height=3, fig.width=7, fig.cap="Dependency structure of a sample parsed sentence."}
+```{r}
+#| fig-width: 7
+#| fig-height: 3
+#| fig-cap: "Dependency structure of a sample parsed sentence."
+
 plot_annotation(annotation, size = 2.5)
 ```
 
-# Annotate a corpus
+## Annotate a corpus
 
 Parsing text is a computationally intensive process and can take time. So for the purposes of this lab, we'll create a smaller sub-sample of the the data. By adding a column called **text_type** which includes information extracted from the file names, we can sample 5 texts from each.
 
-```{r data_prep, message = FALSE, error=FALSE}
+```{r}
+#| message: false
+#| warning: false
+#| error: false
+
 set.seed(123)
 sub_corpus <- quanteda.extras::sample_corpus %>%
   mutate(text_type = str_extract(doc_id, "^[a-z]+")) %>%
@@ -146,7 +169,7 @@ sub_corpus <- quanteda.extras::sample_corpus %>%
   dplyr::select(doc_id, text)
 ```
 
-## Parallel processing
+### Parallel processing
 
 Parallel processing is a method whereby separate parts of an overall complex task are broken up and run simultaneously on multiple CPUs, thereby reducing the amount of time for processing. Part-of-speech tagging and dependency parsing are computationally intensive, so using parallel processing can save valuable time.
 
@@ -160,7 +183,11 @@ corpus_split <- split(sub_corpus, seq(1, nrow(sub_corpus), by = 10))
 
 For parallel processing in R, we'll us the package **future.apply**.
 
-```{r,message = FALSE, error=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
+#| error: false
+
 library(future.apply)
 ```
 
@@ -190,13 +217,13 @@ As you might guess, the output is a list of data frames, so we'll combine them u
 annotation <- data.table::rbindlist(annotation)
 ```
 
-# Process with quanteda
+## Process with quanteda
 
-## Format the data for quanteda
+### Format the data for quanteda
 
 If we want to do any further processing in **quanteda**, we need to make a couple of adjustments to our data frame. 
 
-```{r anno_edit}
+```{r}
 anno_edit <- annotation %>%
   dplyr::select(doc_id, sentence_id, token_id, token, lemma, upos, xpos, head_token_id, dep_rel) %>%
   rename(pos = upos, tag = xpos)
@@ -204,17 +231,17 @@ anno_edit <- annotation %>%
 anno_edit <- structure(anno_edit, class = c("spacyr_parsed", "data.frame"))
 ```
 
-## Convert to tokens
+### Convert to tokens
 
-```{r to_tokens}
+```{r}
 sub_tkns <- as.tokens(anno_edit, include_pos = "tag", concatenator = "_")
 ```
 
-## Create a dfm
+### Create a dfm
 
 We will also extract and assign the variable **text_type** to the tokens object.
 
-```{r to_dfm}
+```{r}
 doc_categories <- names(sub_tkns) %>%
   data.frame(text_type = .) %>%
   mutate(text_type = str_extract(text_type, "^[a-z]+"))
@@ -226,13 +253,14 @@ sub_dfm <- dfm(sub_tkns)
 
 And check the frequencies:
 
-```{r echo=FALSE}
-kableExtra::kbl(textstat_frequency(sub_dfm, n = 10), caption = "Most frequent tokens tagged for part-of-speech in sub-sample of the corpus.", booktabs = T, linesep = "", digits = 2) %>%
-  kableExtra::kable_styling(latex_options = "HOLD_position") %>%
-  kableExtra::kable_classic()
+```{r}
+#| code-fold: true
+
+textstat_frequency(sub_dfm, n = 10) |>
+  gt()
 ```
 
-## Filter/select tokens
+### Filter/select tokens
 
 There are multiple ways to filter/select the tokens we want to count. We could, for example, just filter out all rows in the annotation data frame tagged as **PUNCT**, if we wanted to exclude punctuation from our counts.
 
@@ -240,7 +268,7 @@ I would, however, advise against altering the original parsed file. We may want 
 
 So we will try an alternative. We use the **tokens_select()** function to either keep or remove tokens based on regular expressions.
 
-```{r select_tokens}
+```{r}
 sub_dfm <- sub_tkns %>%
   tokens_select("^.*[a-zA-Z0-9]+.*_[a-z]", selection = "keep", valuetype = "regex", case_insensitive = T) %>%
   dfm()
@@ -249,10 +277,13 @@ sub_dfm <- sub_tkns %>%
 
 And check the frequencies:
 
-```{r echo=FALSE}
-kableExtra::kbl(textstat_frequency(sub_dfm, n = 10), caption = "Most frequent tokens tagged for part-of-speech in sub-sample of the corpus.", booktabs = T, linesep = "", digits = 2) %>%
-  kableExtra::kable_styling(latex_options = "HOLD_position") %>%
-  kableExtra::kable_classic()
+```{r}
+#| code-fold: true
+#| tbl-cap: "Most frequent tokens tagged for part-of-speech in sub-sample of the corpus."
+
+textstat_frequency(sub_dfm, n = 10) |>
+  gt() |>
+  as_raw_html()
 ```
 
 
@@ -272,10 +303,16 @@ acad_v_fic <- keyness_table(acad_dfm, fic_dfm) %>%
 
 From that data, we can filter specific lexical classes, like modal verbs:
 
-```{r echo=FALSE}
-kableExtra::kbl(acad_v_fic %>% filter(Tag == "md"), caption = "A keyness comparision of modal verbs in a sub-sample of the academic vs. fiction text-types.", booktabs = T, linesep = "", digits = 2) %>%
-  kableExtra::kable_styling(latex_options = "HOLD_position") %>%
-  kableExtra::kable_classic()
+```{r}
+#| code-fold: true
+#| tbl-cap: "A keyness comparision of modal verbs in a sub-sample of the academic vs. fiction text-types."
+
+acad_v_fic %>% filter(Tag == "md") |>
+  gt() |>
+  fmt_number(columns = c('LL', 'LR', 'Per_10.4_Tar', 'Per_10.4_Ref'), decimals = 2) |>
+  fmt_number(columns = c('DP_Tar', 'DP_Ref'), decimals = 3) |>
+  fmt_number(columns = c('PV'), decimals = 5) |>
+  as_raw_html()
 ```
 
 ___
@@ -285,7 +322,7 @@ COMPLETE TASK 1
 \end{center} 
 ___
 
-## Extract phrases
+### Extract phrases
 
 We can also extract phrases of specific types. To so so, we first use the function **as_phrasemachine()** to add a new column to our annotation called **phrase_tag**.
 
@@ -318,15 +355,19 @@ fic_nps <- keywords_phrases(x = fic_anno$phrase_tag, term = tolower(fic_anno$tok
 ```
 
 
-```{r echo=FALSE}
-kableExtra::kbl(acad_nps %>% head(), caption = "Noun phrases extracted from a sub-sample of the corpus.", booktabs = T, linesep = "", digits = 2) %>%
-  kableExtra::kable_styling(latex_options = "HOLD_position") %>%
-  kableExtra::kable_classic()
+```{r}
+#| code-fold: true
+#| tbl-cap: "Noun phrases extracted from a sub-sample of the corpus."
+
+acad_nps |>
+  head(25) |>
+  gt() |>
+  as_raw_html()
 ```
 
 Note that although the function uses the term **keywords**, it is **NOT** executing a hypothesis test of any kind.
 
-## Extract only unique phrases
+### Extract only unique phrases
 
 Note that **udpipe** extracts overlapping constituents of phrase structures. Normally, we would want only *unique* phrases. To find those we'll take advantage of the **start** and **end** indexes, using the **between()** function from the **data.table** package.
 
@@ -360,11 +401,14 @@ fic_nps <- fic_nps %>%
 ```
 
 
-```{r echo=FALSE}
-kableExtra::kbl(fic_nps %>% head(), caption = "Unique noun phrases extracted from a sub-sample of the corpus.", booktabs = T, linesep = "", digits = 2) %>%
-  kableExtra::kable_styling(latex_options = "HOLD_position") %>%
-  kableExtra::kable_classic()
+```{r}
+#| code-fold: true
+#| tbl-cap: "Unique noun phrases extracted from a sub-sample of the corpus."
 
+fic_nps |>
+  head(10) |>
+  gt() |>
+  as_raw_html()
 ```
 
 ___

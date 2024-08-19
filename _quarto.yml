@@ -20,7 +20,8 @@ book:
         - labs/processing-pipelines.qmd
         - labs/distributions.qmd
         - labs/collocations.qmd
-        - labs/feature-engineering.qmd     
+        - labs/feature-engineering.qmd
+        - labs/logistic-regression.qmd
     - part: Lectures
       chapters:
          - lectures/embed_linguistic-facts.qmd

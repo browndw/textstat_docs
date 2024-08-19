@@ -32,7 +32,7 @@ load("../data/multiword_expressions.rda")
 To peek at the data, we'll look at the first 100 characters in the "text" column of the first row:
 
 ```{r}
-#| echo: false
+#| code-fold: true
 
 sample_corpus |>
   mutate(text = substr(text, start = 1, stop = 100)) |>
@@ -61,7 +61,7 @@ sc <- corpus(sample_corpus)
 And check the result:
 
 ```{r}
-#| echo: false
+#| code-fold: true
 #| label: tbl-summary
 #| tbl-cap: "Partial summary of sample corpus."
 
@@ -89,7 +89,7 @@ doc_categories <- str_extract(sample_corpus$doc_id, "^[a-z]+")
 Check the result:
 
 ```{r echo=FALSE}
-#| echo: false
+#| code-fold: true
 #| tbl-cap: "Document categories."
 
 doc_categories |>
@@ -109,7 +109,7 @@ docvars(sc, field = "text_type") <- doc_categories
 And check the summary again:
 
 ```{r}
-#| echo: false
+#| code-fold: true
 #| tbl-cap: "Partial summary of sample corpus."
 
 sc |>
@@ -167,9 +167,9 @@ Next we'll create a **dfm** with proportionally weighted counts.
 prop_dfm <- dfm_weight(sc_dfm, scheme = "prop")
 ```
 
-# Token distributions
+## Token distributions
 
-## Distributions of *the*
+### Distributions of *the*
 
 Let's start by selecting frequencies of the most common token in the corpus:
 
@@ -178,8 +178,13 @@ freq_df <- textstat_frequency(sc_dfm) %>%
   data.frame(stringsAsFactors = F)
 ```
 
-```{r echo=FALSE}
-knitr::kable(freq_df[1:10,], caption = "The 10 most frequent tokens in the sample corpus.")
+```{r}
+#| code-fold: true
+#| tbl-cap: "The 10 most frequent tokens in the sample corpus."
+
+freq_df |>
+  head(10) |>
+  gt()
 ```
 
 From the weighted **dfm**, we can select any token that we'd like to look at more closely. In this case, we'll select the most frequent token: *the*.
@@ -190,7 +195,10 @@ There are easier ways of doing this, but the first bit of the code-chunk allows 
 
 Also note how the **rename()** function is set up. Let's say our token is *the*. The **dfm_select()** function would result with a column named **the** that we'd want to rename **RF**. So our typical syntax would be: **rename(RF = the)**. In the chunk below, however, our column name is the variable **word**. To pass that variable to **rename**, we use **!!name(word)**.
 
-```{r select, warning=FALSE, message=FALSE}
+```{r select}
+#| warning: false
+#| message: false
+
 word <- freq_df %>% 
   filter(rank == 1) %>% 
   dplyr::select(feature) %>%
@@ -215,8 +223,12 @@ summary_table <- word_df %>%
               N = n())
 ```
 
-```{r echo=FALSE}
-knitr::kable(summary_table, digits = 2, caption = "Means and standard deviations by text-type.")
+```{r}
+#| code-fold: true
+#| tbl-cap: "Means and standard deviations by text-type."
+
+summary_table |>
+  gt()
 ```
 
 And we can inspect a histogram of the frequencies. To set the width of our bins we'll use the Freedman-Diaconis rule. The bin-width is set to:
@@ -232,20 +244,26 @@ bin_width <- function(x){
 
 Now we can plot a histogram. We're also adding a dashed line showing the mean. Note we're also going to use the **scales** package to remove scientific notation from our tick labels.
 
-```{r the_histogram, fig.height=2.5, fig.width=7, fig.cap="Histogram of the token \\textit{the}."}
+```{r}
+#| fig-height: 2.5
+#| fig-width: 7
+#| fig-cap: "Histogram of the token *the*"
+
 ggplot(word_df,aes(RF)) + 
-  geom_histogram(binwidth = bin_width(word_df$RF), colour="black", fill="white", size=.25) +
-  geom_vline(aes(xintercept=mean(RF)), color="red", linetype="dashed", size=.5) +
+  geom_histogram(binwidth = bin_width(word_df$RF), colour="black", fill="white", linewidth=.25) +
+  geom_vline(aes(xintercept=mean(RF)), color="red", linetype="dashed", linewidth=.5) +
   theme_classic() +
   scale_x_continuous(labels = scales::comma) +
   xlab("RF (per mil. words)")
 ```
 
-## Distributions of *the* and *of*
+### Distributions of *the* and *of*
 
 Now let's try plotting histograms of two tokens on the same plot. First we're going to use regular expressions to select the columns. The carat or hat **^** looks for the start of line. Without it, we would also get words like "blather". The dollar symbol **$** looks for the end of a line. The straight line | means OR. Think about how useful this flexibility can be. You could, for example, extract all words that end in *-ion*.
 
-```{r warning=FALSE}
+```{r}
+#| warning: false
+
 # Note "regex" rather than "fixed"
 word_df <- dfm_select(prop_dfm, "^the$|^of$", valuetype = "regex")
 
@@ -263,7 +281,11 @@ word_df <- word_df %>%
 
 Now let's make a new histogram. Here we assign the values of color and fill to the "token" column. We also make the columns a little transparent using the "alpha" setting.
 
-```{r fig.height=2.5, fig.width=7, fig.cap="Histogram of the tokens \\textit{the} and \\textit{of}."}
+```{r}
+#| fig-width: 7
+#| fig-height: 2.5
+#| fig-cap: "Histogram of the tokens *the* and *of*."
+
 ggplot(word_df,aes(x = RF, color = token, fill = token)) + 
   geom_histogram(binwidth = bin_width(word_df$RF), alpha=.5, position = "identity") +
   theme_classic() +
@@ -273,7 +295,11 @@ ggplot(word_df,aes(x = RF, color = token, fill = token)) +
 
 If we don't want overlapping histograms, we can use **facet_wrap()** to split the plots.
 
-```{r fig.height=2.5, fig.width=7, fig.cap="Histogram of the tokens \\textit{the} and \\textit{of}."}
+```{r}
+#| fig-width: 7
+#| fig-height: 2.5
+#| fig-cap: "Histogram of the tokens *the* and *of*."
+
 ggplot(word_df,aes(x = RF, color = token, fill = token)) + 
   geom_histogram(binwidth = bin_width(word_df$RF), alpha=.5, position = "identity") +
   theme_classic() +
@@ -290,7 +316,7 @@ COMPLETE TASK 1
 \end{center} 
 ___
 
-# Dispersion
+## Dispersion
 
 We can also calculate dispersion, and there are a variety of measures at our disposal. Our toolkit has several functions for producing these calculations.
 
@@ -322,7 +348,7 @@ COMPLETE TASK 2
 ___
 
 
-## Dispersions for all tokens
+### Dispersions for all tokens
 
 We can also calculate selected dispersion measures for all tokens using **dispersions_all()**:
 
@@ -356,11 +382,15 @@ COMPLETE TASK 3
 ___
 
 
-# Zipf's Law
+## Zipf's Law
 
 Let's plot rank against frequency for the 100 most frequent tokens in the sample corpus.
 
-```{r fig.height=2.5, fig.width=7, fig.cap="Token rank vs. frequency."}
+```{r}
+#| fig-width: 7
+#| fig-height: 4
+#| fig-cap: "Token rank vs. frequency."
+
 ggplot(freq_df %>% filter(rank < 101), aes(x = rank, y = frequency)) +
   geom_point(shape = 1, alpha = .5) +
   theme_classic() +

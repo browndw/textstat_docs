@@ -38,7 +38,7 @@ totc_df <- table(totc_tkns) %>% # make a table of counts
 ```
 
 ```{r}
-#| echo: false
+#| code-fold: true
 
 totc_df |>
   head(10) |>
@@ -48,7 +48,7 @@ totc_df |>
 The process of splitting the string vector into constituent parts is called **tokenizing**. Think of this as telling the computer how to define a word (or a "token", which is a more precise, technical term). In this case, we've done it in an extremely simple way--by defining a token as any string that is bounded by spaces.
 
 ```{r}
-#| echo: false
+#| code-fold: true
 #| fig-cap: "Case sensitive counts of the token *it*"
 
 totc_df |>
@@ -72,19 +72,12 @@ totc_df <- tolower(totc_txt) %>%
 
 
 ```{r}
-#| echo: false
+#| code-fold: true
 #| fig-cap: "Token counts of sample sentence."
 
 totc_df |>
   head(10) |>
   gt()
 ```
-
-___
-\begin{center}
-STOP!\\
-COMPLETE TASKS 1 \& 2
-\end{center} 
-___
 
 

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.4.549">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
 <title>Text Analysis for Statistics &amp; Data Science - 4&nbsp; Distributions</title>
 <style>
 code{white-space: pre-wrap;}
@@ -53,6 +56,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
+
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
@@ -70,7 +74,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -96,7 +101,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -122,14 +132,19 @@ window.Quarto = {
   typesetMath
 };
 </script>
+
 </head>
+
 <body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../_images/text_analysis.png" alt="" class="navbar-logo"></a>
+    <img src="../_images/text_analysis.png" alt="" class="navbar-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Text Analysis for Statistics &amp; Data Science</span>
     </a>
@@ -139,19 +154,25 @@ window.Quarto = {
 </div>
           <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
-    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Curriculum</a></li><li class="breadcrumb-item"><a href="../labs/distributions.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distributions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/distributions.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distributions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="sidebar-menu-container"> 
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
@@ -160,13 +181,13 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Curriculum</span></a>
+ <span class="menu-text">Labs</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../labs/classification-federalist-papers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Mosteller &amp; Wallace</span></span></a>
@@ -202,68 +223,113 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></span></a>
   </div>
 </li>
-      </ul>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/logistic-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
+  </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Support</span></a>
+ <span class="menu-text">Lectures</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../labs/sentiment-and-syuzhet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Sentiment &amp; syuzhet</span></span></a>
+  <a href="../lectures/embed_linguistic-facts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Linguistic Facts of Life</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/embed_llms-history.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">LLMs History</span></span></a>
   </div>
 </li>
       </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Labs Sets</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lab_sets/LabSet_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Lab Set 1</span></span></a>
+  </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lab_sets/LabSet_02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Lab Set 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lab_sets/LabSet_03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lab Set 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lab_sets/LabSet_04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Lab Set 4</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li>
-<a href="#prepare-a-corpus" id="toc-prepare-a-corpus" class="nav-link active" data-scroll-target="#prepare-a-corpus"><span class="header-section-number">4.1</span> Prepare a corpus</a>
+  <li><a href="#prepare-a-corpus" id="toc-prepare-a-corpus" class="nav-link active" data-scroll-target="#prepare-a-corpus"><span class="header-section-number">4.1</span> Prepare a corpus</a>
   <ul class="collapse">
-<li><a href="#load-the-needed-packages" id="toc-load-the-needed-packages" class="nav-link" data-scroll-target="#load-the-needed-packages"><span class="header-section-number">4.1.1</span> Load the needed packages</a></li>
+  <li><a href="#load-the-needed-packages" id="toc-load-the-needed-packages" class="nav-link" data-scroll-target="#load-the-needed-packages"><span class="header-section-number">4.1.1</span> Load the needed packages</a></li>
   <li><a href="#load-a-corpus" id="toc-load-a-corpus" class="nav-link" data-scroll-target="#load-a-corpus"><span class="header-section-number">4.1.2</span> Load a corpus</a></li>
   <li><a href="#load-functions" id="toc-load-functions" class="nav-link" data-scroll-target="#load-functions"><span class="header-section-number">4.1.3</span> Load functions</a></li>
   <li><a href="#create-and-corpus" id="toc-create-and-corpus" class="nav-link" data-scroll-target="#create-and-corpus"><span class="header-section-number">4.1.4</span> Create and corpus</a></li>
-  </ul>
-</li>
+  </ul></li>
   <li><a href="#document-variables-name-your-files-systematically" id="toc-document-variables-name-your-files-systematically" class="nav-link" data-scroll-target="#document-variables-name-your-files-systematically"><span class="header-section-number">4.2</span> Document variables (Name your files systematically!)</a></li>
   <li><a href="#tokenize-the-corpus" id="toc-tokenize-the-corpus" class="nav-link" data-scroll-target="#tokenize-the-corpus"><span class="header-section-number">4.3</span> Tokenize the corpus</a></li>
   <li><a href="#multi-word-expressions" id="toc-multi-word-expressions" class="nav-link" data-scroll-target="#multi-word-expressions"><span class="header-section-number">4.4</span> Multi-word Expressions</a></li>
   <li><a href="#create-a-document-feature-matrix" id="toc-create-a-document-feature-matrix" class="nav-link" data-scroll-target="#create-a-document-feature-matrix"><span class="header-section-number">4.5</span> Create a document-feature matrix</a></li>
-  <li>
-<a href="#token-distributions" id="toc-token-distributions" class="nav-link" data-scroll-target="#token-distributions"><span class="header-section-number">5</span> Token distributions</a>
+  <li><a href="#token-distributions" id="toc-token-distributions" class="nav-link" data-scroll-target="#token-distributions"><span class="header-section-number">4.6</span> Token distributions</a>
   <ul class="collapse">
-<li><a href="#distributions-of-the" id="toc-distributions-of-the" class="nav-link" data-scroll-target="#distributions-of-the"><span class="header-section-number">5.1</span> Distributions of <em>the</em></a></li>
-  <li><a href="#distributions-of-the-and-of" id="toc-distributions-of-the-and-of" class="nav-link" data-scroll-target="#distributions-of-the-and-of"><span class="header-section-number">5.2</span> Distributions of <em>the</em> and <em>of</em></a></li>
-  </ul>
-</li>
-  <li>
-<a href="#dispersion" id="toc-dispersion" class="nav-link" data-scroll-target="#dispersion"><span class="header-section-number">6</span> Dispersion</a>
+  <li><a href="#distributions-of-the" id="toc-distributions-of-the" class="nav-link" data-scroll-target="#distributions-of-the"><span class="header-section-number">4.6.1</span> Distributions of <em>the</em></a></li>
+  <li><a href="#distributions-of-the-and-of" id="toc-distributions-of-the-and-of" class="nav-link" data-scroll-target="#distributions-of-the-and-of"><span class="header-section-number">4.6.2</span> Distributions of <em>the</em> and <em>of</em></a></li>
+  </ul></li>
+  <li><a href="#dispersion" id="toc-dispersion" class="nav-link" data-scroll-target="#dispersion"><span class="header-section-number">4.7</span> Dispersion</a>
   <ul class="collapse">
-<li><a href="#dispersions-for-all-tokens" id="toc-dispersions-for-all-tokens" class="nav-link" data-scroll-target="#dispersions-for-all-tokens"><span class="header-section-number">6.1</span> Dispersions for all tokens</a></li>
-  <li><a href="#generating-a-frequency-table" id="toc-generating-a-frequency-table" class="nav-link" data-scroll-target="#generating-a-frequency-table"><span class="header-section-number">6.2</span> Generating a frequency table</a></li>
+  <li><a href="#dispersions-for-all-tokens" id="toc-dispersions-for-all-tokens" class="nav-link" data-scroll-target="#dispersions-for-all-tokens"><span class="header-section-number">4.7.1</span> Dispersions for all tokens</a></li>
+  </ul></li>
+  <li><a href="#generating-a-frequency-table" id="toc-generating-a-frequency-table" class="nav-link" data-scroll-target="#generating-a-frequency-table"><span class="header-section-number">4.8</span> Generating a frequency table</a></li>
+  <li><a href="#zipfs-law" id="toc-zipfs-law" class="nav-link" data-scroll-target="#zipfs-law"><span class="header-section-number">4.9</span> Zipf’s Law</a></li>
   </ul>
-</li>
-  <li><a href="#zipfs-law" id="toc-zipfs-law" class="nav-link" data-scroll-target="#zipfs-law"><span class="header-section-number">7</span> Zipf’s Law</a></li>
-  </ul><div class="toc-actions"><ul><li><a href="https://github.com/browndw/textstat_tools/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/browndw/textstat_tools/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Curriculum</a></li><li class="breadcrumb-item"><a href="../labs/distributions.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distributions</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title">
-<span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distributions</span>
-</h1>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/distributions.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distributions</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distributions</span></h1>
 </div>
 
 
@@ -277,43 +343,54 @@ window.Quarto = {
   
 
 
-</header><section id="prepare-a-corpus" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="prepare-a-corpus">
-<span class="header-section-number">4.1</span> Prepare a corpus</h2>
-<section id="load-the-needed-packages" class="level3" data-number="4.1.1"><h3 data-number="4.1.1" class="anchored" data-anchor-id="load-the-needed-packages">
-<span class="header-section-number">4.1.1</span> Load the needed packages</h3>
+</header>
+
+
+<section id="prepare-a-corpus" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="prepare-a-corpus"><span class="header-section-number">4.1</span> Prepare a corpus</h2>
+<section id="load-the-needed-packages" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="load-the-needed-packages"><span class="header-section-number">4.1.1</span> Load the needed packages</h3>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com">gt</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://quanteda.io">quanteda</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://quanteda.io">quanteda.textstats</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textstats)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="load-a-corpus" class="level3" data-number="4.1.2"><h3 data-number="4.1.2" class="anchored" data-anchor-id="load-a-corpus">
-<span class="header-section-number">4.1.2</span> Load a corpus</h3>
+</section>
+<section id="load-a-corpus" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="load-a-corpus"><span class="header-section-number">4.1.2</span> Load a corpus</h3>
 <p>The repository comes with some data sets. The conventional way to format text data prior to processing is as a table with a column of document ids (which correspond to the the file names) and a column of texts. Such a table is easy to create from text data on your own local drive using the package <a href="https://readtext.quanteda.io/articles/readtext_vignette.html"><strong>readtext</strong></a>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"../data/sample_corpus.rda"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"../data/multiword_expressions.rda"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/sample_corpus.rda"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/multiword_expressions.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To peek at the data, we’ll look at the first 100 characters in the “text” column of the first row:</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sample_corpus <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">substr</span>(text, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">stop =</span> <span class="dv">100</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<div id="ixhpehzqbr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ixhpehzqbr table {
+<div id="smdcchhnjl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#smdcchhnjl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ixhpehzqbr thead, #ixhpehzqbr tbody, #ixhpehzqbr tfoot, #ixhpehzqbr tr, #ixhpehzqbr td, #ixhpehzqbr th {
+#smdcchhnjl thead, #smdcchhnjl tbody, #smdcchhnjl tfoot, #smdcchhnjl tr, #smdcchhnjl td, #smdcchhnjl th {
   border-style: none;
 }
 
-#ixhpehzqbr p {
+#smdcchhnjl p {
   margin: 0;
   padding: 0;
 }
 
-#ixhpehzqbr .gt_table {
+#smdcchhnjl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -339,12 +416,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#ixhpehzqbr .gt_caption {
+#smdcchhnjl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ixhpehzqbr .gt_title {
+#smdcchhnjl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -356,7 +433,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#ixhpehzqbr .gt_subtitle {
+#smdcchhnjl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -368,7 +445,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#ixhpehzqbr .gt_heading {
+#smdcchhnjl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -380,13 +457,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#ixhpehzqbr .gt_bottom_border {
+#smdcchhnjl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ixhpehzqbr .gt_col_headings {
+#smdcchhnjl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -401,7 +478,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#ixhpehzqbr .gt_col_heading {
+#smdcchhnjl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -421,7 +498,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#ixhpehzqbr .gt_column_spanner_outer {
+#smdcchhnjl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -433,15 +510,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#ixhpehzqbr .gt_column_spanner_outer:first-child {
+#smdcchhnjl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ixhpehzqbr .gt_column_spanner_outer:last-child {
+#smdcchhnjl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ixhpehzqbr .gt_column_spanner {
+#smdcchhnjl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -453,11 +530,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#ixhpehzqbr .gt_spanner_row {
+#smdcchhnjl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ixhpehzqbr .gt_group_heading {
+#smdcchhnjl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -483,7 +560,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#ixhpehzqbr .gt_empty_group_heading {
+#smdcchhnjl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -498,15 +575,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#ixhpehzqbr .gt_from_md > :first-child {
+#smdcchhnjl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ixhpehzqbr .gt_from_md > :last-child {
+#smdcchhnjl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ixhpehzqbr .gt_row {
+#smdcchhnjl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -525,7 +602,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#ixhpehzqbr .gt_stub {
+#smdcchhnjl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -538,7 +615,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#ixhpehzqbr .gt_stub_row_group {
+#smdcchhnjl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -552,15 +629,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#ixhpehzqbr .gt_row_group_first td {
+#smdcchhnjl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ixhpehzqbr .gt_row_group_first th {
+#smdcchhnjl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ixhpehzqbr .gt_summary_row {
+#smdcchhnjl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -570,16 +647,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#ixhpehzqbr .gt_first_summary_row {
+#smdcchhnjl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ixhpehzqbr .gt_first_summary_row.thick {
+#smdcchhnjl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ixhpehzqbr .gt_last_summary_row {
+#smdcchhnjl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -589,7 +666,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#ixhpehzqbr .gt_grand_summary_row {
+#smdcchhnjl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -599,7 +676,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#ixhpehzqbr .gt_first_grand_summary_row {
+#smdcchhnjl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -609,7 +686,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#ixhpehzqbr .gt_last_grand_summary_row_top {
+#smdcchhnjl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -619,11 +696,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#ixhpehzqbr .gt_striped {
+#smdcchhnjl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ixhpehzqbr .gt_table_body {
+#smdcchhnjl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -632,7 +709,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#ixhpehzqbr .gt_footnotes {
+#smdcchhnjl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -646,7 +723,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#ixhpehzqbr .gt_footnote {
+#smdcchhnjl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -655,7 +732,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#ixhpehzqbr .gt_sourcenotes {
+#smdcchhnjl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -669,7 +746,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#ixhpehzqbr .gt_sourcenote {
+#smdcchhnjl .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -677,80 +754,83 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#ixhpehzqbr .gt_left {
+#smdcchhnjl .gt_left {
   text-align: left;
 }
 
-#ixhpehzqbr .gt_center {
+#smdcchhnjl .gt_center {
   text-align: center;
 }
 
-#ixhpehzqbr .gt_right {
+#smdcchhnjl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ixhpehzqbr .gt_font_normal {
+#smdcchhnjl .gt_font_normal {
   font-weight: normal;
 }
 
-#ixhpehzqbr .gt_font_bold {
+#smdcchhnjl .gt_font_bold {
   font-weight: bold;
 }
 
-#ixhpehzqbr .gt_font_italic {
+#smdcchhnjl .gt_font_italic {
   font-style: italic;
 }
 
-#ixhpehzqbr .gt_super {
+#smdcchhnjl .gt_super {
   font-size: 65%;
 }
 
-#ixhpehzqbr .gt_footnote_marks {
+#smdcchhnjl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ixhpehzqbr .gt_asterisk {
+#smdcchhnjl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ixhpehzqbr .gt_indent_1 {
+#smdcchhnjl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ixhpehzqbr .gt_indent_2 {
+#smdcchhnjl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ixhpehzqbr .gt_indent_3 {
+#smdcchhnjl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ixhpehzqbr .gt_indent_4 {
+#smdcchhnjl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ixhpehzqbr .gt_indent_5 {
+#smdcchhnjl .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ixhpehzqbr .katex-display {
+#smdcchhnjl .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ixhpehzqbr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#smdcchhnjl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
+
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead><tr class="header gt_col_headings">
+<thead>
+<tr class="header gt_col_headings">
 <th id="doc_id" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">doc_id</th>
 <th id="text" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">text</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="doc_id">acad_01</td>
@@ -794,45 +874,57 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
+
 </div>
 </div>
 </div>
-</section><section id="load-functions" class="level3" data-number="4.1.3"><h3 data-number="4.1.3" class="anchored" data-anchor-id="load-functions">
-<span class="header-section-number">4.1.3</span> Load functions</h3>
+</section>
+<section id="load-functions" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="load-functions"><span class="header-section-number">4.1.3</span> Load functions</h3>
 <p>The repository also contains a number of useful functions. Here, will load some that will calculate a number of common dispersion measures.</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"../R/dispersion_functions.R"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/dispersion_functions.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="create-and-corpus" class="level3" data-number="4.1.4"><h3 data-number="4.1.4" class="anchored" data-anchor-id="create-and-corpus">
-<span class="header-section-number">4.1.4</span> Create and corpus</h3>
+</section>
+<section id="create-and-corpus" class="level3" data-number="4.1.4">
+<h3 data-number="4.1.4" class="anchored" data-anchor-id="create-and-corpus"><span class="header-section-number">4.1.4</span> Create and corpus</h3>
 <p>Make a corpus object.</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/corpus.html">corpus</a></span><span class="op">(</span><span class="va">sample_corpus</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sc <span class="ot">&lt;-</span> <span class="fu">corpus</span>(sample_corpus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And check the result:</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sc <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div id="tbl-summary" class="cell quarto-float anchored">
-<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4.1: Partial summary of sample corpus.
-</figcaption><div aria-describedby="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+</figcaption>
+<div aria-describedby="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="vhwkoucbza" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#vhwkoucbza table {
+<div id="lyrkbyepkr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lyrkbyepkr table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#vhwkoucbza thead, #vhwkoucbza tbody, #vhwkoucbza tfoot, #vhwkoucbza tr, #vhwkoucbza td, #vhwkoucbza th {
+#lyrkbyepkr thead, #lyrkbyepkr tbody, #lyrkbyepkr tfoot, #lyrkbyepkr tr, #lyrkbyepkr td, #lyrkbyepkr th {
   border-style: none;
 }
 
-#vhwkoucbza p {
+#lyrkbyepkr p {
   margin: 0;
   padding: 0;
 }
 
-#vhwkoucbza .gt_table {
+#lyrkbyepkr .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -858,12 +950,12 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-left-color: #D3D3D3;
 }
 
-#vhwkoucbza .gt_caption {
+#lyrkbyepkr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#vhwkoucbza .gt_title {
+#lyrkbyepkr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -875,7 +967,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-bottom-width: 0;
 }
 
-#vhwkoucbza .gt_subtitle {
+#lyrkbyepkr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -887,7 +979,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-top-width: 0;
 }
 
-#vhwkoucbza .gt_heading {
+#lyrkbyepkr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -899,13 +991,13 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-right-color: #D3D3D3;
 }
 
-#vhwkoucbza .gt_bottom_border {
+#lyrkbyepkr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vhwkoucbza .gt_col_headings {
+#lyrkbyepkr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -920,7 +1012,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-right-color: #D3D3D3;
 }
 
-#vhwkoucbza .gt_col_heading {
+#lyrkbyepkr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -940,7 +1032,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   overflow-x: hidden;
 }
 
-#vhwkoucbza .gt_column_spanner_outer {
+#lyrkbyepkr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -952,15 +1044,15 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 4px;
 }
 
-#vhwkoucbza .gt_column_spanner_outer:first-child {
+#lyrkbyepkr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vhwkoucbza .gt_column_spanner_outer:last-child {
+#lyrkbyepkr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vhwkoucbza .gt_column_spanner {
+#lyrkbyepkr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -972,11 +1064,11 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   width: 100%;
 }
 
-#vhwkoucbza .gt_spanner_row {
+#lyrkbyepkr .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#vhwkoucbza .gt_group_heading {
+#lyrkbyepkr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1002,7 +1094,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   text-align: left;
 }
 
-#vhwkoucbza .gt_empty_group_heading {
+#lyrkbyepkr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1017,15 +1109,15 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   vertical-align: middle;
 }
 
-#vhwkoucbza .gt_from_md > :first-child {
+#lyrkbyepkr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vhwkoucbza .gt_from_md > :last-child {
+#lyrkbyepkr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vhwkoucbza .gt_row {
+#lyrkbyepkr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1044,7 +1136,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   overflow-x: hidden;
 }
 
-#vhwkoucbza .gt_stub {
+#lyrkbyepkr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1057,7 +1149,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 5px;
 }
 
-#vhwkoucbza .gt_stub_row_group {
+#lyrkbyepkr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1071,15 +1163,15 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   vertical-align: top;
 }
 
-#vhwkoucbza .gt_row_group_first td {
+#lyrkbyepkr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#vhwkoucbza .gt_row_group_first th {
+#lyrkbyepkr .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#vhwkoucbza .gt_summary_row {
+#lyrkbyepkr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1089,16 +1181,16 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 5px;
 }
 
-#vhwkoucbza .gt_first_summary_row {
+#lyrkbyepkr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#vhwkoucbza .gt_first_summary_row.thick {
+#lyrkbyepkr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#vhwkoucbza .gt_last_summary_row {
+#lyrkbyepkr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1108,7 +1200,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-bottom-color: #D3D3D3;
 }
 
-#vhwkoucbza .gt_grand_summary_row {
+#lyrkbyepkr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1118,7 +1210,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 5px;
 }
 
-#vhwkoucbza .gt_first_grand_summary_row {
+#lyrkbyepkr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1128,7 +1220,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-top-color: #D3D3D3;
 }
 
-#vhwkoucbza .gt_last_grand_summary_row_top {
+#lyrkbyepkr .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1138,11 +1230,11 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-bottom-color: #D3D3D3;
 }
 
-#vhwkoucbza .gt_striped {
+#lyrkbyepkr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vhwkoucbza .gt_table_body {
+#lyrkbyepkr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1151,7 +1243,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-bottom-color: #D3D3D3;
 }
 
-#vhwkoucbza .gt_footnotes {
+#lyrkbyepkr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1165,7 +1257,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-right-color: #D3D3D3;
 }
 
-#vhwkoucbza .gt_footnote {
+#lyrkbyepkr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1174,7 +1266,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 5px;
 }
 
-#vhwkoucbza .gt_sourcenotes {
+#lyrkbyepkr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1188,7 +1280,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-right-color: #D3D3D3;
 }
 
-#vhwkoucbza .gt_sourcenote {
+#lyrkbyepkr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1196,82 +1288,85 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 5px;
 }
 
-#vhwkoucbza .gt_left {
+#lyrkbyepkr .gt_left {
   text-align: left;
 }
 
-#vhwkoucbza .gt_center {
+#lyrkbyepkr .gt_center {
   text-align: center;
 }
 
-#vhwkoucbza .gt_right {
+#lyrkbyepkr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vhwkoucbza .gt_font_normal {
+#lyrkbyepkr .gt_font_normal {
   font-weight: normal;
 }
 
-#vhwkoucbza .gt_font_bold {
+#lyrkbyepkr .gt_font_bold {
   font-weight: bold;
 }
 
-#vhwkoucbza .gt_font_italic {
+#lyrkbyepkr .gt_font_italic {
   font-style: italic;
 }
 
-#vhwkoucbza .gt_super {
+#lyrkbyepkr .gt_super {
   font-size: 65%;
 }
 
-#vhwkoucbza .gt_footnote_marks {
+#lyrkbyepkr .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#vhwkoucbza .gt_asterisk {
+#lyrkbyepkr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#vhwkoucbza .gt_indent_1 {
+#lyrkbyepkr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#vhwkoucbza .gt_indent_2 {
+#lyrkbyepkr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#vhwkoucbza .gt_indent_3 {
+#lyrkbyepkr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#vhwkoucbza .gt_indent_4 {
+#lyrkbyepkr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#vhwkoucbza .gt_indent_5 {
+#lyrkbyepkr .gt_indent_5 {
   text-indent: 25px;
 }
 
-#vhwkoucbza .katex-display {
+#lyrkbyepkr .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#vhwkoucbza div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#lyrkbyepkr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
+
 <table class="gt_table do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead><tr class="header gt_col_headings">
+<thead>
+<tr class="header gt_col_headings">
 <th id="Text" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Text</th>
 <th id="Types" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Types</th>
 <th id="Tokens" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Tokens</th>
 <th id="Sentences" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Sentences</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="Text">acad_01</td>
@@ -1335,14 +1430,17 @@ Table&nbsp;4.1: Partial summary of sample corpus.
 </tr>
 </tbody>
 </table>
+
 </div>
 </div>
 </div>
 </figure>
 </div>
 </div>
-</section></section><section id="document-variables-name-your-files-systematically" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="document-variables-name-your-files-systematically">
-<span class="header-section-number">4.2</span> Document variables (Name your files systematically!)</h2>
+</section>
+</section>
+<section id="document-variables-name-your-files-systematically" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="document-variables-name-your-files-systematically"><span class="header-section-number">4.2</span> Document variables (Name your files systematically!)</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1359,28 +1457,28 @@ Important
 </div>
 <p>We are now going to extract the meta-data from the file names and pass them as a variable.</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">doc_categories</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">sample_corpus</span><span class="op">$</span><span class="va">doc_id</span>, <span class="st">"^[a-z]+"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>doc_categories <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(sample_corpus<span class="sc">$</span>doc_id, <span class="st">"^[a-z]+"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Check the result:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="pvwxgpctxu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#pvwxgpctxu table {
+<div id="iarvpttqwr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#iarvpttqwr table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#pvwxgpctxu thead, #pvwxgpctxu tbody, #pvwxgpctxu tfoot, #pvwxgpctxu tr, #pvwxgpctxu td, #pvwxgpctxu th {
+#iarvpttqwr thead, #iarvpttqwr tbody, #iarvpttqwr tfoot, #iarvpttqwr tr, #iarvpttqwr td, #iarvpttqwr th {
   border-style: none;
 }
 
-#pvwxgpctxu p {
+#iarvpttqwr p {
   margin: 0;
   padding: 0;
 }
 
-#pvwxgpctxu .gt_table {
+#iarvpttqwr .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1406,12 +1504,12 @@ Important
   border-left-color: #D3D3D3;
 }
 
-#pvwxgpctxu .gt_caption {
+#iarvpttqwr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#pvwxgpctxu .gt_title {
+#iarvpttqwr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1423,7 +1521,7 @@ Important
   border-bottom-width: 0;
 }
 
-#pvwxgpctxu .gt_subtitle {
+#iarvpttqwr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1435,7 +1533,7 @@ Important
   border-top-width: 0;
 }
 
-#pvwxgpctxu .gt_heading {
+#iarvpttqwr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1447,13 +1545,13 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pvwxgpctxu .gt_bottom_border {
+#iarvpttqwr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pvwxgpctxu .gt_col_headings {
+#iarvpttqwr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1468,7 +1566,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pvwxgpctxu .gt_col_heading {
+#iarvpttqwr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1488,7 +1586,7 @@ Important
   overflow-x: hidden;
 }
 
-#pvwxgpctxu .gt_column_spanner_outer {
+#iarvpttqwr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1500,15 +1598,15 @@ Important
   padding-right: 4px;
 }
 
-#pvwxgpctxu .gt_column_spanner_outer:first-child {
+#iarvpttqwr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pvwxgpctxu .gt_column_spanner_outer:last-child {
+#iarvpttqwr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pvwxgpctxu .gt_column_spanner {
+#iarvpttqwr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1520,11 +1618,11 @@ Important
   width: 100%;
 }
 
-#pvwxgpctxu .gt_spanner_row {
+#iarvpttqwr .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#pvwxgpctxu .gt_group_heading {
+#iarvpttqwr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1550,7 +1648,7 @@ Important
   text-align: left;
 }
 
-#pvwxgpctxu .gt_empty_group_heading {
+#iarvpttqwr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1565,15 +1663,15 @@ Important
   vertical-align: middle;
 }
 
-#pvwxgpctxu .gt_from_md > :first-child {
+#iarvpttqwr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pvwxgpctxu .gt_from_md > :last-child {
+#iarvpttqwr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pvwxgpctxu .gt_row {
+#iarvpttqwr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1592,7 +1690,7 @@ Important
   overflow-x: hidden;
 }
 
-#pvwxgpctxu .gt_stub {
+#iarvpttqwr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1605,7 +1703,7 @@ Important
   padding-right: 5px;
 }
 
-#pvwxgpctxu .gt_stub_row_group {
+#iarvpttqwr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1619,15 +1717,15 @@ Important
   vertical-align: top;
 }
 
-#pvwxgpctxu .gt_row_group_first td {
+#iarvpttqwr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pvwxgpctxu .gt_row_group_first th {
+#iarvpttqwr .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#pvwxgpctxu .gt_summary_row {
+#iarvpttqwr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1637,16 +1735,16 @@ Important
   padding-right: 5px;
 }
 
-#pvwxgpctxu .gt_first_summary_row {
+#iarvpttqwr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pvwxgpctxu .gt_first_summary_row.thick {
+#iarvpttqwr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pvwxgpctxu .gt_last_summary_row {
+#iarvpttqwr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1656,7 +1754,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#pvwxgpctxu .gt_grand_summary_row {
+#iarvpttqwr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1666,7 +1764,7 @@ Important
   padding-right: 5px;
 }
 
-#pvwxgpctxu .gt_first_grand_summary_row {
+#iarvpttqwr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1676,7 +1774,7 @@ Important
   border-top-color: #D3D3D3;
 }
 
-#pvwxgpctxu .gt_last_grand_summary_row_top {
+#iarvpttqwr .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1686,11 +1784,11 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#pvwxgpctxu .gt_striped {
+#iarvpttqwr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pvwxgpctxu .gt_table_body {
+#iarvpttqwr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1699,7 +1797,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#pvwxgpctxu .gt_footnotes {
+#iarvpttqwr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1713,7 +1811,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pvwxgpctxu .gt_footnote {
+#iarvpttqwr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1722,7 +1820,7 @@ Important
   padding-right: 5px;
 }
 
-#pvwxgpctxu .gt_sourcenotes {
+#iarvpttqwr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1736,7 +1834,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#pvwxgpctxu .gt_sourcenote {
+#iarvpttqwr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1744,80 +1842,83 @@ Important
   padding-right: 5px;
 }
 
-#pvwxgpctxu .gt_left {
+#iarvpttqwr .gt_left {
   text-align: left;
 }
 
-#pvwxgpctxu .gt_center {
+#iarvpttqwr .gt_center {
   text-align: center;
 }
 
-#pvwxgpctxu .gt_right {
+#iarvpttqwr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pvwxgpctxu .gt_font_normal {
+#iarvpttqwr .gt_font_normal {
   font-weight: normal;
 }
 
-#pvwxgpctxu .gt_font_bold {
+#iarvpttqwr .gt_font_bold {
   font-weight: bold;
 }
 
-#pvwxgpctxu .gt_font_italic {
+#iarvpttqwr .gt_font_italic {
   font-style: italic;
 }
 
-#pvwxgpctxu .gt_super {
+#iarvpttqwr .gt_super {
   font-size: 65%;
 }
 
-#pvwxgpctxu .gt_footnote_marks {
+#iarvpttqwr .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#pvwxgpctxu .gt_asterisk {
+#iarvpttqwr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pvwxgpctxu .gt_indent_1 {
+#iarvpttqwr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#pvwxgpctxu .gt_indent_2 {
+#iarvpttqwr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#pvwxgpctxu .gt_indent_3 {
+#iarvpttqwr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#pvwxgpctxu .gt_indent_4 {
+#iarvpttqwr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#pvwxgpctxu .gt_indent_5 {
+#iarvpttqwr .gt_indent_5 {
   text-indent: 25px;
 }
 
-#pvwxgpctxu .katex-display {
+#iarvpttqwr .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#pvwxgpctxu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#iarvpttqwr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
+
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <caption>Document categories.</caption>
-<thead><tr class="header gt_col_headings">
+<thead>
+<tr class="header gt_col_headings">
 <th id="doc_cats" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">doc_cats</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="doc_cats">acad</td>
@@ -1845,33 +1946,41 @@ Important
 </tr>
 </tbody>
 </table>
+
 </div>
 </div>
 </div>
 <p>We will now assign the variable to the corpus. The following command might look backwards, with the function on the left hand side of the <strong>&lt;-</strong> operator. That is because it’s an accessor function, which lets us add or modify data in an object. You can tell when a function is an accessor function like this because its help file will show that you can use it with <strong>&lt;-</strong>, for example in <strong>?docvars</strong>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://quanteda.io/reference/docvars.html">docvars</a></span><span class="op">(</span><span class="va">sc</span>, field <span class="op">=</span> <span class="st">"text_type"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">doc_categories</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(sc, <span class="at">field =</span> <span class="st">"text_type"</span>) <span class="ot">&lt;-</span> doc_categories</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And check the summary again:</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sc <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<div id="oyxyecuefi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#oyxyecuefi table {
+<div id="jkgkqqbdxf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jkgkqqbdxf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#oyxyecuefi thead, #oyxyecuefi tbody, #oyxyecuefi tfoot, #oyxyecuefi tr, #oyxyecuefi td, #oyxyecuefi th {
+#jkgkqqbdxf thead, #jkgkqqbdxf tbody, #jkgkqqbdxf tfoot, #jkgkqqbdxf tr, #jkgkqqbdxf td, #jkgkqqbdxf th {
   border-style: none;
 }
 
-#oyxyecuefi p {
+#jkgkqqbdxf p {
   margin: 0;
   padding: 0;
 }
 
-#oyxyecuefi .gt_table {
+#jkgkqqbdxf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1897,12 +2006,12 @@ Important
   border-left-color: #D3D3D3;
 }
 
-#oyxyecuefi .gt_caption {
+#jkgkqqbdxf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#oyxyecuefi .gt_title {
+#jkgkqqbdxf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1914,7 +2023,7 @@ Important
   border-bottom-width: 0;
 }
 
-#oyxyecuefi .gt_subtitle {
+#jkgkqqbdxf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1926,7 +2035,7 @@ Important
   border-top-width: 0;
 }
 
-#oyxyecuefi .gt_heading {
+#jkgkqqbdxf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1938,13 +2047,13 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#oyxyecuefi .gt_bottom_border {
+#jkgkqqbdxf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oyxyecuefi .gt_col_headings {
+#jkgkqqbdxf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1959,7 +2068,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#oyxyecuefi .gt_col_heading {
+#jkgkqqbdxf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1979,7 +2088,7 @@ Important
   overflow-x: hidden;
 }
 
-#oyxyecuefi .gt_column_spanner_outer {
+#jkgkqqbdxf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1991,15 +2100,15 @@ Important
   padding-right: 4px;
 }
 
-#oyxyecuefi .gt_column_spanner_outer:first-child {
+#jkgkqqbdxf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oyxyecuefi .gt_column_spanner_outer:last-child {
+#jkgkqqbdxf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oyxyecuefi .gt_column_spanner {
+#jkgkqqbdxf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2011,11 +2120,11 @@ Important
   width: 100%;
 }
 
-#oyxyecuefi .gt_spanner_row {
+#jkgkqqbdxf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#oyxyecuefi .gt_group_heading {
+#jkgkqqbdxf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2041,7 +2150,7 @@ Important
   text-align: left;
 }
 
-#oyxyecuefi .gt_empty_group_heading {
+#jkgkqqbdxf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2056,15 +2165,15 @@ Important
   vertical-align: middle;
 }
 
-#oyxyecuefi .gt_from_md > :first-child {
+#jkgkqqbdxf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oyxyecuefi .gt_from_md > :last-child {
+#jkgkqqbdxf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oyxyecuefi .gt_row {
+#jkgkqqbdxf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2083,7 +2192,7 @@ Important
   overflow-x: hidden;
 }
 
-#oyxyecuefi .gt_stub {
+#jkgkqqbdxf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2096,7 +2205,7 @@ Important
   padding-right: 5px;
 }
 
-#oyxyecuefi .gt_stub_row_group {
+#jkgkqqbdxf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2110,15 +2219,15 @@ Important
   vertical-align: top;
 }
 
-#oyxyecuefi .gt_row_group_first td {
+#jkgkqqbdxf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oyxyecuefi .gt_row_group_first th {
+#jkgkqqbdxf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#oyxyecuefi .gt_summary_row {
+#jkgkqqbdxf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2128,16 +2237,16 @@ Important
   padding-right: 5px;
 }
 
-#oyxyecuefi .gt_first_summary_row {
+#jkgkqqbdxf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oyxyecuefi .gt_first_summary_row.thick {
+#jkgkqqbdxf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oyxyecuefi .gt_last_summary_row {
+#jkgkqqbdxf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2147,7 +2256,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#oyxyecuefi .gt_grand_summary_row {
+#jkgkqqbdxf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2157,7 +2266,7 @@ Important
   padding-right: 5px;
 }
 
-#oyxyecuefi .gt_first_grand_summary_row {
+#jkgkqqbdxf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2167,7 +2276,7 @@ Important
   border-top-color: #D3D3D3;
 }
 
-#oyxyecuefi .gt_last_grand_summary_row_top {
+#jkgkqqbdxf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2177,11 +2286,11 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#oyxyecuefi .gt_striped {
+#jkgkqqbdxf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oyxyecuefi .gt_table_body {
+#jkgkqqbdxf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2190,7 +2299,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#oyxyecuefi .gt_footnotes {
+#jkgkqqbdxf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2204,7 +2313,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#oyxyecuefi .gt_footnote {
+#jkgkqqbdxf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2213,7 +2322,7 @@ Important
   padding-right: 5px;
 }
 
-#oyxyecuefi .gt_sourcenotes {
+#jkgkqqbdxf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2227,7 +2336,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#oyxyecuefi .gt_sourcenote {
+#jkgkqqbdxf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2235,84 +2344,87 @@ Important
   padding-right: 5px;
 }
 
-#oyxyecuefi .gt_left {
+#jkgkqqbdxf .gt_left {
   text-align: left;
 }
 
-#oyxyecuefi .gt_center {
+#jkgkqqbdxf .gt_center {
   text-align: center;
 }
 
-#oyxyecuefi .gt_right {
+#jkgkqqbdxf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oyxyecuefi .gt_font_normal {
+#jkgkqqbdxf .gt_font_normal {
   font-weight: normal;
 }
 
-#oyxyecuefi .gt_font_bold {
+#jkgkqqbdxf .gt_font_bold {
   font-weight: bold;
 }
 
-#oyxyecuefi .gt_font_italic {
+#jkgkqqbdxf .gt_font_italic {
   font-style: italic;
 }
 
-#oyxyecuefi .gt_super {
+#jkgkqqbdxf .gt_super {
   font-size: 65%;
 }
 
-#oyxyecuefi .gt_footnote_marks {
+#jkgkqqbdxf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#oyxyecuefi .gt_asterisk {
+#jkgkqqbdxf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oyxyecuefi .gt_indent_1 {
+#jkgkqqbdxf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#oyxyecuefi .gt_indent_2 {
+#jkgkqqbdxf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#oyxyecuefi .gt_indent_3 {
+#jkgkqqbdxf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#oyxyecuefi .gt_indent_4 {
+#jkgkqqbdxf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#oyxyecuefi .gt_indent_5 {
+#jkgkqqbdxf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#oyxyecuefi .katex-display {
+#jkgkqqbdxf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#oyxyecuefi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#jkgkqqbdxf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
+
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <caption>Partial summary of sample corpus.</caption>
-<thead><tr class="header gt_col_headings">
+<thead>
+<tr class="header gt_col_headings">
 <th id="Text" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Text</th>
 <th id="Types" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Types</th>
 <th id="Tokens" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Tokens</th>
 <th id="Sentences" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Sentences</th>
 <th id="text_type" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">text_type</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="Text">acad_01</td>
@@ -2386,6 +2498,7 @@ Important
 </tr>
 </tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -2402,16 +2515,18 @@ Warning
 <p>Assigning <strong>docvars</strong> is based entirely on ordering. In other words, you are simply attaching a vector of categories to the corpus object. There is no merging by shared keys. Thus, you always need to be sure that your <strong>docvars</strong> are in the same order as your <strong>doc_ids</strong>. This is the reason why we extracted them directly from the <strong>doc_ids</strong>.</p>
 </div>
 </div>
-</section><section id="tokenize-the-corpus" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="tokenize-the-corpus">
-<span class="header-section-number">4.3</span> Tokenize the corpus</h2>
+</section>
+<section id="tokenize-the-corpus" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="tokenize-the-corpus"><span class="header-section-number">4.3</span> Tokenize the corpus</h2>
 <p>We’ll use <strong>quanteda</strong> to tokenize. And after tokenization, we’ll convert them to lower case. <em>Why do that here?</em> As a next step, we’ll being combining tokens like <em>a</em> and <em>lot</em> into single units. And we’ll be using a list of expressions that isn’t case sensitive.</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sc_tokens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens.html">tokens</a></span><span class="op">(</span><span class="va">sc</span>, include_docvars<span class="op">=</span><span class="cn">TRUE</span>, remove_punct <span class="op">=</span> <span class="cn">TRUE</span>, remove_numbers <span class="op">=</span> <span class="cn">TRUE</span>, remove_symbols <span class="op">=</span> <span class="cn">TRUE</span>, what <span class="op">=</span> <span class="st">"word"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">sc_tokens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens_tolower.html">tokens_tolower</a></span><span class="op">(</span><span class="va">sc_tokens</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sc_tokens <span class="ot">&lt;-</span> <span class="fu">tokens</span>(sc, <span class="at">include_docvars=</span><span class="cn">TRUE</span>, <span class="at">remove_punct =</span> <span class="cn">TRUE</span>, <span class="at">remove_numbers =</span> <span class="cn">TRUE</span>, <span class="at">remove_symbols =</span> <span class="cn">TRUE</span>, <span class="at">what =</span> <span class="st">"word"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sc_tokens <span class="ot">&lt;-</span> <span class="fu">tokens_tolower</span>(sc_tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="multi-word-expressions" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="multi-word-expressions">
-<span class="header-section-number">4.4</span> Multi-word Expressions</h2>
+</section>
+<section id="multi-word-expressions" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="multi-word-expressions"><span class="header-section-number">4.4</span> Multi-word Expressions</h2>
 <p>An issue that we run into frequently with corpus analysis is what to do with multi-word expressions. For example, consider a common English quantifier: “a lot”. Typical tokenization rules will split this into two tokens: <em>a</em> and <em>lot</em>. But counting <em>a lot</em> as a single unit might be important depending on our task. We have a way of telling <strong>quanteda</strong> to account for these tokens.</p>
 <p>All that we need is a list of multi-word expressions.</p>
 <p>The <strong>cmu.textstat</strong> comes with an example of an mwe list called <strong>multiword_expressions</strong>:</p>
@@ -2444,112 +2559,573 @@ Warning
 </div>
 <p>The <strong>tokens_compound()</strong> function looks for token sequences that match our list and combines them using an underscore.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sc_tokens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens_compound.html">tokens_compound</a></span><span class="op">(</span><span class="va">sc_tokens</span>, pattern <span class="op">=</span> <span class="fu"><a href="https://quanteda.io/reference/phrase.html">phrase</a></span><span class="op">(</span><span class="va">multiword_expressions</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sc_tokens <span class="ot">&lt;-</span> <span class="fu">tokens_compound</span>(sc_tokens, <span class="at">pattern =</span> <span class="fu">phrase</span>(multiword_expressions))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="create-a-document-feature-matrix" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="create-a-document-feature-matrix">
-<span class="header-section-number">4.5</span> Create a document-feature matrix</h2>
+</section>
+<section id="create-a-document-feature-matrix" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="create-a-document-feature-matrix"><span class="header-section-number">4.5</span> Create a document-feature matrix</h2>
 <p>With our tokens object we can now create a document-feature-matrix using the <strong>dfm()</strong> function. As a reminder, a <strong>dfm</strong> is table with one row per document in the corpus, and one column per unique token in the corpus. Each cell contains a count of how many times a token shows up in that document.</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sc_dfm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dfm.html">dfm</a></span><span class="op">(</span><span class="va">sc_tokens</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sc_dfm <span class="ot">&lt;-</span> <span class="fu">dfm</span>(sc_tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next we’ll create a <strong>dfm</strong> with proportionally weighted counts.</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prop_dfm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dfm_weight.html">dfm_weight</a></span><span class="op">(</span><span class="va">sc_dfm</span>, scheme <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>prop_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_weight</span>(sc_dfm, <span class="at">scheme =</span> <span class="st">"prop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="token-distributions" class="level1" data-number="5"><h1 data-number="5">
-<span class="header-section-number">5</span> Token distributions</h1>
-<section id="distributions-of-the" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="distributions-of-the">
-<span class="header-section-number">5.1</span> Distributions of <em>the</em>
-</h2>
+</section>
+<section id="token-distributions" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="token-distributions"><span class="header-section-number">4.6</span> Token distributions</h2>
+<section id="distributions-of-the" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="distributions-of-the"><span class="header-section-number">4.6.1</span> Distributions of <em>the</em></h3>
 <p>Let’s start by selecting frequencies of the most common token in the corpus:</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">freq_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/textstat_frequency.html">textstat_frequency</a></span><span class="op">(</span><span class="va">sc_dfm</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>freq_df <span class="ot">&lt;-</span> <span class="fu">textstat_frequency</span>(sc_dfm) <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">stringsAsFactors =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>freq_df <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<div id="ajbpouavuv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ajbpouavuv table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ajbpouavuv thead, #ajbpouavuv tbody, #ajbpouavuv tfoot, #ajbpouavuv tr, #ajbpouavuv td, #ajbpouavuv th {
+  border-style: none;
+}
+
+#ajbpouavuv p {
+  margin: 0;
+  padding: 0;
+}
+
+#ajbpouavuv .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ajbpouavuv .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ajbpouavuv .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ajbpouavuv .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ajbpouavuv .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ajbpouavuv .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ajbpouavuv .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ajbpouavuv .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ajbpouavuv .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ajbpouavuv .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ajbpouavuv .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ajbpouavuv .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ajbpouavuv .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ajbpouavuv .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ajbpouavuv .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ajbpouavuv .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ajbpouavuv .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ajbpouavuv .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ajbpouavuv .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ajbpouavuv .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ajbpouavuv .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ajbpouavuv .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ajbpouavuv .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ajbpouavuv .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ajbpouavuv .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ajbpouavuv .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ajbpouavuv .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ajbpouavuv .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ajbpouavuv .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ajbpouavuv .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ajbpouavuv .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ajbpouavuv .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ajbpouavuv .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ajbpouavuv .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ajbpouavuv .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ajbpouavuv .gt_left {
+  text-align: left;
+}
+
+#ajbpouavuv .gt_center {
+  text-align: center;
+}
+
+#ajbpouavuv .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ajbpouavuv .gt_font_normal {
+  font-weight: normal;
+}
+
+#ajbpouavuv .gt_font_bold {
+  font-weight: bold;
+}
+
+#ajbpouavuv .gt_font_italic {
+  font-style: italic;
+}
+
+#ajbpouavuv .gt_super {
+  font-size: 65%;
+}
+
+#ajbpouavuv .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ajbpouavuv .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ajbpouavuv .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ajbpouavuv .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ajbpouavuv .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ajbpouavuv .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ajbpouavuv .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#ajbpouavuv .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#ajbpouavuv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <caption>The 10 most frequent tokens in the sample corpus.</caption>
-<thead><tr class="header">
-<th style="text-align: left;">feature</th>
-<th style="text-align: right;">frequency</th>
-<th style="text-align: right;">rank</th>
-<th style="text-align: right;">docfreq</th>
-<th style="text-align: left;">group</th>
-</tr></thead>
-<tbody>
+<thead>
+<tr class="header gt_col_headings">
+<th id="feature" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">feature</th>
+<th id="frequency" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">frequency</th>
+<th id="rank" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">rank</th>
+<th id="docfreq" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">docfreq</th>
+<th id="group" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">group</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
 <tr class="odd">
-<td style="text-align: left;">the</td>
-<td style="text-align: right;">50920</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">399</td>
-<td style="text-align: left;">all</td>
+<td class="gt_row gt_left" headers="feature">the</td>
+<td class="gt_row gt_right" headers="frequency">50920</td>
+<td class="gt_row gt_right" headers="rank">1</td>
+<td class="gt_row gt_right" headers="docfreq">399</td>
+<td class="gt_row gt_left" headers="group">all</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">and</td>
-<td style="text-align: right;">25232</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">398</td>
-<td style="text-align: left;">all</td>
+<td class="gt_row gt_left" headers="feature">and</td>
+<td class="gt_row gt_right" headers="frequency">25232</td>
+<td class="gt_row gt_right" headers="rank">2</td>
+<td class="gt_row gt_right" headers="docfreq">398</td>
+<td class="gt_row gt_left" headers="group">all</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">to</td>
-<td style="text-align: right;">24753</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">397</td>
-<td style="text-align: left;">all</td>
+<td class="gt_row gt_left" headers="feature">to</td>
+<td class="gt_row gt_right" headers="frequency">24753</td>
+<td class="gt_row gt_right" headers="rank">3</td>
+<td class="gt_row gt_right" headers="docfreq">397</td>
+<td class="gt_row gt_left" headers="group">all</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">of</td>
-<td style="text-align: right;">22060</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">399</td>
-<td style="text-align: left;">all</td>
+<td class="gt_row gt_left" headers="feature">of</td>
+<td class="gt_row gt_right" headers="frequency">22060</td>
+<td class="gt_row gt_right" headers="rank">4</td>
+<td class="gt_row gt_right" headers="docfreq">399</td>
+<td class="gt_row gt_left" headers="group">all</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">a</td>
-<td style="text-align: right;">21614</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">398</td>
-<td style="text-align: left;">all</td>
+<td class="gt_row gt_left" headers="feature">a</td>
+<td class="gt_row gt_right" headers="frequency">21614</td>
+<td class="gt_row gt_right" headers="rank">5</td>
+<td class="gt_row gt_right" headers="docfreq">398</td>
+<td class="gt_row gt_left" headers="group">all</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">in</td>
-<td style="text-align: right;">15969</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">399</td>
-<td style="text-align: left;">all</td>
+<td class="gt_row gt_left" headers="feature">in</td>
+<td class="gt_row gt_right" headers="frequency">15969</td>
+<td class="gt_row gt_right" headers="rank">6</td>
+<td class="gt_row gt_right" headers="docfreq">399</td>
+<td class="gt_row gt_left" headers="group">all</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">i</td>
-<td style="text-align: right;">12568</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">348</td>
-<td style="text-align: left;">all</td>
+<td class="gt_row gt_left" headers="feature">i</td>
+<td class="gt_row gt_right" headers="frequency">12568</td>
+<td class="gt_row gt_right" headers="rank">7</td>
+<td class="gt_row gt_right" headers="docfreq">348</td>
+<td class="gt_row gt_left" headers="group">all</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">that</td>
-<td style="text-align: right;">12537</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">396</td>
-<td style="text-align: left;">all</td>
+<td class="gt_row gt_left" headers="feature">that</td>
+<td class="gt_row gt_right" headers="frequency">12537</td>
+<td class="gt_row gt_right" headers="rank">8</td>
+<td class="gt_row gt_right" headers="docfreq">396</td>
+<td class="gt_row gt_left" headers="group">all</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">you</td>
-<td style="text-align: right;">10951</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">341</td>
-<td style="text-align: left;">all</td>
+<td class="gt_row gt_left" headers="feature">you</td>
+<td class="gt_row gt_right" headers="frequency">10951</td>
+<td class="gt_row gt_right" headers="rank">9</td>
+<td class="gt_row gt_right" headers="docfreq">341</td>
+<td class="gt_row gt_left" headers="group">all</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">is</td>
-<td style="text-align: right;">9901</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">389</td>
-<td style="text-align: left;">all</td>
+<td class="gt_row gt_left" headers="feature">is</td>
+<td class="gt_row gt_right" headers="frequency">9901</td>
+<td class="gt_row gt_right" headers="rank">10</td>
+<td class="gt_row gt_right" headers="docfreq">389</td>
+<td class="gt_row gt_left" headers="group">all</td>
 </tr>
 </tbody>
 </table>
+
+</div>
 </div>
 </div>
 <p>From the weighted <strong>dfm</strong>, we can select any token that we’d like to look at more closely. In this case, we’ll select the most frequent token: <em>the</em>.</p>
@@ -2557,172 +3133,636 @@ Warning
 <p>There are easier ways of doing this, but the first bit of the code-chunk allows us to filter by rank and return a character vector that we can pass. This way, we can find a word of any arbitrary rank.</p>
 <p>Also note how the <strong>rename()</strong> function is set up. Let’s say our token is <em>the</em>. The <strong>dfm_select()</strong> function would result with a column named <strong>the</strong> that we’d want to rename <strong>RF</strong>. So our typical syntax would be: <strong>rename(RF = the)</strong>. In the chunk below, however, our column name is the variable <strong>word</strong>. To pass that variable to <strong>rename</strong>, we use <strong>!!name(word)</strong>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">word</span> <span class="op">&lt;-</span> <span class="va">freq_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">rank</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">feature</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">word_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dfm_select.html">dfm_select</a></span><span class="op">(</span><span class="va">prop_dfm</span>, <span class="va">word</span>, valuetype <span class="op">=</span> <span class="st">"fixed"</span><span class="op">)</span> <span class="co"># select the token</span></span>
-<span></span>
-<span><span class="va">word_df</span> <span class="op">&lt;-</span> <span class="va">word_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://quanteda.io/reference/convert.html">convert</a></span><span class="op">(</span>to <span class="op">=</span> <span class="st">"data.frame"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://quanteda.io/reference/docvars.html">docvars</a></span><span class="op">(</span><span class="va">word_df</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>RF <span class="op">=</span> <span class="op">!</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/name.html">as.name</a></span><span class="op">(</span><span class="va">word</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>RF <span class="op">=</span> <span class="va">RF</span><span class="op">*</span><span class="fl">1000000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>word <span class="ot">&lt;-</span> freq_df <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rank <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(feature) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> <span class="fu">dfm_select</span>(prop_dfm, word, <span class="at">valuetype =</span> <span class="st">"fixed"</span>) <span class="co"># select the token</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> word_df <span class="sc">%&gt;%</span> </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">convert</span>(<span class="at">to =</span> <span class="st">"data.frame"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">docvars</span>(word_df)) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">RF =</span> <span class="sc">!!</span><span class="fu">as.name</span>(word)) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RF =</span> RF<span class="sc">*</span><span class="dv">1000000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With that data it is a simple matter to generate basic summary statistics using the <strong>group_by()</strong> function:</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">summary_table</span> <span class="op">&lt;-</span> <span class="va">word_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">text_type</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>MEAN <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">RF</span><span class="op">)</span>,</span>
-<span>              SD <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">RF</span><span class="op">)</span>,</span>
-<span>              N <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> word_df <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(text_type) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">MEAN =</span> <span class="fu">mean</span>(RF),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">SD =</span> <span class="fu">sd</span>(RF),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">N =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<div id="fjgiifubxc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fjgiifubxc table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#fjgiifubxc thead, #fjgiifubxc tbody, #fjgiifubxc tfoot, #fjgiifubxc tr, #fjgiifubxc td, #fjgiifubxc th {
+  border-style: none;
+}
+
+#fjgiifubxc p {
+  margin: 0;
+  padding: 0;
+}
+
+#fjgiifubxc .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#fjgiifubxc .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#fjgiifubxc .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#fjgiifubxc .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#fjgiifubxc .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#fjgiifubxc .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fjgiifubxc .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#fjgiifubxc .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#fjgiifubxc .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#fjgiifubxc .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#fjgiifubxc .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#fjgiifubxc .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#fjgiifubxc .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#fjgiifubxc .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#fjgiifubxc .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#fjgiifubxc .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#fjgiifubxc .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#fjgiifubxc .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#fjgiifubxc .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fjgiifubxc .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#fjgiifubxc .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#fjgiifubxc .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#fjgiifubxc .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fjgiifubxc .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#fjgiifubxc .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#fjgiifubxc .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fjgiifubxc .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fjgiifubxc .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#fjgiifubxc .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fjgiifubxc .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#fjgiifubxc .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fjgiifubxc .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#fjgiifubxc .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fjgiifubxc .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#fjgiifubxc .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fjgiifubxc .gt_left {
+  text-align: left;
+}
+
+#fjgiifubxc .gt_center {
+  text-align: center;
+}
+
+#fjgiifubxc .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#fjgiifubxc .gt_font_normal {
+  font-weight: normal;
+}
+
+#fjgiifubxc .gt_font_bold {
+  font-weight: bold;
+}
+
+#fjgiifubxc .gt_font_italic {
+  font-style: italic;
+}
+
+#fjgiifubxc .gt_super {
+  font-size: 65%;
+}
+
+#fjgiifubxc .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#fjgiifubxc .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#fjgiifubxc .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#fjgiifubxc .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#fjgiifubxc .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#fjgiifubxc .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#fjgiifubxc .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#fjgiifubxc .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#fjgiifubxc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <caption>Means and standard deviations by text-type.</caption>
-<thead><tr class="header">
-<th style="text-align: left;">text_type</th>
-<th style="text-align: right;">MEAN</th>
-<th style="text-align: right;">SD</th>
-<th style="text-align: right;">N</th>
-</tr></thead>
-<tbody>
+<thead>
+<tr class="header gt_col_headings">
+<th id="text_type" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">text_type</th>
+<th id="MEAN" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">MEAN</th>
+<th id="SD" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">SD</th>
+<th id="N" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">N</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
 <tr class="odd">
-<td style="text-align: left;">acad</td>
-<td style="text-align: right;">68619.64</td>
-<td style="text-align: right;">18327.10</td>
-<td style="text-align: right;">50</td>
+<td class="gt_row gt_left" headers="text_type">acad</td>
+<td class="gt_row gt_right" headers="MEAN">68619.64</td>
+<td class="gt_row gt_right" headers="SD">18327.10</td>
+<td class="gt_row gt_right" headers="N">50</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">blog</td>
-<td style="text-align: right;">51270.54</td>
-<td style="text-align: right;">13389.38</td>
-<td style="text-align: right;">50</td>
+<td class="gt_row gt_left" headers="text_type">blog</td>
+<td class="gt_row gt_right" headers="MEAN">51270.54</td>
+<td class="gt_row gt_right" headers="SD">13389.38</td>
+<td class="gt_row gt_right" headers="N">50</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">fic</td>
-<td style="text-align: right;">54202.41</td>
-<td style="text-align: right;">14254.79</td>
-<td style="text-align: right;">50</td>
+<td class="gt_row gt_left" headers="text_type">fic</td>
+<td class="gt_row gt_right" headers="MEAN">54202.41</td>
+<td class="gt_row gt_right" headers="SD">14254.79</td>
+<td class="gt_row gt_right" headers="N">50</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">mag</td>
-<td style="text-align: right;">57117.76</td>
-<td style="text-align: right;">13986.30</td>
-<td style="text-align: right;">50</td>
+<td class="gt_row gt_left" headers="text_type">mag</td>
+<td class="gt_row gt_right" headers="MEAN">57117.76</td>
+<td class="gt_row gt_right" headers="SD">13986.30</td>
+<td class="gt_row gt_right" headers="N">50</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">news</td>
-<td style="text-align: right;">50574.84</td>
-<td style="text-align: right;">18333.09</td>
-<td style="text-align: right;">50</td>
+<td class="gt_row gt_left" headers="text_type">news</td>
+<td class="gt_row gt_right" headers="MEAN">50574.84</td>
+<td class="gt_row gt_right" headers="SD">18333.09</td>
+<td class="gt_row gt_right" headers="N">50</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">spok</td>
-<td style="text-align: right;">42693.44</td>
-<td style="text-align: right;">9727.79</td>
-<td style="text-align: right;">50</td>
+<td class="gt_row gt_left" headers="text_type">spok</td>
+<td class="gt_row gt_right" headers="MEAN">42693.44</td>
+<td class="gt_row gt_right" headers="SD">9727.79</td>
+<td class="gt_row gt_right" headers="N">50</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">tvm</td>
-<td style="text-align: right;">32532.85</td>
-<td style="text-align: right;">11981.88</td>
-<td style="text-align: right;">50</td>
+<td class="gt_row gt_left" headers="text_type">tvm</td>
+<td class="gt_row gt_right" headers="MEAN">32532.85</td>
+<td class="gt_row gt_right" headers="SD">11981.88</td>
+<td class="gt_row gt_right" headers="N">50</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">web</td>
-<td style="text-align: right;">60592.68</td>
-<td style="text-align: right;">21641.35</td>
-<td style="text-align: right;">50</td>
+<td class="gt_row gt_left" headers="text_type">web</td>
+<td class="gt_row gt_right" headers="MEAN">60592.68</td>
+<td class="gt_row gt_right" headers="SD">21641.35</td>
+<td class="gt_row gt_right" headers="N">50</td>
 </tr>
 </tbody>
 </table>
+
+</div>
 </div>
 </div>
 <p>And we can inspect a histogram of the frequencies. To set the width of our bins we’ll use the Freedman-Diaconis rule. The bin-width is set to: <span class="math display">\[h = 2 x \frac{IQR(x)}{n^{1/3}}\]</span></p>
 <p>So the number of bins is (max-min)/h, where n is the number of observations, max is the maximum value and min is the minimum value.</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">bin_width</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
-<span>  <span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/IQR.html">IQR</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>bin_width <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span> <span class="sc">*</span> <span class="fu">IQR</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can plot a histogram. We’re also adding a dashed line showing the mean. Note we’re also going to use the <strong>scales</strong> package to remove scientific notation from our tick labels.</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">word_df</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">RF</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fu">bin_width</span><span class="op">(</span><span class="va">word_df</span><span class="op">$</span><span class="va">RF</span><span class="op">)</span>, colour<span class="op">=</span><span class="st">"black"</span>, fill<span class="op">=</span><span class="st">"white"</span>, size<span class="op">=</span><span class="fl">.25</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">RF</span><span class="op">)</span><span class="op">)</span>, color<span class="op">=</span><span class="st">"red"</span>, linetype<span class="op">=</span><span class="st">"dashed"</span>, size<span class="op">=</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"RF (per mil. words)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-ℹ Please use `linewidth` instead.</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(word_df,<span class="fu">aes</span>(RF)) <span class="sc">+</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fu">bin_width</span>(word_df<span class="sc">$</span>RF), <span class="at">colour=</span><span class="st">"black"</span>, <span class="at">fill=</span><span class="st">"white"</span>, <span class="at">linewidth=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span><span class="fu">mean</span>(RF)), <span class="at">color=</span><span class="st">"red"</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">linewidth=</span>.<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"RF (per mil. words)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="distributions_files/figure-html/the_histogram-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Histogram of the token .</figcaption></figure>
+<figure class="figure">
+<p><img src="distributions_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Histogram of the token <em>the</em></figcaption>
+</figure>
 </div>
 </div>
 </div>
-</section><section id="distributions-of-the-and-of" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="distributions-of-the-and-of">
-<span class="header-section-number">5.2</span> Distributions of <em>the</em> and <em>of</em>
-</h2>
+</section>
+<section id="distributions-of-the-and-of" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="distributions-of-the-and-of"><span class="header-section-number">4.6.2</span> Distributions of <em>the</em> and <em>of</em></h3>
 <p>Now let’s try plotting histograms of two tokens on the same plot. First we’re going to use regular expressions to select the columns. The carat or hat <strong>^</strong> looks for the start of line. Without it, we would also get words like “blather”. The dollar symbol <strong>$</strong> looks for the end of a line. The straight line | means OR. Think about how useful this flexibility can be. You could, for example, extract all words that end in <em>-ion</em>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Note "regex" rather than "fixed"</span></span>
-<span><span class="va">word_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dfm_select.html">dfm_select</a></span><span class="op">(</span><span class="va">prop_dfm</span>, <span class="st">"^the$|^of$"</span>, valuetype <span class="op">=</span> <span class="st">"regex"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Now we'll convert our selection and normalize to 10000 words.</span></span>
-<span><span class="va">word_df</span> <span class="op">&lt;-</span> <span class="va">word_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://quanteda.io/reference/convert.html">convert</a></span><span class="op">(</span>to <span class="op">=</span> <span class="st">"data.frame"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>the <span class="op">=</span> <span class="va">the</span><span class="op">*</span><span class="fl">10000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>of <span class="op">=</span> <span class="va">of</span><span class="op">*</span><span class="fl">10000</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Use "pivot_longer" to go from a wide format to a long one</span></span>
-<span><span class="va">word_df</span> <span class="op">&lt;-</span> <span class="va">word_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="va">doc_id</span>, names_to <span class="op">=</span> <span class="st">"token"</span>, values_to <span class="op">=</span> <span class="st">"RF"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">token</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note "regex" rather than "fixed"</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> <span class="fu">dfm_select</span>(prop_dfm, <span class="st">"^the$|^of$"</span>, <span class="at">valuetype =</span> <span class="st">"regex"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we'll convert our selection and normalize to 10000 words.</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> word_df <span class="sc">%&gt;%</span> </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">convert</span>(<span class="at">to =</span> <span class="st">"data.frame"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">the =</span> the<span class="sc">*</span><span class="dv">10000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">of =</span> of<span class="sc">*</span><span class="dv">10000</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Use "pivot_longer" to go from a wide format to a long one</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> word_df <span class="sc">%&gt;%</span> </span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">!</span>doc_id, <span class="at">names_to =</span> <span class="st">"token"</span>, <span class="at">values_to =</span> <span class="st">"RF"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">token =</span> <span class="fu">factor</span>(token))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s make a new histogram. Here we assign the values of color and fill to the “token” column. We also make the columns a little transparent using the “alpha” setting.</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">word_df</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">RF</span>, color <span class="op">=</span> <span class="va">token</span>, fill <span class="op">=</span> <span class="va">token</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fu">bin_width</span><span class="op">(</span><span class="va">word_df</span><span class="op">$</span><span class="va">RF</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">.5</span>, position <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"RF (per mil. words)"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(word_df,<span class="fu">aes</span>(<span class="at">x =</span> RF, <span class="at">color =</span> token, <span class="at">fill =</span> token)) <span class="sc">+</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fu">bin_width</span>(word_df<span class="sc">$</span>RF), <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">position =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"RF (per mil. words)"</span>) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="distributions_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Histogram of the tokens and .</figcaption></figure>
+<figure class="figure">
+<p><img src="distributions_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Histogram of the tokens <em>the</em> and <em>of</em>.</figcaption>
+</figure>
 </div>
 </div>
 </div>
 <p>If we don’t want overlapping histograms, we can use <strong>facet_wrap()</strong> to split the plots.</p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">word_df</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">RF</span>, color <span class="op">=</span> <span class="va">token</span>, fill <span class="op">=</span> <span class="va">token</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fu">bin_width</span><span class="op">(</span><span class="va">word_df</span><span class="op">$</span><span class="va">RF</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">.5</span>, position <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"RF (per mil. words)"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">token</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(word_df,<span class="fu">aes</span>(<span class="at">x =</span> RF, <span class="at">color =</span> token, <span class="at">fill =</span> token)) <span class="sc">+</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fu">bin_width</span>(word_df<span class="sc">$</span>RF), <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">position =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"RF (per mil. words)"</span>) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> token)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="distributions_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Histogram of the tokens and .</figcaption></figure>
+<figure class="figure">
+<p><img src="distributions_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Histogram of the tokens <em>the</em> and <em>of</em>.</figcaption>
+</figure>
 </div>
 </div>
 </div>
 <hr>
-<hr></section></section><section id="dispersion" class="level1" data-number="6"><h1 data-number="6">
-<span class="header-section-number">6</span> Dispersion</h1>
+<hr>
+</section>
+</section>
+<section id="dispersion" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="dispersion"><span class="header-section-number">4.7</span> Dispersion</h2>
 <p>We can also calculate dispersion, and there are a variety of measures at our disposal. Our toolkit has several functions for producing these calculations.</p>
 <p>For example, we can find the dispersion of any specific token:</p>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">the</span> <span class="op">&lt;-</span> <span class="fu">dispersions_token</span><span class="op">(</span><span class="va">sc_dfm</span>, <span class="st">"the"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>the <span class="ot">&lt;-</span> <span class="fu">dispersions_token</span>(sc_dfm, <span class="st">"the"</span>) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -2835,38 +3875,43 @@ Warning
 </div>
 <p>And let’s try another token to compare:</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">dispersions_token</span><span class="op">(</span><span class="va">sc_dfm</span>, <span class="st">"data"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">dispersions_token</span>(sc_dfm, <span class="st">"data"</span>) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <caption>Deviation of Proportions for the tokens and .</caption>
-<thead><tr class="header">
+<thead>
+<tr class="header">
 <th></th>
 <th style="text-align: right;">the</th>
 <th style="text-align: right;">data</th>
-</tr></thead>
-<tbody><tr class="odd">
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
 <td>Deviation of proportions DP</td>
 <td style="text-align: right;">0.139</td>
 <td style="text-align: right;">0.846</td>
-</tr></tbody>
+</tr>
+</tbody>
 </table>
 </div>
 </div>
 <hr>
 <hr>
-<section id="dispersions-for-all-tokens" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="dispersions-for-all-tokens">
-<span class="header-section-number">6.1</span> Dispersions for all tokens</h2>
+<section id="dispersions-for-all-tokens" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="dispersions-for-all-tokens"><span class="header-section-number">4.7.1</span> Dispersions for all tokens</h3>
 <p>We can also calculate selected dispersion measures for all tokens using <strong>dispersions_all()</strong>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">dispersions_all</span><span class="op">(</span><span class="va">sc_dfm</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dispersions_all</span>(sc_dfm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <caption>Dispersion measures for all tokens.</caption>
-<thead><tr class="header">
+<thead>
+<tr class="header">
 <th style="text-align: left;">Token</th>
 <th style="text-align: right;">AF</th>
 <th style="text-align: right;">Per_10.5</th>
@@ -2877,7 +3922,8 @@ Warning
 <th style="text-align: right;">Juillands_D</th>
 <th style="text-align: right;">DP</th>
 <th style="text-align: right;">DP_norm</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">the</td>
@@ -2955,25 +4001,29 @@ Warning
 </table>
 </div>
 </div>
-</section><section id="generating-a-frequency-table" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="generating-a-frequency-table">
-<span class="header-section-number">6.2</span> Generating a frequency table</h2>
+</section>
+</section>
+<section id="generating-a-frequency-table" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="generating-a-frequency-table"><span class="header-section-number">4.8</span> Generating a frequency table</h2>
 <p>Alternatively, <strong>frequency_table()</strong> returns only Deviation of Proportions and Average Reduced Frequency.</p>
 <p>Note that ARF requires a tokens object and takes a couple of minutes to calculate.</p>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu">frequency_table</span><span class="op">(</span><span class="va">sc_tokens</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">frequency_table</span>(sc_tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <caption>Frequency and dispersion measures for all tokens.</caption>
-<thead><tr class="header">
+<thead>
+<tr class="header">
 <th></th>
 <th style="text-align: left;">Token</th>
 <th style="text-align: right;">AF</th>
 <th style="text-align: right;">Per_10.5</th>
 <th style="text-align: right;">ARF</th>
 <th style="text-align: right;">DP</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
@@ -3028,19 +4078,23 @@ Warning
 </div>
 </div>
 <hr>
-<hr></section></section><section id="zipfs-law" class="level1" data-number="7"><h1 data-number="7">
-<span class="header-section-number">7</span> Zipf’s Law</h1>
+<hr>
+</section>
+<section id="zipfs-law" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="zipfs-law"><span class="header-section-number">4.9</span> Zipf’s Law</h2>
 <p>Let’s plot rank against frequency for the 100 most frequent tokens in the sample corpus.</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">freq_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">rank</span> <span class="op">&lt;</span> <span class="fl">101</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">rank</span>, y <span class="op">=</span> <span class="va">frequency</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">1</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Absolute frequency"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Rank"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(freq_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(rank <span class="sc">&lt;</span> <span class="dv">101</span>), <span class="fu">aes</span>(<span class="at">x =</span> rank, <span class="at">y =</span> frequency)) <span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>, <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Absolute frequency"</span>) <span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Rank"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="distributions_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Token rank vs.&nbsp;frequency.</figcaption></figure>
+<figure class="figure">
+<p><img src="distributions_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Token rank vs.&nbsp;frequency.</figcaption>
+</figure>
 </div>
 </div>
 </div>
@@ -3049,7 +4103,10 @@ Warning
 <hr>
 
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -3435,8 +4492,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="../labs/processing-pipelines.html" class="pagination-link  aria-label=" with="" quanteda="">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../labs/processing-pipelines.html" class="pagination-link  aria-label=" &lt;span="" with="" quanteda&lt;="" span&gt;"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tokenizing with quanteda</span></span>
       </a>          
   </div>
@@ -3447,6 +4506,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

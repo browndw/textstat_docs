@@ -1,7 +1,6 @@
-
 # Lab Set 1
 
-::: {.callout-note}
+::: callout-note
 The preview of this lab set is rendered in HTML. However, all assignments must be rendered in PDF for submission on Canvas. The the **textstat_tools** repository is already set up to do this for you. Be sure to [follow the directions](https://quarto.org/docs/output-formats/pdf-basics.html) including the installation of **tinytex**.
 :::
 
@@ -25,24 +24,22 @@ What interests you about the quantitative analysis of text?
 
 > Your response:
 
-## Lab 01
-
-### What counts as a token?
-
-These choices are important. To carry our any statistical analysis on texts, we radically reorganize texts into counts. Precisely how we choose to do that--the decisions we make in exactly **what** to count--affects everything else downstream.
-
-So let's consider a chunk of text that is a little more complicated than the example from *A Tale of Two Cities*.
+## NLP Basics
 
 ### Task 1
 
-Consider the following text:
+#### What counts as a token?
+
+These choices are important. To carry our any statistical analysis on texts, we radically reorganize texts into counts. Precisely how we choose to do that--the decisions we make in exactly **what** to count--affects everything else downstream.
+
+So let's look at a chunk of text that is a little more complicated than the example from *A Tale of Two Cities*. Consider the following text:
 
 > In spite of some problems, we saw a 35% uptick in our user-base in the U.S. But that's still a lot fewer than we had last year. We'd like to get that number closer to what we've experienced in the U.K.--something close to 3 million users.
 
 You are a member of team tasked with tokenizing 20,000 texts that are similar to this one. A member of the suggests using a regular expression that splits on word boundaries: `\\b` using the `str_split()` function, try splitting the example string above.
 
 ```{r}
-
+# your code goes here
 ```
 
 Based on the result, do you think the suggested strategy is a good one? Why or why not?
@@ -59,7 +56,7 @@ What are some kinds of tokens that you think are particularly challenging to dea
 
 > Your response:
 
-## Lab 03
+## Tokenizing with quanteda
 
 ### Task 1
 
@@ -78,7 +75,7 @@ In the code chunk below, construct a pipeline that:
 Hint: Relative frequency (or normalized frequency) just takes the frequency, divides it by total number of tokens/words, and multiplies by a normalizing factor (e.g., by 100 for percent of tokens).
 
 ```{r}
-
+# your code goes here
 ```
 
 And report the results in a gt table:
@@ -130,13 +127,12 @@ comb_ntoken <- data.frame("Tokens" = ntoken(comb_tkns), docvars(comb_tkns))
 
 Use one of these 2 data structures (**comb_freq** or **comb_ntoken**) to make a corpus composition table. It should have 2 columns (one for "Text Type" and the other for "Tokens") and 3 rows ("Fiction", "Twitter" and "Total"). And report the results in a gt table.
 
-::: {.callout-tip}
+::: callout-tip
 ## Aggregating across columns
 
 Use the gt function **grand_summary_rows()** [to create a count of totals or other measures](https://gt.rstudio.com/reference/grand_summary_rows.html).
 :::
 
-```{.r}
+```{r}
 # your code for a gt table goes here
 ```
-

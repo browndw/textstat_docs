@@ -92,7 +92,7 @@ time_collocations <- collocates_by_MI(sc_tokens, "time")
 
 
 ```{r echo=FALSE}
-#| echo: false
+#| code-fold: true
 
 time_collocations |>
   head(10) |>
@@ -127,12 +127,6 @@ mc |>
   tab_caption(caption = "Money collocations.")
 ```
 
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 1
-\end{center} 
-___
 
 ## Create a tbl_graph object for plotting
 
@@ -144,7 +138,6 @@ For this, we'll use the **col_network( )** function.
 
 net <- col_network(tc, mc)
 ```
-
 
 ## Plot network
 
@@ -166,35 +159,24 @@ ggraph(net, weight = link_weight, layout = "stress") +
   theme(legend.position="none")
 ```
 
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 2
-\end{center} 
-___
-
 ## Reading in local files
 
 ### Create a vector of file paths
 
-First, go to Canvas and download the **screenplay_corpus** (in the Data folder under Files). Unzip the corpus and note/copy the path to the folder.
+In the interest of time, we'll skip this step. However, it's important to know how to load in plain text files.
 
-Next, we'll create a vector of the file paths. Remember to replace **your path** with the place-holder path in the **list.files()** function.
+1. Create an organized directory of **.txt** files. Name them systematically, so it's easy to extract metadata from the file names. As an example, a corpus of screenplays is on our course Canvas site. You could download the file, unzip it, and place it in your **data** directory.
 
-```{r}
-#| eval: false
+2. To down-sample the data, create a vector of the file paths. Remember to replace **your path** with the place-holder path in the **list.files()** function.
 
-files_list <- list.files("/Users/user/Downloads/screenplay_corpus", full.names = T, pattern = "*.txt")
-```
-
-### Read in all files using readtext
-
-Next, we'll read in the files using **readtext**. And for the purposes of efficiency, we'll sample out 50 rows.
+3. Read in the files using [**readtext**](https://readtext.quanteda.io/articles/readtext_vignette.html). And for the purposes of efficiency, we'll sample out 50 rows.
 
 ```{r}
 #| eval: false
 
 set.seed(1234)
+
+files_list <- list.files("../data/screenplay_corpus", full.names = T, pattern = "*.txt")
 
 sp <- sample(files_list, 50) %>%
   readtext::readtext()
@@ -202,19 +184,16 @@ sp <- sample(files_list, 50) %>%
 
 ### Extract the dialogue
 
-These particular files are formatted using some simple markup. So we'll use the **from_play()** function to extract the dialogue.
+For the purposes of the lab, we'll simply load the data. These particular files are formatted using some simple markup. So we'll use the **from_play()** function to extract the dialogue.
 
 ```{r}
-#| eval: false
-
+load("../data/screenplays.rda")
 sp <- from_play(sp, extract = "dialogue")
 ```
 
 ### Tokenize
 
 ```{r}
-#| eval: false
-
 sp <-   sp %>%
   mutate(text = preprocess_text(text)) %>%
   corpus() %>%
@@ -226,13 +205,11 @@ sp <-   sp %>%
 Now we'll calculate collocations for the tokens *boy* and *girl*, and filter. Note that we're only looking for tokens 3 words to the left of the node word.
 
 ```{r}
-#| eval: false
+b <- collocates_by_MI(sp, "boy", left = 3, right = 0) %>% 
+  filter(col_freq >= 3 & MI_1 >= 3)
 
-b <- collocates_by_MI(sp, "boy", left = 3, right = 0)
-b <- b %>% filter(col_freq >= 3 & MI_1 >= 3)
-
-g  <- collocates_by_MI(sp, "girl", left = 3, right = 0)
-g <- g %>% filter(col_freq >= 3 & MI_1 >= 3)
+g  <- collocates_by_MI(sp, "girl", left = 3, right = 0) %>% 
+  filter(col_freq >= 3 & MI_1 >= 3)
 ```
 
 ### Plot the network
@@ -241,7 +218,6 @@ g <- g %>% filter(col_freq >= 3 & MI_1 >= 3)
 #| message: false
 #| fig-width: 7
 #| fig-height: 4
-#| eval: false
 
 net <- col_network(b, g)
 
@@ -254,10 +230,4 @@ ggraph(net, weight = link_weight, layout = "stress") +
   theme(legend.position="none")
 ```
 
-\break
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 3
-\end{center} 
-___
+
