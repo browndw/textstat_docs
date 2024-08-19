@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../labs/feature-engineering.html" rel="next">
+<link href="../labs/keyness.html" rel="next">
 <link href="../labs/distributions.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -143,7 +143,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../_images/text_analysis.png" alt="" class="navbar-logo">
+    <img src="../images/text_analysis.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Text Analysis for Statistics &amp; Data Science</span>
@@ -219,14 +219,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../labs/keyness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Keyness</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../labs/feature-engineering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../labs/logistic-regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
   </div>
 </li>
       </ul>
@@ -243,13 +249,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/embed_linguistic-facts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Linguistic Facts of Life</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linguistic Facts of Life</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/embed_llms-history.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">LLMs History</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">LLMs History</span></span></a>
   </div>
 </li>
       </ul>
@@ -266,25 +272,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Lab Set 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Lab Set 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Lab Set 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lab Set 2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lab Set 3</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Lab Set 3</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Lab Set 4</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Lab Set 4</span></span></a>
   </div>
 </li>
       </ul>
@@ -392,23 +398,23 @@ window.Quarto = {
 <p>Check the result:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="suiivjoiks" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#suiivjoiks table {
+<div id="cspxlfqeil" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cspxlfqeil table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#suiivjoiks thead, #suiivjoiks tbody, #suiivjoiks tfoot, #suiivjoiks tr, #suiivjoiks td, #suiivjoiks th {
+#cspxlfqeil thead, #cspxlfqeil tbody, #cspxlfqeil tfoot, #cspxlfqeil tr, #cspxlfqeil td, #cspxlfqeil th {
   border-style: none;
 }
 
-#suiivjoiks p {
+#cspxlfqeil p {
   margin: 0;
   padding: 0;
 }
 
-#suiivjoiks .gt_table {
+#cspxlfqeil .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -434,12 +440,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#suiivjoiks .gt_caption {
+#cspxlfqeil .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#suiivjoiks .gt_title {
+#cspxlfqeil .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -451,7 +457,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#suiivjoiks .gt_subtitle {
+#cspxlfqeil .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -463,7 +469,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#suiivjoiks .gt_heading {
+#cspxlfqeil .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -475,13 +481,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#suiivjoiks .gt_bottom_border {
+#cspxlfqeil .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#suiivjoiks .gt_col_headings {
+#cspxlfqeil .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -496,7 +502,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#suiivjoiks .gt_col_heading {
+#cspxlfqeil .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -516,7 +522,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#suiivjoiks .gt_column_spanner_outer {
+#cspxlfqeil .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -528,15 +534,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#suiivjoiks .gt_column_spanner_outer:first-child {
+#cspxlfqeil .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#suiivjoiks .gt_column_spanner_outer:last-child {
+#cspxlfqeil .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#suiivjoiks .gt_column_spanner {
+#cspxlfqeil .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -548,11 +554,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#suiivjoiks .gt_spanner_row {
+#cspxlfqeil .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#suiivjoiks .gt_group_heading {
+#cspxlfqeil .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -578,7 +584,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#suiivjoiks .gt_empty_group_heading {
+#cspxlfqeil .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -593,15 +599,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#suiivjoiks .gt_from_md > :first-child {
+#cspxlfqeil .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#suiivjoiks .gt_from_md > :last-child {
+#cspxlfqeil .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#suiivjoiks .gt_row {
+#cspxlfqeil .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -620,7 +626,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#suiivjoiks .gt_stub {
+#cspxlfqeil .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -633,7 +639,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#suiivjoiks .gt_stub_row_group {
+#cspxlfqeil .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -647,15 +653,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#suiivjoiks .gt_row_group_first td {
+#cspxlfqeil .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#suiivjoiks .gt_row_group_first th {
+#cspxlfqeil .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#suiivjoiks .gt_summary_row {
+#cspxlfqeil .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -665,16 +671,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#suiivjoiks .gt_first_summary_row {
+#cspxlfqeil .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#suiivjoiks .gt_first_summary_row.thick {
+#cspxlfqeil .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#suiivjoiks .gt_last_summary_row {
+#cspxlfqeil .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -684,7 +690,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#suiivjoiks .gt_grand_summary_row {
+#cspxlfqeil .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -694,7 +700,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#suiivjoiks .gt_first_grand_summary_row {
+#cspxlfqeil .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -704,7 +710,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#suiivjoiks .gt_last_grand_summary_row_top {
+#cspxlfqeil .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -714,11 +720,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#suiivjoiks .gt_striped {
+#cspxlfqeil .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#suiivjoiks .gt_table_body {
+#cspxlfqeil .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -727,7 +733,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#suiivjoiks .gt_footnotes {
+#cspxlfqeil .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -741,7 +747,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#suiivjoiks .gt_footnote {
+#cspxlfqeil .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -750,7 +756,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#suiivjoiks .gt_sourcenotes {
+#cspxlfqeil .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -764,7 +770,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#suiivjoiks .gt_sourcenote {
+#cspxlfqeil .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -772,72 +778,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#suiivjoiks .gt_left {
+#cspxlfqeil .gt_left {
   text-align: left;
 }
 
-#suiivjoiks .gt_center {
+#cspxlfqeil .gt_center {
   text-align: center;
 }
 
-#suiivjoiks .gt_right {
+#cspxlfqeil .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#suiivjoiks .gt_font_normal {
+#cspxlfqeil .gt_font_normal {
   font-weight: normal;
 }
 
-#suiivjoiks .gt_font_bold {
+#cspxlfqeil .gt_font_bold {
   font-weight: bold;
 }
 
-#suiivjoiks .gt_font_italic {
+#cspxlfqeil .gt_font_italic {
   font-style: italic;
 }
 
-#suiivjoiks .gt_super {
+#cspxlfqeil .gt_super {
   font-size: 65%;
 }
 
-#suiivjoiks .gt_footnote_marks {
+#cspxlfqeil .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#suiivjoiks .gt_asterisk {
+#cspxlfqeil .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#suiivjoiks .gt_indent_1 {
+#cspxlfqeil .gt_indent_1 {
   text-indent: 5px;
 }
 
-#suiivjoiks .gt_indent_2 {
+#cspxlfqeil .gt_indent_2 {
   text-indent: 10px;
 }
 
-#suiivjoiks .gt_indent_3 {
+#cspxlfqeil .gt_indent_3 {
   text-indent: 15px;
 }
 
-#suiivjoiks .gt_indent_4 {
+#cspxlfqeil .gt_indent_4 {
   text-indent: 20px;
 }
 
-#suiivjoiks .gt_indent_5 {
+#cspxlfqeil .gt_indent_5 {
   text-indent: 25px;
 }
 
-#suiivjoiks .katex-display {
+#cspxlfqeil .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#suiivjoiks div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#cspxlfqeil div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -924,23 +930,23 @@ window.Quarto = {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="wkivwsuewy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wkivwsuewy table {
+<div id="atwycguamt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#atwycguamt table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wkivwsuewy thead, #wkivwsuewy tbody, #wkivwsuewy tfoot, #wkivwsuewy tr, #wkivwsuewy td, #wkivwsuewy th {
+#atwycguamt thead, #atwycguamt tbody, #atwycguamt tfoot, #atwycguamt tr, #atwycguamt td, #atwycguamt th {
   border-style: none;
 }
 
-#wkivwsuewy p {
+#atwycguamt p {
   margin: 0;
   padding: 0;
 }
 
-#wkivwsuewy .gt_table {
+#atwycguamt .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -966,12 +972,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#wkivwsuewy .gt_caption {
+#atwycguamt .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wkivwsuewy .gt_title {
+#atwycguamt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -983,7 +989,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#wkivwsuewy .gt_subtitle {
+#atwycguamt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -995,7 +1001,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#wkivwsuewy .gt_heading {
+#atwycguamt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1007,13 +1013,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#wkivwsuewy .gt_bottom_border {
+#atwycguamt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wkivwsuewy .gt_col_headings {
+#atwycguamt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1028,7 +1034,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#wkivwsuewy .gt_col_heading {
+#atwycguamt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1048,7 +1054,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#wkivwsuewy .gt_column_spanner_outer {
+#atwycguamt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1060,15 +1066,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#wkivwsuewy .gt_column_spanner_outer:first-child {
+#atwycguamt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wkivwsuewy .gt_column_spanner_outer:last-child {
+#atwycguamt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wkivwsuewy .gt_column_spanner {
+#atwycguamt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1080,11 +1086,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#wkivwsuewy .gt_spanner_row {
+#atwycguamt .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wkivwsuewy .gt_group_heading {
+#atwycguamt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1110,7 +1116,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#wkivwsuewy .gt_empty_group_heading {
+#atwycguamt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1125,15 +1131,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#wkivwsuewy .gt_from_md > :first-child {
+#atwycguamt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wkivwsuewy .gt_from_md > :last-child {
+#atwycguamt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wkivwsuewy .gt_row {
+#atwycguamt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1152,7 +1158,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#wkivwsuewy .gt_stub {
+#atwycguamt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1165,7 +1171,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#wkivwsuewy .gt_stub_row_group {
+#atwycguamt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1179,15 +1185,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#wkivwsuewy .gt_row_group_first td {
+#atwycguamt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wkivwsuewy .gt_row_group_first th {
+#atwycguamt .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wkivwsuewy .gt_summary_row {
+#atwycguamt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1197,16 +1203,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#wkivwsuewy .gt_first_summary_row {
+#atwycguamt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wkivwsuewy .gt_first_summary_row.thick {
+#atwycguamt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wkivwsuewy .gt_last_summary_row {
+#atwycguamt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1216,7 +1222,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#wkivwsuewy .gt_grand_summary_row {
+#atwycguamt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1226,7 +1232,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#wkivwsuewy .gt_first_grand_summary_row {
+#atwycguamt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1236,7 +1242,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#wkivwsuewy .gt_last_grand_summary_row_top {
+#atwycguamt .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1246,11 +1252,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#wkivwsuewy .gt_striped {
+#atwycguamt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wkivwsuewy .gt_table_body {
+#atwycguamt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1259,7 +1265,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#wkivwsuewy .gt_footnotes {
+#atwycguamt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1273,7 +1279,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#wkivwsuewy .gt_footnote {
+#atwycguamt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1282,7 +1288,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#wkivwsuewy .gt_sourcenotes {
+#atwycguamt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1296,7 +1302,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#wkivwsuewy .gt_sourcenote {
+#atwycguamt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1304,72 +1310,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#wkivwsuewy .gt_left {
+#atwycguamt .gt_left {
   text-align: left;
 }
 
-#wkivwsuewy .gt_center {
+#atwycguamt .gt_center {
   text-align: center;
 }
 
-#wkivwsuewy .gt_right {
+#atwycguamt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wkivwsuewy .gt_font_normal {
+#atwycguamt .gt_font_normal {
   font-weight: normal;
 }
 
-#wkivwsuewy .gt_font_bold {
+#atwycguamt .gt_font_bold {
   font-weight: bold;
 }
 
-#wkivwsuewy .gt_font_italic {
+#atwycguamt .gt_font_italic {
   font-style: italic;
 }
 
-#wkivwsuewy .gt_super {
+#atwycguamt .gt_super {
   font-size: 65%;
 }
 
-#wkivwsuewy .gt_footnote_marks {
+#atwycguamt .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wkivwsuewy .gt_asterisk {
+#atwycguamt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wkivwsuewy .gt_indent_1 {
+#atwycguamt .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wkivwsuewy .gt_indent_2 {
+#atwycguamt .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wkivwsuewy .gt_indent_3 {
+#atwycguamt .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wkivwsuewy .gt_indent_4 {
+#atwycguamt .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wkivwsuewy .gt_indent_5 {
+#atwycguamt .gt_indent_5 {
   text-indent: 25px;
 }
 
-#wkivwsuewy .katex-display {
+#atwycguamt .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#wkivwsuewy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#atwycguamt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1463,23 +1469,23 @@ window.Quarto = {
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row quarto-layout-valign-bottom">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="letopjyqtg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#letopjyqtg table {
+<div id="exnpnxmwdu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#exnpnxmwdu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#letopjyqtg thead, #letopjyqtg tbody, #letopjyqtg tfoot, #letopjyqtg tr, #letopjyqtg td, #letopjyqtg th {
+#exnpnxmwdu thead, #exnpnxmwdu tbody, #exnpnxmwdu tfoot, #exnpnxmwdu tr, #exnpnxmwdu td, #exnpnxmwdu th {
   border-style: none;
 }
 
-#letopjyqtg p {
+#exnpnxmwdu p {
   margin: 0;
   padding: 0;
 }
 
-#letopjyqtg .gt_table {
+#exnpnxmwdu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1505,12 +1511,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#letopjyqtg .gt_caption {
+#exnpnxmwdu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#letopjyqtg .gt_title {
+#exnpnxmwdu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1522,7 +1528,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#letopjyqtg .gt_subtitle {
+#exnpnxmwdu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1534,7 +1540,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#letopjyqtg .gt_heading {
+#exnpnxmwdu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1546,13 +1552,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#letopjyqtg .gt_bottom_border {
+#exnpnxmwdu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#letopjyqtg .gt_col_headings {
+#exnpnxmwdu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1567,7 +1573,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#letopjyqtg .gt_col_heading {
+#exnpnxmwdu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1587,7 +1593,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#letopjyqtg .gt_column_spanner_outer {
+#exnpnxmwdu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1599,15 +1605,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#letopjyqtg .gt_column_spanner_outer:first-child {
+#exnpnxmwdu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#letopjyqtg .gt_column_spanner_outer:last-child {
+#exnpnxmwdu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#letopjyqtg .gt_column_spanner {
+#exnpnxmwdu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1619,11 +1625,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#letopjyqtg .gt_spanner_row {
+#exnpnxmwdu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#letopjyqtg .gt_group_heading {
+#exnpnxmwdu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1649,7 +1655,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#letopjyqtg .gt_empty_group_heading {
+#exnpnxmwdu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1664,15 +1670,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#letopjyqtg .gt_from_md > :first-child {
+#exnpnxmwdu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#letopjyqtg .gt_from_md > :last-child {
+#exnpnxmwdu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#letopjyqtg .gt_row {
+#exnpnxmwdu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1691,7 +1697,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#letopjyqtg .gt_stub {
+#exnpnxmwdu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1704,7 +1710,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#letopjyqtg .gt_stub_row_group {
+#exnpnxmwdu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1718,15 +1724,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#letopjyqtg .gt_row_group_first td {
+#exnpnxmwdu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#letopjyqtg .gt_row_group_first th {
+#exnpnxmwdu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#letopjyqtg .gt_summary_row {
+#exnpnxmwdu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1736,16 +1742,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#letopjyqtg .gt_first_summary_row {
+#exnpnxmwdu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#letopjyqtg .gt_first_summary_row.thick {
+#exnpnxmwdu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#letopjyqtg .gt_last_summary_row {
+#exnpnxmwdu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1755,7 +1761,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#letopjyqtg .gt_grand_summary_row {
+#exnpnxmwdu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1765,7 +1771,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#letopjyqtg .gt_first_grand_summary_row {
+#exnpnxmwdu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1775,7 +1781,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#letopjyqtg .gt_last_grand_summary_row_top {
+#exnpnxmwdu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1785,11 +1791,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#letopjyqtg .gt_striped {
+#exnpnxmwdu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#letopjyqtg .gt_table_body {
+#exnpnxmwdu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1798,7 +1804,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#letopjyqtg .gt_footnotes {
+#exnpnxmwdu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1812,7 +1818,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#letopjyqtg .gt_footnote {
+#exnpnxmwdu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1821,7 +1827,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#letopjyqtg .gt_sourcenotes {
+#exnpnxmwdu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1835,7 +1841,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#letopjyqtg .gt_sourcenote {
+#exnpnxmwdu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1843,72 +1849,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#letopjyqtg .gt_left {
+#exnpnxmwdu .gt_left {
   text-align: left;
 }
 
-#letopjyqtg .gt_center {
+#exnpnxmwdu .gt_center {
   text-align: center;
 }
 
-#letopjyqtg .gt_right {
+#exnpnxmwdu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#letopjyqtg .gt_font_normal {
+#exnpnxmwdu .gt_font_normal {
   font-weight: normal;
 }
 
-#letopjyqtg .gt_font_bold {
+#exnpnxmwdu .gt_font_bold {
   font-weight: bold;
 }
 
-#letopjyqtg .gt_font_italic {
+#exnpnxmwdu .gt_font_italic {
   font-style: italic;
 }
 
-#letopjyqtg .gt_super {
+#exnpnxmwdu .gt_super {
   font-size: 65%;
 }
 
-#letopjyqtg .gt_footnote_marks {
+#exnpnxmwdu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#letopjyqtg .gt_asterisk {
+#exnpnxmwdu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#letopjyqtg .gt_indent_1 {
+#exnpnxmwdu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#letopjyqtg .gt_indent_2 {
+#exnpnxmwdu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#letopjyqtg .gt_indent_3 {
+#exnpnxmwdu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#letopjyqtg .gt_indent_4 {
+#exnpnxmwdu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#letopjyqtg .gt_indent_5 {
+#exnpnxmwdu .gt_indent_5 {
   text-indent: 25px;
 }
 
-#letopjyqtg .katex-display {
+#exnpnxmwdu .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#letopjyqtg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#exnpnxmwdu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1996,23 +2002,23 @@ window.Quarto = {
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="rzirkyrqpo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rzirkyrqpo table {
+<div id="jeqbfpmrwa" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jeqbfpmrwa table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#rzirkyrqpo thead, #rzirkyrqpo tbody, #rzirkyrqpo tfoot, #rzirkyrqpo tr, #rzirkyrqpo td, #rzirkyrqpo th {
+#jeqbfpmrwa thead, #jeqbfpmrwa tbody, #jeqbfpmrwa tfoot, #jeqbfpmrwa tr, #jeqbfpmrwa td, #jeqbfpmrwa th {
   border-style: none;
 }
 
-#rzirkyrqpo p {
+#jeqbfpmrwa p {
   margin: 0;
   padding: 0;
 }
 
-#rzirkyrqpo .gt_table {
+#jeqbfpmrwa .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2038,12 +2044,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#rzirkyrqpo .gt_caption {
+#jeqbfpmrwa .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rzirkyrqpo .gt_title {
+#jeqbfpmrwa .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2055,7 +2061,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#rzirkyrqpo .gt_subtitle {
+#jeqbfpmrwa .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2067,7 +2073,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#rzirkyrqpo .gt_heading {
+#jeqbfpmrwa .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2079,13 +2085,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#rzirkyrqpo .gt_bottom_border {
+#jeqbfpmrwa .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rzirkyrqpo .gt_col_headings {
+#jeqbfpmrwa .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2100,7 +2106,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#rzirkyrqpo .gt_col_heading {
+#jeqbfpmrwa .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2120,7 +2126,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#rzirkyrqpo .gt_column_spanner_outer {
+#jeqbfpmrwa .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2132,15 +2138,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#rzirkyrqpo .gt_column_spanner_outer:first-child {
+#jeqbfpmrwa .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rzirkyrqpo .gt_column_spanner_outer:last-child {
+#jeqbfpmrwa .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rzirkyrqpo .gt_column_spanner {
+#jeqbfpmrwa .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2152,11 +2158,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#rzirkyrqpo .gt_spanner_row {
+#jeqbfpmrwa .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#rzirkyrqpo .gt_group_heading {
+#jeqbfpmrwa .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2182,7 +2188,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#rzirkyrqpo .gt_empty_group_heading {
+#jeqbfpmrwa .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2197,15 +2203,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#rzirkyrqpo .gt_from_md > :first-child {
+#jeqbfpmrwa .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rzirkyrqpo .gt_from_md > :last-child {
+#jeqbfpmrwa .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rzirkyrqpo .gt_row {
+#jeqbfpmrwa .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2224,7 +2230,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#rzirkyrqpo .gt_stub {
+#jeqbfpmrwa .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2237,7 +2243,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#rzirkyrqpo .gt_stub_row_group {
+#jeqbfpmrwa .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2251,15 +2257,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#rzirkyrqpo .gt_row_group_first td {
+#jeqbfpmrwa .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rzirkyrqpo .gt_row_group_first th {
+#jeqbfpmrwa .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#rzirkyrqpo .gt_summary_row {
+#jeqbfpmrwa .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2269,16 +2275,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#rzirkyrqpo .gt_first_summary_row {
+#jeqbfpmrwa .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rzirkyrqpo .gt_first_summary_row.thick {
+#jeqbfpmrwa .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rzirkyrqpo .gt_last_summary_row {
+#jeqbfpmrwa .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2288,7 +2294,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#rzirkyrqpo .gt_grand_summary_row {
+#jeqbfpmrwa .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2298,7 +2304,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#rzirkyrqpo .gt_first_grand_summary_row {
+#jeqbfpmrwa .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2308,7 +2314,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#rzirkyrqpo .gt_last_grand_summary_row_top {
+#jeqbfpmrwa .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2318,11 +2324,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#rzirkyrqpo .gt_striped {
+#jeqbfpmrwa .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rzirkyrqpo .gt_table_body {
+#jeqbfpmrwa .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2331,7 +2337,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#rzirkyrqpo .gt_footnotes {
+#jeqbfpmrwa .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2345,7 +2351,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#rzirkyrqpo .gt_footnote {
+#jeqbfpmrwa .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2354,7 +2360,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#rzirkyrqpo .gt_sourcenotes {
+#jeqbfpmrwa .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2368,7 +2374,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#rzirkyrqpo .gt_sourcenote {
+#jeqbfpmrwa .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2376,72 +2382,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#rzirkyrqpo .gt_left {
+#jeqbfpmrwa .gt_left {
   text-align: left;
 }
 
-#rzirkyrqpo .gt_center {
+#jeqbfpmrwa .gt_center {
   text-align: center;
 }
 
-#rzirkyrqpo .gt_right {
+#jeqbfpmrwa .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rzirkyrqpo .gt_font_normal {
+#jeqbfpmrwa .gt_font_normal {
   font-weight: normal;
 }
 
-#rzirkyrqpo .gt_font_bold {
+#jeqbfpmrwa .gt_font_bold {
   font-weight: bold;
 }
 
-#rzirkyrqpo .gt_font_italic {
+#jeqbfpmrwa .gt_font_italic {
   font-style: italic;
 }
 
-#rzirkyrqpo .gt_super {
+#jeqbfpmrwa .gt_super {
   font-size: 65%;
 }
 
-#rzirkyrqpo .gt_footnote_marks {
+#jeqbfpmrwa .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#rzirkyrqpo .gt_asterisk {
+#jeqbfpmrwa .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rzirkyrqpo .gt_indent_1 {
+#jeqbfpmrwa .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rzirkyrqpo .gt_indent_2 {
+#jeqbfpmrwa .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rzirkyrqpo .gt_indent_3 {
+#jeqbfpmrwa .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rzirkyrqpo .gt_indent_4 {
+#jeqbfpmrwa .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rzirkyrqpo .gt_indent_5 {
+#jeqbfpmrwa .gt_indent_5 {
   text-indent: 25px;
 }
 
-#rzirkyrqpo .katex-display {
+#jeqbfpmrwa .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#rzirkyrqpo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#jeqbfpmrwa div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3027,8 +3033,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../labs/feature-engineering.html" class="pagination-link" aria-label="<span class='chapter-number'>6</span>&nbsp; <span class='chapter-title'>Part-of-speech tagging and dependency parsing</span>">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../labs/keyness.html" class="pagination-link" aria-label="<span class='chapter-number'>6</span>&nbsp; <span class='chapter-title'>Keyness</span>">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Keyness</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

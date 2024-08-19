@@ -2,14 +2,13 @@
 author: "David Brown"
 ---
 
--  [Quarto](https://quarto.org/docs/get-started/) is required to process all the assignments in this course. Download and install for your operating system. [**No other LaTeX installation is needed**]{style="background-color: #f5b2c6; opacity: 0.75;"}.
-
+-   [Quarto](https://quarto.org/docs/get-started/) is required to process all the assignments in this course. Download and install for your operating system. [**No other LaTeX installation is needed**]{style="background-color: #f5b2c6; opacity: 0.75;"}.
 
 # Schedule {.unnumbered}
 
-| Topic                                  | Labs                                                                                  | Required Readings                                | Optional Readings                          | Lecture Slides                                                                        |
+| Topic                                  | Labs                                                                                 | Required Readings                                                                           | Optional Readings                         | Lecture Slides                                                                       |
 |---------------|---------------|---------------|---------------|---------------|
-| Linguistic Facts of Life               |                                                                                       |                                                  |                                            | [![](images/icon_presentation.png){width="24"}](lectures/embed_linguistic-facts.qmd) |
-| A Short History of LLMs                |                                                                                       |                                                  |                                            | [![](images/icon_presentation.png){width="24"}](lectures/embed_llms-history.qmd)     |
-| Classification & the Federalist Papers | [![](images/icon_quarto.png){width="24"}](labs/classification-federalist-papers.qmd) | [![](images/icon_required.png){width="24"}](#0) | ![](images/icon_optional.png){width="24"} | ![](images/icon_presentation.png){width="24"}                                        |
-|                                        |                                                                                       |                                                  |                                            |                                                                                       |
+| Linguistic Facts of Life               |                                                                                      |                                                                                             |                                           | [![](images/icon_presentation.png){width="24"}](lectures/embed_linguistic-facts.qmd) |
+| A Short History of LLMs                |                                                                                      |                                                                                             |                                           | [![](images/icon_presentation.png){width="24"}](lectures/embed_llms-history.qmd)     |
+| Classification & the Federalist Papers | [![](images/icon_quarto.png){width="24"}](labs/classification-federalist-papers.qmd) | [![](images/icon_required.png){width="24"}](https://doi.org/10.1080/01621459.1963.10500849) | ![](images/icon_optional.png){width="24"} | ![](images/icon_presentation.png){width="24"}                                        |
+|                                        |                                                                                      |                                                                                             |                                           |                                                                                      |

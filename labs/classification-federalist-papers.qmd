@@ -12,6 +12,7 @@ We going to (mostly) replicate a famous classification task that was first done 
 library(quanteda)
 library(rsample)
 library(tidyverse)
+library(gt)
 ```
 
 ## Variables
@@ -69,7 +70,6 @@ load("../data/federalist_papers.rda")
 
 
 ```{r}
-
 fed_meta <- federalist_meta %>%
   dplyr::select(doc_id, author_id)
 ```
@@ -79,7 +79,6 @@ And we're going to read in ALL of the data. Why do it this way? We could build o
 So let's read in the text.
 
 ```{r}
-
 fed_txt <- federalist_papers
 ```
 
@@ -88,7 +87,6 @@ fed_txt <- federalist_papers
 Now, we'll tokenize the data.
 
 ```{r}
-
 fed_tokens <- fed_txt %>%
   corpus() %>%
   tokens(remove_punct = T, remove_symbols = T, what = "word")
@@ -97,7 +95,6 @@ fed_tokens <- fed_txt %>%
 And create a weighted dfm. The 3rd line preps the column so it can be merged with our metadata. The 4th orders the tokens by their mean frequencies. This isn't necessary here, but can be useful when doing quick sub-setting of variables. And the 5th changes the column name for easy joining.
 
 ```{r}
-
 fed_dfm <- fed_tokens %>% dfm() %>% dfm_weight(scheme = "prop") %>%
   convert(to = "data.frame") %>%
   select(doc_id, names(sort(colMeans(.[,-1]), decreasing = TRUE)))
@@ -119,7 +116,6 @@ fed_dfm <- fed_dfm %>%
 Now we can subset out our training and testing data.
 
 ```{r}
-
 train_dfm <- fed_dfm %>% filter(author_id == "Hamilton" | author_id == "Madison")
 test_dfm <- fed_dfm %>% filter(author_id == "Disputed")
 ```
@@ -129,7 +125,6 @@ For the next step we're going to again separate our training data. We want a sub
 For this, we'll use some handy functions from the **rsample** package. First, we make an 80/20 split. From that we create a new, smaller training set, and a validation set.
 
 ```{r}
-
 set.seed(123)
 valid_split <- initial_split(train_dfm, .8)
 train_dfm_v2 <- analysis(valid_split)
@@ -139,7 +134,6 @@ train_valid <- assessment(valid_split)
 Next, we'll select only those 70 tokens from Mosteller & Wallace's first group. We also need to convert the author_id into a 2-level factor, and to move the text_id to row names. The same for the validation data, but we don't need to worry about the factor conversion.
 
 ```{r}
-
 train_dfm_v2_1 <- train_dfm_v2 %>% 
   dplyr::select(doc_id, author_id, all_of(mw_group1)) %>%
   mutate(doc_id = factor(doc_id)) %>%
@@ -196,7 +190,7 @@ This is a very useful technique for variable selection and can reduce the likeli
 
 ### Using **glmnet**
 
-To help you decide which lambda to use, the **cv.glmnet()** function does cross-validation. The default sets **alpha=1** for lasso. If we wanted ridge, we would set **alpha=0**.
+To help you decide which lambda to use, the `cv.glmnet()` function does cross-validation. The default sets **alpha=1** for lasso. If we wanted ridge, we would set **alpha=0**.
 
 ```{r}
 
@@ -226,13 +220,15 @@ By filtering those variables with coefficients of zero, we see only the variable
 
 ```{r}
 
-coef(cv_fit, s = "lambda.min") %>%
-  as.matrix() %>%
-  data.frame() %>%
-  rownames_to_column("Variable") %>%
-  filter(s1 !=0) %>%
-  dplyr::rename(Coeff = s1) %>%
-  knitr::kable(digits = 2)
+coef(cv_fit, s = "lambda.min") |>
+  as.matrix() |>
+  data.frame() |>
+  rownames_to_column("Variable") |>
+  filter(s1 !=0) |>
+  dplyr::rename(Coeff = s1)  |>
+  gt() |>
+  fmt_number(columns = "Coeff",
+             decimals = 2)
 ```
 
 ## Validate the model
@@ -259,23 +255,23 @@ lasso_predict <- ifelse(lasso_prob > 0.5, "Madison", "Hamilton")
 ```
 
 ```{r}
-#| echo: false
+#| code-fold: true
 
-lasso_predict %>% 
-  data.frame() %>%
-  dplyr::rename(Author = s1) %>%
-  knitr::kable()
+lasso_predict |> 
+  data.frame() |>
+  dplyr::rename(Predict = s1) |>
+  tibble::rownames_to_column("Test") |>
+  gt()
 ```
 
 Retrieve what they actually are and calculate our model accuracy.
 
 ```{r}
 
-table(pred=lasso_predict, true=train_valid_1$author_id) %>% knitr::kable()
+table(pred=lasso_predict, true=train_valid_1$author_id)
 ```
 
 ```{r}
-
 paste0(mean(lasso_predict == train_valid_1$author_id)*100, "%")
 ```
 
@@ -288,7 +284,6 @@ Let's repeat the process, but this time we'll start with all of Mosteller & Wall
 ### Create a new training and validation set
 
 ```{r}
-
 train_dfm_v2_2 <- train_dfm_v2 %>% 
   dplyr::select(doc_id, author_id, all_of(mw_all)) %>%
   mutate(author_id = factor(author_id)) %>%
@@ -302,27 +297,26 @@ train_valid_2 <- train_valid %>%
 ### Carry out cross-validation
  
 ```{r}
-
 cv_fit <- cv.glmnet(as.matrix(train_dfm_v2_2[, -1]), train_dfm_v2_2[, 1], family = "binomial")
 ```
  
 Look at our coefficients... 17 this time...
  
 ```{r}
-
-coef(cv_fit, s = "lambda.min") %>%
-  as.matrix() %>%
-  data.frame() %>%
-  rownames_to_column("Variable") %>%
-  filter(s1 !=0) %>%
-  dplyr::rename(Coeff = s1) %>%
-  knitr::kable(digits = 2)
+coef(cv_fit, s = "lambda.min") |>
+  as.matrix() |>
+  data.frame() |>
+  rownames_to_column("Variable") |>
+  filter(s1 !=0) |>
+  dplyr::rename(Coeff = s1) |>
+  gt() |>
+  fmt_number(columns = "Coeff",
+             decimals = 2)
 ```
 
 Save our minimum lambda and our regression coefficients.
 
 ```{r}
-
 lambda_min <- cv_fit$lambda.min
 lambda_lse <- cv_fit$lambda.1se
 ```
@@ -330,29 +324,25 @@ lambda_lse <- cv_fit$lambda.1se
 ### Create a matrix from the validation set
 
 ```{r}
-
 x_test <- model.matrix(author_id ~., train_valid_2)[,-1]
 ```
 
 ### Predict the **author_id** of the validation set.
 
 ```{r}
-
 lasso_prob <- predict(cv_fit, newx = x_test, s = lambda_lse, type = "response")
 ```
 
 ### Return the predicted authors.
 
 ```{r}
-
 lasso_predict <- ifelse(lasso_prob > 0.5, "Madison", "Hamilton")
 ```
 
 ### Check confusion matrix
 
 ```{r}
-
- table(pred=lasso_predict, true=train_valid_1$author_id) %>% knitr::kable()
+ table(pred=lasso_predict, true=train_valid_1$author_id)
 ```
 
 The model looks good... So let's proceed with the data in question.
@@ -360,7 +350,6 @@ The model looks good... So let's proceed with the data in question.
 ### Prepare full training set
 
 ```{r}
-
 train_dfm <- train_dfm %>% 
   dplyr::select(doc_id, author_id, all_of(mw_all)) %>%
   mutate(author_id = factor(author_id)) %>%
@@ -370,7 +359,6 @@ train_dfm <- train_dfm %>%
 ### Prepare test data
 
 ```{r}
-
 test_dfm <- test_dfm %>% 
   dplyr::select(doc_id, author_id, all_of(mw_all)) %>%
   column_to_rownames("doc_id")
@@ -379,21 +367,21 @@ test_dfm <- test_dfm %>%
 ### Carry out cross-validation
 
 ```{r}
-
 cv_fit <- cv.glmnet(as.matrix(train_dfm[, -1]), train_dfm[, 1], family = "binomial")
 ```
 
 As we would expect, this is close to what we saw previously.
 
 ```{r}
-
-coef(cv_fit, s = "lambda.min") %>%
-  as.matrix() %>%
-  data.frame() %>%
-  rownames_to_column("Variable") %>%
-  filter(s1 !=0) %>%
-  dplyr::rename(Coeff = s1) %>%
-  knitr::kable(digits = 2)
+coef(cv_fit, s = "lambda.min") |>
+  as.matrix() |>
+  data.frame() |>
+  rownames_to_column("Variable") |>
+  filter(s1 !=0) |>
+  dplyr::rename(Coeff = s1) |>
+  gt() |>
+  fmt_number(columns = "Coeff",
+             decimals = 2)
 ```
 
 ### Run lasso
@@ -416,9 +404,11 @@ lasso_predict <- ifelse(lasso_prob > 0.5, "Madison", "Hamilton")
 
 ```{r}
 
-data.frame(lasso_predict, lasso_prob) %>% 
-  dplyr::rename(Author = s1, Prob = s1.1) %>%
-  knitr::kable(digits = 2)
+data.frame(lasso_predict, lasso_prob) |>
+  dplyr::rename(Author = s1, Prob = s1.1) |>
+  gt() |>
+  fmt_number(columns = "Prob",
+             decimals = 2)
 ```
 
 Our model predicts all but 55 were written by Madison. Our model is not particularly confident about that result. This hews pretty closely to Mosteller & Wallace's findings, through they come down (sort of) on the side of Madison for 55. However, they also acknowledge that the evidence is weak and not very convincing.

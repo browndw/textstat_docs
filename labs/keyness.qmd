@@ -1,53 +1,24 @@
----
-title: "Lab 6"
-author: "My Name"
-output:
-  pdf_document:
-    fig_caption: yes
-    number_sections: true
-header-includes:
-  - |
-    ```{=latex}
-    \usepackage{fvextra}
-    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{
-      breaksymbolleft={}, 
-      showspaces = false,
-      showtabs = false,
-      breaklines,
-      commandchars=\\\{\}
-    }
-    ```
----
 
-```{r, include=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  tidy.opts=list(width.cutoff=70), # this last bit auto-wraps code and comments so the don't run off the page, but you need to have formatR installed
-  tidy=TRUE
-)
-```
-
-# Lab 6 (Set 2): Keyness {-}
+# Keyness
 
 For this lab, we'll be following many of the same procedures that we've done previously:
 
-* attaching metadata to a corpus using docvars()
-* tokenizing using tokens()
-* handling multiword expressions using tokens_compound()
-* creating a document-feature matrix using dfm()
+* attaching metadata to a corpus using `docvars()`
+* tokenizing using `tokens()`
+* handling multiword expressions using `tokens_compound()`
+* creating a document-feature matrix using `dfm()`
 
-For today's lab we'll begin some hypothesis testing using news functions from quanteda.extras:
+For today's lab we'll begin some hypothesis testing using news functions from our repository:
 
-* keyness_table()
-* keyness_pairs()
-* key_keys()
+* `keyness_table()`
+* `keyness_pairs()`
+* `key_keys()`
 
 We'll also look at quanteda's function:
 
-* textstat_keyness()
+* `textstat_keyness()`
 
-# What is **keyness**?
+## What is **keyness**?
 
 Keyness is a generic term for various tests that compare observed vs. expected frequencies.
 
@@ -57,26 +28,35 @@ The calculation is based on a 2 x 2 contingency table. It is similar to a chi-sq
 
 Expected frequencies are based on the relative size of each corpus (in total number of words N~i~) and the total number of observed frequencies:
 
-$$E_i = \sum_i O_i \times \frac{N_i}{\sum_i N_i}$$
+$$
+E_i = \sum_i O_i \times \frac{N_i}{\sum_i N_i}
+$$
 And log-likelihood is calculted according the formula:
 
-$$LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}$$
+$$
+LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
+$$
 A good explanation of its implementation in linguistics can be found here: <http://ucrel.lancs.ac.uk/llwizard.html>
 
 In addition to log-likelihood, the **textstat_keyness()** function in quanteda has other optional measures.
 
 See here: <https://quanteda.io/reference/textstat_keyness.html>
 
-# Prepare a corpus
+## Prepare a corpus
 
 We'll begin, just as we did in the distributions lab.
 
-## Load the needed packages
+### Load the needed packages
 
-```{r setup, message = FALSE, error=FALSE, warning=FALSE}
+```{r setup}
+#| message: false
+#| error: false
+#| warning: false
+
 library(tidyverse)
 library(quanteda)
 library(quanteda.textstats)
+library(gt)
 ```
 
 Load the functions:
@@ -94,15 +74,19 @@ load("../data/multiword_expressions.rda")
 ```
 
 
-## Pre-process the data & create a corpus
+### Pre-process the data & create a corpus
 
-```{r data_prep, message = FALSE, error=FALSE}
+```{r data_prep}
+#| message: false
+#| error: false
+#| warning: false
+
 sc <- sample_corpus %>%
   mutate(text = preprocess_text(text)) %>%
   corpus()
 ```
 
-## Extract meta-data from file names
+### Extract meta-data from file names
 
 We'll extract some meta-data by (1) selecting the **doc_id** column, (2) extracting the initial letter string before the underscore, and (3) renaming the vector **text_type**.
 
@@ -113,7 +97,7 @@ doc_categories <- sample_corpus %>%
   rename(text_type = doc_id)
 ```
 
-## Assign the meta-data to the corpus
+### Assign the meta-data to the corpus
 
 The accessor function **docvars()** lets us add or modify data in an object. We're going to use it to assign **text_type** as a variable. Note that **doc_categories** could include more than one column and the assignment process would be the same.
 
@@ -123,13 +107,19 @@ docvars(sc) <- doc_categories
 
 And check the result:
 
-```{r echo=FALSE}
-knitr::kable(head(sc %>% summary()), caption = "Partial summary of sample corpus.")
+```{r}
+#| code-fold: true
+#| tbl-cap: "Partial summary of sample corpus."
+
+sc |>
+  summary() |>
+  head(10) |>
+  gt()
 ```
 
 Note the new column (**text_type** on the right). We could assign any number of categorical variables to our corpus, which could be used for analysis downstream.
 
-## Create a **dfm**
+### Create a **dfm**
 
 ```{r}
 sc_dfm <- sc %>%
@@ -138,11 +128,9 @@ sc_dfm <- sc %>%
   dfm()
 ```
 
-# A corpus composition table
+## A corpus composition table
 
 It is conventional to report out the composition of the corpus or corpora you are using for your study. Here will will sum our tokens by text-type and similarly count the number of texts in each grouping.
-
-We will also use **janitor** to append a row of totals at the bottom of the table.
 
 ```{r}
 corpus_comp <- ntoken(sc_dfm) %>% 
@@ -152,24 +140,35 @@ corpus_comp <- ntoken(sc_dfm) %>%
   group_by(Text_Type) %>%
   summarize(Texts = n(),
     Tokens = sum(Tokens)) %>%
-  mutate(Text_Type = c("Academic", "Blog", "Fiction", "Magazine", "News", "Spoken", "Television/Movies", "Web")) %>%
-  rename("Text-Type" = Text_Type) %>%
-  janitor::adorn_totals()
+  mutate(Text_Type = c("Academic", "Blog", "Fiction", "Magazine", "News", "Spoken", "Television/Movies", "Web"))
 ```
 
-Now, using **kableExtra**, we can format our table to reduce the number of grid lines and separate our row of totals.
+Now, using `grand_summary_rows()`, we can append a row of totals at the bottom of the table.
 
-```{r echo=FALSE}
-kableExtra::kbl(corpus_comp, caption = "Composition of the sample corpus.", booktabs = T, linesep = "") %>%
-  kableExtra::kable_styling(latex_options = "HOLD_position") %>%
-  kableExtra::kable_classic() %>%
-  kableExtra::row_spec(8, hline_after = TRUE) %>%
-  kableExtra::row_spec(9, bold=T)
+```{r}
+#| code-fold: true
+#| tbl-cap: "Composition of the sample corpus."
+
+corpus_comp |> 
+  gt() |>
+  fmt_integer() |>
+  cols_label(
+    Text_Type = md("**Text Type**"),
+    Texts = md("**Texts**"),
+    Tokens = md("**Tokens**")
+  ) |>
+  grand_summary_rows(
+    columns = c(Texts, Tokens),
+    fns = list(
+      Total ~ sum(.)
+    ) ,
+    fmt = ~ fmt_integer(.)
+    )
 ```
 
 # Keyness in **quanteda**
 
-Now that we have a **dfm** we perform keyness calculations. First, let's carry out calculations using **textstat_keyness()**.
+Now that we have a **dfm** we perform keyness calculations. First, let's carry out calculations using `textstat_keyness()`.
 
 When we use it with textstat_keyness we are indicating that we want the papers with discipline_cat equal to "acad" to be our **target corpus**. The everything else (i.e., "acad" == FALSE) will be the **reference corpus**.
 
@@ -179,12 +178,17 @@ The specific method we're using is log-likelihood, which is designated by "lr". 
 acad_kw <- textstat_keyness(sc_dfm, docvars(sc_dfm, "text_type") == "acad", measure = "lr")
 ```
 
-Note the second argument: **docvars(sc_dfm, "text_type") == "acad"**. That slightly awkward syntax simply produces a logical vector. You could store it and pass the vector the function, as well.
+Note the second argument: `docvars(sc_dfm, "text_type") == "acad"`. That slightly awkward syntax simply produces a logical vector. You could store it and pass the vector the function, as well.
 
-```{r echo=FALSE}
-kableExtra::kbl(head(acad_kw), caption = "Tokens with the highest keyness values in the academic text-type when compared to the rest of the sample corpus.", booktabs = T, linesep = "", digits = 2) %>%
-  kableExtra::kable_styling(latex_options = "HOLD_position") %>%
-  kableExtra::kable_classic()
+```{r}
+#| code-fold: true
+#| tbl-cap: "Tokens with the highest keyness values in the academic text-type when compared to the rest of the sample corpus."
+
+acad_kw |>
+  head(10) |>
+  gt() |>
+  fmt_number(columns = "G2",
+             decimals = 2)
 ```
 
 ## Creating sub-corpora
@@ -195,22 +199,27 @@ If we want to compare one text-type (as our target corpus) to another (as our re
 sub_dfm <- dfm_subset(sc_dfm, text_type == "acad" | text_type == "fic")
 ```
 
-When we do this, the resulting data will still include **all** the tokens in the sample corpus, including those that do not appear in either the academic or fiction text-type. To deal with this, we will trim the dfm
+When we do this, the resulting data will still include **all** the tokens in the sample corpus, including those that do not appear in either the academic or fiction text-type. To deal with this, we will trim the dfm.
 
 ```{r trim_dfm}
 sub_dfm <- dfm_trim(sub_dfm, min_termfreq = 1)
 ```
 
-We'll dow the same for fiction.
+We'll do the same for fiction.
 
 ```{r}
 fic_kw <- textstat_keyness(sub_dfm, docvars(sub_dfm, "text_type") == "fic", measure = "lr")
 ```
 
-```{r echo=FALSE}
-kableExtra::kbl(head(fic_kw), caption = "Tokens with the highest keyness values in the fiction text-type when compared to the academic text-type.", booktabs = T, linesep = "", digits = 2) %>%
-  kableExtra::kable_styling(latex_options = "HOLD_position") %>%
-  kableExtra::kable_classic()
+```{r}
+#| code-fold: true
+#| tbl-cap: "Tokens with the highest keyness values in the fiction text-type when compared to the academic text-type."
+
+fic_kw |>
+  head(10) |>
+  gt() |>
+  fmt_number(columns = "G2",
+             decimals = 2)
 ```
 
 Note that if we switch our target and reference corpora (academic as target, fiction as reference), the tail of the keyness table contains the negative values of the original (fiction as target, academic and reference), which you may have already gathered given the formula above.
@@ -219,26 +228,31 @@ Note that if we switch our target and reference corpora (academic as target, fic
 acad_kw <- textstat_keyness(sub_dfm, docvars(sub_dfm, "text_type") == "acad", measure = "lr")
 ```
 
-```{r echo=FALSE}
-kableExtra::kbl(tail(acad_kw), caption = "Tokens with the lowest keyness values int the academic text-type when compared to the fiction text-type.", booktabs = T, linesep = "", digits = 2) %>%
-  kableExtra::kable_styling(latex_options = "HOLD_position") %>%
-  kableExtra::kable_classic()
+```{r}
+#| code-fold: true
+#| tbl-cap: "Tokens with the lowest keyness values int the academic text-type when compared to the fiction text-type."
+
+acad_kw |>
+  tail(10) |>
+  gt() |>
+  fmt_number(columns = "G2",
+             decimals = 2)
 ```
 
 # Effect size
 
 While **quanteda** produces one important piece of information (the amount of evidence we have for an effect), it neglects another (the magnitude of the effect). Whenever we report on significance it is **critical** to report **effect size**. Some common effect size measures include:
 
-* %DIFF - see Gabrielatos and Marchi (2012)
+* %DIFF - see Gabrielatos and Marchi [-@gabrielatos2011keyness]
     + Costas has also provided an FAQ with more details <http://ucrel.lancs.ac.uk/ll/DIFF_FAQ.pdf>
-* Bayes Factor (BIC) - see Wilson (2013)
+* Bayes Factor (BIC) - see Wilson [-@wilson2013embracing]
     + You can interpret the approximate Bayes Factor as degrees of evidence against the null hypothesis as follows:
         - 0-2: not worth more than a bare mention
         - 2-6: positive evidence against H~0~
         - 6-10: strong evidence against H~0~
         - 10: very strong evidence against H~0~
     + For negative scores, the scale is read as "in favor of" instead of "against".
-* Effect Size for Log Likelihood (ELL) - see Johnston et al (2006)
+* Effect Size for Log Likelihood (ELL) - see Johnston *et al.* [-@johnston2006measures]
     + ELL varies between 0 and 1 (inclusive). Johnston *et al.* say "interpretation is straightforward as the proportion of the maximum departure between the observed and expected proportions".
 * Relative Risk
 * Odds Ratio
@@ -247,9 +261,9 @@ While **quanteda** produces one important piece of information (the amount of ev
 
 ## Log Ratio (LR)
 
-You are welcome to use any of these effect size measures. Our **cmu.textstat** package comes with a function for calculating Hardie's Log Ratio, which is easy and intuitive.
+You are welcome to use any of these effect size measures. Our repo comes with a function for calculating Hardie's Log Ratio, which is easy and intuitive.
 
-## The **keyness_table()** function
+## The `keyness_table(`* function
 
 We'll start by creating 2 dfms--a target and a reference:
 
@@ -260,16 +274,26 @@ fic_dfm <- dfm_subset(sc_dfm, text_type == "fic") %>% dfm_trim(min_termfreq = 1)
 
 Then we will use the **keyness_table()** function.
 
-```{r k_table, error=FALSE, message=FALSE}
+```{r k_table}
+#| error: false
+#| message: false
+
 acad_kw <- keyness_table(acad_dfm, fic_dfm)
 ```
 
 And check the result:
 
-```{r echo=FALSE}
-kableExtra::kbl(head(acad_kw), caption = "Tokens with the highest keyness values in the academic text-type when compared to the fiction text-type.", booktabs = T, linesep = "", digits = 2) %>%
-  kableExtra::kable_styling(latex_options = "HOLD_position") %>%
-  kableExtra::kable_classic()
+```{r}
+#| code-fold: true
+#| tbl-cap: "Tokens with the highest keyness values in the academic text-type when compared to the fiction text-type."
+
+acad_kw |>
+  head(10) |>
+  gt() |>
+  fmt_number(columns = c("LL", "LR", "Per_10.5_Tar", "Per_10.5_Ref", "DP_Tar", "DP_Ref"),
+             decimals = 2) |>
+  fmt_number(columns = "PV",
+             decimals = 5)
 ```
 
 The columns are as follows:
@@ -300,8 +324,15 @@ kp <- keyness_pairs(news_dfm, acad_dfm, fic_dfm)
 
 Check the result:
 
-```{r echo=FALSE}
-knitr::kable(head(kp), caption = "Pairwise comparisions of news (target) vs. academic (reference), news (target) vs. fiction (reference), and academic (target) vs. fiction (reference).", digits = 2, booktabs = T) %>% kableExtra::kable_styling(latex_options = c("striped", "scale_down", "HOLD_position"))
+```{r}
+#| code-fold: true
+#| tbl-cap: "Pairwise comparisions of news (target) vs. academic (reference), news (target) vs. fiction (reference), and academic (target) vs. fiction (reference)."
+
+kp |>
+  head(10) |>
+  gt() |>
+  fmt_number(everything(),
+             decimals = 2)
 ```
 
 # Key key words
@@ -316,8 +347,15 @@ kk <- key_keys(acad_dfm, fic_dfm)
 
 Again, we can look at the first few rows of the table:
 
-```{r echo=FALSE}
-knitr::kable(head(kk), digits = 2, "simple", caption = "Key key words when comparing the academic text-type to the fiction text-type.")
+```{r}
+#| code-fold: true
+#| tbl-cap: "Key key words when comparing the academic text-type to the fiction text-type."
+
+kk |>
+  head(10) |>
+  gt() |>
+  fmt_number(everything(),
+             decimals = 2)
 ```
 
 ___
@@ -326,4 +364,6 @@ STOP!\\
 COMPLETE TASK 1
 \end{center} 
 ___
+
+## Works cited
 

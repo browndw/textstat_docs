@@ -5,8 +5,11 @@ Processing pipelines
 
 In the previous lab, we did some back-of-the-napkin text processing. In that lab, you were encouraged to think about what exactly is happening when you split a text into tokens and convert those into counts.
 
-We'll build on that foundational work, but let an R package **quanteda** do some of the heavy lifting for us. So let's load our packages:
+We'll build on that foundational work, but let an R package [**quanteda**](https://quanteda.io/) do some of the heavy lifting for us. So let's load our packages:
 
+::: {.callout-note}
+Why use **quanteda** rather than something like **tidytext**? Quite simply processing speed. While most packages are built around R functions and structures, **quanteda** does its processing in C+++ under the hood. Compiled languages like C+++ and Rust are much more efficient for string processing. This is also why [**polars**](https://pola.rs/) is useful for processing large dataframes.
+:::
 
 ```{r}
 #| message: false
@@ -70,8 +73,8 @@ totc_dfm <- dfm(totc_tkns)
 
 A **dfm** is an important data structure to understand, as it often serves as the foundation for all kinds of downstream statistical processing. It is a table with rows for documents (or observations) and columns for tokens (or variables)
 
-```{r echo=FALSE}
-#| echo: false
+```{r}
+#| code-fold: true
 #| tbl-cap: "Part of a document-feature matrix."
 
 totc_dfm |>
@@ -83,7 +86,7 @@ totc_dfm |>
 ## And count our tokens
 
 ```{r}
-#| echo: false
+#| code-fold: true
 #| tbl-cap: "Token counts of sample sentence."
 
 totc_dfm |>
@@ -103,18 +106,18 @@ totc_freq <- totc_corpus %>%
 ```
  
 ```{r}
-#| echo: false
+#| code-fold: true
 #| tbl-cap: "Token counts of sample sentence."
 
 totc_freq |>
   gt()
 ```
 
-# Tokenizing options
+## Tokenizing options
 
 In the previous lab, you were asked to consider the questions: What counts as a token/word? And how do you tell the computer to count what you want?
 
-As the above code block suggest, the **tokens()** function in **(quanteda)[http://quanteda.io/reference/tokens.html]** gives you some measure on control.
+As the above code block suggest, the `tokens()` function in [**quanteda**](http://quanteda.io/reference/tokens.html) gives you some measure on control.
 
 We'll read in a more complex string:
 
@@ -133,14 +136,14 @@ text_2_freq <- text_2 %>%
 ```
  
 ```{r}
-#| echo: false
+#| code-fold: true
 #| tbl-cap: "Token counts of sample Tweet"
 
 text_2_freq |>
   gt()
 ```
 
-Note that in addition to various logical "remove" arguments (**remove_punct**, **remove_symbols**, etc.), the **tokens()** function has a **what** argument. The default, "word", is "smarter", but also slower. Another option is "fastestword", which splits at spaces.
+Note that in addition to various logical "remove" arguments (**remove_punct**, **remove_symbols**, etc.), the `tokens()` function has a **what** argument. The default, "word", is "smarter", but also slower. Another option is "fastestword", which splits at spaces.
 
 ```{r}
 
@@ -153,8 +156,8 @@ text_2_freq <- text_2 %>%
   dplyr::select(feature, frequency)
 ```
  
-```{r echo=FALSE}
-#| echo: false
+```{r}
+#| code-fold: true
 #| tbl-cap: "Token counts of sample Tweet"
 
 text_2_freq |>
@@ -163,11 +166,11 @@ text_2_freq |>
 
 This, of course, makes no difference with just a few tokens, but does if you're trying to process millions.
 
-Also note that we've used the **select()** function to choose specific columns.
+Also note that we've used the `select()` function to choose specific columns.
 
 ## Pre-processing
 
-An alternative to making tokenizing decisions inside the tokenizing process, you can process the text before tokenizing using functions for manipulating strings in **stringr**, **stringi**, **textclean**, or base R (like **grep( )**). Some common and convenient transformations are wrapped in a **cmu.textstat** function called **preprocess_text( )**
+An alternative to making tokenizing decisions inside the tokenizing process, you can process the text before tokenizing using functions for manipulating strings in **stringr**, **stringi**, **textclean**, or base R (like **grep( )**). Some common and convenient transformations are wrapped in a function called `preprocess_text( )`
 
 ```{r pre_process}
 text_2_freq <- text_2 %>%
@@ -182,33 +185,31 @@ text_2_freq <- text_2 %>%
   mutate(New = NA)
 ```
  
-```{r echo=FALSE}
-#| echo: false
-#| tbl-cap: "TToken counts of sample Tweet"
+```{r}
+#| code-fold: true
+#| tbl-cap: "Token counts of sample Tweet"
 
 text_2_freq |>
   gt()
 ```
 
-Note how the default arguments treat negation and possessive markers. As with the **tokens ()** function, many of these (options)[http://htmlpreview.github.io/?https://raw.githubusercontent.com/browndw/quanteda.extras/main/vignettes/preprocess_introduction.html] are logical.
+Note how the default arguments treat negation and possessive markers. As with the `tokens ()` function, many of these (options)[http://htmlpreview.github.io/?https://raw.githubusercontent.com/browndw/quanteda.extras/main/vignettes/preprocess_introduction.html] are logical.
 
-Note, too, that we've renamed the columns and added a new one using **mutate()**. 
+Note, too, that we've renamed the columns and added a new one using `mutate()`. 
 
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 1
-\end{center} 
-___
+::: callout-important
+## Pause for Lab Set Question
 
+Complete [Task 1 in Lab Set 1](../lab_sets/LabSet_01.qmd#tokenizing-with-quanteda).
+:::
 
-# Creating a corpus composition table
+## Creating a corpus composition table
 
 Whenever you report the results of a corpus-based analysis, it is best practice to include a table that summarizes the composition of your corpus (or corpora) and any relevant variables. Most often this would include token counts aggregated by relevant categorical variables and a row of totals.
 
 ## Adding a grouping variable
 
-We have 2 short texts (one from fiction and one from Twitter). Let's first combine them into a single corpus. First, a data frame is created that has 2 columns (**doc_id** and **text**). Then, the **text** column is passed to the **preprocess_text()** function before creating the corpus.
+We have 2 short texts (one from fiction and one from Twitter). Let's first combine them into a single corpus. First, a data frame is created that has 2 columns (**doc_id** and **text**). Then, the **text** column is passed to the `preprocess_text()` function before creating the corpus.
 
 ```{r}
 comb_corpus <-   data.frame(doc_id = c("text_1", "text_2"), text = c(totc_txt, text_2)) %>%
@@ -216,7 +217,7 @@ comb_corpus <-   data.frame(doc_id = c("text_1", "text_2"), text = c(totc_txt, t
   corpus()
 ```
 
-Next well assign a grouping variable using **docvars()**. In later labs, we'll use a similar process to assign variables from tables of metadata.
+Next well assign a grouping variable using `docvars()`. In later labs, we'll use a similar process to assign variables from tables of metadata.
 
 ```{r}
 docvars(comb_corpus) <- data.frame(text_type = c("Fiction", "Twitter"))
@@ -229,24 +230,23 @@ comb_tkns <- comb_corpus %>%
   tokens(what = "fastestword")
 ```
 
-Once we have done this, we can use that grouping variable to manipulate the data in a vraiety of ways. We could use **dfm_group()** to aggregate by group instead of individual text. (Though because we have only 2 texts here, it amounts to the same thing.) 
+Once we have done this, we can use that grouping variable to manipulate the data in a variety of ways. We could use `dfm_group()` to aggregate by group instead of individual text. (Though because we have only 2 texts here, it amounts to the same thing.) 
 
 ```{r}
 comb_dfm <- dfm(comb_tkns) %>% 
   dfm_group(groups = text_type)
-```
 
- 
-```{r echo=FALSE}
-corpus_comp <- comb_dfm %>% 
-  textstat_frequency(groups = text_type) %>%
+corpus_comp <- ntoken(comb_dfm) %>%
+  data.frame(frequency = .) %>%
+  rownames_to_column("group") %>%
   group_by(group) %>%
-  summarize(Texts = 1,
+  summarize(Texts = n(),
             Tokens = sum(frequency))
 ```
 
 
-```{r echo=FALSE}
+```{r}
+#| code-fold: true
 #| label: tbl-corpus
 #| tbl-cap: "Composition of corpus."
 
@@ -254,7 +254,7 @@ corpus_comp |>
   gt() |>
   fmt_integer() |>
   cols_label(
-    group = md("**TExt Type**"),
+    group = md("**Text Type**"),
     Texts = md("**Texts**"),
     Tokens = md("**Tokens**")
   ) |>
@@ -267,9 +267,8 @@ corpus_comp |>
     )
 ```
 
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 2
-\end{center} 
-___
+::: callout-important
+## Pause for Lab Set Question
+
+Complete [Task 2 in Lab Set 1](../lab_sets/LabSet_01.qmd#tokenizing-with-quanteda).
+:::

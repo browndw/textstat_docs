@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Text Analysis for Statistics &amp; Data Science - 6&nbsp; Part-of-speech tagging and dependency parsing</title>
+<title>Text Analysis for Statistics &amp; Data Science - 7&nbsp; Part-of-speech tagging and dependency parsing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../labs/logistic-regression.html" rel="next">
-<link href="../labs/collocations.html" rel="prev">
+<link href="../labs/keyness.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -114,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../_images/text_analysis.png" alt="" class="navbar-logo">
+    <img src="../images/text_analysis.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Text Analysis for Statistics &amp; Data Science</span>
@@ -131,7 +131,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/feature-engineering.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/feature-engineering.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -190,14 +190,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../labs/keyness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Keyness</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../labs/feature-engineering.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../labs/logistic-regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span></a>
   </div>
 </li>
       </ul>
@@ -214,13 +220,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/embed_linguistic-facts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Linguistic Facts of Life</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linguistic Facts of Life</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/embed_llms-history.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">LLMs History</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">LLMs History</span></span></a>
   </div>
 </li>
       </ul>
@@ -237,25 +243,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Lab Set 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Lab Set 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Lab Set 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lab Set 2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lab Set 3</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Lab Set 3</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Lab Set 4</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Lab Set 4</span></span></a>
   </div>
 </li>
       </ul>
@@ -270,32 +276,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-does-udpipe-do" id="toc-what-does-udpipe-do" class="nav-link active" data-scroll-target="#what-does-udpipe-do"><span class="header-section-number">6.1</span> What does udpipe do?</a>
+  <li><a href="#what-does-udpipe-do" id="toc-what-does-udpipe-do" class="nav-link active" data-scroll-target="#what-does-udpipe-do"><span class="header-section-number">7.1</span> What does udpipe do?</a>
   <ul class="collapse">
-  <li><a href="#parse-a-sample-sentence-online" id="toc-parse-a-sample-sentence-online" class="nav-link" data-scroll-target="#parse-a-sample-sentence-online"><span class="header-section-number">6.1.1</span> Parse a sample sentence online</a></li>
-  <li><a href="#basic-parse-structure" id="toc-basic-parse-structure" class="nav-link" data-scroll-target="#basic-parse-structure"><span class="header-section-number">6.1.2</span> Basic parse structure</a></li>
-  <li><a href="#visualize-the-dependency" id="toc-visualize-the-dependency" class="nav-link" data-scroll-target="#visualize-the-dependency"><span class="header-section-number">6.1.3</span> Visualize the dependency</a></li>
+  <li><a href="#parse-a-sample-sentence-online" id="toc-parse-a-sample-sentence-online" class="nav-link" data-scroll-target="#parse-a-sample-sentence-online"><span class="header-section-number">7.1.1</span> Parse a sample sentence online</a></li>
+  <li><a href="#basic-parse-structure" id="toc-basic-parse-structure" class="nav-link" data-scroll-target="#basic-parse-structure"><span class="header-section-number">7.1.2</span> Basic parse structure</a></li>
+  <li><a href="#visualize-the-dependency" id="toc-visualize-the-dependency" class="nav-link" data-scroll-target="#visualize-the-dependency"><span class="header-section-number">7.1.3</span> Visualize the dependency</a></li>
   </ul></li>
-  <li><a href="#load-the-needed-packages" id="toc-load-the-needed-packages" class="nav-link" data-scroll-target="#load-the-needed-packages"><span class="header-section-number">6.2</span> Load the needed packages</a></li>
-  <li><a href="#parsing" id="toc-parsing" class="nav-link" data-scroll-target="#parsing"><span class="header-section-number">6.3</span> Parsing</a>
+  <li><a href="#load-the-needed-packages" id="toc-load-the-needed-packages" class="nav-link" data-scroll-target="#load-the-needed-packages"><span class="header-section-number">7.2</span> Load the needed packages</a></li>
+  <li><a href="#parsing" id="toc-parsing" class="nav-link" data-scroll-target="#parsing"><span class="header-section-number">7.3</span> Parsing</a>
   <ul class="collapse">
-  <li><a href="#preparing-a-corpus" id="toc-preparing-a-corpus" class="nav-link" data-scroll-target="#preparing-a-corpus"><span class="header-section-number">6.3.1</span> Preparing a corpus</a></li>
-  <li><a href="#download-a-model" id="toc-download-a-model" class="nav-link" data-scroll-target="#download-a-model"><span class="header-section-number">6.3.2</span> Download a model</a></li>
-  <li><a href="#annotate-a-sentence" id="toc-annotate-a-sentence" class="nav-link" data-scroll-target="#annotate-a-sentence"><span class="header-section-number">6.3.3</span> Annotate a sentence</a></li>
-  <li><a href="#plot-the-annotation" id="toc-plot-the-annotation" class="nav-link" data-scroll-target="#plot-the-annotation"><span class="header-section-number">6.3.4</span> Plot the annotation</a></li>
+  <li><a href="#preparing-a-corpus" id="toc-preparing-a-corpus" class="nav-link" data-scroll-target="#preparing-a-corpus"><span class="header-section-number">7.3.1</span> Preparing a corpus</a></li>
+  <li><a href="#download-a-model" id="toc-download-a-model" class="nav-link" data-scroll-target="#download-a-model"><span class="header-section-number">7.3.2</span> Download a model</a></li>
+  <li><a href="#annotate-a-sentence" id="toc-annotate-a-sentence" class="nav-link" data-scroll-target="#annotate-a-sentence"><span class="header-section-number">7.3.3</span> Annotate a sentence</a></li>
+  <li><a href="#plot-the-annotation" id="toc-plot-the-annotation" class="nav-link" data-scroll-target="#plot-the-annotation"><span class="header-section-number">7.3.4</span> Plot the annotation</a></li>
   </ul></li>
-  <li><a href="#annotate-a-corpus" id="toc-annotate-a-corpus" class="nav-link" data-scroll-target="#annotate-a-corpus"><span class="header-section-number">6.4</span> Annotate a corpus</a>
+  <li><a href="#annotate-a-corpus" id="toc-annotate-a-corpus" class="nav-link" data-scroll-target="#annotate-a-corpus"><span class="header-section-number">7.4</span> Annotate a corpus</a>
   <ul class="collapse">
-  <li><a href="#parallel-processing" id="toc-parallel-processing" class="nav-link" data-scroll-target="#parallel-processing"><span class="header-section-number">6.4.1</span> Parallel processing</a></li>
+  <li><a href="#parallel-processing" id="toc-parallel-processing" class="nav-link" data-scroll-target="#parallel-processing"><span class="header-section-number">7.4.1</span> Parallel processing</a></li>
   </ul></li>
-  <li><a href="#process-with-quanteda" id="toc-process-with-quanteda" class="nav-link" data-scroll-target="#process-with-quanteda"><span class="header-section-number">6.5</span> Process with quanteda</a>
+  <li><a href="#process-with-quanteda" id="toc-process-with-quanteda" class="nav-link" data-scroll-target="#process-with-quanteda"><span class="header-section-number">7.5</span> Process with quanteda</a>
   <ul class="collapse">
-  <li><a href="#format-the-data-for-quanteda" id="toc-format-the-data-for-quanteda" class="nav-link" data-scroll-target="#format-the-data-for-quanteda"><span class="header-section-number">6.5.1</span> Format the data for quanteda</a></li>
-  <li><a href="#convert-to-tokens" id="toc-convert-to-tokens" class="nav-link" data-scroll-target="#convert-to-tokens"><span class="header-section-number">6.5.2</span> Convert to tokens</a></li>
-  <li><a href="#create-a-dfm" id="toc-create-a-dfm" class="nav-link" data-scroll-target="#create-a-dfm"><span class="header-section-number">6.5.3</span> Create a dfm</a></li>
-  <li><a href="#filterselect-tokens" id="toc-filterselect-tokens" class="nav-link" data-scroll-target="#filterselect-tokens"><span class="header-section-number">6.5.4</span> Filter/select tokens</a></li>
-  <li><a href="#extract-phrases" id="toc-extract-phrases" class="nav-link" data-scroll-target="#extract-phrases"><span class="header-section-number">6.5.5</span> Extract phrases</a></li>
-  <li><a href="#extract-only-unique-phrases" id="toc-extract-only-unique-phrases" class="nav-link" data-scroll-target="#extract-only-unique-phrases"><span class="header-section-number">6.5.6</span> Extract only unique phrases</a></li>
+  <li><a href="#format-the-data-for-quanteda" id="toc-format-the-data-for-quanteda" class="nav-link" data-scroll-target="#format-the-data-for-quanteda"><span class="header-section-number">7.5.1</span> Format the data for quanteda</a></li>
+  <li><a href="#convert-to-tokens" id="toc-convert-to-tokens" class="nav-link" data-scroll-target="#convert-to-tokens"><span class="header-section-number">7.5.2</span> Convert to tokens</a></li>
+  <li><a href="#create-a-dfm" id="toc-create-a-dfm" class="nav-link" data-scroll-target="#create-a-dfm"><span class="header-section-number">7.5.3</span> Create a dfm</a></li>
+  <li><a href="#filterselect-tokens" id="toc-filterselect-tokens" class="nav-link" data-scroll-target="#filterselect-tokens"><span class="header-section-number">7.5.4</span> Filter/select tokens</a></li>
+  <li><a href="#extract-phrases" id="toc-extract-phrases" class="nav-link" data-scroll-target="#extract-phrases"><span class="header-section-number">7.5.5</span> Extract phrases</a></li>
+  <li><a href="#extract-only-unique-phrases" id="toc-extract-only-unique-phrases" class="nav-link" data-scroll-target="#extract-only-unique-phrases"><span class="header-section-number">7.5.6</span> Extract only unique phrases</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/browndw/textstat_docs/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
@@ -303,9 +309,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/feature-engineering.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/feature-engineering.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Part-of-speech tagging and dependency parsing</span></h1>
 </div>
 
 
@@ -324,11 +330,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>In the previous lab, we worked with keyness and effect sizes, specifically using log-likelihood and log ratio measures.</p>
 <p>We are now going to add to our toolkit by using the same measures, but applied to data that has been tagged and parsed. To our processing pipeline, we will be adding <strong>udpipe</strong>: <a href="https://bnosac.github.io/udpipe/en/" class="uri">https://bnosac.github.io/udpipe/en/</a></p>
-<section id="what-does-udpipe-do" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="what-does-udpipe-do"><span class="header-section-number">6.1</span> What does udpipe do?</h2>
+<section id="what-does-udpipe-do" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="what-does-udpipe-do"><span class="header-section-number">7.1</span> What does udpipe do?</h2>
 <p>Before we start processing in R, let’s get some sense of what “universal dependency parsing” is and what its output looks like.</p>
-<section id="parse-a-sample-sentence-online" class="level3" data-number="6.1.1">
-<h3 data-number="6.1.1" class="anchored" data-anchor-id="parse-a-sample-sentence-online"><span class="header-section-number">6.1.1</span> Parse a sample sentence online</h3>
+<section id="parse-a-sample-sentence-online" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="parse-a-sample-sentence-online"><span class="header-section-number">7.1.1</span> Parse a sample sentence online</h3>
 <p>Go to this webpage: <a href="http://lindat.mff.cuni.cz/services/udpipe/" class="uri">http://lindat.mff.cuni.cz/services/udpipe/</a>.</p>
 <p>And paste the following sentence into the text field:</p>
 <blockquote class="blockquote">
@@ -336,22 +342,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 <p>Then, click the “Process Input” button. You should now see an output. If you choose the “Table” tab, you can view the output in a tablular format.</p>
 </section>
-<section id="basic-parse-structure" class="level3" data-number="6.1.2">
-<h3 data-number="6.1.2" class="anchored" data-anchor-id="basic-parse-structure"><span class="header-section-number">6.1.2</span> Basic parse structure</h3>
+<section id="basic-parse-structure" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="basic-parse-structure"><span class="header-section-number">7.1.2</span> Basic parse structure</h3>
 <p>There is a column for the <strong>token</strong> and one for the token’s base form or <strong>lemma</strong>.</p>
 <p>Those are followed by a tag for the general lexical class or “universal part-of-speech” (<strong>upos</strong>) tag, and a tree-bank specific (<strong>xpos</strong>) part-of-speech tag.</p>
 <p>The <strong>xpos</strong> tags are Penn Treebank tags, which you can find here: <a href="https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html" class="uri">https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html</a></p>
 <p>The part-of-speech tags are followed by a column of integers that refer to the id of the token that is at the head of the dependency structure, which is followed by the <strong>dependency relation</strong> identifier.</p>
 <p>For a list of all dependency abbreviaitons see here: <a href="https://universaldependencies.org/u/dep/index.html" class="uri">https://universaldependencies.org/u/dep/index.html</a>.</p>
 </section>
-<section id="visualize-the-dependency" class="level3" data-number="6.1.3">
-<h3 data-number="6.1.3" class="anchored" data-anchor-id="visualize-the-dependency"><span class="header-section-number">6.1.3</span> Visualize the dependency</h3>
+<section id="visualize-the-dependency" class="level3" data-number="7.1.3">
+<h3 data-number="7.1.3" class="anchored" data-anchor-id="visualize-the-dependency"><span class="header-section-number">7.1.3</span> Visualize the dependency</h3>
 <p>From the “Output Text” tab, copy the output start with the <strong>sent_id</strong> including the pound sign</p>
 <p>Paste the information into the text field here: <a href="https://urd2.let.rug.nl/~kleiweg/conllu/" class="uri">https://urd2.let.rug.nl/~kleiweg/conllu/</a>. Then click the “Submit Query” button below the text field. This should generate a visualization of the dependency structure.</p>
 </section>
 </section>
-<section id="load-the-needed-packages" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="load-the-needed-packages"><span class="header-section-number">6.2</span> Load the needed packages</h2>
+<section id="load-the-needed-packages" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="load-the-needed-packages"><span class="header-section-number">7.2</span> Load the needed packages</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span>
@@ -368,21 +374,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/sample_corpus.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="parsing" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="parsing"><span class="header-section-number">6.3</span> Parsing</h2>
-<section id="preparing-a-corpus" class="level3" data-number="6.3.1">
-<h3 data-number="6.3.1" class="anchored" data-anchor-id="preparing-a-corpus"><span class="header-section-number">6.3.1</span> Preparing a corpus</h3>
+<section id="parsing" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="parsing"><span class="header-section-number">7.3</span> Parsing</h2>
+<section id="preparing-a-corpus" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="preparing-a-corpus"><span class="header-section-number">7.3.1</span> Preparing a corpus</h3>
 <p>When we parse texts using a model like ones available in <strong>udpipe</strong> or <strong>spacy</strong>, we need to do very little to prepare the corpus. We could trim extra spaces and returns using <strong>str_squish()</strong> or remove urls, but generally we want the text to be mostly “as is” so the model can do its job.</p>
 </section>
-<section id="download-a-model" class="level3" data-number="6.3.2">
-<h3 data-number="6.3.2" class="anchored" data-anchor-id="download-a-model"><span class="header-section-number">6.3.2</span> Download a model</h3>
+<section id="download-a-model" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="download-a-model"><span class="header-section-number">7.3.2</span> Download a model</h3>
 <p>You only need to run this line of code <strong>once</strong>. To run it, remove the pound sign, run the line, then add the pound sign after you’ve downloaded the model. Or you can run the next chunk and the model will automatically be downloaded in your working directory.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># udpipe_download_model(language = "english")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="annotate-a-sentence" class="level3" data-number="6.3.3">
-<h3 data-number="6.3.3" class="anchored" data-anchor-id="annotate-a-sentence"><span class="header-section-number">6.3.3</span> Annotate a sentence</h3>
+<section id="annotate-a-sentence" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="annotate-a-sentence"><span class="header-section-number">7.3.3</span> Annotate a sentence</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="st">"The company offers credit cards, loans and interest-generating accounts."</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ud_model <span class="ot">&lt;-</span> <span class="fu">udpipe_load_model</span>(<span class="st">"../models/english-ewt-ud-2.5-191206.udpipe"</span>)</span>
@@ -396,7 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_raw_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="zhlalpgvza" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="yjcvmwhnfe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false" data-bgcolor="#FFFFFF">
@@ -551,8 +557,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="plot-the-annotation" class="level3" data-number="6.3.4">
-<h3 data-number="6.3.4" class="anchored" data-anchor-id="plot-the-annotation"><span class="header-section-number">6.3.4</span> Plot the annotation</h3>
+<section id="plot-the-annotation" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="plot-the-annotation"><span class="header-section-number">7.3.4</span> Plot the annotation</h3>
 <p>We can also plot the dependency structure using <strong>igraph</strong>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
@@ -597,8 +603,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="annotate-a-corpus" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="annotate-a-corpus"><span class="header-section-number">6.4</span> Annotate a corpus</h2>
+<section id="annotate-a-corpus" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="annotate-a-corpus"><span class="header-section-number">7.4</span> Annotate a corpus</h2>
 <p>Parsing text is a computationally intensive process and can take time. So for the purposes of this lab, we’ll create a smaller sub-sample of the the data. By adding a column called <strong>text_type</strong> which includes information extracted from the file names, we can sample 5 texts from each.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
@@ -609,8 +615,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(doc_id, text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="parallel-processing" class="level3" data-number="6.4.1">
-<h3 data-number="6.4.1" class="anchored" data-anchor-id="parallel-processing"><span class="header-section-number">6.4.1</span> Parallel processing</h3>
+<section id="parallel-processing" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="parallel-processing"><span class="header-section-number">7.4.1</span> Parallel processing</h3>
 <p>Parallel processing is a method whereby separate parts of an overall complex task are broken up and run simultaneously on multiple CPUs, thereby reducing the amount of time for processing. Part-of-speech tagging and dependency parsing are computationally intensive, so using parallel processing can save valuable time.</p>
 <p>The <strong>udpipe()</strong> function has an argument for assigning cores: <strong>parallel.cores = 1L</strong>. It’s easy to set up, so feel free to use that option.</p>
 <p>A second option, requires more preparation, but is even faster. So we’ll walk through how it works. First, we will split the corpus based on available cores.</p>
@@ -643,10 +649,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="process-with-quanteda" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="process-with-quanteda"><span class="header-section-number">6.5</span> Process with quanteda</h2>
-<section id="format-the-data-for-quanteda" class="level3" data-number="6.5.1">
-<h3 data-number="6.5.1" class="anchored" data-anchor-id="format-the-data-for-quanteda"><span class="header-section-number">6.5.1</span> Format the data for quanteda</h3>
+<section id="process-with-quanteda" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="process-with-quanteda"><span class="header-section-number">7.5</span> Process with quanteda</h2>
+<section id="format-the-data-for-quanteda" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="format-the-data-for-quanteda"><span class="header-section-number">7.5.1</span> Format the data for quanteda</h3>
 <p>If we want to do any further processing in <strong>quanteda</strong>, we need to make a couple of adjustments to our data frame.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>anno_edit <span class="ot">&lt;-</span> annotation <span class="sc">%&gt;%</span></span>
@@ -656,14 +662,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>anno_edit <span class="ot">&lt;-</span> <span class="fu">structure</span>(anno_edit, <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"spacyr_parsed"</span>, <span class="st">"data.frame"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="convert-to-tokens" class="level3" data-number="6.5.2">
-<h3 data-number="6.5.2" class="anchored" data-anchor-id="convert-to-tokens"><span class="header-section-number">6.5.2</span> Convert to tokens</h3>
+<section id="convert-to-tokens" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="convert-to-tokens"><span class="header-section-number">7.5.2</span> Convert to tokens</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sub_tkns <span class="ot">&lt;-</span> <span class="fu">as.tokens</span>(anno_edit, <span class="at">include_pos =</span> <span class="st">"tag"</span>, <span class="at">concatenator =</span> <span class="st">"_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="create-a-dfm" class="level3" data-number="6.5.3">
-<h3 data-number="6.5.3" class="anchored" data-anchor-id="create-a-dfm"><span class="header-section-number">6.5.3</span> Create a dfm</h3>
+<section id="create-a-dfm" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="create-a-dfm"><span class="header-section-number">7.5.3</span> Create a dfm</h3>
 <p>We will also extract and assign the variable <strong>text_type</strong> to the tokens object.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>doc_categories <span class="ot">&lt;-</span> <span class="fu">names</span>(sub_tkns) <span class="sc">%&gt;%</span></span>
@@ -1220,8 +1226,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="filterselect-tokens" class="level3" data-number="6.5.4">
-<h3 data-number="6.5.4" class="anchored" data-anchor-id="filterselect-tokens"><span class="header-section-number">6.5.4</span> Filter/select tokens</h3>
+<section id="filterselect-tokens" class="level3" data-number="7.5.4">
+<h3 data-number="7.5.4" class="anchored" data-anchor-id="filterselect-tokens"><span class="header-section-number">7.5.4</span> Filter/select tokens</h3>
 <p>There are multiple ways to filter/select the tokens we want to count. We could, for example, just filter out all rows in the annotation data frame tagged as <strong>PUNCT</strong>, if we wanted to exclude punctuation from our counts.</p>
 <p>I would, however, advise against altering the original parsed file. We may want to try different options, and we want to avoid having to re-parse our corpus, as that is the most computationally intensive step in the processing pipeline. In fact, if this were part of an actual project, I would advise that you save the parsed data frame as a <strong>.csv</strong> file using <strong>write_csv()</strong> for later use.</p>
 <p>So we will try an alternative. We use the <strong>tokens_select()</strong> function to either keep or remove tokens based on regular expressions.</p>
@@ -1564,8 +1570,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 <hr>
 </section>
-<section id="extract-phrases" class="level3" data-number="6.5.5">
-<h3 data-number="6.5.5" class="anchored" data-anchor-id="extract-phrases"><span class="header-section-number">6.5.5</span> Extract phrases</h3>
+<section id="extract-phrases" class="level3" data-number="7.5.5">
+<h3 data-number="7.5.5" class="anchored" data-anchor-id="extract-phrases"><span class="header-section-number">7.5.5</span> Extract phrases</h3>
 <p>We can also extract phrases of specific types. To so so, we first use the function <strong>as_phrasemachine()</strong> to add a new column to our annotation called <strong>phrase_tag</strong>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>annotation<span class="sc">$</span>phrase_tag <span class="ot">&lt;-</span> <span class="fu">as_phrasemachine</span>(annotation<span class="sc">$</span>upos, <span class="at">type =</span> <span class="st">"upos"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1794,8 +1800,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Note that although the function uses the term <strong>keywords</strong>, it is <strong>NOT</strong> executing a hypothesis test of any kind.</p>
 </section>
-<section id="extract-only-unique-phrases" class="level3" data-number="6.5.6">
-<h3 data-number="6.5.6" class="anchored" data-anchor-id="extract-only-unique-phrases"><span class="header-section-number">6.5.6</span> Extract only unique phrases</h3>
+<section id="extract-only-unique-phrases" class="level3" data-number="7.5.6">
+<h3 data-number="7.5.6" class="anchored" data-anchor-id="extract-only-unique-phrases"><span class="header-section-number">7.5.6</span> Extract only unique phrases</h3>
 <p>Note that <strong>udpipe</strong> extracts overlapping constituents of phrase structures. Normally, we would want only <em>unique</em> phrases. To find those we’ll take advantage of the <strong>start</strong> and <strong>end</strong> indexes, using the <strong>between()</strong> function from the <strong>data.table</strong> package.</p>
 <p>That will generate a logical vector, which we can use to filter out only those phrases that don’t overlap with another.</p>
 <div class="cell">
@@ -2328,13 +2334,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../labs/collocations.html" class="pagination-link  aria-label=" &lt;span="" &amp;="" association="" measures&lt;="" span&gt;"="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Collocations &amp; Association Measures</span></span>
+      <a href="../labs/keyness.html" class="pagination-link  aria-label=" &lt;span="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Keyness</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../labs/logistic-regression.html" class="pagination-link" aria-label="<span class='chapter-number'>7</span>&nbsp; <span class='chapter-title'>Logistic Regression</span>">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../labs/logistic-regression.html" class="pagination-link" aria-label="<span class='chapter-number'>8</span>&nbsp; <span class='chapter-title'>Logistic Regression</span>">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Logistic Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
