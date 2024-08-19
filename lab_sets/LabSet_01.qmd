@@ -4,7 +4,7 @@
 The preview of this lab set is rendered in HTML. However, all assignments must be rendered in PDF for submission on Canvas. The the **textstat_tools** repository is already set up to do this for you. Be sure to [follow the directions](https://quarto.org/docs/output-formats/pdf-basics.html) including the installation of **tinytex**.
 :::
 
-## Questions related to [the lecture on LLMs](../lectures/embed_llms-history.qmd)
+## Questions related to the first week discussions
 
 ### Task 1
 
@@ -23,6 +23,24 @@ Answer the the following question:
 What interests you about the quantitative analysis of text?
 
 > Your response:
+
+## Mosteller & Wallace
+
+### Task 1
+
+Mosteller and Wallace talk about a "little book of decisions" -- a record of the choices that they made in carrying out their project. Most data-driven projects require similarly complex choices. In defending them, sometimes in defending them, we check them. In making choice *x*, have we unduly influenced the result?
+
+Pick one of Mosteller and Wallace's decisions and describe how you might check whether it affecting their findings.
+
+> Your response
+
+### Task 2
+
+Our model predicts all but 55 were written by Madison. Our model is not particularly confident about that result. This hews pretty closely to Mosteller & Wallace's findings, through they come down (sort of) on the side of Madison for 55. However, they also acknowledge that the evidence is weak and not very convincing.
+
+Give at least 3 possible factors that might explain that low probability?
+
+> Your response
 
 ## NLP Basics
 

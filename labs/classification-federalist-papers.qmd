@@ -417,4 +417,10 @@ It's worth noting, too, that other studies using other techniques have suggested
 
 <https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0054998>
 
+::: callout-important
+## Pause for Lab Set Question
+
+Complete [Tasks 1 and 2 in Lab Set 1](../lab_sets/LabSet_01.qmd##mosteller-wallace).
+:::
+
 ## Works cited

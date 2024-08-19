@@ -139,6 +139,12 @@ For this, we'll use the **col_network( )** function.
 net <- col_network(tc, mc)
 ```
 
+::: callout-important
+## Pause for Lab Set Question
+
+Complete [Task 1 Lab Set 2](../lab_sets/LabSet_02.html#collocations-and-association-measures).
+:::
+
 ## Plot network
 
 The network plot shows the tokens that distinctly collocate with either *time* or *money*, as well as those that intersect. The distance from the central tokens (*time* and *money*) is governed by the MI score and the transparency (or alpha) is governed by the token frequency.
@@ -230,4 +236,9 @@ ggraph(net, weight = link_weight, layout = "stress") +
   theme(legend.position="none")
 ```
 
+::: callout-important
+## Pause for Lab Set Question
+
+Complete [Task 2 Lab Set 2](../lab_sets/LabSet_02.html#collocations-and-association-measures).
+:::
 

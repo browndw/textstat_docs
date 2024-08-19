@@ -1,34 +1,5 @@
----
-title: "Lab 9"
-author: "My Name"
-output:
-  pdf_document:
-    fig_caption: yes
-    number_sections: true
-header-includes:
-  - |
-    ```{=latex}
-    \usepackage{fvextra}
-    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{
-      breaksymbolleft={}, 
-      showspaces = false,
-      showtabs = false,
-      breaklines,
-      commandchars=\\\{\}
-    }
-    ```
----
 
-```{r, include=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  tidy.opts=list(width.cutoff=70),
-  tidy=TRUE
-)
-```
-
-# Lab 9 (Set 3): Multi-Dimensional Analysis {-}
+# Multi-Dimensional Analysis
 
 Multi-Dimensional Analysis (MDA) is a process made up of 4 main steps:
 
@@ -37,12 +8,13 @@ Multi-Dimensional Analysis (MDA) is a process made up of 4 main steps:
 3. Functional interpretation of factors as dimensions
 4. Placement of categories on the dimensions
 
-It is also a specific application of factor analysis. Factor analysis is a method(s) for reducing complexity in linguistic data, which can identify underlying principles of systematic variation (Biber 1988).
+It is also a specific application of factor analysis. Factor analysis is a method(s) for reducing complexity in linguistic data, which can identify underlying principles of systematic variation [@biber1988variation].
 
 ```{r setup, message = FALSE, error=FALSE, warning=FALSE}
 library(tidyverse)
 library(quanteda)
 library(nFactors)
+library(gt)
 ```
 
 Load functions:
@@ -51,7 +23,7 @@ Load functions:
 source("../R/mda_functions.R")
 ```
 
-# Case 1: Biber Tagger
+## Case 1: Biber Tagger
 
 In order to carry out MDA, we would like to have 5 times as many observations than variables. This generally precludes carrying out MDA (or factor analysis) with simple word counts. We need data that has, in some way, been tagged.
 
@@ -65,7 +37,7 @@ For this lab, you won't need to use the package functions. But if you'd like to 
 
 <https://cmu-textstat-docs.readthedocs.io/en/latest/pseudobibeR/pseudobibeR.html>
 
-## The Brown Corpus
+### The Brown Corpus
 
 Let's start with counts from the Brown Corpus. The Brown family of corpora is discussed on pg. 16 of Brezina. You can also find more about it here:
 
@@ -79,7 +51,10 @@ bc_meta <- read_csv("https://raw.githubusercontent.com/browndw/cmu-textstat-docs
 
 We will join the data with the metadata, in order to calculate dimension scores by register and evaluate them. Note that it **must** be formatted as a factor. For convenience sake, we'll move the file names to the row names and put our factor as the first column.
 
-```{r, warning=FALSE, message=FALSE}
+```{r}
+#| warning: false
+#| message: false
+
 bc <- bc %>%
   left_join(dplyr::select(bc_meta, doc_id, text_type)) %>%
   mutate(text_type = as.factor(text_type)) %>%
@@ -87,7 +62,7 @@ bc <- bc %>%
   dplyr::select(text_type, everything())
 ```
 
-#3 Correlation matrix
+### Correlation matrix
 
 Before calculating our factors, let's check a correlation matrix. Note that we're dropping the first (factor) column.
 
@@ -95,16 +70,24 @@ Before calculating our factors, let's check a correlation matrix. Note that we'r
 bc_cor <- cor(bc[-1], method = "pearson")
 ```
 
-```{r, fig.height=7, fig.width=7, fig.cap="Correlation matrix of lexico-grammatical categories."}
+```{r}
+#| fig-width: 7
+#| fig-height: 7
+#| fig-cap: "Correlation matrix of lexico-grammatical categories."
+
 corrplot::corrplot(bc_cor, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45, diag = F, tl.cex = 0.5)
 ```
 
-## Determining number of factors
+### Determining number of factors
 
 Typically, the number of factors is chosen after inspecting a scree plot.
 
-```{r, fig.height=3.5, fig.width=7, fig.cap="Scree plot of factors."}
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| fig-cap: "Scree plot of factors."
+
 screeplot_mda(bc)
 ```
 
@@ -112,7 +95,7 @@ A common method for interpreting a scree plot is to look for the "bend" in the e
 
 For the purposes of this exercise, we'll start with 3 factors.
 
-## Calculating factor loadings and MDA scores
+### Calculating factor loadings and MDA scores
 
 In factor analysis factors so that they pass through the middle of the relevant variables. For linguistic variable it is conventional to use a promax rotation (see Brezina pgs. 164-167). There is also a nice explanation of rotations here:
 
@@ -120,7 +103,7 @@ In factor analysis factors so that they pass through the middle of the relevant 
 
 To place our categories along the dimensions, data is standardized by converting to z-scores. For each text,  a dimension score is calculated by summing all of the high-positive variables subtracting all of the high-negative variables. Then, the mean is calculated for each category.
 
-For these calculations, we will use the **mda_loadings()** function.
+For these calculations, we will use the `mda_loadings()` function.
 
 ```{r}
 bc_mda <- mda_loadings(bc, n_factors = 3)
@@ -129,24 +112,43 @@ bc_mda <- mda_loadings(bc, n_factors = 3)
 We can access factor loadings and group means through attributes.
 
 ```{r}
-knitr::kable(attr(bc_mda, 'loadings'), caption = "Foctor loadings for the Brown Corpus", booktabs = T, linesep = "", digits = 2)
+#| tbl-cap: "Factor loadings for the Brown Corpus."
+
+attr(bc_mda, 'loadings')|>
+  rownames_to_column("Feature") |>
+  gt() |> 
+  fmt_number(
+    columns = everything(),
+    decimals = 2
+  ) |>
+  as_raw_html()
 ```
 
-## Plotting the results
+### Plotting the results
 
 The means are conventionally positioned on a stick plot of the kind Brezina shows on pg. 169.
 
-```{r fig.height=4.5, fig.width=7, fig.cap="Deminsion score means by discipline plotted along Factor 1."}
-mda.biber::stickplot_mda(bc_mda, n_factor = 1)
+```{r}
+#| fig-width: 7
+#| fig-height: 4.5
+#| fig-cap: "Dimension score means by discipline plotted along Factor 1."
+
+
+stickplot_mda(bc_mda, n_factor = 1)
 ```
 
 We can also show the same plot with the factor loadings. 
 
-```{r fig.height=5.5, fig.width=7, fig.cap="Deminsion score means by discipline plotted along Factor 1."}
-mda.biber::heatmap_mda(bc_mda, n_factor = 1)
+```{r}
+#| warning: false
+#| fig-width: 7
+#| fig-height: 5.5
+#| fig-cap: "Dimension score means by discipline plotted along Factor 1."
+
+heatmap_mda(bc_mda, n_factor = 1)
 ```
 
-## Evaluating MDA
+### Evaluating MDA
 
 Typically, MDA is evaluated using ANOVA, reporting the *F* statistic, degrees of freedom, and R-squared. We can extract that information from a linear model.
 
@@ -157,18 +159,18 @@ broom::tidy(f_aov)
 
 
 ```{r}
-f1_lm <- lm(Factor1 ~ group, data = bc_mda)
-names(f1_lm$coefficients) <- names(coef(f1_lm)) %>% str_remove("group")
-f2_lm <- lm(Factor2 ~ group, data = bc_mda)
-names(f2_lm$coefficients) <- names(coef(f2_lm)) %>% str_remove("group")
-f3_lm <- lm(Factor3 ~ group, data = bc_mda)
-names(f3_lm$coefficients) <- names(coef(f3_lm)) %>% str_remove("group")
+gtsummary::tbl_regression(lm(Factor1 ~ group, data = bc_mda)) |>
+  gtsummary::add_glance_source_note()
 ```
 
+```{r}
+gtsummary::tbl_regression(lm(Factor2 ~ group, data = bc_mda)) |>
+  gtsummary::add_glance_source_note()
+```
 
-```{r results = 'asis', echo=FALSE}
-jtools::export_summs(f1_lm, f2_lm, f3_lm, statistics = c(DF = "df.residual", R2 = "r.squared", "F statistic" = "statistic"), model.names = c("Factor 1", "Factor 2", "Factor 3"), error_format = "",
-  error_pos = "same")
+```{r}
+gtsummary::tbl_regression(lm(Factor3 ~ group, data = bc_mda)) |>
+  gtsummary::add_glance_source_note()
 ```
 
 ___
@@ -178,13 +180,13 @@ COMPLETE TASK 1
 \end{center} 
 ___
 
-# Case 2: DocuScope
+## Case 2: DocuScope
 
 Unlike the Biber tagger, DocuScope is a dictionary based tagger. It has been developed at CMU by David Kaufer and Suguru Ishizaki since the early 2000s. A small version of it is on Canvas, which you can download. You can find the dictionary categories described here:
 
 <https://docuscospacy.readthedocs.io/en/latest/docuscope.html#categories>
 
-## Load the dicitonary
+### Load the dictionary
 
 ```{r}
 load("../data/ds_dict.rda")
@@ -200,7 +202,7 @@ ds_dict[1:3]
 ```
 
 
-## Tokenize the corpus
+### Tokenize the corpus
 
 Again, we will use the **micusp_mini*, and we'll begin by tokenizing the data. Note that we're retaining as much of the original data as possible including punctuation. This is because our dictionary includes punctuation marks in it's entries.
 
@@ -247,7 +249,7 @@ ds_counts <- ds_counts %>%
 
 ```
 
-## Calculating factor loadings and MDA score
+### Calculating factor loadings and MDA score
 
 Again, we will use 3 factors.
 
@@ -255,34 +257,39 @@ Again, we will use 3 factors.
 micusp_mda <- mda_loadings(ds_counts, n_factors = 3)
 ```
 
-## Evaluating MDA
+### Evaluating MDA
 
 We can again check to see how explanatory our dimensions are.
 
 ```{r}
-f1_lm <- lm(Factor1 ~ group, data = micusp_mda)
-names(f1_lm$coefficients) <- names(coef(f1_lm)) %>% str_remove("group")
-f2_lm <- lm(Factor2 ~ group, data = micusp_mda)
-names(f2_lm$coefficients) <- names(coef(f2_lm)) %>% str_remove("group")
-f3_lm <- lm(Factor3 ~ group, data = micusp_mda)
-names(f3_lm$coefficients) <- names(coef(f3_lm)) %>% str_remove("group")
+gtsummary::tbl_regression(lm(Factor1 ~ group, data = micusp_mda)) |>
+  gtsummary::add_glance_source_note()
 ```
 
-
-```{r results = 'asis', echo=FALSE}
-jtools::export_summs(f1_lm, f2_lm, f3_lm, statistics = c(DF = "df.residual", R2 = "r.squared", "F statistic" = "statistic"), model.names = c("Factor 1", "Factor 2", "Factor 3"), error_format = "",
-  error_pos = "same")
+```{r}
+gtsummary::tbl_regression(lm(Factor2 ~ group, data = micusp_mda)) |>
+  gtsummary::add_glance_source_note()
 ```
 
-## Plotting the results
+```{r}
+gtsummary::tbl_regression(lm(Factor3 ~ group, data = micusp_mda)) |>
+  gtsummary::add_glance_source_note()
+```
+
+### Plotting the results
 
 And we can plot the first factor.
 
-```{r fig.height=5.5, fig.width=7, fig.cap="Dimension score means by discipline plotted along Factor 1."}
-mda.biber::heatmap_mda(micusp_mda, n_factor = 1)
+```{r}
+#| warning: false
+#| fig-width: 7
+#| fig-height: 5.5
+#| fig-cap: "Dimension score means by discipline plotted along Factor 1."
+
+heatmap_mda(micusp_mda, n_factor = 1)
 ```
 
-## Interpreting the factors as dimensions
+### Interpreting the factors as dimensions
 
 The functional interpretation of factors as dimensions (Brezina pgs. 167-168) is probably the most challenging part of MDA. As analysts, we need to make sense out of why features (whether parts-of-speech, rhetorical categories, or other measures) are grouping together and contributing to the patterns of variation evident in products of the analysis.
 
@@ -299,13 +306,23 @@ awm <- kwic(micusp_tokens, ds_dict["AcademicWritingMoves"])
 ```
 
 
-```{r echo=FALSE}
-knitr::kable(ch %>% head())
+```{r}
+#| code-fold: true
+
+ch |>
+  head(10) |>
+  gt() |>
+  as_raw_html()
 ```
 
 
-```{r echo=FALSE}
-knitr::kable(awm %>% head())
+```{r}
+#| code-fold: true
+
+awm |>
+  head(10) |>
+  gt() |>
+  as_raw_html()
 ```
 
 \break
@@ -315,3 +332,6 @@ STOP!\\
 COMPLETE TASK 2
 \end{center} 
 ___
+
+# Works cited
+

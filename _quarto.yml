@@ -23,16 +23,19 @@ book:
         - labs/keyness.qmd
         - labs/feature-engineering.qmd
         - labs/logistic-regression.qmd
-    - part: Lectures
-      chapters:
-         - lectures/embed_linguistic-facts.qmd
-         - lectures/embed_llms-history.qmd     
+        - labs/multi-dimensional-analysis.qmd
+        - labs/cluster-analysis.qmd
+        - labs/time-series.qmd
     - part: Labs Sets
       chapters:
          - lab_sets/LabSet_01.qmd
          - lab_sets/LabSet_02.qmd
          - lab_sets/LabSet_03.qmd
          - lab_sets/LabSet_04.qmd
+    - part: Lectures
+      chapters:
+         - lectures/embed_linguistic-facts.qmd
+         - lectures/embed_llms-history.qmd     
 
 bibliography: references.bib
 
