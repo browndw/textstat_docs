@@ -8,7 +8,7 @@ book:
   navbar:
     search: true
     logo: _images/text_analysis.png
-  repo-url: https://github.com/browndw/textstat_tools
+  repo-url: https://github.com/browndw/textstat_docs
   repo-branch: master
   repo-actions: [issue]
   chapters:
