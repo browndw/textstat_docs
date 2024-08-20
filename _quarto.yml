@@ -26,6 +26,7 @@ book:
         - labs/multi-dimensional-analysis.qmd
         - labs/cluster-analysis.qmd
         - labs/time-series.qmd
+        - labs/vector-models.qmd
     - part: Labs Sets
       chapters:
          - lab_sets/LabSet_01.qmd
