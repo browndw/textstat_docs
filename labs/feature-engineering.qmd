@@ -1,6 +1,6 @@
 
 
-# Part-of-speech tagging and dependency parsing
+# Part-of-Speech Tagging and Dependency Parsing
 
 In the previous lab, we worked with keyness and effect sizes, specifically using log-likelihood and log ratio measures.
 
@@ -411,11 +411,9 @@ fic_nps |>
   as_raw_html()
 ```
 
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 2
-\end{center} 
-___
+::: callout-important
+## Pause for Lab Set Question
 
+Complete [Task 2 in Lab Set 2](../lab_sets/LabSet_02.qmd#distributions).
+:::
 

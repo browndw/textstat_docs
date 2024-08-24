@@ -309,12 +309,11 @@ ggplot(word_df,aes(x = RF, color = token, fill = token)) +
   facet_wrap(~ token)
 ```
 
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 1
-\end{center} 
-___
+::: callout-important
+## Pause for Lab Set Question
+
+Complete [Task 1 in Lab Set 2](../lab_sets/LabSet_02.qmd#distributions).
+:::
 
 ## Dispersion
 
@@ -340,13 +339,11 @@ data <- dispersions_token(sc_dfm, "data") %>% unlist()
 knitr::kable(data.frame(the = the["Deviation of proportions DP"], data = c(data["Deviation of proportions DP"])), digits = 3, caption = "Deviation of Proportions for the tokens \\textit{the} and \\textit{data}.", "simple")
 ```
 
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 2
-\end{center} 
-___
+::: callout-important
+## Pause for Lab Set Question
 
+Complete [Task 2 in Lab Set 2](../lab_sets/LabSet_02.qmd#distributions).
+:::
 
 ### Dispersions for all tokens
 
@@ -374,12 +371,11 @@ ft <- frequency_table(sc_tokens)
 knitr::kable(head(ft), digits = 3, caption = "Frequency and dispersion measures for all tokens.", "simple")
 ```
 
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 3
-\end{center} 
-___
+::: callout-important
+## Pause for Lab Set Question
+
+Complete [Task 3 in Lab Set 2](../lab_sets/LabSet_02.qmd#distributions).
+:::
 
 
 ## Zipf's Law
@@ -400,11 +396,9 @@ ggplot(freq_df %>% filter(rank < 101), aes(x = rank, y = frequency)) +
 
 The relationship you're seeing between the rank of a token and it's frequency holds true for almost any corpus and is referred to as **Zipf's Law** (see Brezina pg. 44).
 
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 4
-\end{center} 
-___
+::: callout-important
+## Pause for Lab Set Question
 
+Complete [Task 4 in Lab Set 2](../lab_sets/LabSet_02.qmd#distributions).
+:::
 

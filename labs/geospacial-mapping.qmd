@@ -1,34 +1,5 @@
----
-title: "Lab 15"
-author: "My Name"
-output:
-  pdf_document:
-    fig_caption: yes
-    number_sections: true
-header-includes:
-  - |
-    ```{=latex}
-    \usepackage{fvextra}
-    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{
-      breaksymbolleft={}, 
-      showspaces = false,
-      showtabs = false,
-      breaklines,
-      commandchars=\\\{\}
-    }
-    ```
----
 
-```{r, include=FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  tidy.opts=list(width.cutoff=70),
-  tidy=TRUE
-)
-```
-
-# Lab 15: Geospacial Mapping: POP? SODA? or COKE? {-}
+# Geospacial Mapping: POP? SODA? or COKE?
 
 
 In 2013 a statistics (!) grad student at NC State named Joshua Katz put up a series of maps on an R Studio server that plotted the geographic distributions of lexical variants across the US. These turned out to be wildly popular and he published versions at Business Insider:
@@ -50,10 +21,15 @@ Katz's work is an interesting application of KNN to geospatial data. There is a 
 We're going to re-create Katz's pop vs. soda plot. This exercise requires a number of packages.
 
 
-```{r setup, message = FALSE, error=FALSE, warning=FALSE}
+```{r setup}
+#| message: false
+#| error: false
+#| warning: false
+
 # A couple for data wrangling...
 library(tidyverse)
 library(data.table)
+library(gt)
 
 # Our plots will be based on the results of knn...
 library(kknn) # for knn
@@ -69,33 +45,32 @@ library(housingData) # geolocation data
 require(rgeos)
 ```
 
-# Prepare the Data
+## Prepare the Data
 
-## Load the pop vs. soda data
+### Load the pop vs. soda data
 
-The data can be downloaded from the **Data** folder on Canvas.
+Read in the data.
 
-```{r warning=FALSE, message=FALSE}
+```{r}
+#| warning: false
+#| message: false
+
 pvs_df <- read_csv("../data/pop_vs_soda.csv", show_col_types = F)
 ```
 
 Note how the data is structures.
 
 ```{r echo=FALSE}
-pvs_df[,1:10] %>% head(10) %>% knitr::kable(format="latex", booktabs = TRUE) %>%
-  kableExtra::kable_styling(latex_options=c("scale_down", "HOLD_position"))
+#| code-fold: true
+
+pvs_df |>
+  head(10) |>
+  gt()
 ```
 
-[...]
+### Convert FIPS codes to longitude and latitude
 
-```{r echo=FALSE}
-pvs_df[,11:20] %>% head(10) %>%  knitr::kable(format="latex", booktabs = TRUE) %>%
-  kableExtra::kable_styling(latex_options=c("scale_down", "HOLD_position"))
-```
-
-## Convert FIPS codes to longitude and latitude
-
-We have counts by state and county. Importantly, those counts are identified by Federal Information Processing System (FIPS) codes. To convert that information to something mappable, we need GIS data for those FIPS codes. For that we can use data from the housingData package.
+We have counts by state and county. Importantly, those counts are identified by Federal Information Processing System (FIPS) codes. To convert that information to something map-able, we need GIS data for those FIPS codes. For that we can use data from the **housingData** package.
 
 ```{r}
 hd <- housingData::geoCounty
@@ -113,12 +88,16 @@ pvs_df <- pvs_df %>%
   filter(freq != 0) 
 ```
 
-```{r echo=FALSE}
-pvs_df %>% arrange(fips) %>% head(10) %>% knitr::kable(booktabs = TRUE) %>%
-  kableExtra::kable_styling(latex_options="HOLD_position")
+```{r}
+#| code-fold: true
+
+pvs_df |>
+  head(10) |>
+  gt()
 ```
 
-For the task, we need to convert counts into instances. For example, if there are 3 *soda* users in a county, we want
+For the task, we need to convert counts into instances. For example, if there are 3 *soda* users in a county, we want:
+
 *soda*, *soda*, *soda* in the variable column. For that, we can use the data.table package.
 
 ```{r}
@@ -126,9 +105,12 @@ setDT(pvs_df)
 pvs_df <- pvs_df[rep(seq(.N), freq), !"freq"]
 ```
 
-```{r echo=FALSE}
-pvs_df %>% arrange(fips) %>% head(10) %>% knitr::kable(booktabs = TRUE) %>%
-  kableExtra::kable_styling(latex_options="HOLD_position")
+```{r}
+#| code-fold: true
+
+pvs_df |>
+  head(10) |>
+  gt()
 ```
 
 Now let's join this with the GIS data to add longitudes and latitudes, and drop any empty rows.
@@ -138,12 +120,15 @@ pvs_df <- left_join(pvs_df, select(hd, fips, lon, lat), by = "fips")
 pvs_df <- pvs_df[!is.na(pvs_df$lon), ]
 ```
 
-```{r echo=FALSE}
-pvs_df %>% arrange(fips) %>% head(10) %>% knitr::kable(booktabs = TRUE) %>%
-  kableExtra::kable_styling(latex_options="HOLD_position")
+```{r}
+#| code-fold: true
+
+pvs_df |>
+  head(10) |>
+  gt()
 ```
 
-## Prepare a map
+### Prepare a map
 
 Now let's get the information we need for our map. We'll start with a map of the US states.
 
@@ -166,7 +151,7 @@ Finally we want to convert this into an sf object for later plotting. This creat
 states_us <- st_as_sf(states_us)
 ```
 
-## Transform the data for plotting
+### Transform the data for plotting
 
 Now we'll similarly convert the coordinates in our pop vs. soda data. Note that we point the *st_as_sf()* function to our "lon" and "lat" columns. Additionally, we need to specify the coordinate reference system (crs). This can be tricky... See here for a discussion:
 
@@ -202,14 +187,22 @@ dialects_train <- data.frame(dialect = point_data$var,
   mutate(dialect = as.factor(dialect))
 ```
 
-```{r echo=FALSE}
-dialects_train %>% head(10) %>% knitr::kable(booktabs = TRUE) %>%
-  kableExtra::kable_styling(latex_options="HOLD_position")
+```{r}
+#| code-fold: true
+
+dialects_train |>
+  head(10) |>
+  gt()
 ```
 
 To get a sense of our data, we can take a random sample from our training data and plot it.
 
-```{r warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+```{r}
+#| warning: false
+#| message: false
+#| fig-width: 7
+#| fig-height: 4
+
 dialects_sample <- dialects_train %>% sample_n(1000)
 
 ggplot(data = dialects_sample) +
@@ -219,9 +212,9 @@ ggplot(data = dialects_sample) +
 ```
 
 
-# KNN classification
+## KNN classification
 
-## Case study: Allegheny and Philadelphia counties
+### Case study: Allegheny and Philadelphia counties
 
 The implementation of the knn classifier is a little different from earlier classification problems, so let's walk through the basic idea with a quick example. First, let's subset out the data for 2 counties: Allegheny and Philadelphia counties (identified by their FIPS codes).
 
@@ -246,7 +239,7 @@ penn_train <- rsample::analysis(valid_split)
 penn_test <- rsample::assessment(valid_split)
 ```
 
-For more conventional classification tasks, we would want to determine the optimal k for our model using the **train.kknn()** function:
+For more conventional classification tasks, we would want to determine the optimal k for our model using the `train.kknn()` function:
 
 <https://rpubs.com/bonibruno/svm-knn>
 
@@ -266,22 +259,35 @@ For conventional classification tasks, we would be interested in our confusion m
 tab <- table(knn_penn$fitted.values, penn_test$dialect)
 
 accuracy <- function(x){sum(diag(x)/(sum(rowSums(x)))) * 100}
-accuracy(tab) %>% knitr::kable(booktabs = TRUE, digits = 2, col.names = "Accuracy")
+
+accuracy(tab)|>
+  data.frame() |>
+  gt()
 ```
 
 For our purposes, we're interested in the probabilities of each variant being preferred based on location. Allegheny county is at the top of our table, with a very strong preference for *pop*.
 
 ```{r}
-knn_penn$prob %>% head(1) %>% knitr::kable(booktabs = TRUE, digits = 2)
+#| code-fold: true
+
+knn_penn$prob |>
+  head(1) |>
+  data.frame() |>
+  gt()
 ```
 
 And Philadelphia county is at the bottom of our table with a strong preference for *soda*.
 
 ```{r}
-knn_penn$prob %>% tail(1) %>% knitr::kable(booktabs = TRUE, digits = 2)
+#| code-fold: true
+
+knn_penn$prob |>
+  tail(1) |>
+  data.frame() |>
+  gt()
 ```
 
-## Spatial interpolation
+### Spatial interpolation
 
 Those probabilities can be used to select both color (for the most probable variant) and the alpha of the color (based on the value of the probability).
 
@@ -331,7 +337,7 @@ Next, we'll set our k at 1000. This will result is a smoother looking map.
 k <- 1000
 ```
 
-Now, we can define a **compute_grid()** function that returns the probability of the most likely variant.
+Now, we can define a `compute_grid()` function that returns the probability of the most likely variant.
 
 ```{r}
 compute_grid <- function(grid, dialects_train, knn) {
@@ -408,6 +414,11 @@ dialects_raster <- dialects_raster[us, ]
 And plot the result... (Note that we're dropping *other*.)
 
 ```{r warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+#| warning: false
+#| message: false
+#| fig-width: 7
+#| fig-height: 4
+
 ggplot(data = dialects_raster %>% filter(dialect != "OTHER")) +
   geom_raster(aes(x = lon, y = lat, fill = dialect, alpha = prob)) +
   scale_fill_manual(values = c("forestgreen", "steelblue", "tomato")) +

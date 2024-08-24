@@ -31,14 +31,14 @@ Expected frequencies are based on the relative size of each corpus (in total num
 $$
 E_i = \sum_i O_i \times \frac{N_i}{\sum_i N_i}
 $$
-And log-likelihood is calculted according the formula:
+And log-likelihood is calculated according the formula:
 
 $$
 LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 $$
 A good explanation of its implementation in linguistics can be found here: <http://ucrel.lancs.ac.uk/llwizard.html>
 
-In addition to log-likelihood, the **textstat_keyness()** function in quanteda has other optional measures.
+In addition to log-likelihood, the `textstat_keyness()` function in **quanteda** has other optional measures.
 
 See here: <https://quanteda.io/reference/textstat_keyness.html>
 
@@ -99,7 +99,7 @@ doc_categories <- sample_corpus %>%
 
 ### Assign the meta-data to the corpus
 
-The accessor function **docvars()** lets us add or modify data in an object. We're going to use it to assign **text_type** as a variable. Note that **doc_categories** could include more than one column and the assignment process would be the same.
+The accessor function `docvars()` lets us add or modify data in an object. We're going to use it to assign **text_type** as a variable. Note that **doc_categories** could include more than one column and the assignment process would be the same.
 
 ```{r assign_metadata}
 docvars(sc) <- doc_categories
@@ -166,7 +166,7 @@ corpus_comp |>
     )
 ```
 
-# Keyness in **quanteda**
+## Keyness in **quanteda**
 
 Now that we have a **dfm** we perform keyness calculations. First, let's carry out calculations using `textstat_keyness()`.
 
@@ -191,7 +191,7 @@ acad_kw |>
              decimals = 2)
 ```
 
-## Creating sub-corpora
+### Creating sub-corpora
 
 If we want to compare one text-type (as our target corpus) to another (as our reference corpus), we can easily subset the data.
 
@@ -239,7 +239,7 @@ acad_kw |>
              decimals = 2)
 ```
 
-# Effect size
+## Effect size
 
 While **quanteda** produces one important piece of information (the amount of evidence we have for an effect), it neglects another (the magnitude of the effect). Whenever we report on significance it is **critical** to report **effect size**. Some common effect size measures include:
 
@@ -259,11 +259,11 @@ While **quanteda** produces one important piece of information (the amount of ev
 * Log Ratio - see Andrew Hardie's CASS blog for how to interpret this
     + Note that if either word has zero frequency then a small adjustment is automatically applied (0.5 observed frequency which is then normalized) to avoid division by zero errors.
 
-## Log Ratio (LR)
+### Log Ratio (LR)
 
 You are welcome to use any of these effect size measures. Our repo comes with a function for calculating Hardie's Log Ratio, which is easy and intuitive.
 
-## The `keyness_table(`* function
+### The `keyness_table()` function
 
 We'll start by creating 2 dfms--a target and a reference:
 
@@ -272,7 +272,7 @@ acad_dfm <- dfm_subset(sc_dfm, text_type == "acad") %>% dfm_trim(min_termfreq = 
 fic_dfm <- dfm_subset(sc_dfm, text_type == "fic") %>% dfm_trim(min_termfreq = 1)
 ```
 
-Then we will use the **keyness_table()** function.
+Then we will use the `keyness_table()` function.
 
 ```{r k_table}
 #| error: false
@@ -308,7 +308,7 @@ The columns are as follows:
 1. **DP_Tar**: the [**deviation of proportions**](https://www.researchgate.net/publication/233685362_Dispersions_and_adjusted_frequencies_in_corpora) (a dispersion measure) in the target corpus
 1. **DP_Ref**: the deviation of proportions in the reference corpus
 
-## Keyness pairs
+### Keyness pairs
 
 There is also a function for quickly generating pair-wise keyness comparisions among multiple sub-corpora. To demonstrate, create a third **dfm**, this time containing news articles.
 
@@ -316,7 +316,7 @@ There is also a function for quickly generating pair-wise keyness comparisions a
 news_dfm <- dfm_subset(sc_dfm, text_type == "news") %>% dfm_trim(min_termfreq = 1)
 ```
 
-To produce a data.frame comparing more than two sup-corpora, use the **keyness_pairs( )** function:
+To produce a data.frame comparing more than two sup-corpora, use the `keyness_pairs()` function:
 
 ```{r key_pairs, message = FALSE, error=FALSE, warning=FALSE}
 kp <- keyness_pairs(news_dfm, acad_dfm, fic_dfm)
@@ -335,7 +335,7 @@ kp |>
              decimals = 2)
 ```
 
-# Key key words
+## Key key words
 
 The concept of ["**key key words**"](https://lexically.net/downloads/version5/HTML/index.html?keykeyness_definition.htm) was introduced by Mike Smith for the WordSmith concordancer. The process compares each text in the target corpus to the reference corpus. Log-likelihood is calculated for each comparison. Then a mean is calculated for keyness and effect size. In addition, a range is provided for the number of texts in which keyness reaches significance for a given threshold. (The default is *p* < 0.05.) That range is returned as a percentage.
 
@@ -358,12 +358,11 @@ kk |>
              decimals = 2)
 ```
 
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 1
-\end{center} 
-___
+::: callout-important
+## Pause for Lab Set Question
+
+Complete [Task 1 in Lab Set 2](../lab_sets/LabSet_02.qmd#keyness).
+:::
 
 ## Works cited
 

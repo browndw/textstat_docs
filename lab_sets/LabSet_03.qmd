@@ -5,11 +5,11 @@
 The preview of this lab set is rendered in HTML. However, all assignments must be rendered in PDF for submission on Canvas. The the **textstat_tools** repository is already set up to do this for you. Be sure to [follow the directions](https://quarto.org/docs/output-formats/pdf-basics.html) including the installation of **tinytex**.
 :::
 
-## Lab 07
+## Dependency parsing
 
 ### Task 1
 
-From the keyness table (**acad_v_fic**, line 271), identify the preposition with the highest keyness value. Report the relevant statistics (including frequencies and dispersions) following the conventions described in Brezina.
+From the keyness table (**acad_v_fic**), identify the preposition with the highest keyness value. Report the relevant statistics (including frequencies and dispersions) following the conventions described in Brezina.
 
 > Your response
 
@@ -29,7 +29,7 @@ Calculate the mean length of the noun phrases in the 2 two text-types (**acad_np
 
 > Your response
 
-## Lab 08
+## Logistic regression
 
 ### Task 1
 
@@ -43,7 +43,7 @@ Write a brief interpretation of the probability curves illustrated in Figure 5.
 
 > Your response
 
-## Lab 9
+## Multi-dimensional analysis
 
 ### Task 1
 

@@ -1,22 +1,7 @@
----
-title: "Sentiment & syuzhet"
-author: "David Brown"
-output:
-  html:
-    fig_caption: yes
-    number_sections: true
----
 
-## Texts, algorithms, and black-boxes
+# Texts, Algorithms, and Black-Boxes
 
-We're going to start by unpacking the controversy regarding the syuzhet R package. (The readings are short and posted on Canvas, if you haven't looked at them already.) This is a useful exercise, I think, because it gets to some foundational issues in text analysis--you're going to encounter them in your work so they're worth considering from the beginning.
-
-___
-\begin{center}
-STOP!\\
-COMPLETE TASKS 1 \& 2
-\end{center} 
-___
+We're going to start by unpacking the controversy regarding the **syuzhet** R package. (The readings are short and posted on Canvas, if you haven't looked at them already.) This is a useful exercise, I think, because it gets to some foundational issues in text analysis--you're going to encounter them in your work so they're worth considering from the beginning.
 
 ## Load packages and data
 
@@ -116,7 +101,7 @@ Finally, the values can be plotted.
 plot(mb_dct, type ="l", xlab = "Narrative Time", ylab = "Emotional Valence", col = "red")
 ```
 
-# Transformed vs. non-transformed data
+## Transformed vs. non-transformed data
 
 In order to better compare the before vs. after, let's create a data frame in which we normalize the narrative time values and scale the sentiment scores.
 
@@ -144,14 +129,11 @@ ggplot(data=mb_dct, aes(x=time, y=dct)) +
   theme_minimal()
 ```
 
-\break
-___
-\begin{center}
-STOP!\\
-COMPLETE TASK 3
-\end{center} 
-___
+::: callout-important
+## Pause for Lab Set Question
 
+Complete [Task 1 in Lab Set 4](../lab_sets/LabSet_04.qmd#sentiment-analysis).
+:::
 
 
 

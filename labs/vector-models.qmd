@@ -89,7 +89,7 @@ embedding[c("dog", "cat"), ][,1:10] |>
 
 This ability is useful if we want to plot the locations of words or documents.
 
-# Example from the Midterm Data
+## Example from the MICUSP data
 
 First, we'll read in the text data and load some functions.
 
@@ -210,7 +210,7 @@ ggplot(doc_tsne, aes(x = V1, y = V2, fill = group)) +
   theme(panel.grid.minor = element_blank())
 ```
 
-# Another Example
+## Another Example
 
 Next, let's build a predictive model from the Federalist Papers. Again, we'll convert the text to lower case and remove punctuation.
 

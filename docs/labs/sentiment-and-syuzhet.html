@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Text Analysis for Statistics &amp; Data Science - 2&nbsp; NLP Basics</title>
+<title>Text Analysis for Statistics &amp; Data Science - 12&nbsp; Texts, Algorithms, and Black-Boxes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../labs/processing-pipelines.html" rel="next">
-<link href="../labs/classification-federalist-papers.html" rel="prev">
+<link href="../labs/vector-models.html" rel="next">
+<link href="../labs/time-series.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -131,7 +131,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/corpus-basics.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">NLP Basics</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/sentiment-and-syuzhet.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Texts, Algorithms, and Black-Boxes</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -166,7 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../labs/corpus-basics.html" class="sidebar-item-text sidebar-link active">
+  <a href="../labs/corpus-basics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">NLP Basics</span></span></a>
   </div>
 </li>
@@ -226,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../labs/sentiment-and-syuzhet.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/sentiment-and-syuzhet.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Texts, Algorithms, and Black-Boxes</span></span></a>
   </div>
 </li>
@@ -312,16 +312,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#a-simple-processing-pipeline" id="toc-a-simple-processing-pipeline" class="nav-link active" data-scroll-target="#a-simple-processing-pipeline"><span class="header-section-number">2.1</span> A simple processing pipeline</a></li>
+  <li><a href="#load-packages-and-data" id="toc-load-packages-and-data" class="nav-link active" data-scroll-target="#load-packages-and-data"><span class="header-section-number">12.1</span> Load packages and data</a></li>
+  <li><a href="#prep-the-data-and-calculate-sentiment" id="toc-prep-the-data-and-calculate-sentiment" class="nav-link" data-scroll-target="#prep-the-data-and-calculate-sentiment"><span class="header-section-number">12.2</span> Prep the data and calculate sentiment</a></li>
+  <li><a href="#transforming-the-data" id="toc-transforming-the-data" class="nav-link" data-scroll-target="#transforming-the-data"><span class="header-section-number">12.3</span> Transforming the data</a></li>
+  <li><a href="#transformed-vs.-non-transformed-data" id="toc-transformed-vs.-non-transformed-data" class="nav-link" data-scroll-target="#transformed-vs.-non-transformed-data"><span class="header-section-number">12.4</span> Transformed vs.&nbsp;non-transformed data</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/browndw/textstat_docs/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/corpus-basics.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">NLP Basics</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/sentiment-and-syuzhet.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Texts, Algorithms, and Black-Boxes</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">NLP Basics</span></h1>
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Texts, Algorithms, and Black-Boxes</span></h1>
 </div>
 
 
@@ -338,53 +341,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="a-simple-processing-pipeline" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="a-simple-processing-pipeline"><span class="header-section-number">2.1</span> A simple processing pipeline</h2>
-<p>Let’s begin by creating an object consisting of a character string. In this case, the first sentence from <em>A Tale of Two Cities</em>.</p>
+<p>We’re going to start by unpacking the controversy regarding the <strong>syuzhet</strong> R package. (The readings are short and posted on Canvas, if you haven’t looked at them already.) This is a useful exercise, I think, because it gets to some foundational issues in text analysis–you’re going to encounter them in your work so they’re worth considering from the beginning.</p>
+<section id="load-packages-and-data" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="load-packages-and-data"><span class="header-section-number">12.1</span> Load packages and data</h2>
+<p>Load the package that we’ll use in this short lab.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>totc_txt <span class="ot">&lt;-</span> <span class="st">"It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair."</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(syuzhet)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>And we’ll load the tidyverse libraries.</p>
+<p>Load data from file:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/sentiment_data.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We could then split the vector, say at each space.</p>
+<p>The novels that Jockers uses as examples are included as data, which can be accessed as <strong>sentiment_data</strong>. There are 4 novels, and we’ll check their names stored in the <strong>doc_id</strong> column.</p>
+<p>For this demonstration, we’ll be using <em>Madame Bovary</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>totc_tkns <span class="ot">&lt;-</span> totc_txt <span class="sc">%&gt;%</span> <span class="fu">str_split</span>(<span class="st">" "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Then, we can create a table of counts.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>totc_df <span class="ot">&lt;-</span> <span class="fu">table</span>(totc_tkns) <span class="sc">%&gt;%</span> <span class="co"># make a table of counts</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Token =</span> totc_tkns, <span class="at">AF =</span> n) <span class="sc">%&gt;%</span> <span class="co"># rename columns</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>AF) <span class="co"># sort the data by frequency</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>totc_df <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
-<div id="cfkuogkqxl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cfkuogkqxl table {
+<div id="hbvmoedttu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hbvmoedttu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cfkuogkqxl thead, #cfkuogkqxl tbody, #cfkuogkqxl tfoot, #cfkuogkqxl tr, #cfkuogkqxl td, #cfkuogkqxl th {
+#hbvmoedttu thead, #hbvmoedttu tbody, #hbvmoedttu tfoot, #hbvmoedttu tr, #hbvmoedttu td, #hbvmoedttu th {
   border-style: none;
 }
 
-#cfkuogkqxl p {
+#hbvmoedttu p {
   margin: 0;
   padding: 0;
 }
 
-#cfkuogkqxl .gt_table {
+#hbvmoedttu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -410,12 +400,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#cfkuogkqxl .gt_caption {
+#hbvmoedttu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cfkuogkqxl .gt_title {
+#hbvmoedttu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -427,7 +417,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#cfkuogkqxl .gt_subtitle {
+#hbvmoedttu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -439,7 +429,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#cfkuogkqxl .gt_heading {
+#hbvmoedttu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -451,13 +441,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cfkuogkqxl .gt_bottom_border {
+#hbvmoedttu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cfkuogkqxl .gt_col_headings {
+#hbvmoedttu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -472,7 +462,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cfkuogkqxl .gt_col_heading {
+#hbvmoedttu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -492,7 +482,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#cfkuogkqxl .gt_column_spanner_outer {
+#hbvmoedttu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -504,15 +494,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#cfkuogkqxl .gt_column_spanner_outer:first-child {
+#hbvmoedttu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cfkuogkqxl .gt_column_spanner_outer:last-child {
+#hbvmoedttu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cfkuogkqxl .gt_column_spanner {
+#hbvmoedttu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -524,11 +514,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#cfkuogkqxl .gt_spanner_row {
+#hbvmoedttu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cfkuogkqxl .gt_group_heading {
+#hbvmoedttu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -554,7 +544,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#cfkuogkqxl .gt_empty_group_heading {
+#hbvmoedttu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -569,15 +559,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#cfkuogkqxl .gt_from_md > :first-child {
+#hbvmoedttu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cfkuogkqxl .gt_from_md > :last-child {
+#hbvmoedttu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cfkuogkqxl .gt_row {
+#hbvmoedttu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -596,7 +586,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#cfkuogkqxl .gt_stub {
+#hbvmoedttu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -609,7 +599,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cfkuogkqxl .gt_stub_row_group {
+#hbvmoedttu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -623,15 +613,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#cfkuogkqxl .gt_row_group_first td {
+#hbvmoedttu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cfkuogkqxl .gt_row_group_first th {
+#hbvmoedttu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cfkuogkqxl .gt_summary_row {
+#hbvmoedttu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -641,16 +631,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cfkuogkqxl .gt_first_summary_row {
+#hbvmoedttu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cfkuogkqxl .gt_first_summary_row.thick {
+#hbvmoedttu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cfkuogkqxl .gt_last_summary_row {
+#hbvmoedttu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -660,7 +650,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#cfkuogkqxl .gt_grand_summary_row {
+#hbvmoedttu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -670,7 +660,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cfkuogkqxl .gt_first_grand_summary_row {
+#hbvmoedttu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -680,7 +670,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#cfkuogkqxl .gt_last_grand_summary_row_top {
+#hbvmoedttu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -690,11 +680,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#cfkuogkqxl .gt_striped {
+#hbvmoedttu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cfkuogkqxl .gt_table_body {
+#hbvmoedttu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -703,7 +693,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#cfkuogkqxl .gt_footnotes {
+#hbvmoedttu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -717,7 +707,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cfkuogkqxl .gt_footnote {
+#hbvmoedttu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -726,7 +716,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cfkuogkqxl .gt_sourcenotes {
+#hbvmoedttu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -740,7 +730,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cfkuogkqxl .gt_sourcenote {
+#hbvmoedttu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -748,123 +738,95 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cfkuogkqxl .gt_left {
+#hbvmoedttu .gt_left {
   text-align: left;
 }
 
-#cfkuogkqxl .gt_center {
+#hbvmoedttu .gt_center {
   text-align: center;
 }
 
-#cfkuogkqxl .gt_right {
+#hbvmoedttu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cfkuogkqxl .gt_font_normal {
+#hbvmoedttu .gt_font_normal {
   font-weight: normal;
 }
 
-#cfkuogkqxl .gt_font_bold {
+#hbvmoedttu .gt_font_bold {
   font-weight: bold;
 }
 
-#cfkuogkqxl .gt_font_italic {
+#hbvmoedttu .gt_font_italic {
   font-style: italic;
 }
 
-#cfkuogkqxl .gt_super {
+#hbvmoedttu .gt_super {
   font-size: 65%;
 }
 
-#cfkuogkqxl .gt_footnote_marks {
+#hbvmoedttu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cfkuogkqxl .gt_asterisk {
+#hbvmoedttu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cfkuogkqxl .gt_indent_1 {
+#hbvmoedttu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cfkuogkqxl .gt_indent_2 {
+#hbvmoedttu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cfkuogkqxl .gt_indent_3 {
+#hbvmoedttu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cfkuogkqxl .gt_indent_4 {
+#hbvmoedttu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cfkuogkqxl .gt_indent_5 {
+#hbvmoedttu .gt_indent_5 {
   text-indent: 25px;
 }
 
-#cfkuogkqxl .katex-display {
+#hbvmoedttu .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#cfkuogkqxl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hbvmoedttu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<caption>A small corpus included in the cmu.textstat package.</caption>
 <thead>
 <tr class="header gt_col_headings">
-<th id="Token" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Token</th>
-<th id="AF" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">AF</th>
+<th id="doc_id" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">doc_id</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">of</td>
-<td class="gt_row gt_right" headers="AF">10</td>
+<td class="gt_row gt_left" headers="doc_id">madame_bovary</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">the</td>
-<td class="gt_row gt_right" headers="AF">10</td>
+<td class="gt_row gt_left" headers="doc_id">portrait_artist</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">was</td>
-<td class="gt_row gt_right" headers="AF">10</td>
+<td class="gt_row gt_left" headers="doc_id">ragged_dick</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">it</td>
-<td class="gt_row gt_right" headers="AF">9</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Token">age</td>
-<td class="gt_row gt_right" headers="AF">2</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Token">epoch</td>
-<td class="gt_row gt_right" headers="AF">2</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Token">season</td>
-<td class="gt_row gt_right" headers="AF">2</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Token">times,</td>
-<td class="gt_row gt_right" headers="AF">2</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Token">belief,</td>
-<td class="gt_row gt_right" headers="AF">1</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Token">best</td>
-<td class="gt_row gt_right" headers="AF">1</td>
+<td class="gt_row gt_left" headers="doc_id">silas_lapham</td>
 </tr>
 </tbody>
 </table>
@@ -872,32 +834,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>The process of splitting the string vector into constituent parts is called <strong>tokenizing</strong>. Think of this as telling the computer how to define a word (or a “token”, which is a more precise, technical term). In this case, we’ve done it in an extremely simple way–by defining a token as any string that is bounded by spaces.</p>
+</section>
+<section id="prep-the-data-and-calculate-sentiment" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="prep-the-data-and-calculate-sentiment"><span class="header-section-number">12.2</span> Prep the data and calculate sentiment</h2>
+<p>Next, we do some simple cleaning using <strong>str_squish</strong> from the <strong>stringr</strong> package. Then we’ll split the the novel into sentences and calculate a sentiment score for each.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>totc_df <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(Token, <span class="fu">regex</span>(<span class="st">"^it$"</span>, <span class="at">ignore_case=</span> T))) <span class="sc">|&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str_squish() is a useful function from readr for getting rid of extra spaces, carriage returns, etc.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mb <span class="ot">&lt;-</span> <span class="fu">str_squish</span>(sentiment_data<span class="sc">$</span>text[<span class="dv">1</span>])</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># chunk the novel into sentences</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>mb_sentences <span class="ot">&lt;-</span> <span class="fu">get_sentences</span>(mb)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate and return sentiment scores</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>mb_sentiment <span class="ot">&lt;-</span> <span class="fu">get_sentiment</span>(mb_sentences)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s check the data:</p>
+<div class="cell">
 <div class="cell-output-display">
-<div id="cxlburhpii" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cxlburhpii table {
+<div id="rjjbnucpkl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rjjbnucpkl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cxlburhpii thead, #cxlburhpii tbody, #cxlburhpii tfoot, #cxlburhpii tr, #cxlburhpii td, #cxlburhpii th {
+#rjjbnucpkl thead, #rjjbnucpkl tbody, #rjjbnucpkl tfoot, #rjjbnucpkl tr, #rjjbnucpkl td, #rjjbnucpkl th {
   border-style: none;
 }
 
-#cxlburhpii p {
+#rjjbnucpkl p {
   margin: 0;
   padding: 0;
 }
 
-#cxlburhpii .gt_table {
+#rjjbnucpkl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -923,12 +893,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#cxlburhpii .gt_caption {
+#rjjbnucpkl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cxlburhpii .gt_title {
+#rjjbnucpkl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -940,7 +910,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#cxlburhpii .gt_subtitle {
+#rjjbnucpkl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -952,7 +922,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#cxlburhpii .gt_heading {
+#rjjbnucpkl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -964,13 +934,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cxlburhpii .gt_bottom_border {
+#rjjbnucpkl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cxlburhpii .gt_col_headings {
+#rjjbnucpkl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -985,7 +955,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cxlburhpii .gt_col_heading {
+#rjjbnucpkl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1005,7 +975,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#cxlburhpii .gt_column_spanner_outer {
+#rjjbnucpkl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1017,15 +987,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#cxlburhpii .gt_column_spanner_outer:first-child {
+#rjjbnucpkl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cxlburhpii .gt_column_spanner_outer:last-child {
+#rjjbnucpkl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cxlburhpii .gt_column_spanner {
+#rjjbnucpkl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1037,11 +1007,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#cxlburhpii .gt_spanner_row {
+#rjjbnucpkl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cxlburhpii .gt_group_heading {
+#rjjbnucpkl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1067,7 +1037,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#cxlburhpii .gt_empty_group_heading {
+#rjjbnucpkl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1082,15 +1052,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#cxlburhpii .gt_from_md > :first-child {
+#rjjbnucpkl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cxlburhpii .gt_from_md > :last-child {
+#rjjbnucpkl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cxlburhpii .gt_row {
+#rjjbnucpkl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1109,7 +1079,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#cxlburhpii .gt_stub {
+#rjjbnucpkl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1122,7 +1092,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cxlburhpii .gt_stub_row_group {
+#rjjbnucpkl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1136,15 +1106,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#cxlburhpii .gt_row_group_first td {
+#rjjbnucpkl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cxlburhpii .gt_row_group_first th {
+#rjjbnucpkl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cxlburhpii .gt_summary_row {
+#rjjbnucpkl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1154,16 +1124,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cxlburhpii .gt_first_summary_row {
+#rjjbnucpkl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cxlburhpii .gt_first_summary_row.thick {
+#rjjbnucpkl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cxlburhpii .gt_last_summary_row {
+#rjjbnucpkl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1173,7 +1143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#cxlburhpii .gt_grand_summary_row {
+#rjjbnucpkl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1183,7 +1153,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cxlburhpii .gt_first_grand_summary_row {
+#rjjbnucpkl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1193,7 +1163,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#cxlburhpii .gt_last_grand_summary_row_top {
+#rjjbnucpkl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1203,11 +1173,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#cxlburhpii .gt_striped {
+#rjjbnucpkl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cxlburhpii .gt_table_body {
+#rjjbnucpkl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1216,7 +1186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#cxlburhpii .gt_footnotes {
+#rjjbnucpkl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1230,7 +1200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cxlburhpii .gt_footnote {
+#rjjbnucpkl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1239,7 +1209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cxlburhpii .gt_sourcenotes {
+#rjjbnucpkl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1253,7 +1223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cxlburhpii .gt_sourcenote {
+#rjjbnucpkl .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1261,134 +1231,155 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cxlburhpii .gt_left {
+#rjjbnucpkl .gt_left {
   text-align: left;
 }
 
-#cxlburhpii .gt_center {
+#rjjbnucpkl .gt_center {
   text-align: center;
 }
 
-#cxlburhpii .gt_right {
+#rjjbnucpkl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cxlburhpii .gt_font_normal {
+#rjjbnucpkl .gt_font_normal {
   font-weight: normal;
 }
 
-#cxlburhpii .gt_font_bold {
+#rjjbnucpkl .gt_font_bold {
   font-weight: bold;
 }
 
-#cxlburhpii .gt_font_italic {
+#rjjbnucpkl .gt_font_italic {
   font-style: italic;
 }
 
-#cxlburhpii .gt_super {
+#rjjbnucpkl .gt_super {
   font-size: 65%;
 }
 
-#cxlburhpii .gt_footnote_marks {
+#rjjbnucpkl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cxlburhpii .gt_asterisk {
+#rjjbnucpkl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cxlburhpii .gt_indent_1 {
+#rjjbnucpkl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cxlburhpii .gt_indent_2 {
+#rjjbnucpkl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cxlburhpii .gt_indent_3 {
+#rjjbnucpkl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cxlburhpii .gt_indent_4 {
+#rjjbnucpkl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cxlburhpii .gt_indent_5 {
+#rjjbnucpkl .gt_indent_5 {
   text-indent: 25px;
 }
 
-#cxlburhpii .katex-display {
+#rjjbnucpkl .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#cxlburhpii div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#rjjbnucpkl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<caption>Sample sentiment scores.</caption>
 <thead>
 <tr class="header gt_col_headings">
-<th id="Token" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Token</th>
-<th id="AF" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">AF</th>
+<th id="mb_sentiment" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">mb_sentiment</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">it</td>
-<td class="gt_row gt_right" headers="AF">9</td>
+<td class="gt_row gt_right" headers="mb_sentiment">1.20</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">It</td>
-<td class="gt_row gt_right" headers="AF">1</td>
+<td class="gt_row gt_right" headers="mb_sentiment">0.25</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="mb_sentiment">0.00</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="mb_sentiment">1.50</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="mb_sentiment">1.05</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="mb_sentiment">1.20</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="mb_sentiment">1.00</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="mb_sentiment">-0.25</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="mb_sentiment">0.00</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="mb_sentiment">0.40</td>
 </tr>
 </tbody>
 </table>
 
 </div>
-<p>Case sensitive counts of the token <em>it</em></p>
 </div>
 </div>
-<p>Note that in doing so, we are counting capitalized and non-capitalized words as distinct tokens.</p>
-<p>There may be specific instances when we want to do this. But normally, we’d want <em>it</em> and <em>It</em> to be the same token. To do that, we can add a step in the processing pipeline that converts our vector to lower case before tokenizing.</p>
+</section>
+<section id="transforming-the-data" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="transforming-the-data"><span class="header-section-number">12.3</span> Transforming the data</h2>
+<p>The next step is to transform the data. Originally, Jockers used a Fourier transformation, which he described as follows:</p>
+<blockquote class="blockquote">
+<p>Aaron introduced me to a mathematical formula from signal processing called the Fourier transformation. The Fourier transformation provides a way of decomposing a time based signal and reconstituting it in the frequency domain. A complex signal (such as the one seen above in the first figure in this post) can be decomposed into series of symmetrical waves of varying frequencies. And one of the magical things about the Fourier equation is that these decomposed component sine waves can be added back together (summed) in order to reproduce the original wave form–this is called a backward or reverse transformation. Fourier provides a way of transforming the sentiment-based plot trajectories into an equivalent data form that is independent of the length of the trajectory from beginning to end. The frequency domain begins to solve the book length problem.</p>
+</blockquote>
+<p>This introduced some unwanted outcomes, namely that the resulting wave-forms must begin and end at the same point. The updated function uses a Discrete Cosine Transform (DCT), which is commonly used in data compression.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>totc_df <span class="ot">&lt;-</span> <span class="fu">tolower</span>(totc_txt) <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="st">" "</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>() <span class="sc">%&gt;%</span> <span class="co"># make a table of counts</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Token =</span> <span class="st">"."</span>, <span class="at">AF =</span> n) <span class="sc">%&gt;%</span> <span class="co"># rename columns</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>AF) <span class="co"># sort the data by frequency</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mb_dct <span class="ot">&lt;-</span> <span class="fu">get_dct_transform</span>(mb_sentiment, <span class="at">low_pass_size =</span> <span class="dv">5</span>, <span class="at">x_reverse_len =</span> <span class="dv">100</span>, <span class="at">scale_vals =</span> <span class="cn">FALSE</span>, <span class="at">scale_range =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>mb_dct <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dct =</span> mb_dct) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"time"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> <span class="fu">as.numeric</span>(time))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Check the data:</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>totc_df <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
-<div id="wokxjahutg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wokxjahutg table {
+<div id="tbcvwluvfy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tbcvwluvfy table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wokxjahutg thead, #wokxjahutg tbody, #wokxjahutg tfoot, #wokxjahutg tr, #wokxjahutg td, #wokxjahutg th {
+#tbcvwluvfy thead, #tbcvwluvfy tbody, #tbcvwluvfy tfoot, #tbcvwluvfy tr, #tbcvwluvfy td, #tbcvwluvfy th {
   border-style: none;
 }
 
-#wokxjahutg p {
+#tbcvwluvfy p {
   margin: 0;
   padding: 0;
 }
 
-#wokxjahutg .gt_table {
+#tbcvwluvfy .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1414,12 +1405,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#wokxjahutg .gt_caption {
+#tbcvwluvfy .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wokxjahutg .gt_title {
+#tbcvwluvfy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1431,7 +1422,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#wokxjahutg .gt_subtitle {
+#tbcvwluvfy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1443,7 +1434,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#wokxjahutg .gt_heading {
+#tbcvwluvfy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1455,13 +1446,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wokxjahutg .gt_bottom_border {
+#tbcvwluvfy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wokxjahutg .gt_col_headings {
+#tbcvwluvfy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1476,7 +1467,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wokxjahutg .gt_col_heading {
+#tbcvwluvfy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1496,7 +1487,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#wokxjahutg .gt_column_spanner_outer {
+#tbcvwluvfy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1508,15 +1499,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#wokxjahutg .gt_column_spanner_outer:first-child {
+#tbcvwluvfy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wokxjahutg .gt_column_spanner_outer:last-child {
+#tbcvwluvfy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wokxjahutg .gt_column_spanner {
+#tbcvwluvfy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1528,11 +1519,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#wokxjahutg .gt_spanner_row {
+#tbcvwluvfy .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wokxjahutg .gt_group_heading {
+#tbcvwluvfy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1558,7 +1549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#wokxjahutg .gt_empty_group_heading {
+#tbcvwluvfy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1573,15 +1564,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#wokxjahutg .gt_from_md > :first-child {
+#tbcvwluvfy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wokxjahutg .gt_from_md > :last-child {
+#tbcvwluvfy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wokxjahutg .gt_row {
+#tbcvwluvfy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1600,7 +1591,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#wokxjahutg .gt_stub {
+#tbcvwluvfy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1613,7 +1604,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wokxjahutg .gt_stub_row_group {
+#tbcvwluvfy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1627,15 +1618,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#wokxjahutg .gt_row_group_first td {
+#tbcvwluvfy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wokxjahutg .gt_row_group_first th {
+#tbcvwluvfy .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wokxjahutg .gt_summary_row {
+#tbcvwluvfy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1645,16 +1636,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wokxjahutg .gt_first_summary_row {
+#tbcvwluvfy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wokxjahutg .gt_first_summary_row.thick {
+#tbcvwluvfy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wokxjahutg .gt_last_summary_row {
+#tbcvwluvfy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1664,7 +1655,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wokxjahutg .gt_grand_summary_row {
+#tbcvwluvfy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1674,7 +1665,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wokxjahutg .gt_first_grand_summary_row {
+#tbcvwluvfy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1684,7 +1675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#wokxjahutg .gt_last_grand_summary_row_top {
+#tbcvwluvfy .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1694,11 +1685,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wokxjahutg .gt_striped {
+#tbcvwluvfy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wokxjahutg .gt_table_body {
+#tbcvwluvfy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1707,7 +1698,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#wokxjahutg .gt_footnotes {
+#tbcvwluvfy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1721,7 +1712,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wokxjahutg .gt_footnote {
+#tbcvwluvfy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1730,7 +1721,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wokxjahutg .gt_sourcenotes {
+#tbcvwluvfy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1744,7 +1735,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#wokxjahutg .gt_sourcenote {
+#tbcvwluvfy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1752,129 +1743,169 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#wokxjahutg .gt_left {
+#tbcvwluvfy .gt_left {
   text-align: left;
 }
 
-#wokxjahutg .gt_center {
+#tbcvwluvfy .gt_center {
   text-align: center;
 }
 
-#wokxjahutg .gt_right {
+#tbcvwluvfy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wokxjahutg .gt_font_normal {
+#tbcvwluvfy .gt_font_normal {
   font-weight: normal;
 }
 
-#wokxjahutg .gt_font_bold {
+#tbcvwluvfy .gt_font_bold {
   font-weight: bold;
 }
 
-#wokxjahutg .gt_font_italic {
+#tbcvwluvfy .gt_font_italic {
   font-style: italic;
 }
 
-#wokxjahutg .gt_super {
+#tbcvwluvfy .gt_super {
   font-size: 65%;
 }
 
-#wokxjahutg .gt_footnote_marks {
+#tbcvwluvfy .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wokxjahutg .gt_asterisk {
+#tbcvwluvfy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wokxjahutg .gt_indent_1 {
+#tbcvwluvfy .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wokxjahutg .gt_indent_2 {
+#tbcvwluvfy .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wokxjahutg .gt_indent_3 {
+#tbcvwluvfy .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wokxjahutg .gt_indent_4 {
+#tbcvwluvfy .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wokxjahutg .gt_indent_5 {
+#tbcvwluvfy .gt_indent_5 {
   text-indent: 25px;
 }
 
-#wokxjahutg .katex-display {
+#tbcvwluvfy .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#wokxjahutg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#tbcvwluvfy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<caption>Sample transformed scores.</caption>
 <thead>
 <tr class="header gt_col_headings">
-<th id="Token" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Token</th>
-<th id="AF" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">AF</th>
+<th id="time" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">time</th>
+<th id="dct" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">dct</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">it</td>
-<td class="gt_row gt_right" headers="AF">10</td>
+<td class="gt_row gt_right" headers="time">1</td>
+<td class="gt_row gt_right" headers="dct">1.0000000</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">of</td>
-<td class="gt_row gt_right" headers="AF">10</td>
+<td class="gt_row gt_right" headers="time">2</td>
+<td class="gt_row gt_right" headers="dct">0.9974733</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">the</td>
-<td class="gt_row gt_right" headers="AF">10</td>
+<td class="gt_row gt_right" headers="time">3</td>
+<td class="gt_row gt_right" headers="dct">0.9924392</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">was</td>
-<td class="gt_row gt_right" headers="AF">10</td>
+<td class="gt_row gt_right" headers="time">4</td>
+<td class="gt_row gt_right" headers="dct">0.9849363</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">age</td>
-<td class="gt_row gt_right" headers="AF">2</td>
+<td class="gt_row gt_right" headers="time">5</td>
+<td class="gt_row gt_right" headers="dct">0.9750217</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">epoch</td>
-<td class="gt_row gt_right" headers="AF">2</td>
+<td class="gt_row gt_right" headers="time">6</td>
+<td class="gt_row gt_right" headers="dct">0.9627711</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">season</td>
-<td class="gt_row gt_right" headers="AF">2</td>
+<td class="gt_row gt_right" headers="time">7</td>
+<td class="gt_row gt_right" headers="dct">0.9482778</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">times,</td>
-<td class="gt_row gt_right" headers="AF">2</td>
+<td class="gt_row gt_right" headers="time">8</td>
+<td class="gt_row gt_right" headers="dct">0.9316520</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">belief,</td>
-<td class="gt_row gt_right" headers="AF">1</td>
+<td class="gt_row gt_right" headers="time">9</td>
+<td class="gt_row gt_right" headers="dct">0.9130198</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">best</td>
-<td class="gt_row gt_right" headers="AF">1</td>
+<td class="gt_row gt_right" headers="time">10</td>
+<td class="gt_row gt_right" headers="dct">0.8925224</td>
 </tr>
 </tbody>
 </table>
 
 </div>
-<p>Token counts of sample sentence.</p>
+</div>
+</div>
+<p>Finally, the values can be plotted.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mb_dct, <span class="at">type =</span><span class="st">"l"</span>, <span class="at">xlab =</span> <span class="st">"Narrative Time"</span>, <span class="at">ylab =</span> <span class="st">"Emotional Valence"</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="sentiment-and-syuzhet_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Sentiment in using transformed values.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="transformed-vs.-non-transformed-data" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="transformed-vs.-non-transformed-data"><span class="header-section-number">12.4</span> Transformed vs.&nbsp;non-transformed data</h2>
+<p>In order to better compare the before vs.&nbsp;after, let’s create a data frame in which we normalize the narrative time values and scale the sentiment scores.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mb_df <span class="ot">&lt;-</span> mb_sentiment <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">sentiment =</span> .) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"time"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> <span class="fu">as.numeric</span>(time)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> time<span class="sc">/</span><span class="fu">length</span>(mb_sentiment)<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment =</span> <span class="dv">2</span> <span class="sc">*</span> (sentiment <span class="sc">-</span> <span class="fu">min</span>(sentiment))<span class="sc">/</span>( <span class="fu">max</span>(sentiment) <span class="sc">-</span> <span class="fu">min</span>(sentiment)) <span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, those values can be plotted with the values extracted from DCT.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mb_dct, <span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>dct)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour=</span> <span class="st">"tomato"</span>) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>mb_df, <span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>sentiment), <span class="at">alpha=</span><span class="fl">0.25</span>, <span class="at">size=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Normalized Narrative Time"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Scaled Sentiment"</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="sentiment-and-syuzhet_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Transformed vs.&nbsp;non-transformed sentiment in <em>Madame Bovary</em></figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -1887,7 +1918,7 @@ Pause for Lab Set Question
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Complete <a href="../lab_sets/LabSet_01.html#nlp-basics">Tasks 1 and 2 in Lab Set 1</a>.</p>
+<p>Complete <a href="../lab_sets/LabSet_04.html#sentiment-analysis">Task 1 in Lab Set 4</a>.</p>
 </div>
 </div>
 
@@ -2284,13 +2315,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../labs/classification-federalist-papers.html" class="pagination-link  aria-label=" &lt;span="" &amp;="" wallace&lt;="" span&gt;"="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Mosteller &amp; Wallace</span></span>
+      <a href="../labs/time-series.html" class="pagination-link  aria-label=" &lt;span="" series&lt;="" span&gt;"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Time Series</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../labs/processing-pipelines.html" class="pagination-link" aria-label="<span class='chapter-number'>3</span>&nbsp; <span class='chapter-title'>Tokenizing with quanteda</span>">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tokenizing with quanteda</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../labs/vector-models.html" class="pagination-link" aria-label="<span class='chapter-number'>13</span>&nbsp; <span class='chapter-title'>Introduction to Vector Models and Word Embeddings</span>">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introduction to Vector Models and Word Embeddings</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

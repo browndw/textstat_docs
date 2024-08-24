@@ -239,6 +239,6 @@ ggraph(net, weight = link_weight, layout = "stress") +
 ::: callout-important
 ## Pause for Lab Set Question
 
-Complete [Task 2 Lab Set 2](../lab_sets/LabSet_02.html#collocations-and-association-measures).
+Complete [Tasks 2 and 3 Lab Set 2](../lab_sets/LabSet_02.html#collocations-and-association-measures).
 :::
 

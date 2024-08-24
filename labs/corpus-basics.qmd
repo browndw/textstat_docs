@@ -80,4 +80,9 @@ totc_df |>
   gt()
 ```
 
+::: callout-important
+## Pause for Lab Set Question
+
+Complete [Tasks 1 and 2 in Lab Set 1](../lab_sets/LabSet_01.qmd#nlp-basics).
+:::
 
