@@ -2,7 +2,7 @@
 # Lab Set 2
 
 ::: {.callout-note}
-The preview of this lab set is rendered in HTML. However, all assignments must be rendered in PDF for submission on Canvas. The the **textstat_tools** repository is already set up to do this for you. Be sure to [follow the directions](https://quarto.org/docs/output-formats/pdf-basics.html) including the installation of **tinytex**.
+The preview of this lab set is rendered in HTML. However, all assignments must be rendered in PDF for submission on Canvas. The **textstat_tools** repository is already set up to do this for you. Be sure to [follow the directions](https://quarto.org/docs/output-formats/pdf-basics.html) including the installation of **tinytex**.
 :::
 
 ## Distributions
@@ -86,7 +86,7 @@ Write a sentence or two reporting the frequencies and dispersions of *the* and *
 ```{r}
 #| fig-height: 4
 #| fig-width: 7
-#| fig-cap: fig.cap="Token rank vs. frequency."
+#| fig-cap: "Token rank vs. frequency."
 
 ggplot(sc_freq %>% filter(rank < 101), aes(x = rank, y = frequency)) +
   geom_point(shape = 1, alpha = .5) +

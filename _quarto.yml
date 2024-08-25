@@ -35,11 +35,16 @@ book:
          - lab_sets/LabSet_02.qmd
          - lab_sets/LabSet_03.qmd
          - lab_sets/LabSet_04.qmd
+    - part: Report Templates
+      chapters:
+         - reports/cbe_01.qmd
+         - reports/cbe_02.qmd
+         - reports/final-project.qmd
     - part: Lectures
       chapters:
          - lectures/embed_linguistic-facts.qmd
-         - lectures/embed_llms-history.qmd     
-
+         - lectures/embed_llms-history.qmd
+         
 bibliography: references.bib
 
 format:

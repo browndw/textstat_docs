@@ -1,7 +1,7 @@
 # Lab Set 1
 
 ::: callout-note
-The preview of this lab set is rendered in HTML. However, all assignments must be rendered in PDF for submission on Canvas. The the **textstat_tools** repository is already set up to do this for you. Be sure to [follow the directions](https://quarto.org/docs/output-formats/pdf-basics.html) including the installation of **tinytex**.
+The preview of this lab set is rendered in HTML. However, all assignments must be rendered in PDF for submission on Canvas. The **textstat_tools** repository is already set up to do this for you. Be sure to [follow the directions](https://quarto.org/docs/output-formats/pdf-basics.html) including the installation of **tinytex**.
 :::
 
 ## Questions related to the first week discussions

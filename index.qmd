@@ -2,13 +2,11 @@
 author: "David Brown"
 ---
 
+# Overview {.unnumbered}
+
 -   [Quarto](https://quarto.org/docs/get-started/) is required to process all the assignments in this course. Download and install for your operating system. [**No other LaTeX installation is needed**]{style="background-color: #f5b2c6; opacity: 0.75;"}.
+-  Clone or download [the textstat_tools](https://github.com/browndw/textstat_tools) repository. The repository contains all of the data, labs, lab sets, and report templates. This repository (textstat_docs) is only for reference and documentation.
+-  Open the `textstat_tools.Rproj` file in the **textstat_tools** repository. From there, you can navigate to all of the necessary files and run all of the necessary code. If you are unfamiliar with RStudio Projects, read [this guide](https://www.r-bloggers.com/2020/01/rstudio-projects-and-working-directories-a-beginners-guide/). 
 
-# Schedule {.unnumbered}
 
-| Topic                                  | Labs                                                                                 | Required Readings                                                                           | Optional Readings                         | Lecture Slides                                                                       |
-|---------------|---------------|---------------|---------------|---------------|
-| Linguistic Facts of Life               |                                                                                      |                                                                                             |                                           | [![](images/icon_presentation.png){width="24"}](lectures/embed_linguistic-facts.qmd) |
-| A Short History of LLMs                |                                                                                      |                                                                                             |                                           | [![](images/icon_presentation.png){width="24"}](lectures/embed_llms-history.qmd)     |
-| Classification & the Federalist Papers | [![](images/icon_quarto.png){width="24"}](labs/classification-federalist-papers.qmd) | [![](images/icon_required.png){width="24"}](https://doi.org/10.1080/01621459.1963.10500849) | ![](images/icon_optional.png){width="24"} | ![](images/icon_presentation.png){width="24"}                                        |
-|                                        |                                                                                      |                                                                                             |                                           |                                                                                      |
+
