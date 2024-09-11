@@ -45,6 +45,7 @@ book:
       chapters:
          - lectures/embed_linguistic-facts.qmd
          - lectures/embed_llms-history.qmd
+         - lectures/embed_collocations.qmd
          
 bibliography: references.bib
 
