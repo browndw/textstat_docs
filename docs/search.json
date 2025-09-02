@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Text Analysis for Statistics & Data Science",
     "section": "",
-    "text": "Overview\n\nQuarto is required to process all the assignments in this course. Download and install for your operating system. No other LaTeX installation is needed.\nClone or download the textstat_tools repository. The repository contains all of the data, labs, lab sets, and report templates. This repository (textstat_docs) is only for reference and documentation.\nOpen the textstat_tools.Rproj file in the textstat_tools repository. From there, you can navigate to all of the necessary files and run all of the necessary code. If you are unfamiliar with RStudio Projects, read this guide.",
+    "text": "Overview\n\nQuarto is required to process all the assignments in this course. Download and install for your operating system. No other LaTeX installation is needed.",
     "crumbs": [
       "Overview"
     ]
