@@ -8,7 +8,7 @@ The preview of this lab set is rendered in HTML. However, all assignments must b
 
 ### Task 1
 
-Consider the results of the preliminary study described in slides 65-70:
+Consider the results of the preliminary study described in slides 65-70 in the "A Short History of LLMs" lecture:
 
 If you were working on this project, what would you suggest the team do next? In other words, what limitations do you see in the results of this initial study? What might be done to increase its reliability? Or its generalizability? And what potential challenges do you foresee in applying your suggestions?
 
@@ -38,7 +38,7 @@ Pick one of Mosteller and Wallace's decisions and describe how you might check w
 
 Our model predicts all but 55 were written by Madison. Our model is not particularly confident about that result. This hews pretty closely to Mosteller & Wallace's findings, through they come down (sort of) on the side of Madison for 55. However, they also acknowledge that the evidence is weak and not very convincing.
 
-Give at least 3 possible factors that might explain that low probability?
+Give at least 3 possible factors that might explain that low probability:
 
 > Your response
 

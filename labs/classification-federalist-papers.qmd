@@ -1,7 +1,6 @@
-
 # Mosteller & Wallace
 
-We going to (mostly) replicate a famous classification task that was first done by Frederick Mosteller and David L. Wallace in the early 1960s [-@mosteller1963inference]. They undertook this task without the benefit of modern text processing. It was truly a pioneering work of computational linguistics and information theory. Keep that in mind and we do in minutes what took them months.
+We are going to (mostly) replicate a famous classification task that was first done by Frederick Mosteller and David L. Wallace in the early 1960s [-@mosteller1963inference]. They undertook this task without the benefit of modern text processing. It was truly a pioneering work of computational linguistics and information theory. Keep that in mind as we do in minutes what took them months.
 
 
 ```{r}
@@ -22,23 +21,45 @@ Because of computational limits, they needed to identify potentially productive 
 Their first group contains 70 tokens...
 
 ```{r}
-
-mw_group1 <- c("a", "all", "also", "an", "and", "any", "are", "as", "at", "be", "been", "but", "by", "can", "do", "down", "even", "every", "for", "from", "had", "has", "have", "her", "his", "if", "in", "into", "is", "it",  "its", "may", "more", "must", "my", "no", "not", "now", "of", "on", "one", "only", "or", "our", "shall", "should", "so", "some", "such", "than", "that", "the", "their", "then", "there", "things", "this", "to", "up", "upon", "was", "were", "what", "when", "which", "who", "will", "with", "would", "your")
+mw_group1 <- c("a", "all", "also", "an", "and", "any", "are", "as", "at", "be",
+               "been", "but", "by", "can", "do", "down", "even", "every", "for",
+               "from", "had", "has", "have", "her", "his", "if", "in", "into",
+               "is", "it",  "its", "may", "more", "must", "my", "no", "not",
+               "now", "of", "on", "one", "only", "or", "our", "shall", "should",
+               "so", "some", "such", "than", "that", "the", "their", "then",
+               "there", "things", "this", "to", "up", "upon", "was", "were",
+               "what", "when", "which", "who", "will", "with", "would", "your")
 ```
 
 
 Their second an additional 47...
 
 ```{r}
-
-mw_group2 <- c("affect", "again", "although", "among", "another", "because", "between", "both", "city", "commonly", "consequently", "considerable", "contribute", "defensive", "destruction", "did", "direction", "disgracing", "either", "enough", "fortune", "function", "himself", "innovation", "join", "language", "most", "nor", "offensive", "often", "pass", "perhaps", "rapid", "same", "second", "still", "those", "throughout", "under", "vigor", "violate", "violence", "voice", "where", "whether", "while", "whilst")
+mw_group2 <- c("affect", "again", "although", "among", "another", "because",
+               "between", "both", "city", "commonly", "consequently",
+               "considerable", "contribute", "defensive", "destruction", "did",
+               "direction", "disgracing", "either", "enough", "fortune",
+               "function", "himself", "innovation", "join", "language", "most",
+               "nor", "offensive", "often", "pass", "perhaps", "rapid", "same",
+               "second", "still", "those", "throughout", "under", "vigor",
+               "violate", "violence", "voice", "where", "whether", "while",
+               "whilst")
 ```
 
 And their third another 48 (though they identify some by lemmas and another "expence" doesn't appear in our data, possibly because of later editing done in our particular edition)...
 
 ```{r}
-
-mw_group3 <- c("about", "according", "adversaries", "after", "aid", "always", "apt", "asserted", "before", "being", "better", "care", "choice", "common", "danger", "decide", "decides", "decided", "deciding", "degree", "during", "expense", "expenses", "extent", "follow", "follows", "followed", "following", "i", "imagine", "imagined", "intrust", "intrusted", "intrusting","kind", "large", "likely", "matter", "matters", "moreover", "necessary", "necessity", "necessities", "others", "particularly", "principle", "probability", "proper", "propriety", "provision", "provisions", "requisite", "substance", "they", "though", "truth", "truths", "us", "usage", "usages", "we", "work", "works")
+mw_group3 <- c("about", "according", "adversaries", "after", "aid", "always",
+               "apt", "asserted", "before", "being", "better", "care", "choice",
+               "common", "danger", "decide", "decides", "decided", "deciding",
+               "degree", "during", "expense", "expenses", "extent", "follow",
+               "follows", "followed", "following", "i", "imagine", "imagined",
+               "intrust", "intrusted", "intrusting","kind", "large", "likely",
+               "matter", "matters", "moreover", "necessary", "necessity",
+               "necessities", "others", "particularly", "principle",
+               "probability", "proper", "propriety", "provision", "provisions",
+               "requisite", "substance", "they", "though", "truth", "truths",
+               "us", "usage", "usages", "we", "work", "works")
 ```
 
 All together, they list 165 candidate variables, though it works out to be 180 unlemmatized tokens as potential variables for their model.
@@ -46,7 +67,6 @@ All together, they list 165 candidate variables, though it works out to be 180 u
 We'll concatenate a vector of all their variables into a single vector.
 
 ```{r}
-
 mw_all <- sort(c(mw_group1, mw_group2, mw_group3))
 ```
 
@@ -60,23 +80,19 @@ Authorship of the articles has been disputed since their publication, with Hamil
 
 We're going to work from the generally accepted authorship designations, which assign authorship of 51 articles to Hamilton, 14 to Madison, 5 to Jay, and 3 to joint authorship. The other 12 are in doubt as to whether they were written by Hamilton or Madison.
 
-So let's begin. First, we'll get the metadata.
+So let's begin. The metadata is included with the `cmu.textstat` package in the
+`federalist_meta` variable.
 
 ```{r}
+library(cmu.textstat)
 
-load("../data/federalist_meta.rda")
-load("../data/federalist_papers.rda")
-```
-
-
-```{r}
-fed_meta <- federalist_meta %>%
+fed_meta <- federalist_meta |>
   dplyr::select(doc_id, author_id)
 ```
 
-And we're going to read in ALL of the data. Why do it this way? We could build out separate data sets for training, validating, and predicting. HOWEVER, we need our data to be identical in structure at every step. This can become tedious if you're forever wrangling data.frames to get them as the need to be. It's much easier to begin with one dfm and subset as necessary for the classification process.
+And we're going to read in ALL of the data. Why do it this way? We could build out separate data sets for training, validating, and predicting. HOWEVER, we need our data to be identical in structure at every step. This can become tedious if you're forever wrangling data.frames to get them as they need to be. It's much easier to begin with one dfm and subset as necessary for the classification process.
 
-So let's read in the text.
+So let's read in the text. It's also included in `cmu.textstat`.
 
 ```{r}
 fed_txt <- federalist_papers
@@ -87,27 +103,33 @@ fed_txt <- federalist_papers
 Now, we'll tokenize the data.
 
 ```{r}
-fed_tokens <- fed_txt %>%
-  corpus() %>%
-  tokens(remove_punct = T, remove_symbols = T, what = "word")
+fed_tokens <- fed_txt |>
+  corpus() |>
+  tokens(remove_punct = TRUE, remove_symbols = TRUE, what = "word")
 ```
 
-And create a weighted dfm. The 3rd line preps the column so it can be merged with our metadata. The 4th orders the tokens by their mean frequencies. This isn't necessary here, but can be useful when doing quick sub-setting of variables. And the 5th changes the column name for easy joining.
+And create a weighted dfm. We'll order the tokens (columns) by their mean frequencies. This isn't necessary here, but can be useful when doing quick sub-setting of variables.
 
 ```{r}
-fed_dfm <- fed_tokens %>% dfm() %>% dfm_weight(scheme = "prop") %>%
-  convert(to = "data.frame") %>%
-  select(doc_id, names(sort(colMeans(.[,-1]), decreasing = TRUE)))
+fed_dfm <- fed_tokens |>
+  dfm() |>
+  dfm_weight(scheme = "prop") |>
+  convert(to = "data.frame")
+
+# Get the tokens in decreasing order of frequency
+words_by_freq <- names(sort(colMeans(fed_dfm[, -1]), decreasing = TRUE))
+
+# Reorder columns
+fed_dfm <- fed_dfm |>
+  select(doc_id, all_of(words_by_freq))
 ```
 
 Now let's join the author_id from the metadata.
 
 ```{r}
-#| message: false
-
-fed_dfm <- fed_dfm %>% 
-  right_join(fed_meta) %>% 
-  dplyr::select(doc_id, author_id, everything()) %>% 
+fed_dfm <- fed_dfm |>
+  right_join(fed_meta, by = "doc_id") |>
+  dplyr::select(doc_id, author_id, everything()) |>
   as_tibble()
 ```
 
@@ -116,8 +138,8 @@ fed_dfm <- fed_dfm %>%
 Now we can subset out our training and testing data.
 
 ```{r}
-train_dfm <- fed_dfm %>% filter(author_id == "Hamilton" | author_id == "Madison")
-test_dfm <- fed_dfm %>% filter(author_id == "Disputed")
+train_dfm <- fed_dfm |> filter(author_id == "Hamilton" | author_id == "Madison")
+test_dfm <- fed_dfm |> filter(author_id == "Disputed")
 ```
 
 For the next step we're going to again separate our training data. We want a subset of known data against which we can validate our model.
@@ -134,13 +156,13 @@ train_valid <- assessment(valid_split)
 Next, we'll select only those 70 tokens from Mosteller & Wallace's first group. We also need to convert the author_id into a 2-level factor, and to move the text_id to row names. The same for the validation data, but we don't need to worry about the factor conversion.
 
 ```{r}
-train_dfm_v2_1 <- train_dfm_v2 %>% 
-  dplyr::select(doc_id, author_id, all_of(mw_group1)) %>%
-  mutate(doc_id = factor(doc_id)) %>%
+train_dfm_v2_1 <- train_dfm_v2 |>
+  dplyr::select(doc_id, author_id, all_of(mw_group1)) |>
+  mutate(doc_id = factor(doc_id)) |>
   column_to_rownames("doc_id")
 
-train_valid_1 <- train_valid %>% 
-  dplyr::select(doc_id, author_id, all_of(mw_group1)) %>%
+train_valid_1 <- train_valid |>
+  dplyr::select(doc_id, author_id, all_of(mw_group1)) |>
   column_to_rownames("doc_id")
 ```
 
@@ -168,7 +190,7 @@ Ridge Regression is similar, but it includes another term.
 
 $$\sum_{i=1}^{n}(y_{i}-\beta_0-\sum_{j=1}^{p}\beta_jx_ij)^2 + \lambda \sum_{j=1}^{p}\beta_{j}^{2} = RSS + \lambda \sum_{j=1}^{p}\beta_{j}^{2}$$
 
-In order to minimize this equation $\beta_1,...\beta_p$ should be close to zero and so it shrinks the coefficients. The tuning parameter, $\lambda$, controls the impact.
+In order to minimize this equation $\beta_1,...,\beta_p$ should be close to zero and so it shrinks the coefficients. The tuning parameter, $\lambda$, controls the impact.
 
 Ridge regression does have some disadvantages.
 
@@ -193,7 +215,6 @@ This is a very useful technique for variable selection and can reduce the likeli
 To help you decide which lambda to use, the `cv.glmnet()` function does cross-validation. The default sets **alpha=1** for lasso. If we wanted ridge, we would set **alpha=0**.
 
 ```{r}
-
 cv_fit <- cv.glmnet(as.matrix(train_dfm_v2_1[, -1]), train_dfm_v2_1[, 1], family = "binomial")
 ```
 
@@ -206,26 +227,24 @@ We can plot the log of the resulting lambdas.
 plot(cv_fit)
 ```
 
-The plot displays the cross-validation error according to the log of lambda. The left dashed vertical line indicates that the log of the optimal value of lambda is approximately -6, which is the one that minimizes the prediction error. This lambda value will give the most accurate model. 
+The plot displays the cross-validation error according to the log of lambda. The left dashed vertical line indicates that the log of the optimal value of lambda is approximately -6, which is the one that minimizes the prediction error. This lambda value will give the most accurate model.
 
 The exact value of lambda can also be viewed. We'll save our regression coefficients.
 
 ```{r}
-
 lambda_min <- cv_fit$lambda.min
-lambda_lse <- cv_fit$lambda.1se
+lambda_1se <- cv_fit$lambda.1se
 ```
 
 By filtering those variables with coefficients of zero, we see only the variables have been included in the model. Ours has 13.
 
 ```{r}
-
 coef(cv_fit, s = "lambda.min") |>
   as.matrix() |>
   data.frame() |>
   rownames_to_column("Variable") |>
-  filter(s1 !=0) |>
-  dplyr::rename(Coeff = s1)  |>
+  filter(lambda.min != 0) |>
+  dplyr::rename(Coeff = lambda.min)  |>
   gt() |>
   fmt_number(columns = "Coeff",
              decimals = 2)
@@ -236,43 +255,39 @@ coef(cv_fit, s = "lambda.min") |>
 To validate the model, let's create a model matrix from the texts we've split off for that purpose.
 
 ```{r}
-
-x_test <- model.matrix(author_id ~., train_valid_1)[,-1]
+x_test <- model.matrix(author_id ~ . - 1, train_valid_1)
 ```
 
 From our model, we'll predict the author_id of the validation set.
 
 ```{r}
-
-lasso_prob <- predict(cv_fit, newx = x_test, s = lambda_lse, type = "response")
+lasso_prob <- predict(cv_fit, newx = x_test, s = lambda_1se, type = "response")
 ```
 
 From the probabilities, we can return the predicted authors.
 
 ```{r}
-
 lasso_predict <- ifelse(lasso_prob > 0.5, "Madison", "Hamilton")
 ```
 
 ```{r}
 #| code-fold: true
 
-lasso_predict |> 
-  data.frame() |>
-  dplyr::rename(Predict = s1) |>
-  tibble::rownames_to_column("Test") |>
+data.frame(
+  Test = rownames(x_test),
+  Predict = lasso_predict[, 1]
+) |>
   gt()
 ```
 
 Retrieve what they actually are and calculate our model accuracy.
 
 ```{r}
-
-table(pred=lasso_predict, true=train_valid_1$author_id)
+table(pred = lasso_predict, true = train_valid_1$author_id)
 ```
 
 ```{r}
-paste0(mean(lasso_predict == train_valid_1$author_id)*100, "%")
+paste0(mean(lasso_predict == train_valid_1$author_id) * 100, "%")
 ```
 
 Ours is 100% accurate. Not bad. Note that if you wanted to really test the model, we could create a function to run through this process starting with the sampling.That way, we could generate a range of accuracy over repeated sampling of training and validation data.
@@ -284,31 +299,31 @@ Let's repeat the process, but this time we'll start with all of Mosteller & Wall
 ### Create a new training and validation set
 
 ```{r}
-train_dfm_v2_2 <- train_dfm_v2 %>% 
-  dplyr::select(doc_id, author_id, all_of(mw_all)) %>%
-  mutate(author_id = factor(author_id)) %>%
+train_dfm_v2_2 <- train_dfm_v2 |>
+  dplyr::select(doc_id, author_id, all_of(mw_all)) |>
+  mutate(author_id = factor(author_id)) |>
   column_to_rownames("doc_id")
 
-train_valid_2 <- train_valid %>% 
-  dplyr::select(doc_id, author_id, all_of(mw_all)) %>%
+train_valid_2 <- train_valid |>
+  dplyr::select(doc_id, author_id, all_of(mw_all)) |>
   column_to_rownames("doc_id")
 ```
- 
+
 ### Carry out cross-validation
- 
+
 ```{r}
 cv_fit <- cv.glmnet(as.matrix(train_dfm_v2_2[, -1]), train_dfm_v2_2[, 1], family = "binomial")
 ```
- 
+
 Look at our coefficients... 17 this time...
- 
+
 ```{r}
 coef(cv_fit, s = "lambda.min") |>
   as.matrix() |>
   data.frame() |>
   rownames_to_column("Variable") |>
-  filter(s1 !=0) |>
-  dplyr::rename(Coeff = s1) |>
+  filter(lambda.min != 0) |>
+  dplyr::rename(Coeff = lambda.min) |>
   gt() |>
   fmt_number(columns = "Coeff",
              decimals = 2)
@@ -318,19 +333,19 @@ Save our minimum lambda and our regression coefficients.
 
 ```{r}
 lambda_min <- cv_fit$lambda.min
-lambda_lse <- cv_fit$lambda.1se
+lambda_1se <- cv_fit$lambda.1se
 ```
 
 ### Create a matrix from the validation set
 
 ```{r}
-x_test <- model.matrix(author_id ~., train_valid_2)[,-1]
+x_test <- model.matrix(author_id ~ . - 1, train_valid_2)
 ```
 
 ### Predict the **author_id** of the validation set.
 
 ```{r}
-lasso_prob <- predict(cv_fit, newx = x_test, s = lambda_lse, type = "response")
+lasso_prob <- predict(cv_fit, newx = x_test, s = lambda_1se, type = "response")
 ```
 
 ### Return the predicted authors.
@@ -342,7 +357,7 @@ lasso_predict <- ifelse(lasso_prob > 0.5, "Madison", "Hamilton")
 ### Check confusion matrix
 
 ```{r}
- table(pred=lasso_predict, true=train_valid_1$author_id)
+table(pred = lasso_predict, true = train_valid_1$author_id)
 ```
 
 The model looks good... So let's proceed with the data in question.
@@ -350,17 +365,17 @@ The model looks good... So let's proceed with the data in question.
 ### Prepare full training set
 
 ```{r}
-train_dfm <- train_dfm %>% 
-  dplyr::select(doc_id, author_id, all_of(mw_all)) %>%
-  mutate(author_id = factor(author_id)) %>%
+train_dfm <- train_dfm |>
+  dplyr::select(doc_id, author_id, all_of(mw_all)) |>
+  mutate(author_id = factor(author_id)) |>
   column_to_rownames("doc_id")
 ```
 
 ### Prepare test data
 
 ```{r}
-test_dfm <- test_dfm %>% 
-  dplyr::select(doc_id, author_id, all_of(mw_all)) %>%
+test_dfm <- test_dfm |>
+  dplyr::select(doc_id, author_id, all_of(mw_all)) |>
   column_to_rownames("doc_id")
 ```
 
@@ -377,8 +392,8 @@ coef(cv_fit, s = "lambda.min") |>
   as.matrix() |>
   data.frame() |>
   rownames_to_column("Variable") |>
-  filter(s1 !=0) |>
-  dplyr::rename(Coeff = s1) |>
+  filter(lambda.min != 0) |>
+  dplyr::rename(Coeff = lambda.min) |>
   gt() |>
   fmt_number(columns = "Coeff",
              decimals = 2)
@@ -387,25 +402,22 @@ coef(cv_fit, s = "lambda.min") |>
 ### Run lasso
 
 ```{r}
-
-lasso_fit <- glmnet(as.matrix(train_dfm[, -1]), train_dfm[, 1], alpha = 1, family = "binomial", lambda = cv_fit$lambda.min)
+lasso_fit <- glmnet(as.matrix(train_dfm[, -1]), train_dfm[, 1], alpha = 1,
+                    family = "binomial", lambda = cv_fit$lambda.min)
 ```
 
 ### Create a matrix from the test set and predict author
 
 ```{r}
-
-x_test <- model.matrix(author_id ~., test_dfm)[,-1]
-lasso_prob <- predict(cv_fit, newx = x_test, s = lambda_lse, type = "response")
-lasso_predict <- ifelse(lasso_prob > 0.5, "Madison", "Hamilton")
+x_test <- model.matrix(author_id ~ . - 1, test_dfm)
+lasso_prob <- predict(cv_fit, newx = x_test, s = lambda_1se, type = "response")
 ```
 
 ### Check results
 
 ```{r}
-
-data.frame(lasso_predict, lasso_prob) |>
-  dplyr::rename(Author = s1, Prob = s1.1) |>
+data.frame(Paper = rownames(lasso_prob), Prob = lasso_prob[, 1]) |>
+  mutate(Author = ifelse(lasso_prob > 0.5, "Madison", "Hamilton")) |>
   gt() |>
   fmt_number(columns = "Prob",
              decimals = 2)
@@ -418,9 +430,9 @@ It's worth noting, too, that other studies using other techniques have suggested
 <https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0054998>
 
 ::: callout-important
-## Pause for Lab Set Question
+## Pause for Lab Set Questions
 
-Complete [Tasks 1 and 2 in Lab Set 1](../lab_sets/LabSet_01.qmd#mosteller-wallace).
+Complete Tasks 1 and 2 in Lab Set 1.
 :::
 
 ## Works cited

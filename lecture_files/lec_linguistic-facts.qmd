@@ -8,10 +8,14 @@ html-math-method:
   method: mathjax
   url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 author:
+  - name: Alex Reinhart
+    email: areinhar@stat.cmu.edu
+    orcid: 0000-0002-6658-514X
+    affiliations: Statistics & Data Science 36-468/668
   - name: David Brown
     orcid: 0000-0001-7745-6354
     email: dwb2@andrew.cmu.edu
-    affiliations: Statistics & Data Science 36-468/668
+    affiliations: Dept. of English
 date: last-modified
 date-format: "[Fall] YYYY"
 title-slide-attributes: 
@@ -195,9 +199,9 @@ Why doesn't pied piping work on these kinds of sentence-final prepositions (*loo
 \
 \
 
-> [This is the kind of pedantic nonsense up with which I will not put!]{style="color: white;"}
+> [That is the type of arrant pedantry up with which I shall not put!]{style="color: white;"}
 
-[- Winston Churchill (?)]{style="color: white;"}
+[-- Winston Churchill (?)]{style="color: white;"}
 
 ## What do we mean by "grammar"
 
@@ -306,7 +310,7 @@ What we just did with *like* is an example of a problem called [polesemy](https:
 
 -  Though such judgments aren't reflected in the demonstrable realities of language use.
 
-![More male-identifying than female-identifying speakers use focuser *like* in all age cohorts except those 50-69 [@dailey2000sociolinguistic].](img/img_linguistic-facts/like_distribution_1.png){width=50% fig-align="center"}
+![More male-identifying than female-identifying speakers use focuser *like* in all age cohorts except those 50--69 [@dailey2000sociolinguistic].](img/img_linguistic-facts/like_distribution_1.png){width=50% fig-align="center"}
 
 
 ## What do we mean by "grammar"
@@ -322,7 +326,7 @@ What we just did with *like* is an example of a problem called [polesemy](https:
 
 -  Is quotative *like* used only my speakers of American English?
 
-![According to the GloWbe corpus, the frequency of [*be*] + *like* + *"* is highest in Singaporean (5.28 per million words) and Malaysian English (3.43 per million words)](img/img_linguistic-facts/like_glowbe.png){width=75% fig-align="center"}
+![According to the [GloWbe corpus](https://www.english-corpora.org/glowbe/), the frequency of [*be*] + *like* + *"* is highest in Singaporean (5.28 per million words) and Malaysian English (3.43 per million words)](img/img_linguistic-facts/like_glowbe.png){width=75% fig-align="center"}
 
 # Language Change {background-color="#40666e"}
 
@@ -333,7 +337,7 @@ What we just did with *like* is an example of a problem called [polesemy](https:
 ![](img/img_linguistic-facts/like_xkcd.png){width=75% fig-align="center"}
 
 ::: aside
-The artile refered to in the comic is [here](https://www.bostonglobe.com/ideas/2015/01/25/linguists-are-like-get-used/ruUQoV0XUTLDjx72JojnBI/story.html).
+The article refered to in the comic is [here](https://www.bostonglobe.com/ideas/2015/01/25/linguists-are-like-get-used/ruUQoV0XUTLDjx72JojnBI/story.html).
 :::
 
 ## Language change
@@ -407,6 +411,40 @@ hamora lafan
 ## Question
 
 How about now? Can you recognize any words?
+:::
+
+## Language change
+
+::: {style="font-size: 75%; padding-top: 50px;"}
+::: columns
+::: {.column width="50%"}
+In this year King Aethelstan
+
+ring-giver to men,
+
+Prince Eadmund,
+
+they won in battle
+
+around Brunanburh.
+
+they hewed the battle shields
+:::
+
+::: {.column width="50%"}
+Lord of earls,
+
+and his brother also,
+
+eternal glory
+
+with sword edges
+
+Shield-wall they split,
+
+with the leavings of hammers
+:::
+:::
 :::
 
 ## Language change

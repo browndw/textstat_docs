@@ -1,12 +1,7 @@
 ---
-author: "David Brown"
+author: "Alex Reinhart and David Brown"
 ---
 
 # Overview {.unnumbered}
 
 -   [Quarto](https://quarto.org/docs/get-started/) is required to process all the assignments in this course. Download and install for your operating system. [**No other LaTeX installation is needed**]{style="background-color: #f5b2c6; opacity: 0.75;"}.
--  Clone or download [the textstat_tools](https://github.com/browndw/textstat_tools) repository. The repository contains all of the data, labs, lab sets, and report templates. This repository (textstat_docs) is only for reference and documentation.
--  Open the `textstat_tools.Rproj` file in the **textstat_tools** repository. From there, you can navigate to all of the necessary files and run all of the necessary code. If you are unfamiliar with RStudio Projects, read [this guide](https://www.r-bloggers.com/2020/01/rstudio-projects-and-working-directories-a-beginners-guide/). 
-
-
-

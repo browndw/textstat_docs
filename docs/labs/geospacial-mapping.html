@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.7.30">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Text Analysis for Statistics &amp; Data Science - 14&nbsp; Geospacial Mapping: POP? SODA? or COKE?</title>
+<title>13&nbsp; Geospacial Mapping: POP? SODA? or COKE? – Text Analysis for Statistics &amp; Data Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,8 +21,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,16 +66,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../labs/random-forest.html" rel="next">
-<link href="../labs/vector-models.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js"></script>
+<link href="../labs/sentiment-and-syuzhet.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -106,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar floating nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -120,7 +122,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">Text Analysis for Statistics &amp; Data Science</span>
     </a>
   </div>
-        <div class="quarto-navbar-tools">
+        <div class="quarto-navbar-tools tools-end">
     <a href="https://github.com/browndw/textstat_docs" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
           <div id="quarto-search" class="" title="Search"></div>
@@ -128,11 +130,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/geospacial-mapping.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Geospacial Mapping: POP? SODA? or COKE?</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/geospacial-mapping.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Geospacial Mapping: POP? SODA? or COKE?</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -151,9 +153,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Labs</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -232,29 +234,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../labs/vector-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introduction to Vector Models and Word Embeddings</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../labs/geospacial-mapping.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Geospacial Mapping: POP? SODA? or COKE?</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Geospacial Mapping: POP? SODA? or COKE?</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../labs/random-forest.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Random Forest</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Random Forest</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Labs Sets</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -262,34 +258,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Lab Set 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Lab Set 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Lab Set 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Lab Set 2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Lab Set 3</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Lab Set 3</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lab_sets/LabSet_04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lab Set 4</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Lab Set 4</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Report Templates</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -297,28 +293,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../reports/cbe_01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">CBE 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">CBE 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../reports/cbe_02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">CBE 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">CBE 2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../reports/final-project.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Final Project</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Final Project</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">Lectures</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -326,19 +322,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/embed_linguistic-facts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linguistic Facts of Life</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Linguistic Facts of Life</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/embed_llms-history.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">LLMs History</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">LLMs History</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/embed_collocations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Collocations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Collocations</span></span></a>
   </div>
 </li>
       </ul>
@@ -353,17 +349,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link active" data-scroll-target="#prepare-the-data"><span class="header-section-number">14.1</span> Prepare the Data</a>
+  <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link active" data-scroll-target="#prepare-the-data"><span class="header-section-number">13.1</span> Prepare the Data</a>
   <ul class="collapse">
-  <li><a href="#load-the-pop-vs.-soda-data" id="toc-load-the-pop-vs.-soda-data" class="nav-link" data-scroll-target="#load-the-pop-vs.-soda-data"><span class="header-section-number">14.1.1</span> Load the pop vs.&nbsp;soda data</a></li>
-  <li><a href="#convert-fips-codes-to-longitude-and-latitude" id="toc-convert-fips-codes-to-longitude-and-latitude" class="nav-link" data-scroll-target="#convert-fips-codes-to-longitude-and-latitude"><span class="header-section-number">14.1.2</span> Convert FIPS codes to longitude and latitude</a></li>
-  <li><a href="#prepare-a-map" id="toc-prepare-a-map" class="nav-link" data-scroll-target="#prepare-a-map"><span class="header-section-number">14.1.3</span> Prepare a map</a></li>
-  <li><a href="#transform-the-data-for-plotting" id="toc-transform-the-data-for-plotting" class="nav-link" data-scroll-target="#transform-the-data-for-plotting"><span class="header-section-number">14.1.4</span> Transform the data for plotting</a></li>
+  <li><a href="#load-the-pop-vs.-soda-data" id="toc-load-the-pop-vs.-soda-data" class="nav-link" data-scroll-target="#load-the-pop-vs.-soda-data"><span class="header-section-number">13.1.1</span> Load the pop vs.&nbsp;soda data</a></li>
+  <li><a href="#convert-fips-codes-to-longitude-and-latitude" id="toc-convert-fips-codes-to-longitude-and-latitude" class="nav-link" data-scroll-target="#convert-fips-codes-to-longitude-and-latitude"><span class="header-section-number">13.1.2</span> Convert FIPS codes to longitude and latitude</a></li>
+  <li><a href="#prepare-a-map" id="toc-prepare-a-map" class="nav-link" data-scroll-target="#prepare-a-map"><span class="header-section-number">13.1.3</span> Prepare a map</a></li>
+  <li><a href="#transform-the-data-for-plotting" id="toc-transform-the-data-for-plotting" class="nav-link" data-scroll-target="#transform-the-data-for-plotting"><span class="header-section-number">13.1.4</span> Transform the data for plotting</a></li>
   </ul></li>
-  <li><a href="#knn-classification" id="toc-knn-classification" class="nav-link" data-scroll-target="#knn-classification"><span class="header-section-number">14.2</span> KNN classification</a>
+  <li><a href="#knn-classification" id="toc-knn-classification" class="nav-link" data-scroll-target="#knn-classification"><span class="header-section-number">13.2</span> KNN classification</a>
   <ul class="collapse">
-  <li><a href="#case-study-allegheny-and-philadelphia-counties" id="toc-case-study-allegheny-and-philadelphia-counties" class="nav-link" data-scroll-target="#case-study-allegheny-and-philadelphia-counties"><span class="header-section-number">14.2.1</span> Case study: Allegheny and Philadelphia counties</a></li>
-  <li><a href="#spatial-interpolation" id="toc-spatial-interpolation" class="nav-link" data-scroll-target="#spatial-interpolation"><span class="header-section-number">14.2.2</span> Spatial interpolation</a></li>
+  <li><a href="#case-study-allegheny-and-philadelphia-counties" id="toc-case-study-allegheny-and-philadelphia-counties" class="nav-link" data-scroll-target="#case-study-allegheny-and-philadelphia-counties"><span class="header-section-number">13.2.1</span> Case study: Allegheny and Philadelphia counties</a></li>
+  <li><a href="#spatial-interpolation" id="toc-spatial-interpolation" class="nav-link" data-scroll-target="#spatial-interpolation"><span class="header-section-number">13.2.2</span> Spatial interpolation</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/browndw/textstat_docs/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
@@ -371,9 +367,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/geospacial-mapping.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Geospacial Mapping: POP? SODA? or COKE?</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/classification-federalist-papers.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/geospacial-mapping.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Geospacial Mapping: POP? SODA? or COKE?</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Geospacial Mapping: POP? SODA? or COKE?</span></h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Geospacial Mapping: POP? SODA? or COKE?</span></h1>
 </div>
 
 
@@ -418,10 +414,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(housingData) <span class="co"># geolocation data</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(rgeos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="prepare-the-data" class="level2" data-number="14.1">
-<h2 data-number="14.1" class="anchored" data-anchor-id="prepare-the-data"><span class="header-section-number">14.1</span> Prepare the Data</h2>
-<section id="load-the-pop-vs.-soda-data" class="level3" data-number="14.1.1">
-<h3 data-number="14.1.1" class="anchored" data-anchor-id="load-the-pop-vs.-soda-data"><span class="header-section-number">14.1.1</span> Load the pop vs.&nbsp;soda data</h3>
+<section id="prepare-the-data" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="prepare-the-data"><span class="header-section-number">13.1</span> Prepare the Data</h2>
+<section id="load-the-pop-vs.-soda-data" class="level3" data-number="13.1.1">
+<h3 data-number="13.1.1" class="anchored" data-anchor-id="load-the-pop-vs.-soda-data"><span class="header-section-number">13.1.1</span> Load the pop vs.&nbsp;soda data</h3>
 <p>Read in the data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pvs_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/pop_vs_soda.csv"</span>, <span class="at">show_col_types =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -429,23 +425,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Note how the data is structures.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="xioksmrruc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xioksmrruc table {
+<div id="kzhxaehfca" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kzhxaehfca table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xioksmrruc thead, #xioksmrruc tbody, #xioksmrruc tfoot, #xioksmrruc tr, #xioksmrruc td, #xioksmrruc th {
+#kzhxaehfca thead, #kzhxaehfca tbody, #kzhxaehfca tfoot, #kzhxaehfca tr, #kzhxaehfca td, #kzhxaehfca th {
   border-style: none;
 }
 
-#xioksmrruc p {
+#kzhxaehfca p {
   margin: 0;
   padding: 0;
 }
 
-#xioksmrruc .gt_table {
+#kzhxaehfca .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -471,12 +467,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#xioksmrruc .gt_caption {
+#kzhxaehfca .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xioksmrruc .gt_title {
+#kzhxaehfca .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -488,7 +484,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#xioksmrruc .gt_subtitle {
+#kzhxaehfca .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -500,7 +496,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#xioksmrruc .gt_heading {
+#kzhxaehfca .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -512,13 +508,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xioksmrruc .gt_bottom_border {
+#kzhxaehfca .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xioksmrruc .gt_col_headings {
+#kzhxaehfca .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -533,7 +529,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xioksmrruc .gt_col_heading {
+#kzhxaehfca .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -553,7 +549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#xioksmrruc .gt_column_spanner_outer {
+#kzhxaehfca .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -565,15 +561,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#xioksmrruc .gt_column_spanner_outer:first-child {
+#kzhxaehfca .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xioksmrruc .gt_column_spanner_outer:last-child {
+#kzhxaehfca .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xioksmrruc .gt_column_spanner {
+#kzhxaehfca .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -585,11 +581,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#xioksmrruc .gt_spanner_row {
+#kzhxaehfca .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xioksmrruc .gt_group_heading {
+#kzhxaehfca .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -615,7 +611,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#xioksmrruc .gt_empty_group_heading {
+#kzhxaehfca .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -630,15 +626,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#xioksmrruc .gt_from_md > :first-child {
+#kzhxaehfca .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xioksmrruc .gt_from_md > :last-child {
+#kzhxaehfca .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xioksmrruc .gt_row {
+#kzhxaehfca .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -657,7 +653,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#xioksmrruc .gt_stub {
+#kzhxaehfca .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -670,7 +666,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xioksmrruc .gt_stub_row_group {
+#kzhxaehfca .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -684,15 +680,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#xioksmrruc .gt_row_group_first td {
+#kzhxaehfca .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xioksmrruc .gt_row_group_first th {
+#kzhxaehfca .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xioksmrruc .gt_summary_row {
+#kzhxaehfca .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -702,16 +698,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xioksmrruc .gt_first_summary_row {
+#kzhxaehfca .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xioksmrruc .gt_first_summary_row.thick {
+#kzhxaehfca .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xioksmrruc .gt_last_summary_row {
+#kzhxaehfca .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -721,7 +717,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#xioksmrruc .gt_grand_summary_row {
+#kzhxaehfca .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -731,7 +727,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xioksmrruc .gt_first_grand_summary_row {
+#kzhxaehfca .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -741,7 +737,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#xioksmrruc .gt_last_grand_summary_row_top {
+#kzhxaehfca .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -751,11 +747,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#xioksmrruc .gt_striped {
+#kzhxaehfca .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xioksmrruc .gt_table_body {
+#kzhxaehfca .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -764,7 +760,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#xioksmrruc .gt_footnotes {
+#kzhxaehfca .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -778,7 +774,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xioksmrruc .gt_footnote {
+#kzhxaehfca .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -787,7 +783,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xioksmrruc .gt_sourcenotes {
+#kzhxaehfca .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -801,7 +797,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xioksmrruc .gt_sourcenote {
+#kzhxaehfca .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -809,79 +805,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xioksmrruc .gt_left {
+#kzhxaehfca .gt_left {
   text-align: left;
 }
 
-#xioksmrruc .gt_center {
+#kzhxaehfca .gt_center {
   text-align: center;
 }
 
-#xioksmrruc .gt_right {
+#kzhxaehfca .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xioksmrruc .gt_font_normal {
+#kzhxaehfca .gt_font_normal {
   font-weight: normal;
 }
 
-#xioksmrruc .gt_font_bold {
+#kzhxaehfca .gt_font_bold {
   font-weight: bold;
 }
 
-#xioksmrruc .gt_font_italic {
+#kzhxaehfca .gt_font_italic {
   font-style: italic;
 }
 
-#xioksmrruc .gt_super {
+#kzhxaehfca .gt_super {
   font-size: 65%;
 }
 
-#xioksmrruc .gt_footnote_marks {
+#kzhxaehfca .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xioksmrruc .gt_asterisk {
+#kzhxaehfca .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xioksmrruc .gt_indent_1 {
+#kzhxaehfca .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xioksmrruc .gt_indent_2 {
+#kzhxaehfca .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xioksmrruc .gt_indent_3 {
+#kzhxaehfca .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xioksmrruc .gt_indent_4 {
+#kzhxaehfca .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xioksmrruc .gt_indent_5 {
+#kzhxaehfca .gt_indent_5 {
   text-indent: 25px;
 }
 
-#xioksmrruc .katex-display {
+#kzhxaehfca .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#xioksmrruc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#kzhxaehfca div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="State" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">State</th>
 <th id="County_Name" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">County_Name</th>
 <th id="FIPS_State" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">FIPS_State</th>
@@ -1132,8 +1128,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="convert-fips-codes-to-longitude-and-latitude" class="level3" data-number="14.1.2">
-<h3 data-number="14.1.2" class="anchored" data-anchor-id="convert-fips-codes-to-longitude-and-latitude"><span class="header-section-number">14.1.2</span> Convert FIPS codes to longitude and latitude</h3>
+<section id="convert-fips-codes-to-longitude-and-latitude" class="level3" data-number="13.1.2">
+<h3 data-number="13.1.2" class="anchored" data-anchor-id="convert-fips-codes-to-longitude-and-latitude"><span class="header-section-number">13.1.2</span> Convert FIPS codes to longitude and latitude</h3>
 <p>We have counts by state and county. Importantly, those counts are identified by Federal Information Processing System (FIPS) codes. To convert that information to something map-able, we need GIS data for those FIPS codes. For that we can use data from the <strong>housingData</strong> package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>hd <span class="ot">&lt;-</span> housingData<span class="sc">::</span>geoCounty</span>
@@ -1156,23 +1152,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="pajxqblzeq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#pajxqblzeq table {
+<div id="vxxyiwxjhy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vxxyiwxjhy table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#pajxqblzeq thead, #pajxqblzeq tbody, #pajxqblzeq tfoot, #pajxqblzeq tr, #pajxqblzeq td, #pajxqblzeq th {
+#vxxyiwxjhy thead, #vxxyiwxjhy tbody, #vxxyiwxjhy tfoot, #vxxyiwxjhy tr, #vxxyiwxjhy td, #vxxyiwxjhy th {
   border-style: none;
 }
 
-#pajxqblzeq p {
+#vxxyiwxjhy p {
   margin: 0;
   padding: 0;
 }
 
-#pajxqblzeq .gt_table {
+#vxxyiwxjhy .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1198,12 +1194,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#pajxqblzeq .gt_caption {
+#vxxyiwxjhy .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#pajxqblzeq .gt_title {
+#vxxyiwxjhy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1215,7 +1211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#pajxqblzeq .gt_subtitle {
+#vxxyiwxjhy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1227,7 +1223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#pajxqblzeq .gt_heading {
+#vxxyiwxjhy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1239,13 +1235,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#pajxqblzeq .gt_bottom_border {
+#vxxyiwxjhy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pajxqblzeq .gt_col_headings {
+#vxxyiwxjhy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1260,7 +1256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#pajxqblzeq .gt_col_heading {
+#vxxyiwxjhy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1280,7 +1276,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#pajxqblzeq .gt_column_spanner_outer {
+#vxxyiwxjhy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1292,15 +1288,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#pajxqblzeq .gt_column_spanner_outer:first-child {
+#vxxyiwxjhy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pajxqblzeq .gt_column_spanner_outer:last-child {
+#vxxyiwxjhy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pajxqblzeq .gt_column_spanner {
+#vxxyiwxjhy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1312,11 +1308,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#pajxqblzeq .gt_spanner_row {
+#vxxyiwxjhy .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#pajxqblzeq .gt_group_heading {
+#vxxyiwxjhy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1342,7 +1338,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#pajxqblzeq .gt_empty_group_heading {
+#vxxyiwxjhy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1357,15 +1353,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#pajxqblzeq .gt_from_md > :first-child {
+#vxxyiwxjhy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pajxqblzeq .gt_from_md > :last-child {
+#vxxyiwxjhy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pajxqblzeq .gt_row {
+#vxxyiwxjhy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1384,7 +1380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#pajxqblzeq .gt_stub {
+#vxxyiwxjhy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1397,7 +1393,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#pajxqblzeq .gt_stub_row_group {
+#vxxyiwxjhy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1411,15 +1407,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#pajxqblzeq .gt_row_group_first td {
+#vxxyiwxjhy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pajxqblzeq .gt_row_group_first th {
+#vxxyiwxjhy .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#pajxqblzeq .gt_summary_row {
+#vxxyiwxjhy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1429,16 +1425,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#pajxqblzeq .gt_first_summary_row {
+#vxxyiwxjhy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pajxqblzeq .gt_first_summary_row.thick {
+#vxxyiwxjhy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pajxqblzeq .gt_last_summary_row {
+#vxxyiwxjhy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1448,7 +1444,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#pajxqblzeq .gt_grand_summary_row {
+#vxxyiwxjhy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1458,7 +1454,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#pajxqblzeq .gt_first_grand_summary_row {
+#vxxyiwxjhy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1468,7 +1464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#pajxqblzeq .gt_last_grand_summary_row_top {
+#vxxyiwxjhy .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1478,11 +1474,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#pajxqblzeq .gt_striped {
+#vxxyiwxjhy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pajxqblzeq .gt_table_body {
+#vxxyiwxjhy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1491,7 +1487,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#pajxqblzeq .gt_footnotes {
+#vxxyiwxjhy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1505,7 +1501,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#pajxqblzeq .gt_footnote {
+#vxxyiwxjhy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1514,7 +1510,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#pajxqblzeq .gt_sourcenotes {
+#vxxyiwxjhy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1528,7 +1524,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#pajxqblzeq .gt_sourcenote {
+#vxxyiwxjhy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1536,79 +1532,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#pajxqblzeq .gt_left {
+#vxxyiwxjhy .gt_left {
   text-align: left;
 }
 
-#pajxqblzeq .gt_center {
+#vxxyiwxjhy .gt_center {
   text-align: center;
 }
 
-#pajxqblzeq .gt_right {
+#vxxyiwxjhy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pajxqblzeq .gt_font_normal {
+#vxxyiwxjhy .gt_font_normal {
   font-weight: normal;
 }
 
-#pajxqblzeq .gt_font_bold {
+#vxxyiwxjhy .gt_font_bold {
   font-weight: bold;
 }
 
-#pajxqblzeq .gt_font_italic {
+#vxxyiwxjhy .gt_font_italic {
   font-style: italic;
 }
 
-#pajxqblzeq .gt_super {
+#vxxyiwxjhy .gt_super {
   font-size: 65%;
 }
 
-#pajxqblzeq .gt_footnote_marks {
+#vxxyiwxjhy .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#pajxqblzeq .gt_asterisk {
+#vxxyiwxjhy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pajxqblzeq .gt_indent_1 {
+#vxxyiwxjhy .gt_indent_1 {
   text-indent: 5px;
 }
 
-#pajxqblzeq .gt_indent_2 {
+#vxxyiwxjhy .gt_indent_2 {
   text-indent: 10px;
 }
 
-#pajxqblzeq .gt_indent_3 {
+#vxxyiwxjhy .gt_indent_3 {
   text-indent: 15px;
 }
 
-#pajxqblzeq .gt_indent_4 {
+#vxxyiwxjhy .gt_indent_4 {
   text-indent: 20px;
 }
 
-#pajxqblzeq .gt_indent_5 {
+#vxxyiwxjhy .gt_indent_5 {
   text-indent: 25px;
 }
 
-#pajxqblzeq .katex-display {
+#vxxyiwxjhy .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#pajxqblzeq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#vxxyiwxjhy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="fips" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">fips</th>
 <th id="var" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">var</th>
 <th id="freq" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">freq</th>
@@ -1685,23 +1681,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="dfyyqvajci" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#dfyyqvajci table {
+<div id="teobwthtii" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#teobwthtii table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dfyyqvajci thead, #dfyyqvajci tbody, #dfyyqvajci tfoot, #dfyyqvajci tr, #dfyyqvajci td, #dfyyqvajci th {
+#teobwthtii thead, #teobwthtii tbody, #teobwthtii tfoot, #teobwthtii tr, #teobwthtii td, #teobwthtii th {
   border-style: none;
 }
 
-#dfyyqvajci p {
+#teobwthtii p {
   margin: 0;
   padding: 0;
 }
 
-#dfyyqvajci .gt_table {
+#teobwthtii .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1727,12 +1723,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#dfyyqvajci .gt_caption {
+#teobwthtii .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dfyyqvajci .gt_title {
+#teobwthtii .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1744,7 +1740,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#dfyyqvajci .gt_subtitle {
+#teobwthtii .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1756,7 +1752,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#dfyyqvajci .gt_heading {
+#teobwthtii .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1768,13 +1764,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#dfyyqvajci .gt_bottom_border {
+#teobwthtii .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dfyyqvajci .gt_col_headings {
+#teobwthtii .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1789,7 +1785,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#dfyyqvajci .gt_col_heading {
+#teobwthtii .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1809,7 +1805,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#dfyyqvajci .gt_column_spanner_outer {
+#teobwthtii .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1821,15 +1817,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#dfyyqvajci .gt_column_spanner_outer:first-child {
+#teobwthtii .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dfyyqvajci .gt_column_spanner_outer:last-child {
+#teobwthtii .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dfyyqvajci .gt_column_spanner {
+#teobwthtii .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1841,11 +1837,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#dfyyqvajci .gt_spanner_row {
+#teobwthtii .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#dfyyqvajci .gt_group_heading {
+#teobwthtii .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1871,7 +1867,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#dfyyqvajci .gt_empty_group_heading {
+#teobwthtii .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1886,15 +1882,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#dfyyqvajci .gt_from_md > :first-child {
+#teobwthtii .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dfyyqvajci .gt_from_md > :last-child {
+#teobwthtii .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dfyyqvajci .gt_row {
+#teobwthtii .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1913,7 +1909,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#dfyyqvajci .gt_stub {
+#teobwthtii .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1926,7 +1922,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#dfyyqvajci .gt_stub_row_group {
+#teobwthtii .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1940,15 +1936,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#dfyyqvajci .gt_row_group_first td {
+#teobwthtii .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dfyyqvajci .gt_row_group_first th {
+#teobwthtii .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#dfyyqvajci .gt_summary_row {
+#teobwthtii .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1958,16 +1954,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#dfyyqvajci .gt_first_summary_row {
+#teobwthtii .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dfyyqvajci .gt_first_summary_row.thick {
+#teobwthtii .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dfyyqvajci .gt_last_summary_row {
+#teobwthtii .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1977,7 +1973,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#dfyyqvajci .gt_grand_summary_row {
+#teobwthtii .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1987,7 +1983,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#dfyyqvajci .gt_first_grand_summary_row {
+#teobwthtii .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1997,7 +1993,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#dfyyqvajci .gt_last_grand_summary_row_top {
+#teobwthtii .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2007,11 +2003,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#dfyyqvajci .gt_striped {
+#teobwthtii .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dfyyqvajci .gt_table_body {
+#teobwthtii .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2020,7 +2016,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#dfyyqvajci .gt_footnotes {
+#teobwthtii .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2034,7 +2030,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#dfyyqvajci .gt_footnote {
+#teobwthtii .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2043,7 +2039,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#dfyyqvajci .gt_sourcenotes {
+#teobwthtii .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2057,7 +2053,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#dfyyqvajci .gt_sourcenote {
+#teobwthtii .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2065,79 +2061,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#dfyyqvajci .gt_left {
+#teobwthtii .gt_left {
   text-align: left;
 }
 
-#dfyyqvajci .gt_center {
+#teobwthtii .gt_center {
   text-align: center;
 }
 
-#dfyyqvajci .gt_right {
+#teobwthtii .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dfyyqvajci .gt_font_normal {
+#teobwthtii .gt_font_normal {
   font-weight: normal;
 }
 
-#dfyyqvajci .gt_font_bold {
+#teobwthtii .gt_font_bold {
   font-weight: bold;
 }
 
-#dfyyqvajci .gt_font_italic {
+#teobwthtii .gt_font_italic {
   font-style: italic;
 }
 
-#dfyyqvajci .gt_super {
+#teobwthtii .gt_super {
   font-size: 65%;
 }
 
-#dfyyqvajci .gt_footnote_marks {
+#teobwthtii .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#dfyyqvajci .gt_asterisk {
+#teobwthtii .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dfyyqvajci .gt_indent_1 {
+#teobwthtii .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dfyyqvajci .gt_indent_2 {
+#teobwthtii .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dfyyqvajci .gt_indent_3 {
+#teobwthtii .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dfyyqvajci .gt_indent_4 {
+#teobwthtii .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dfyyqvajci .gt_indent_5 {
+#teobwthtii .gt_indent_5 {
   text-indent: 25px;
 }
 
-#dfyyqvajci .katex-display {
+#teobwthtii .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#dfyyqvajci div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#teobwthtii div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="fips" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">fips</th>
 <th id="var" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">var</th>
 </tr>
@@ -2202,23 +2198,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fzpzsjashf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#fzpzsjashf table {
+<div id="nhstxmclzp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nhstxmclzp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#fzpzsjashf thead, #fzpzsjashf tbody, #fzpzsjashf tfoot, #fzpzsjashf tr, #fzpzsjashf td, #fzpzsjashf th {
+#nhstxmclzp thead, #nhstxmclzp tbody, #nhstxmclzp tfoot, #nhstxmclzp tr, #nhstxmclzp td, #nhstxmclzp th {
   border-style: none;
 }
 
-#fzpzsjashf p {
+#nhstxmclzp p {
   margin: 0;
   padding: 0;
 }
 
-#fzpzsjashf .gt_table {
+#nhstxmclzp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2244,12 +2240,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#fzpzsjashf .gt_caption {
+#nhstxmclzp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#fzpzsjashf .gt_title {
+#nhstxmclzp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2261,7 +2257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#fzpzsjashf .gt_subtitle {
+#nhstxmclzp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2273,7 +2269,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#fzpzsjashf .gt_heading {
+#nhstxmclzp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2285,13 +2281,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#fzpzsjashf .gt_bottom_border {
+#nhstxmclzp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#fzpzsjashf .gt_col_headings {
+#nhstxmclzp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2306,7 +2302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#fzpzsjashf .gt_col_heading {
+#nhstxmclzp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2326,7 +2322,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#fzpzsjashf .gt_column_spanner_outer {
+#nhstxmclzp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2338,15 +2334,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#fzpzsjashf .gt_column_spanner_outer:first-child {
+#nhstxmclzp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#fzpzsjashf .gt_column_spanner_outer:last-child {
+#nhstxmclzp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#fzpzsjashf .gt_column_spanner {
+#nhstxmclzp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2358,11 +2354,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#fzpzsjashf .gt_spanner_row {
+#nhstxmclzp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#fzpzsjashf .gt_group_heading {
+#nhstxmclzp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2388,7 +2384,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#fzpzsjashf .gt_empty_group_heading {
+#nhstxmclzp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2403,15 +2399,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#fzpzsjashf .gt_from_md > :first-child {
+#nhstxmclzp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#fzpzsjashf .gt_from_md > :last-child {
+#nhstxmclzp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#fzpzsjashf .gt_row {
+#nhstxmclzp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2430,7 +2426,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#fzpzsjashf .gt_stub {
+#nhstxmclzp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2443,7 +2439,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#fzpzsjashf .gt_stub_row_group {
+#nhstxmclzp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2457,15 +2453,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#fzpzsjashf .gt_row_group_first td {
+#nhstxmclzp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#fzpzsjashf .gt_row_group_first th {
+#nhstxmclzp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#fzpzsjashf .gt_summary_row {
+#nhstxmclzp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2475,16 +2471,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#fzpzsjashf .gt_first_summary_row {
+#nhstxmclzp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#fzpzsjashf .gt_first_summary_row.thick {
+#nhstxmclzp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#fzpzsjashf .gt_last_summary_row {
+#nhstxmclzp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2494,7 +2490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#fzpzsjashf .gt_grand_summary_row {
+#nhstxmclzp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2504,7 +2500,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#fzpzsjashf .gt_first_grand_summary_row {
+#nhstxmclzp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2514,7 +2510,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#fzpzsjashf .gt_last_grand_summary_row_top {
+#nhstxmclzp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2524,11 +2520,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#fzpzsjashf .gt_striped {
+#nhstxmclzp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#fzpzsjashf .gt_table_body {
+#nhstxmclzp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2537,7 +2533,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#fzpzsjashf .gt_footnotes {
+#nhstxmclzp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2551,7 +2547,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#fzpzsjashf .gt_footnote {
+#nhstxmclzp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2560,7 +2556,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#fzpzsjashf .gt_sourcenotes {
+#nhstxmclzp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2574,7 +2570,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#fzpzsjashf .gt_sourcenote {
+#nhstxmclzp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2582,79 +2578,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#fzpzsjashf .gt_left {
+#nhstxmclzp .gt_left {
   text-align: left;
 }
 
-#fzpzsjashf .gt_center {
+#nhstxmclzp .gt_center {
   text-align: center;
 }
 
-#fzpzsjashf .gt_right {
+#nhstxmclzp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#fzpzsjashf .gt_font_normal {
+#nhstxmclzp .gt_font_normal {
   font-weight: normal;
 }
 
-#fzpzsjashf .gt_font_bold {
+#nhstxmclzp .gt_font_bold {
   font-weight: bold;
 }
 
-#fzpzsjashf .gt_font_italic {
+#nhstxmclzp .gt_font_italic {
   font-style: italic;
 }
 
-#fzpzsjashf .gt_super {
+#nhstxmclzp .gt_super {
   font-size: 65%;
 }
 
-#fzpzsjashf .gt_footnote_marks {
+#nhstxmclzp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#fzpzsjashf .gt_asterisk {
+#nhstxmclzp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#fzpzsjashf .gt_indent_1 {
+#nhstxmclzp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#fzpzsjashf .gt_indent_2 {
+#nhstxmclzp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#fzpzsjashf .gt_indent_3 {
+#nhstxmclzp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#fzpzsjashf .gt_indent_4 {
+#nhstxmclzp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#fzpzsjashf .gt_indent_5 {
+#nhstxmclzp .gt_indent_5 {
   text-indent: 25px;
 }
 
-#fzpzsjashf .katex-display {
+#nhstxmclzp .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#fzpzsjashf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#nhstxmclzp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="fips" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">fips</th>
 <th id="var" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">var</th>
 <th id="lon" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">lon</th>
@@ -2729,8 +2725,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="prepare-a-map" class="level3" data-number="14.1.3">
-<h3 data-number="14.1.3" class="anchored" data-anchor-id="prepare-a-map"><span class="header-section-number">14.1.3</span> Prepare a map</h3>
+<section id="prepare-a-map" class="level3" data-number="13.1.3">
+<h3 data-number="13.1.3" class="anchored" data-anchor-id="prepare-a-map"><span class="header-section-number">13.1.3</span> Prepare a map</h3>
 <p>Now let’s get the information we need for our map. We’ll start with a map of the US states.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>states_us <span class="ot">&lt;-</span> rnaturalearthdata<span class="sc">::</span>states50</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2746,8 +2742,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>states_us <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(states_us)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="transform-the-data-for-plotting" class="level3" data-number="14.1.4">
-<h3 data-number="14.1.4" class="anchored" data-anchor-id="transform-the-data-for-plotting"><span class="header-section-number">14.1.4</span> Transform the data for plotting</h3>
+<section id="transform-the-data-for-plotting" class="level3" data-number="13.1.4">
+<h3 data-number="13.1.4" class="anchored" data-anchor-id="transform-the-data-for-plotting"><span class="header-section-number">13.1.4</span> Transform the data for plotting</h3>
 <p>Now we’ll similarly convert the coordinates in our pop vs.&nbsp;soda data. Note that we point the <em>st_as_sf()</em> function to our “lon” and “lat” columns. Additionally, we need to specify the coordinate reference system (crs). This can be tricky… See here for a discussion:</p>
 <p><a href="https://ryanpeek.github.io/2017-08-03-converting-XY-data-with-sf-package/" class="uri">https://ryanpeek.github.io/2017-08-03-converting-XY-data-with-sf-package/</a></p>
 <p>We’re specifying The World Geodetic System 1984 or WGS84.</p>
@@ -2779,23 +2775,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="knetgnfact" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#knetgnfact table {
+<div id="qpsssfziko" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qpsssfziko table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#knetgnfact thead, #knetgnfact tbody, #knetgnfact tfoot, #knetgnfact tr, #knetgnfact td, #knetgnfact th {
+#qpsssfziko thead, #qpsssfziko tbody, #qpsssfziko tfoot, #qpsssfziko tr, #qpsssfziko td, #qpsssfziko th {
   border-style: none;
 }
 
-#knetgnfact p {
+#qpsssfziko p {
   margin: 0;
   padding: 0;
 }
 
-#knetgnfact .gt_table {
+#qpsssfziko .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2821,12 +2817,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#knetgnfact .gt_caption {
+#qpsssfziko .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#knetgnfact .gt_title {
+#qpsssfziko .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2838,7 +2834,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#knetgnfact .gt_subtitle {
+#qpsssfziko .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2850,7 +2846,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#knetgnfact .gt_heading {
+#qpsssfziko .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2862,13 +2858,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#knetgnfact .gt_bottom_border {
+#qpsssfziko .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#knetgnfact .gt_col_headings {
+#qpsssfziko .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2883,7 +2879,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#knetgnfact .gt_col_heading {
+#qpsssfziko .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2903,7 +2899,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#knetgnfact .gt_column_spanner_outer {
+#qpsssfziko .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2915,15 +2911,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#knetgnfact .gt_column_spanner_outer:first-child {
+#qpsssfziko .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#knetgnfact .gt_column_spanner_outer:last-child {
+#qpsssfziko .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#knetgnfact .gt_column_spanner {
+#qpsssfziko .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2935,11 +2931,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#knetgnfact .gt_spanner_row {
+#qpsssfziko .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#knetgnfact .gt_group_heading {
+#qpsssfziko .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2965,7 +2961,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#knetgnfact .gt_empty_group_heading {
+#qpsssfziko .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2980,15 +2976,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#knetgnfact .gt_from_md > :first-child {
+#qpsssfziko .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#knetgnfact .gt_from_md > :last-child {
+#qpsssfziko .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#knetgnfact .gt_row {
+#qpsssfziko .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3007,7 +3003,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#knetgnfact .gt_stub {
+#qpsssfziko .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3020,7 +3016,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#knetgnfact .gt_stub_row_group {
+#qpsssfziko .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3034,15 +3030,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#knetgnfact .gt_row_group_first td {
+#qpsssfziko .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#knetgnfact .gt_row_group_first th {
+#qpsssfziko .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#knetgnfact .gt_summary_row {
+#qpsssfziko .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3052,16 +3048,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#knetgnfact .gt_first_summary_row {
+#qpsssfziko .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#knetgnfact .gt_first_summary_row.thick {
+#qpsssfziko .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#knetgnfact .gt_last_summary_row {
+#qpsssfziko .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3071,7 +3067,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#knetgnfact .gt_grand_summary_row {
+#qpsssfziko .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3081,7 +3077,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#knetgnfact .gt_first_grand_summary_row {
+#qpsssfziko .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3091,7 +3087,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#knetgnfact .gt_last_grand_summary_row_top {
+#qpsssfziko .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3101,11 +3097,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#knetgnfact .gt_striped {
+#qpsssfziko .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#knetgnfact .gt_table_body {
+#qpsssfziko .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3114,7 +3110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#knetgnfact .gt_footnotes {
+#qpsssfziko .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3128,7 +3124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#knetgnfact .gt_footnote {
+#qpsssfziko .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3137,7 +3133,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#knetgnfact .gt_sourcenotes {
+#qpsssfziko .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3151,7 +3147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#knetgnfact .gt_sourcenote {
+#qpsssfziko .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3159,79 +3155,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#knetgnfact .gt_left {
+#qpsssfziko .gt_left {
   text-align: left;
 }
 
-#knetgnfact .gt_center {
+#qpsssfziko .gt_center {
   text-align: center;
 }
 
-#knetgnfact .gt_right {
+#qpsssfziko .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#knetgnfact .gt_font_normal {
+#qpsssfziko .gt_font_normal {
   font-weight: normal;
 }
 
-#knetgnfact .gt_font_bold {
+#qpsssfziko .gt_font_bold {
   font-weight: bold;
 }
 
-#knetgnfact .gt_font_italic {
+#qpsssfziko .gt_font_italic {
   font-style: italic;
 }
 
-#knetgnfact .gt_super {
+#qpsssfziko .gt_super {
   font-size: 65%;
 }
 
-#knetgnfact .gt_footnote_marks {
+#qpsssfziko .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#knetgnfact .gt_asterisk {
+#qpsssfziko .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#knetgnfact .gt_indent_1 {
+#qpsssfziko .gt_indent_1 {
   text-indent: 5px;
 }
 
-#knetgnfact .gt_indent_2 {
+#qpsssfziko .gt_indent_2 {
   text-indent: 10px;
 }
 
-#knetgnfact .gt_indent_3 {
+#qpsssfziko .gt_indent_3 {
   text-indent: 15px;
 }
 
-#knetgnfact .gt_indent_4 {
+#qpsssfziko .gt_indent_4 {
   text-indent: 20px;
 }
 
-#knetgnfact .gt_indent_5 {
+#qpsssfziko .gt_indent_5 {
   text-indent: 25px;
 }
 
-#knetgnfact .katex-display {
+#qpsssfziko .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#knetgnfact div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#qpsssfziko div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="dialect" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">dialect</th>
 <th id="lon" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">lon</th>
 <th id="lat" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">lat</th>
@@ -3312,10 +3308,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="knn-classification" class="level2" data-number="14.2">
-<h2 data-number="14.2" class="anchored" data-anchor-id="knn-classification"><span class="header-section-number">14.2</span> KNN classification</h2>
-<section id="case-study-allegheny-and-philadelphia-counties" class="level3" data-number="14.2.1">
-<h3 data-number="14.2.1" class="anchored" data-anchor-id="case-study-allegheny-and-philadelphia-counties"><span class="header-section-number">14.2.1</span> Case study: Allegheny and Philadelphia counties</h3>
+<section id="knn-classification" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="knn-classification"><span class="header-section-number">13.2</span> KNN classification</h2>
+<section id="case-study-allegheny-and-philadelphia-counties" class="level3" data-number="13.2.1">
+<h3 data-number="13.2.1" class="anchored" data-anchor-id="case-study-allegheny-and-philadelphia-counties"><span class="header-section-number">13.2.1</span> Case study: Allegheny and Philadelphia counties</h3>
 <p>The implementation of the knn classifier is a little different from earlier classification problems, so let’s walk through the basic idea with a quick example. First, let’s subset out the data for 2 counties: Allegheny and Philadelphia counties (identified by their FIPS codes).</p>
 <p>Then, we’ll construct a simple data frame with 3 columns.</p>
 <div class="cell">
@@ -3804,9 +3800,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="accuracy.tab." class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">accuracy.tab.</th>
 </tr>
 </thead>
@@ -4280,9 +4276,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="COKE" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">COKE</th>
 <th id="OTHER" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">OTHER</th>
 <th id="POP" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">POP</th>
@@ -4762,9 +4758,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="COKE" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">COKE</th>
 <th id="OTHER" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">OTHER</th>
 <th id="POP" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">POP</th>
@@ -4785,8 +4781,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="spatial-interpolation" class="level3" data-number="14.2.2">
-<h3 data-number="14.2.2" class="anchored" data-anchor-id="spatial-interpolation"><span class="header-section-number">14.2.2</span> Spatial interpolation</h3>
+<section id="spatial-interpolation" class="level3" data-number="13.2.2">
+<h3 data-number="13.2.2" class="anchored" data-anchor-id="spatial-interpolation"><span class="header-section-number">13.2.2</span> Spatial interpolation</h3>
 <p>Those probabilities can be used to select both color (for the most probable variant) and the alpha of the color (based on the value of the probability).</p>
 <p>Sounds easy enough, but we don’t have values for the entire map. We need to use our known values to estimate those at other unknown points. This is process called spatial interpolation:</p>
 <p><a href="https://docs.qgis.org/2.18/en/docs/gentle_gis_introduction/spatial_analysis_interpolation.html" class="uri">https://docs.qgis.org/2.18/en/docs/gentle_gis_introduction/spatial_analysis_interpolation.html</a></p>
@@ -4908,206 +4904,242 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  });
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      return note.innerHTML;
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
       }
+      return false;
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
         }
-        return container.innerHTML
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -5115,194 +5147,170 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../labs/vector-models.html" class="pagination-link  aria-label=" &lt;span="" to="" vector="" models="" and="" word="" embeddings&lt;="" span&gt;"="">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introduction to Vector Models and Word Embeddings</span></span>
+      <a href="../labs/sentiment-and-syuzhet.html" class="pagination-link" aria-label="Texts, Algorithms, and Black-Boxes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Texts, Algorithms, and Black-Boxes</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../labs/random-forest.html" class="pagination-link" aria-label="<span class='chapter-number'>15</span>&nbsp; <span class='chapter-title'>Random Forest</span>">
-        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Random Forest</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../labs/random-forest.html" class="pagination-link" aria-label="Random Forest">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Random Forest</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

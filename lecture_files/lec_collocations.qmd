@@ -162,10 +162,10 @@ This is based on Firth's [-@firth1957papers] principle of "knowing  a word by th
 -  Pointwise mutual information (PMI) [@church1990word]. [See Brezina, chapter 3](https://www.cambridge.org/core/books/statistics-in-corpus-linguistics/semantics-and-discourse/3CC9D42A719A484A565BC139E9353A2C#A-sec-32).
 
 ::: {style="font-size: 65%;"}
-The formula for calculating MI is as follows:
+The formula for calculating PMI is as follows:
 
 $$
-PMI = log_{2} \left( \frac{O_{11}}{E_{11}} \right)
+PMI = \log_{2} \left( \frac{O_{11}}{E_{11}} \right)
 $$
 
 Where *O~11~* and *E~11~* are the observed (i.e., collocate in the span divided by the total number of words in the corpus) and expected frequencies of the node word within a given window. The expected frequency is given by:
@@ -202,14 +202,14 @@ As Brezina [-@brezina2018statistics] notes, PMI is highly sensitive to rare co-o
 
 $$
 \begin{aligned}
-PMI{^k} = log_{2} \left( \frac{O_{11}{^2}}{E_{11}} \right) = PMI - (1 - k)~\times~log_{2} \left( O_{11} \right)
+PMI{^k} = \log_{2} \left( \frac{O_{11}{^k}}{E_{11}} \right) = PMI - (1 - k)\times\log_{2} \left( O_{11} \right)
 \\
 \text{where}~2 \ge k \le 3
 \end{aligned}
 $$
 
 $$
-NPMI = \frac{PMI}{-log_{2}(O_{11})}
+NPMI = \frac{PMI}{-\log_{2}(O_{11})}
 $$
 :::
 

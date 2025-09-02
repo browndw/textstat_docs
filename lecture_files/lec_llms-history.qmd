@@ -8,10 +8,14 @@ html-math-method:
   method: mathjax
   url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 author:
+  - name: Alex Reinhart
+    email: areinhar@stat.cmu.edu
+    orcid: 0000-0002-6658-514X
+    affiliations: Statistics & Data Science 36-468/668
   - name: David Brown
     orcid: 0000-0001-7745-6354
     email: dwb2@andrew.cmu.edu
-    affiliations: Statistics & Data Science 36-468/668
+    affiliations: Dept. of English
 date: last-modified
 date-format: "[Fall] YYYY"
 title-slide-attributes: 
@@ -505,7 +509,7 @@ N → cat \| song \| canary
 
 ## Towards computation
 
-### A document-feature matrix (or a document-term matrix)
+### Constructing a corpus
 
 \
 
@@ -513,8 +517,8 @@ N → cat \| song \| canary
 ::: {.column width="40%"}
 ::: {style="font-size: 75%; padding-top: 25px;"}
 -   The make-up or sampling frame of the Brown family of corpora. [@kucera1967computational]
--   From the 15 categories, 2000-word text samples were selected.
--   2000 x 500 ≈ 1,000,000 words
+-   From the 15 categories, 2,000-word text samples were selected.
+-   2,000 x 500 ≈ 1,000,000 words
 :::
 :::
 
@@ -662,7 +666,7 @@ What developments are taking place at this time (the early 2000s)?
 
 -   Word2vec is released. [@mikolov2013efficient]
     -   Shallow (2-layer) neural network.
-    -   Trained using a relatively small context window (\~10-12 words).
+    -   Trained using a relatively small context window (\~10--12 words).
     -   Introduces "embeddings".
 
 ## Emergence of ML
@@ -782,7 +786,6 @@ $$ ![](img/img_llms-history/cos_similarity.png)
 
 ::: {style="font-size: 80%;"}
 ```{.python}
-
 sentences = ["bank",
 	"He eventually sold the shares back to the bank at a premium.",
 	"The bank strongly resisted cutting interest rates.",
@@ -804,7 +807,6 @@ sentences = ["bank",
 	"Don't bank on your friends to help you out of trouble.",
 	"You can bank on me when you need money.",
 	"I bank on your help."]
-
 ```
 :::
 
@@ -813,33 +815,31 @@ sentences = ["bank",
 ### An example of contextual embeddings using BERT
 
 ::: {style="font-size: 80%;"}
-```{.python}
-
+```python
 from collections import OrderedDict
 
 context_embeddings = []
 context_tokens = []
 for sentence in sentences:
-	tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(sentence, tokenizer)
-	list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model)
-  # make ordered dictionary to keep track of the position of each word
-	tokens = OrderedDict()
-  # loop over tokens in sensitive sentence
-	for token in tokenized_text[1:-1]:
-		# keep track of position of word and whether it occurs multiple times
-		if token in tokens:
-			tokens[token] += 1
-		else:
-		tokens[token] = 1
-  	# compute the position of the current token
-		token_indices = [i for i, t in enumerate(tokenized_text) if t == token]
-		current_index = token_indices[tokens[token]-1]
-  	# get the corresponding embedding
-		token_vec = list_token_embeddings[current_index]
-  	# save values
-		context_tokens.append(token)
-		context_embeddings.append(token_vec)
-		
+    tokenized_text, tokens_tensor, segments_tensors = bert_text_preparation(sentence, tokenizer)
+    list_token_embeddings = get_bert_embeddings(tokens_tensor, segments_tensors, model)
+    # make ordered dictionary to keep track of the position of each word
+    tokens = OrderedDict()
+    # loop over tokens in sensitive sentence
+    for token in tokenized_text[1:-1]:
+        # keep track of position of word and whether it occurs multiple times
+        if token in tokens:
+            tokens[token] += 1
+        else:
+            tokens[token] = 1
+        # compute the position of the current token
+        token_indices = [i for i, t in enumerate(tokenized_text) if t == token]
+        current_index = token_indices[tokens[token]-1]
+        # get the corresponding embedding
+        token_vec = list_token_embeddings[current_index]
+        # save values
+        context_tokens.append(token)
+        context_embeddings.append(token_vec)
 ```
 :::
 
@@ -883,11 +883,11 @@ A Colab with the full code is [here](https://colab.research.google.com/drive/1ea
 -  A group in the Statistics & Data Science Department was inspired by claims that were circulating when ChatGPT was first introduced. (e.g., "Wow! I asked ChatGPT to write a podcast and [it looks pretty good](https://www.npr.org/transcripts/1178290105)!!!")
 -  We wondered what the text it produces looks like when it is repeated. (e.g., "What happens if you ask it to write 100 podcasts?")
 -  We gave it the same writing prompt that students are given in 36-200, generated 100 introduction, and compared those with introductions written by the actual students and introductions that appear in published, data-driven, academic papers.
--  Then, we tagged the data using Biber's [-@biber1991variation] features (which counts things like [passives, nominalizations, attributive adjectives](https://cmu-textstat-docs.readthedocs.io/en/latest/pseudobibeR/pseudobibeR.html#categories), etc.).
+-  Then, we tagged the data using Biber's [-@biber1991variation] features (which counts things like [passives, nominalizations, attributive adjectives](https://cran.r-project.org/web/packages/pseudobibeR/refman/pseudobibeR.html#biber), etc.).
 
 ## Investigating LLM-generated text
 
--   It turns out, machine-authored prose and human-authored prose don’t really look the same in their morphosyntactic and functional features. [@herbold2023large; @markey2024dense]
+-   It turns out, machine-authored prose and human-authored prose don’t really look the same in their morphosyntactic and functional features. [@DeLuca:2024; @herbold2023large; @markey2024dense]
 
 ![Projection of student, published, and ChatGPT-generated writing onto the first two linear discriminants, based on the 67 Biber features.](img/img_llms-history/lda_scatter.svg)
 
@@ -1070,7 +1070,7 @@ If you were working on this project, what would you suggest the team do next? In
 ## Investigating LLM-generated text
 
 ::: {style="font-size: 60%;"}
--   We also created an experiment at scale, with 10,000 samples, across 9 text-types.
+-   We also created an experiment at scale [@Reinhart:2024b], with 10,000 samples, across 9 text-types.
 :::
 
 ```{r}
@@ -1092,7 +1092,7 @@ readr::read_csv("data/data_llms-history/eval_gpt3.csv") |>
 ## Investigating LLM-generated text
 
 ::: {style="font-size: 60%;"}
--   We also created an experiment at scale, with 10,000 samples, across 9 text-types.
+-   We also created an experiment at scale [@Reinhart:2024b], with 10,000 samples, across 9 text-types.
 :::
 
 ![[ROC curve](https://medium.com/@shaileydash/understanding-the-roc-and-auc-intuitively-31ca96445c02) for human vs. ChatGPT 3.5.](img/img_llms-history/roc_gpt3.svg){width=60% fig-align="center"}
@@ -1100,7 +1100,7 @@ readr::read_csv("data/data_llms-history/eval_gpt3.csv") |>
 ## Investigating LLM-generated text
 
 ::: {style="font-size: 60%;"}
--   We also created an experiment at scale, with 10,000 samples, across 9 text-types.
+-   We also created an experiment at scale [@Reinhart:2024b], with 10,000 samples, across 9 text-types.
 :::
 
 ![[ROC curve](https://medium.com/@shaileydash/understanding-the-roc-and-auc-intuitively-31ca96445c02) for human vs. ChatGPT 4.](img/img_llms-history/roc_gpt4.svg){width=60% fig-align="center"}
@@ -1108,7 +1108,7 @@ readr::read_csv("data/data_llms-history/eval_gpt3.csv") |>
 ## Investigating LLM-generated text
 
 ::: {style="font-size: 60%;"}
--   We also created an experiment at scale, with 10,000 samples, across 9 text-types.
+-   We also created an experiment at scale [@Reinhart:2024b], with 10,000 samples, across 9 text-types.
 :::
 
 ![](img/img_llms-history/roc_gpt4.svg){width=60% fig-align="center"}

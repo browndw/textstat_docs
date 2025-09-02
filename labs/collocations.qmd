@@ -58,7 +58,7 @@ The **collocates_by_MI( )** function produces collocation measures (by pointwise
 
 The formula for calculating MI is as follows:
 
-$$log_{2} \frac{O_{11}}{E_{11}}$$
+$$\log_{2} \frac{O_{11}}{E_{11}}$$
 Where *O~11~* and *E~11~* are the observed (i.e., node + collocate) and expected frequencies of the node word within a given window. The expected frequency is given by:
 
 $$E_{11} = \frac{R_{1} \times C_{1}}{N}$$
@@ -105,8 +105,8 @@ For our purposes, we'll filter for AF $\ge$ 5 and MI $\ge$ 5.
 
 ```{r}
 
-tc <- time_collocations %>% filter(col_freq >= 5 & MI_1 >= 5)
-mc <- money_collocations %>% filter(col_freq >= 5 & MI_1 >= 5)
+tc <- time_collocations %>% filter(col_freq >= 5, MI_1 >= 5)
+mc <- money_collocations %>% filter(col_freq >= 5, MI_1 >= 5)
 ```
 
 Check the result:
