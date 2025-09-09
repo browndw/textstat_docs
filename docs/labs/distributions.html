@@ -204,7 +204,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../labs/processing-pipelines.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tokenizing with quanteda</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Processing pipelines</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -362,8 +362,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../lectures/embed_frequencies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Word Frequencies &amp; Dispersions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../lectures/embed_collocations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Collocations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Collocations</span></span></a>
   </div>
 </li>
       </ul>
@@ -382,8 +388,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#load-the-needed-packages" id="toc-load-the-needed-packages" class="nav-link" data-scroll-target="#load-the-needed-packages"><span class="header-section-number">4.1.1</span> Load the needed packages</a></li>
   <li><a href="#load-a-corpus" id="toc-load-a-corpus" class="nav-link" data-scroll-target="#load-a-corpus"><span class="header-section-number">4.1.2</span> Load a corpus</a></li>
-  <li><a href="#load-functions" id="toc-load-functions" class="nav-link" data-scroll-target="#load-functions"><span class="header-section-number">4.1.3</span> Load functions</a></li>
-  <li><a href="#create-and-corpus" id="toc-create-and-corpus" class="nav-link" data-scroll-target="#create-and-corpus"><span class="header-section-number">4.1.4</span> Create and corpus</a></li>
+  <li><a href="#create-and-corpus" id="toc-create-and-corpus" class="nav-link" data-scroll-target="#create-and-corpus"><span class="header-section-number">4.1.3</span> Create and corpus</a></li>
   </ul></li>
   <li><a href="#document-variables-name-your-files-systematically" id="toc-document-variables-name-your-files-systematically" class="nav-link" data-scroll-target="#document-variables-name-your-files-systematically"><span class="header-section-number">4.2</span> Document variables (Name your files systematically!)</a></li>
   <li><a href="#tokenize-the-corpus" id="toc-tokenize-the-corpus" class="nav-link" data-scroll-target="#tokenize-the-corpus"><span class="header-section-number">4.3</span> Tokenize the corpus</a></li>
@@ -439,9 +444,9 @@ window.Quarto = {
 <section id="load-a-corpus" class="level3" data-number="4.1.2">
 <h3 data-number="4.1.2" class="anchored" data-anchor-id="load-a-corpus"><span class="header-section-number">4.1.2</span> Load a corpus</h3>
 <p>The repository comes with some data sets. The conventional way to format text data prior to processing is as a table with a column of document ids (which correspond to the the file names) and a column of texts. Such a table is easy to create from text data on your own local drive using the package <a href="https://readtext.quanteda.io/articles/readtext_vignette.html"><strong>readtext</strong></a>.</p>
+<p>We’ll instead load <code>quanteda.extras</code>, which contains a <code>sample_corpus</code> for us to use.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/sample_corpus.rda"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/multiword_expressions.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.extras)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To peek at the data, we’ll look at the first 100 characters in the “text” column of the first row:</p>
 <div class="cell">
@@ -453,23 +458,23 @@ window.Quarto = {
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="yweknqcndr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#yweknqcndr table {
+<div id="wtgamyxiws" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wtgamyxiws table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#yweknqcndr thead, #yweknqcndr tbody, #yweknqcndr tfoot, #yweknqcndr tr, #yweknqcndr td, #yweknqcndr th {
+#wtgamyxiws thead, #wtgamyxiws tbody, #wtgamyxiws tfoot, #wtgamyxiws tr, #wtgamyxiws td, #wtgamyxiws th {
   border-style: none;
 }
 
-#yweknqcndr p {
+#wtgamyxiws p {
   margin: 0;
   padding: 0;
 }
 
-#yweknqcndr .gt_table {
+#wtgamyxiws .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -495,12 +500,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#yweknqcndr .gt_caption {
+#wtgamyxiws .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#yweknqcndr .gt_title {
+#wtgamyxiws .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -512,7 +517,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#yweknqcndr .gt_subtitle {
+#wtgamyxiws .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -524,7 +529,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#yweknqcndr .gt_heading {
+#wtgamyxiws .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -536,13 +541,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#yweknqcndr .gt_bottom_border {
+#wtgamyxiws .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yweknqcndr .gt_col_headings {
+#wtgamyxiws .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -557,7 +562,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#yweknqcndr .gt_col_heading {
+#wtgamyxiws .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -577,7 +582,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#yweknqcndr .gt_column_spanner_outer {
+#wtgamyxiws .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -589,15 +594,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#yweknqcndr .gt_column_spanner_outer:first-child {
+#wtgamyxiws .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yweknqcndr .gt_column_spanner_outer:last-child {
+#wtgamyxiws .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yweknqcndr .gt_column_spanner {
+#wtgamyxiws .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -609,11 +614,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#yweknqcndr .gt_spanner_row {
+#wtgamyxiws .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#yweknqcndr .gt_group_heading {
+#wtgamyxiws .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -639,7 +644,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#yweknqcndr .gt_empty_group_heading {
+#wtgamyxiws .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -654,15 +659,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#yweknqcndr .gt_from_md > :first-child {
+#wtgamyxiws .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yweknqcndr .gt_from_md > :last-child {
+#wtgamyxiws .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yweknqcndr .gt_row {
+#wtgamyxiws .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -681,7 +686,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#yweknqcndr .gt_stub {
+#wtgamyxiws .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -694,7 +699,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#yweknqcndr .gt_stub_row_group {
+#wtgamyxiws .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -708,15 +713,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#yweknqcndr .gt_row_group_first td {
+#wtgamyxiws .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#yweknqcndr .gt_row_group_first th {
+#wtgamyxiws .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#yweknqcndr .gt_summary_row {
+#wtgamyxiws .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -726,16 +731,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#yweknqcndr .gt_first_summary_row {
+#wtgamyxiws .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#yweknqcndr .gt_first_summary_row.thick {
+#wtgamyxiws .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#yweknqcndr .gt_last_summary_row {
+#wtgamyxiws .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -745,7 +750,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#yweknqcndr .gt_grand_summary_row {
+#wtgamyxiws .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -755,7 +760,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#yweknqcndr .gt_first_grand_summary_row {
+#wtgamyxiws .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -765,7 +770,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#yweknqcndr .gt_last_grand_summary_row_top {
+#wtgamyxiws .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -775,11 +780,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#yweknqcndr .gt_striped {
+#wtgamyxiws .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yweknqcndr .gt_table_body {
+#wtgamyxiws .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -788,7 +793,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#yweknqcndr .gt_footnotes {
+#wtgamyxiws .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -802,7 +807,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#yweknqcndr .gt_footnote {
+#wtgamyxiws .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -811,7 +816,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#yweknqcndr .gt_sourcenotes {
+#wtgamyxiws .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -825,7 +830,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#yweknqcndr .gt_sourcenote {
+#wtgamyxiws .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -833,72 +838,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#yweknqcndr .gt_left {
+#wtgamyxiws .gt_left {
   text-align: left;
 }
 
-#yweknqcndr .gt_center {
+#wtgamyxiws .gt_center {
   text-align: center;
 }
 
-#yweknqcndr .gt_right {
+#wtgamyxiws .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yweknqcndr .gt_font_normal {
+#wtgamyxiws .gt_font_normal {
   font-weight: normal;
 }
 
-#yweknqcndr .gt_font_bold {
+#wtgamyxiws .gt_font_bold {
   font-weight: bold;
 }
 
-#yweknqcndr .gt_font_italic {
+#wtgamyxiws .gt_font_italic {
   font-style: italic;
 }
 
-#yweknqcndr .gt_super {
+#wtgamyxiws .gt_super {
   font-size: 65%;
 }
 
-#yweknqcndr .gt_footnote_marks {
+#wtgamyxiws .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#yweknqcndr .gt_asterisk {
+#wtgamyxiws .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#yweknqcndr .gt_indent_1 {
+#wtgamyxiws .gt_indent_1 {
   text-indent: 5px;
 }
 
-#yweknqcndr .gt_indent_2 {
+#wtgamyxiws .gt_indent_2 {
   text-indent: 10px;
 }
 
-#yweknqcndr .gt_indent_3 {
+#wtgamyxiws .gt_indent_3 {
   text-indent: 15px;
 }
 
-#yweknqcndr .gt_indent_4 {
+#wtgamyxiws .gt_indent_4 {
   text-indent: 20px;
 }
 
-#yweknqcndr .gt_indent_5 {
+#wtgamyxiws .gt_indent_5 {
   text-indent: 25px;
 }
 
-#yweknqcndr .katex-display {
+#wtgamyxiws .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#yweknqcndr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#wtgamyxiws div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -958,28 +963,20 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="load-functions" class="level3" data-number="4.1.3">
-<h3 data-number="4.1.3" class="anchored" data-anchor-id="load-functions"><span class="header-section-number">4.1.3</span> Load functions</h3>
-<p>The repository also contains a number of useful functions. Here, will load some that will calculate a number of common dispersion measures.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/dispersion_functions.R"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/helper_functions.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="create-and-corpus" class="level3" data-number="4.1.4">
-<h3 data-number="4.1.4" class="anchored" data-anchor-id="create-and-corpus"><span class="header-section-number">4.1.4</span> Create and corpus</h3>
+<section id="create-and-corpus" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="create-and-corpus"><span class="header-section-number">4.1.3</span> Create and corpus</h3>
 <p>Make a corpus object.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sc <span class="ot">&lt;-</span> <span class="fu">corpus</span>(sample_corpus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sc <span class="ot">&lt;-</span> <span class="fu">corpus</span>(sample_corpus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And check the result:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sc <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sc <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="tbl-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -988,23 +985,23 @@ Table&nbsp;4.1: Partial summary of sample corpus.
 </figcaption>
 <div aria-describedby="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="wyyxsueyuo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wyyxsueyuo table {
+<div id="dpohmhfmgd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dpohmhfmgd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wyyxsueyuo thead, #wyyxsueyuo tbody, #wyyxsueyuo tfoot, #wyyxsueyuo tr, #wyyxsueyuo td, #wyyxsueyuo th {
+#dpohmhfmgd thead, #dpohmhfmgd tbody, #dpohmhfmgd tfoot, #dpohmhfmgd tr, #dpohmhfmgd td, #dpohmhfmgd th {
   border-style: none;
 }
 
-#wyyxsueyuo p {
+#dpohmhfmgd p {
   margin: 0;
   padding: 0;
 }
 
-#wyyxsueyuo .gt_table {
+#dpohmhfmgd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1030,12 +1027,12 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-left-color: #D3D3D3;
 }
 
-#wyyxsueyuo .gt_caption {
+#dpohmhfmgd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wyyxsueyuo .gt_title {
+#dpohmhfmgd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1047,7 +1044,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-bottom-width: 0;
 }
 
-#wyyxsueyuo .gt_subtitle {
+#dpohmhfmgd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1059,7 +1056,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-top-width: 0;
 }
 
-#wyyxsueyuo .gt_heading {
+#dpohmhfmgd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1071,13 +1068,13 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-right-color: #D3D3D3;
 }
 
-#wyyxsueyuo .gt_bottom_border {
+#dpohmhfmgd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wyyxsueyuo .gt_col_headings {
+#dpohmhfmgd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1092,7 +1089,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-right-color: #D3D3D3;
 }
 
-#wyyxsueyuo .gt_col_heading {
+#dpohmhfmgd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1112,7 +1109,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   overflow-x: hidden;
 }
 
-#wyyxsueyuo .gt_column_spanner_outer {
+#dpohmhfmgd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1124,15 +1121,15 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 4px;
 }
 
-#wyyxsueyuo .gt_column_spanner_outer:first-child {
+#dpohmhfmgd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wyyxsueyuo .gt_column_spanner_outer:last-child {
+#dpohmhfmgd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wyyxsueyuo .gt_column_spanner {
+#dpohmhfmgd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1144,11 +1141,11 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   width: 100%;
 }
 
-#wyyxsueyuo .gt_spanner_row {
+#dpohmhfmgd .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wyyxsueyuo .gt_group_heading {
+#dpohmhfmgd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1174,7 +1171,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   text-align: left;
 }
 
-#wyyxsueyuo .gt_empty_group_heading {
+#dpohmhfmgd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1189,15 +1186,15 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   vertical-align: middle;
 }
 
-#wyyxsueyuo .gt_from_md > :first-child {
+#dpohmhfmgd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wyyxsueyuo .gt_from_md > :last-child {
+#dpohmhfmgd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wyyxsueyuo .gt_row {
+#dpohmhfmgd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1216,7 +1213,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   overflow-x: hidden;
 }
 
-#wyyxsueyuo .gt_stub {
+#dpohmhfmgd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1229,7 +1226,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 5px;
 }
 
-#wyyxsueyuo .gt_stub_row_group {
+#dpohmhfmgd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1243,15 +1240,15 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   vertical-align: top;
 }
 
-#wyyxsueyuo .gt_row_group_first td {
+#dpohmhfmgd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wyyxsueyuo .gt_row_group_first th {
+#dpohmhfmgd .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wyyxsueyuo .gt_summary_row {
+#dpohmhfmgd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1261,16 +1258,16 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 5px;
 }
 
-#wyyxsueyuo .gt_first_summary_row {
+#dpohmhfmgd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wyyxsueyuo .gt_first_summary_row.thick {
+#dpohmhfmgd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wyyxsueyuo .gt_last_summary_row {
+#dpohmhfmgd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1280,7 +1277,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-bottom-color: #D3D3D3;
 }
 
-#wyyxsueyuo .gt_grand_summary_row {
+#dpohmhfmgd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1290,7 +1287,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 5px;
 }
 
-#wyyxsueyuo .gt_first_grand_summary_row {
+#dpohmhfmgd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1300,7 +1297,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-top-color: #D3D3D3;
 }
 
-#wyyxsueyuo .gt_last_grand_summary_row_top {
+#dpohmhfmgd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1310,11 +1307,11 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-bottom-color: #D3D3D3;
 }
 
-#wyyxsueyuo .gt_striped {
+#dpohmhfmgd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wyyxsueyuo .gt_table_body {
+#dpohmhfmgd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1323,7 +1320,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-bottom-color: #D3D3D3;
 }
 
-#wyyxsueyuo .gt_footnotes {
+#dpohmhfmgd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1337,7 +1334,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-right-color: #D3D3D3;
 }
 
-#wyyxsueyuo .gt_footnote {
+#dpohmhfmgd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1346,7 +1343,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 5px;
 }
 
-#wyyxsueyuo .gt_sourcenotes {
+#dpohmhfmgd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1360,7 +1357,7 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   border-right-color: #D3D3D3;
 }
 
-#wyyxsueyuo .gt_sourcenote {
+#dpohmhfmgd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1368,72 +1365,72 @@ Table&nbsp;4.1: Partial summary of sample corpus.
   padding-right: 5px;
 }
 
-#wyyxsueyuo .gt_left {
+#dpohmhfmgd .gt_left {
   text-align: left;
 }
 
-#wyyxsueyuo .gt_center {
+#dpohmhfmgd .gt_center {
   text-align: center;
 }
 
-#wyyxsueyuo .gt_right {
+#dpohmhfmgd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wyyxsueyuo .gt_font_normal {
+#dpohmhfmgd .gt_font_normal {
   font-weight: normal;
 }
 
-#wyyxsueyuo .gt_font_bold {
+#dpohmhfmgd .gt_font_bold {
   font-weight: bold;
 }
 
-#wyyxsueyuo .gt_font_italic {
+#dpohmhfmgd .gt_font_italic {
   font-style: italic;
 }
 
-#wyyxsueyuo .gt_super {
+#dpohmhfmgd .gt_super {
   font-size: 65%;
 }
 
-#wyyxsueyuo .gt_footnote_marks {
+#dpohmhfmgd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wyyxsueyuo .gt_asterisk {
+#dpohmhfmgd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wyyxsueyuo .gt_indent_1 {
+#dpohmhfmgd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wyyxsueyuo .gt_indent_2 {
+#dpohmhfmgd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wyyxsueyuo .gt_indent_3 {
+#dpohmhfmgd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wyyxsueyuo .gt_indent_4 {
+#dpohmhfmgd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wyyxsueyuo .gt_indent_5 {
+#dpohmhfmgd .gt_indent_5 {
   text-indent: 25px;
 }
 
-#wyyxsueyuo .katex-display {
+#dpohmhfmgd .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#wyyxsueyuo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#dpohmhfmgd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1537,28 +1534,28 @@ Important
 </div>
 <p>We are now going to extract the meta-data from the file names and pass them as a variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>doc_categories <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(sample_corpus<span class="sc">$</span>doc_id, <span class="st">"^[a-z]+"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>doc_categories <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(sample_corpus<span class="sc">$</span>doc_id, <span class="st">"^[a-z]+"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Check the result:</p>
 <div class="cell" data-tbl-cap="Document categories.">
 <div class="cell-output-display">
-<div id="zayusbphdd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zayusbphdd table {
+<div id="iekfilkqdq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#iekfilkqdq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zayusbphdd thead, #zayusbphdd tbody, #zayusbphdd tfoot, #zayusbphdd tr, #zayusbphdd td, #zayusbphdd th {
+#iekfilkqdq thead, #iekfilkqdq tbody, #iekfilkqdq tfoot, #iekfilkqdq tr, #iekfilkqdq td, #iekfilkqdq th {
   border-style: none;
 }
 
-#zayusbphdd p {
+#iekfilkqdq p {
   margin: 0;
   padding: 0;
 }
 
-#zayusbphdd .gt_table {
+#iekfilkqdq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1584,12 +1581,12 @@ Important
   border-left-color: #D3D3D3;
 }
 
-#zayusbphdd .gt_caption {
+#iekfilkqdq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zayusbphdd .gt_title {
+#iekfilkqdq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1601,7 +1598,7 @@ Important
   border-bottom-width: 0;
 }
 
-#zayusbphdd .gt_subtitle {
+#iekfilkqdq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1613,7 +1610,7 @@ Important
   border-top-width: 0;
 }
 
-#zayusbphdd .gt_heading {
+#iekfilkqdq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1625,13 +1622,13 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#zayusbphdd .gt_bottom_border {
+#iekfilkqdq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zayusbphdd .gt_col_headings {
+#iekfilkqdq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1646,7 +1643,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#zayusbphdd .gt_col_heading {
+#iekfilkqdq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1666,7 +1663,7 @@ Important
   overflow-x: hidden;
 }
 
-#zayusbphdd .gt_column_spanner_outer {
+#iekfilkqdq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1678,15 +1675,15 @@ Important
   padding-right: 4px;
 }
 
-#zayusbphdd .gt_column_spanner_outer:first-child {
+#iekfilkqdq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zayusbphdd .gt_column_spanner_outer:last-child {
+#iekfilkqdq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zayusbphdd .gt_column_spanner {
+#iekfilkqdq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1698,11 +1695,11 @@ Important
   width: 100%;
 }
 
-#zayusbphdd .gt_spanner_row {
+#iekfilkqdq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zayusbphdd .gt_group_heading {
+#iekfilkqdq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1728,7 +1725,7 @@ Important
   text-align: left;
 }
 
-#zayusbphdd .gt_empty_group_heading {
+#iekfilkqdq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1743,15 +1740,15 @@ Important
   vertical-align: middle;
 }
 
-#zayusbphdd .gt_from_md > :first-child {
+#iekfilkqdq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zayusbphdd .gt_from_md > :last-child {
+#iekfilkqdq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zayusbphdd .gt_row {
+#iekfilkqdq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1770,7 +1767,7 @@ Important
   overflow-x: hidden;
 }
 
-#zayusbphdd .gt_stub {
+#iekfilkqdq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1783,7 +1780,7 @@ Important
   padding-right: 5px;
 }
 
-#zayusbphdd .gt_stub_row_group {
+#iekfilkqdq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1797,15 +1794,15 @@ Important
   vertical-align: top;
 }
 
-#zayusbphdd .gt_row_group_first td {
+#iekfilkqdq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zayusbphdd .gt_row_group_first th {
+#iekfilkqdq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zayusbphdd .gt_summary_row {
+#iekfilkqdq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1815,16 +1812,16 @@ Important
   padding-right: 5px;
 }
 
-#zayusbphdd .gt_first_summary_row {
+#iekfilkqdq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zayusbphdd .gt_first_summary_row.thick {
+#iekfilkqdq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zayusbphdd .gt_last_summary_row {
+#iekfilkqdq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1834,7 +1831,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#zayusbphdd .gt_grand_summary_row {
+#iekfilkqdq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1844,7 +1841,7 @@ Important
   padding-right: 5px;
 }
 
-#zayusbphdd .gt_first_grand_summary_row {
+#iekfilkqdq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1854,7 +1851,7 @@ Important
   border-top-color: #D3D3D3;
 }
 
-#zayusbphdd .gt_last_grand_summary_row_top {
+#iekfilkqdq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1864,11 +1861,11 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#zayusbphdd .gt_striped {
+#iekfilkqdq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zayusbphdd .gt_table_body {
+#iekfilkqdq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1877,7 +1874,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#zayusbphdd .gt_footnotes {
+#iekfilkqdq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1891,7 +1888,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#zayusbphdd .gt_footnote {
+#iekfilkqdq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1900,7 +1897,7 @@ Important
   padding-right: 5px;
 }
 
-#zayusbphdd .gt_sourcenotes {
+#iekfilkqdq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1914,7 +1911,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#zayusbphdd .gt_sourcenote {
+#iekfilkqdq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1922,72 +1919,72 @@ Important
   padding-right: 5px;
 }
 
-#zayusbphdd .gt_left {
+#iekfilkqdq .gt_left {
   text-align: left;
 }
 
-#zayusbphdd .gt_center {
+#iekfilkqdq .gt_center {
   text-align: center;
 }
 
-#zayusbphdd .gt_right {
+#iekfilkqdq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zayusbphdd .gt_font_normal {
+#iekfilkqdq .gt_font_normal {
   font-weight: normal;
 }
 
-#zayusbphdd .gt_font_bold {
+#iekfilkqdq .gt_font_bold {
   font-weight: bold;
 }
 
-#zayusbphdd .gt_font_italic {
+#iekfilkqdq .gt_font_italic {
   font-style: italic;
 }
 
-#zayusbphdd .gt_super {
+#iekfilkqdq .gt_super {
   font-size: 65%;
 }
 
-#zayusbphdd .gt_footnote_marks {
+#iekfilkqdq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zayusbphdd .gt_asterisk {
+#iekfilkqdq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zayusbphdd .gt_indent_1 {
+#iekfilkqdq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zayusbphdd .gt_indent_2 {
+#iekfilkqdq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zayusbphdd .gt_indent_3 {
+#iekfilkqdq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zayusbphdd .gt_indent_4 {
+#iekfilkqdq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zayusbphdd .gt_indent_5 {
+#iekfilkqdq .gt_indent_5 {
   text-indent: 25px;
 }
 
-#zayusbphdd .katex-display {
+#iekfilkqdq .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#zayusbphdd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#iekfilkqdq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2032,35 +2029,35 @@ Important
 </div>
 <p>We will now assign the variable to the corpus. The following command might look backwards, with the function on the left hand side of the <strong>&lt;-</strong> operator. That is because it’s an accessor function, which lets us add or modify data in an object. You can tell when a function is an accessor function like this because its help file will show that you can use it with <strong>&lt;-</strong>, for example in <strong>?docvars</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(sc, <span class="at">field =</span> <span class="st">"text_type"</span>) <span class="ot">&lt;-</span> doc_categories</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(sc, <span class="at">field =</span> <span class="st">"text_type"</span>) <span class="ot">&lt;-</span> doc_categories</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And check the summary again:</p>
 <div class="cell" data-tbl-cap="Partial summary of sample corpus.">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sc <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sc <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="lgpingaekh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lgpingaekh table {
+<div id="fjqlrngkaz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fjqlrngkaz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lgpingaekh thead, #lgpingaekh tbody, #lgpingaekh tfoot, #lgpingaekh tr, #lgpingaekh td, #lgpingaekh th {
+#fjqlrngkaz thead, #fjqlrngkaz tbody, #fjqlrngkaz tfoot, #fjqlrngkaz tr, #fjqlrngkaz td, #fjqlrngkaz th {
   border-style: none;
 }
 
-#lgpingaekh p {
+#fjqlrngkaz p {
   margin: 0;
   padding: 0;
 }
 
-#lgpingaekh .gt_table {
+#fjqlrngkaz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2086,12 +2083,12 @@ Important
   border-left-color: #D3D3D3;
 }
 
-#lgpingaekh .gt_caption {
+#fjqlrngkaz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lgpingaekh .gt_title {
+#fjqlrngkaz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2103,7 +2100,7 @@ Important
   border-bottom-width: 0;
 }
 
-#lgpingaekh .gt_subtitle {
+#fjqlrngkaz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2115,7 +2112,7 @@ Important
   border-top-width: 0;
 }
 
-#lgpingaekh .gt_heading {
+#fjqlrngkaz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2127,13 +2124,13 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#lgpingaekh .gt_bottom_border {
+#fjqlrngkaz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lgpingaekh .gt_col_headings {
+#fjqlrngkaz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2148,7 +2145,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#lgpingaekh .gt_col_heading {
+#fjqlrngkaz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2168,7 +2165,7 @@ Important
   overflow-x: hidden;
 }
 
-#lgpingaekh .gt_column_spanner_outer {
+#fjqlrngkaz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2180,15 +2177,15 @@ Important
   padding-right: 4px;
 }
 
-#lgpingaekh .gt_column_spanner_outer:first-child {
+#fjqlrngkaz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lgpingaekh .gt_column_spanner_outer:last-child {
+#fjqlrngkaz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lgpingaekh .gt_column_spanner {
+#fjqlrngkaz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2200,11 +2197,11 @@ Important
   width: 100%;
 }
 
-#lgpingaekh .gt_spanner_row {
+#fjqlrngkaz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lgpingaekh .gt_group_heading {
+#fjqlrngkaz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2230,7 +2227,7 @@ Important
   text-align: left;
 }
 
-#lgpingaekh .gt_empty_group_heading {
+#fjqlrngkaz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2245,15 +2242,15 @@ Important
   vertical-align: middle;
 }
 
-#lgpingaekh .gt_from_md > :first-child {
+#fjqlrngkaz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lgpingaekh .gt_from_md > :last-child {
+#fjqlrngkaz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lgpingaekh .gt_row {
+#fjqlrngkaz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2272,7 +2269,7 @@ Important
   overflow-x: hidden;
 }
 
-#lgpingaekh .gt_stub {
+#fjqlrngkaz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2285,7 +2282,7 @@ Important
   padding-right: 5px;
 }
 
-#lgpingaekh .gt_stub_row_group {
+#fjqlrngkaz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2299,15 +2296,15 @@ Important
   vertical-align: top;
 }
 
-#lgpingaekh .gt_row_group_first td {
+#fjqlrngkaz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lgpingaekh .gt_row_group_first th {
+#fjqlrngkaz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lgpingaekh .gt_summary_row {
+#fjqlrngkaz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2317,16 +2314,16 @@ Important
   padding-right: 5px;
 }
 
-#lgpingaekh .gt_first_summary_row {
+#fjqlrngkaz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lgpingaekh .gt_first_summary_row.thick {
+#fjqlrngkaz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lgpingaekh .gt_last_summary_row {
+#fjqlrngkaz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2336,7 +2333,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#lgpingaekh .gt_grand_summary_row {
+#fjqlrngkaz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2346,7 +2343,7 @@ Important
   padding-right: 5px;
 }
 
-#lgpingaekh .gt_first_grand_summary_row {
+#fjqlrngkaz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2356,7 +2353,7 @@ Important
   border-top-color: #D3D3D3;
 }
 
-#lgpingaekh .gt_last_grand_summary_row_top {
+#fjqlrngkaz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2366,11 +2363,11 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#lgpingaekh .gt_striped {
+#fjqlrngkaz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lgpingaekh .gt_table_body {
+#fjqlrngkaz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2379,7 +2376,7 @@ Important
   border-bottom-color: #D3D3D3;
 }
 
-#lgpingaekh .gt_footnotes {
+#fjqlrngkaz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2393,7 +2390,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#lgpingaekh .gt_footnote {
+#fjqlrngkaz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2402,7 +2399,7 @@ Important
   padding-right: 5px;
 }
 
-#lgpingaekh .gt_sourcenotes {
+#fjqlrngkaz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2416,7 +2413,7 @@ Important
   border-right-color: #D3D3D3;
 }
 
-#lgpingaekh .gt_sourcenote {
+#fjqlrngkaz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2424,72 +2421,72 @@ Important
   padding-right: 5px;
 }
 
-#lgpingaekh .gt_left {
+#fjqlrngkaz .gt_left {
   text-align: left;
 }
 
-#lgpingaekh .gt_center {
+#fjqlrngkaz .gt_center {
   text-align: center;
 }
 
-#lgpingaekh .gt_right {
+#fjqlrngkaz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lgpingaekh .gt_font_normal {
+#fjqlrngkaz .gt_font_normal {
   font-weight: normal;
 }
 
-#lgpingaekh .gt_font_bold {
+#fjqlrngkaz .gt_font_bold {
   font-weight: bold;
 }
 
-#lgpingaekh .gt_font_italic {
+#fjqlrngkaz .gt_font_italic {
   font-style: italic;
 }
 
-#lgpingaekh .gt_super {
+#fjqlrngkaz .gt_super {
   font-size: 65%;
 }
 
-#lgpingaekh .gt_footnote_marks {
+#fjqlrngkaz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lgpingaekh .gt_asterisk {
+#fjqlrngkaz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lgpingaekh .gt_indent_1 {
+#fjqlrngkaz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lgpingaekh .gt_indent_2 {
+#fjqlrngkaz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lgpingaekh .gt_indent_3 {
+#fjqlrngkaz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lgpingaekh .gt_indent_4 {
+#fjqlrngkaz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lgpingaekh .gt_indent_5 {
+#fjqlrngkaz .gt_indent_5 {
   text-indent: 25px;
 }
 
-#lgpingaekh .katex-display {
+#fjqlrngkaz .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#lgpingaekh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#fjqlrngkaz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2600,16 +2597,18 @@ Warning
 <h2 data-number="4.3" class="anchored" data-anchor-id="tokenize-the-corpus"><span class="header-section-number">4.3</span> Tokenize the corpus</h2>
 <p>We’ll use <strong>quanteda</strong> to tokenize. And after tokenization, we’ll convert them to lower case. <em>Why do that here?</em> As a next step, we’ll being combining tokens like <em>a</em> and <em>lot</em> into single units. And we’ll be using a list of expressions that isn’t case sensitive.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sc_tokens <span class="ot">&lt;-</span> <span class="fu">tokens</span>(sc, <span class="at">include_docvars=</span><span class="cn">TRUE</span>, <span class="at">remove_punct =</span> <span class="cn">TRUE</span>, <span class="at">remove_numbers =</span> <span class="cn">TRUE</span>, <span class="at">remove_symbols =</span> <span class="cn">TRUE</span>, <span class="at">what =</span> <span class="st">"word"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sc_tokens <span class="ot">&lt;-</span> <span class="fu">tokens_tolower</span>(sc_tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sc_tokens <span class="ot">&lt;-</span> <span class="fu">tokens</span>(sc, <span class="at">include_docvars =</span> <span class="cn">TRUE</span>, <span class="at">remove_punct =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">remove_numbers =</span> <span class="cn">TRUE</span>, <span class="at">remove_symbols =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">what =</span> <span class="st">"word"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>sc_tokens <span class="ot">&lt;-</span> <span class="fu">tokens_tolower</span>(sc_tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="multi-word-expressions" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="multi-word-expressions"><span class="header-section-number">4.4</span> Multi-word Expressions</h2>
 <p>An issue that we run into frequently with corpus analysis is what to do with multi-word expressions. For example, consider a common English quantifier: “a lot”. Typical tokenization rules will split this into two tokens: <em>a</em> and <em>lot</em>. But counting <em>a lot</em> as a single unit might be important depending on our task. We have a way of telling <strong>quanteda</strong> to account for these tokens.</p>
-<p>All that we need is a list of multi-word expressions.</p>
-<p>The <strong>cmu.textstat</strong> comes with an example of an mwe list called <strong>multiword_expressions</strong>:</p>
+<p>All that we need is a list of multi-word expressions (MWEs).</p>
+<p>The <code>quanteda.extras</code> package comes with an example of an MWE list called <code>multiword_expressions</code>:</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -2639,18 +2638,18 @@ Warning
 </div>
 <p>The <strong>tokens_compound()</strong> function looks for token sequences that match our list and combines them using an underscore.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sc_tokens <span class="ot">&lt;-</span> <span class="fu">tokens_compound</span>(sc_tokens, <span class="at">pattern =</span> <span class="fu">phrase</span>(multiword_expressions))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sc_tokens <span class="ot">&lt;-</span> <span class="fu">tokens_compound</span>(sc_tokens, <span class="at">pattern =</span> <span class="fu">phrase</span>(multiword_expressions))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="create-a-document-feature-matrix" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="create-a-document-feature-matrix"><span class="header-section-number">4.5</span> Create a document-feature matrix</h2>
 <p>With our tokens object we can now create a document-feature-matrix using the <strong>dfm()</strong> function. As a reminder, a <strong>dfm</strong> is table with one row per document in the corpus, and one column per unique token in the corpus. Each cell contains a count of how many times a token shows up in that document.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sc_dfm <span class="ot">&lt;-</span> <span class="fu">dfm</span>(sc_tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sc_dfm <span class="ot">&lt;-</span> <span class="fu">dfm</span>(sc_tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next we’ll create a <strong>dfm</strong> with proportionally weighted counts.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>prop_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_weight</span>(sc_dfm, <span class="at">scheme =</span> <span class="st">"prop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>prop_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_weight</span>(sc_dfm, <span class="at">scheme =</span> <span class="st">"prop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="token-distributions" class="level2" data-number="4.6">
@@ -2659,34 +2658,33 @@ Warning
 <h3 data-number="4.6.1" class="anchored" data-anchor-id="distributions-of-the"><span class="header-section-number">4.6.1</span> Distributions of <em>the</em></h3>
 <p>Let’s start by selecting frequencies of the most common token in the corpus:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>freq_df <span class="ot">&lt;-</span> <span class="fu">textstat_frequency</span>(sc_dfm) <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">stringsAsFactors =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>freq_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">textstat_frequency</span>(sc_dfm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tbl-cap="The 10 most frequent tokens in the sample corpus.">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>freq_df <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>freq_df <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="uzooqzyiqn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#uzooqzyiqn table {
+<div id="tskqoqdvxq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tskqoqdvxq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#uzooqzyiqn thead, #uzooqzyiqn tbody, #uzooqzyiqn tfoot, #uzooqzyiqn tr, #uzooqzyiqn td, #uzooqzyiqn th {
+#tskqoqdvxq thead, #tskqoqdvxq tbody, #tskqoqdvxq tfoot, #tskqoqdvxq tr, #tskqoqdvxq td, #tskqoqdvxq th {
   border-style: none;
 }
 
-#uzooqzyiqn p {
+#tskqoqdvxq p {
   margin: 0;
   padding: 0;
 }
 
-#uzooqzyiqn .gt_table {
+#tskqoqdvxq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2712,12 +2710,12 @@ Warning
   border-left-color: #D3D3D3;
 }
 
-#uzooqzyiqn .gt_caption {
+#tskqoqdvxq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#uzooqzyiqn .gt_title {
+#tskqoqdvxq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2729,7 +2727,7 @@ Warning
   border-bottom-width: 0;
 }
 
-#uzooqzyiqn .gt_subtitle {
+#tskqoqdvxq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2741,7 +2739,7 @@ Warning
   border-top-width: 0;
 }
 
-#uzooqzyiqn .gt_heading {
+#tskqoqdvxq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2753,13 +2751,13 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uzooqzyiqn .gt_bottom_border {
+#tskqoqdvxq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uzooqzyiqn .gt_col_headings {
+#tskqoqdvxq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2774,7 +2772,7 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uzooqzyiqn .gt_col_heading {
+#tskqoqdvxq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2794,7 +2792,7 @@ Warning
   overflow-x: hidden;
 }
 
-#uzooqzyiqn .gt_column_spanner_outer {
+#tskqoqdvxq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2806,15 +2804,15 @@ Warning
   padding-right: 4px;
 }
 
-#uzooqzyiqn .gt_column_spanner_outer:first-child {
+#tskqoqdvxq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uzooqzyiqn .gt_column_spanner_outer:last-child {
+#tskqoqdvxq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uzooqzyiqn .gt_column_spanner {
+#tskqoqdvxq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2826,11 +2824,11 @@ Warning
   width: 100%;
 }
 
-#uzooqzyiqn .gt_spanner_row {
+#tskqoqdvxq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#uzooqzyiqn .gt_group_heading {
+#tskqoqdvxq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2856,7 +2854,7 @@ Warning
   text-align: left;
 }
 
-#uzooqzyiqn .gt_empty_group_heading {
+#tskqoqdvxq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2871,15 +2869,15 @@ Warning
   vertical-align: middle;
 }
 
-#uzooqzyiqn .gt_from_md > :first-child {
+#tskqoqdvxq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uzooqzyiqn .gt_from_md > :last-child {
+#tskqoqdvxq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uzooqzyiqn .gt_row {
+#tskqoqdvxq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2898,7 +2896,7 @@ Warning
   overflow-x: hidden;
 }
 
-#uzooqzyiqn .gt_stub {
+#tskqoqdvxq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2911,7 +2909,7 @@ Warning
   padding-right: 5px;
 }
 
-#uzooqzyiqn .gt_stub_row_group {
+#tskqoqdvxq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2925,15 +2923,15 @@ Warning
   vertical-align: top;
 }
 
-#uzooqzyiqn .gt_row_group_first td {
+#tskqoqdvxq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#uzooqzyiqn .gt_row_group_first th {
+#tskqoqdvxq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#uzooqzyiqn .gt_summary_row {
+#tskqoqdvxq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2943,16 +2941,16 @@ Warning
   padding-right: 5px;
 }
 
-#uzooqzyiqn .gt_first_summary_row {
+#tskqoqdvxq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#uzooqzyiqn .gt_first_summary_row.thick {
+#tskqoqdvxq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#uzooqzyiqn .gt_last_summary_row {
+#tskqoqdvxq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2962,7 +2960,7 @@ Warning
   border-bottom-color: #D3D3D3;
 }
 
-#uzooqzyiqn .gt_grand_summary_row {
+#tskqoqdvxq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2972,7 +2970,7 @@ Warning
   padding-right: 5px;
 }
 
-#uzooqzyiqn .gt_first_grand_summary_row {
+#tskqoqdvxq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2982,7 +2980,7 @@ Warning
   border-top-color: #D3D3D3;
 }
 
-#uzooqzyiqn .gt_last_grand_summary_row_top {
+#tskqoqdvxq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2992,11 +2990,11 @@ Warning
   border-bottom-color: #D3D3D3;
 }
 
-#uzooqzyiqn .gt_striped {
+#tskqoqdvxq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uzooqzyiqn .gt_table_body {
+#tskqoqdvxq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3005,7 +3003,7 @@ Warning
   border-bottom-color: #D3D3D3;
 }
 
-#uzooqzyiqn .gt_footnotes {
+#tskqoqdvxq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3019,7 +3017,7 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uzooqzyiqn .gt_footnote {
+#tskqoqdvxq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3028,7 +3026,7 @@ Warning
   padding-right: 5px;
 }
 
-#uzooqzyiqn .gt_sourcenotes {
+#tskqoqdvxq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3042,7 +3040,7 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uzooqzyiqn .gt_sourcenote {
+#tskqoqdvxq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3050,72 +3048,72 @@ Warning
   padding-right: 5px;
 }
 
-#uzooqzyiqn .gt_left {
+#tskqoqdvxq .gt_left {
   text-align: left;
 }
 
-#uzooqzyiqn .gt_center {
+#tskqoqdvxq .gt_center {
   text-align: center;
 }
 
-#uzooqzyiqn .gt_right {
+#tskqoqdvxq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uzooqzyiqn .gt_font_normal {
+#tskqoqdvxq .gt_font_normal {
   font-weight: normal;
 }
 
-#uzooqzyiqn .gt_font_bold {
+#tskqoqdvxq .gt_font_bold {
   font-weight: bold;
 }
 
-#uzooqzyiqn .gt_font_italic {
+#tskqoqdvxq .gt_font_italic {
   font-style: italic;
 }
 
-#uzooqzyiqn .gt_super {
+#tskqoqdvxq .gt_super {
   font-size: 65%;
 }
 
-#uzooqzyiqn .gt_footnote_marks {
+#tskqoqdvxq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#uzooqzyiqn .gt_asterisk {
+#tskqoqdvxq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#uzooqzyiqn .gt_indent_1 {
+#tskqoqdvxq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#uzooqzyiqn .gt_indent_2 {
+#tskqoqdvxq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#uzooqzyiqn .gt_indent_3 {
+#tskqoqdvxq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#uzooqzyiqn .gt_indent_4 {
+#tskqoqdvxq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#uzooqzyiqn .gt_indent_5 {
+#tskqoqdvxq .gt_indent_5 {
   text-indent: 25px;
 }
 
-#uzooqzyiqn .katex-display {
+#tskqoqdvxq .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#uzooqzyiqn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#tskqoqdvxq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3213,51 +3211,51 @@ Warning
 <p>There are easier ways of doing this, but the first bit of the code-chunk allows us to filter by rank and return a character vector that we can pass. This way, we can find a word of any arbitrary rank.</p>
 <p>Also note how the <strong>rename()</strong> function is set up. Let’s say our token is <em>the</em>. The <strong>dfm_select()</strong> function would result with a column named <strong>the</strong> that we’d want to rename <strong>RF</strong>. So our typical syntax would be: <strong>rename(RF = the)</strong>. In the chunk below, however, our column name is the variable <strong>word</strong>. To pass that variable to <strong>rename</strong>, we use <strong>!!name(word)</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>word <span class="ot">&lt;-</span> freq_df <span class="sc">%&gt;%</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rank <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(feature) <span class="sc">%&gt;%</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> <span class="fu">dfm_select</span>(prop_dfm, word, <span class="at">valuetype =</span> <span class="st">"fixed"</span>) <span class="co"># select the token</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> word_df <span class="sc">%&gt;%</span> </span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">convert</span>(<span class="at">to =</span> <span class="st">"data.frame"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">docvars</span>(word_df)) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">RF =</span> <span class="sc">!!</span><span class="fu">as.name</span>(word)) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RF =</span> RF<span class="sc">*</span><span class="dv">1000000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>word <span class="ot">&lt;-</span> freq_df <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(rank <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(feature) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> <span class="fu">dfm_select</span>(prop_dfm, word, <span class="at">valuetype =</span> <span class="st">"fixed"</span>) <span class="co"># select the token</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> word_df <span class="sc">|&gt;</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">convert</span>(<span class="at">to =</span> <span class="st">"data.frame"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="fu">docvars</span>(word_df)) <span class="sc">|&gt;</span> </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">RF =</span> <span class="sc">!!</span><span class="fu">as.name</span>(word)) <span class="sc">|&gt;</span> </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RF =</span> RF<span class="sc">*</span><span class="dv">1000000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With that data it is a simple matter to generate basic summary statistics using the <strong>group_by()</strong> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> word_df <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(text_type) <span class="sc">%&gt;%</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">MEAN =</span> <span class="fu">mean</span>(RF),</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">SD =</span> <span class="fu">sd</span>(RF),</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">N =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> word_df <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(text_type) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">MEAN =</span> <span class="fu">mean</span>(RF),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">SD =</span> <span class="fu">sd</span>(RF),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">N =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tbl-cap="Means and standard deviations by text-type.">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="uesrhewgkw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#uesrhewgkw table {
+<div id="mgqowvczhb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mgqowvczhb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#uesrhewgkw thead, #uesrhewgkw tbody, #uesrhewgkw tfoot, #uesrhewgkw tr, #uesrhewgkw td, #uesrhewgkw th {
+#mgqowvczhb thead, #mgqowvczhb tbody, #mgqowvczhb tfoot, #mgqowvczhb tr, #mgqowvczhb td, #mgqowvczhb th {
   border-style: none;
 }
 
-#uesrhewgkw p {
+#mgqowvczhb p {
   margin: 0;
   padding: 0;
 }
 
-#uesrhewgkw .gt_table {
+#mgqowvczhb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3283,12 +3281,12 @@ Warning
   border-left-color: #D3D3D3;
 }
 
-#uesrhewgkw .gt_caption {
+#mgqowvczhb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#uesrhewgkw .gt_title {
+#mgqowvczhb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3300,7 +3298,7 @@ Warning
   border-bottom-width: 0;
 }
 
-#uesrhewgkw .gt_subtitle {
+#mgqowvczhb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3312,7 +3310,7 @@ Warning
   border-top-width: 0;
 }
 
-#uesrhewgkw .gt_heading {
+#mgqowvczhb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3324,13 +3322,13 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uesrhewgkw .gt_bottom_border {
+#mgqowvczhb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uesrhewgkw .gt_col_headings {
+#mgqowvczhb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3345,7 +3343,7 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uesrhewgkw .gt_col_heading {
+#mgqowvczhb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3365,7 +3363,7 @@ Warning
   overflow-x: hidden;
 }
 
-#uesrhewgkw .gt_column_spanner_outer {
+#mgqowvczhb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3377,15 +3375,15 @@ Warning
   padding-right: 4px;
 }
 
-#uesrhewgkw .gt_column_spanner_outer:first-child {
+#mgqowvczhb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uesrhewgkw .gt_column_spanner_outer:last-child {
+#mgqowvczhb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uesrhewgkw .gt_column_spanner {
+#mgqowvczhb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3397,11 +3395,11 @@ Warning
   width: 100%;
 }
 
-#uesrhewgkw .gt_spanner_row {
+#mgqowvczhb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#uesrhewgkw .gt_group_heading {
+#mgqowvczhb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3427,7 +3425,7 @@ Warning
   text-align: left;
 }
 
-#uesrhewgkw .gt_empty_group_heading {
+#mgqowvczhb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3442,15 +3440,15 @@ Warning
   vertical-align: middle;
 }
 
-#uesrhewgkw .gt_from_md > :first-child {
+#mgqowvczhb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uesrhewgkw .gt_from_md > :last-child {
+#mgqowvczhb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uesrhewgkw .gt_row {
+#mgqowvczhb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3469,7 +3467,7 @@ Warning
   overflow-x: hidden;
 }
 
-#uesrhewgkw .gt_stub {
+#mgqowvczhb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3482,7 +3480,7 @@ Warning
   padding-right: 5px;
 }
 
-#uesrhewgkw .gt_stub_row_group {
+#mgqowvczhb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3496,15 +3494,15 @@ Warning
   vertical-align: top;
 }
 
-#uesrhewgkw .gt_row_group_first td {
+#mgqowvczhb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#uesrhewgkw .gt_row_group_first th {
+#mgqowvczhb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#uesrhewgkw .gt_summary_row {
+#mgqowvczhb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3514,16 +3512,16 @@ Warning
   padding-right: 5px;
 }
 
-#uesrhewgkw .gt_first_summary_row {
+#mgqowvczhb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#uesrhewgkw .gt_first_summary_row.thick {
+#mgqowvczhb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#uesrhewgkw .gt_last_summary_row {
+#mgqowvczhb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3533,7 +3531,7 @@ Warning
   border-bottom-color: #D3D3D3;
 }
 
-#uesrhewgkw .gt_grand_summary_row {
+#mgqowvczhb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3543,7 +3541,7 @@ Warning
   padding-right: 5px;
 }
 
-#uesrhewgkw .gt_first_grand_summary_row {
+#mgqowvczhb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3553,7 +3551,7 @@ Warning
   border-top-color: #D3D3D3;
 }
 
-#uesrhewgkw .gt_last_grand_summary_row_top {
+#mgqowvczhb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3563,11 +3561,11 @@ Warning
   border-bottom-color: #D3D3D3;
 }
 
-#uesrhewgkw .gt_striped {
+#mgqowvczhb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uesrhewgkw .gt_table_body {
+#mgqowvczhb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3576,7 +3574,7 @@ Warning
   border-bottom-color: #D3D3D3;
 }
 
-#uesrhewgkw .gt_footnotes {
+#mgqowvczhb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3590,7 +3588,7 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uesrhewgkw .gt_footnote {
+#mgqowvczhb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3599,7 +3597,7 @@ Warning
   padding-right: 5px;
 }
 
-#uesrhewgkw .gt_sourcenotes {
+#mgqowvczhb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3613,7 +3611,7 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uesrhewgkw .gt_sourcenote {
+#mgqowvczhb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3621,72 +3619,72 @@ Warning
   padding-right: 5px;
 }
 
-#uesrhewgkw .gt_left {
+#mgqowvczhb .gt_left {
   text-align: left;
 }
 
-#uesrhewgkw .gt_center {
+#mgqowvczhb .gt_center {
   text-align: center;
 }
 
-#uesrhewgkw .gt_right {
+#mgqowvczhb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uesrhewgkw .gt_font_normal {
+#mgqowvczhb .gt_font_normal {
   font-weight: normal;
 }
 
-#uesrhewgkw .gt_font_bold {
+#mgqowvczhb .gt_font_bold {
   font-weight: bold;
 }
 
-#uesrhewgkw .gt_font_italic {
+#mgqowvczhb .gt_font_italic {
   font-style: italic;
 }
 
-#uesrhewgkw .gt_super {
+#mgqowvczhb .gt_super {
   font-size: 65%;
 }
 
-#uesrhewgkw .gt_footnote_marks {
+#mgqowvczhb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#uesrhewgkw .gt_asterisk {
+#mgqowvczhb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#uesrhewgkw .gt_indent_1 {
+#mgqowvczhb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#uesrhewgkw .gt_indent_2 {
+#mgqowvczhb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#uesrhewgkw .gt_indent_3 {
+#mgqowvczhb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#uesrhewgkw .gt_indent_4 {
+#mgqowvczhb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#uesrhewgkw .gt_indent_5 {
+#mgqowvczhb .gt_indent_5 {
   text-indent: 25px;
 }
 
-#uesrhewgkw .katex-display {
+#mgqowvczhb .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#uesrhewgkw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#mgqowvczhb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3756,25 +3754,27 @@ Warning
 </div>
 </div>
 </div>
-<p>And we can inspect a histogram of the frequencies. To set the width of our bins we’ll use the Freedman-Diaconis rule. The bin-width is set to: <span class="math display">\[h = 2 x \frac{IQR(x)}{n^{1/3}}\]</span></p>
+<p>And we can inspect a histogram of the frequencies. To set the width of our bins we’ll use the Freedman-Diaconis rule. The bin-width is set to: <span class="math display">\[h = 2 \frac{IQR(x)}{n^{1/3}}\]</span></p>
 <p>So the number of bins is (max-min)/h, where n is the number of observations, max is the maximum value and min is the minimum value.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>bin_width <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span> <span class="sc">*</span> <span class="fu">IQR</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>bin_width <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span> <span class="sc">*</span> <span class="fu">IQR</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can plot a histogram. We’re also adding a dashed line showing the mean. Note we’re also going to use the <strong>scales</strong> package to remove scientific notation from our tick labels.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(word_df,<span class="fu">aes</span>(RF)) <span class="sc">+</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fu">bin_width</span>(word_df<span class="sc">$</span>RF), <span class="at">colour=</span><span class="st">"black"</span>, <span class="at">fill=</span><span class="st">"white"</span>, <span class="at">linewidth=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span><span class="fu">mean</span>(RF)), <span class="at">color=</span><span class="st">"red"</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">linewidth=</span>.<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"RF (per mil. words)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(word_df, <span class="fu">aes</span>(RF)) <span class="sc">+</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fu">bin_width</span>(word_df<span class="sc">$</span>RF), <span class="at">colour =</span> <span class="st">"black"</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">linewidth =</span> .<span class="dv">25</span>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(RF)), <span class="at">color =</span> <span class="st">"red"</span>, </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"RF (per mil. words)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="distributions_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="distributions_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>Histogram of the token <em>the</em></figcaption>
 </figure>
 </div>
@@ -3785,31 +3785,30 @@ Warning
 <h3 data-number="4.6.2" class="anchored" data-anchor-id="distributions-of-the-and-of"><span class="header-section-number">4.6.2</span> Distributions of <em>the</em> and <em>of</em></h3>
 <p>Now let’s try plotting histograms of two tokens on the same plot. First we’re going to use regular expressions to select the columns. The carat or hat <strong>^</strong> looks for the start of line. Without it, we would also get words like “blather”. The dollar symbol <strong>$</strong> looks for the end of a line. The straight line | means OR. Think about how useful this flexibility can be. You could, for example, extract all words that end in <em>-ion</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note "regex" rather than "fixed"</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> <span class="fu">dfm_select</span>(prop_dfm, <span class="st">"^the$|^of$"</span>, <span class="at">valuetype =</span> <span class="st">"regex"</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we'll convert our selection and normalize to 10000 words.</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> word_df <span class="sc">%&gt;%</span> </span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">convert</span>(<span class="at">to =</span> <span class="st">"data.frame"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">the =</span> the<span class="sc">*</span><span class="dv">10000</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">of =</span> of<span class="sc">*</span><span class="dv">10000</span>)</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Use "pivot_longer" to go from a wide format to a long one</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> word_df <span class="sc">%&gt;%</span> </span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">!</span>doc_id, <span class="at">names_to =</span> <span class="st">"token"</span>, <span class="at">values_to =</span> <span class="st">"RF"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">token =</span> <span class="fu">factor</span>(token))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note "regex" rather than "fixed"</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> <span class="fu">dfm_select</span>(prop_dfm, <span class="st">"^the$|^of$"</span>, <span class="at">valuetype =</span> <span class="st">"regex"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we'll convert our selection and normalize to 10000 words.</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> word_df <span class="sc">|&gt;</span> </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">convert</span>(<span class="at">to =</span> <span class="st">"data.frame"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">the =</span> the<span class="sc">*</span><span class="dv">10000</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">of =</span> of<span class="sc">*</span><span class="dv">10000</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Use "pivot_longer" to go from a wide format to a long one</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>word_df <span class="ot">&lt;-</span> word_df <span class="sc">|&gt;</span> </span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">!</span>doc_id, <span class="at">names_to =</span> <span class="st">"token"</span>, <span class="at">values_to =</span> <span class="st">"RF"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">token =</span> <span class="fu">factor</span>(token))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s make a new histogram. Here we assign the values of color and fill to the “token” column. We also make the columns a little transparent using the “alpha” setting.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(word_df,<span class="fu">aes</span>(<span class="at">x =</span> RF, <span class="at">color =</span> token, <span class="at">fill =</span> token)) <span class="sc">+</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fu">bin_width</span>(word_df<span class="sc">$</span>RF), <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">position =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"RF (per mil. words)"</span>) <span class="sc">+</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(word_df, <span class="fu">aes</span>(<span class="at">x =</span> RF, <span class="at">color =</span> token, <span class="at">fill =</span> token)) <span class="sc">+</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fu">bin_width</span>(word_df<span class="sc">$</span>RF), <span class="at">alpha =</span> .<span class="dv">5</span>, <span class="at">position =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"RF (per mil. words)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="distributions_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="distributions_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>Histogram of the tokens <em>the</em> and <em>of</em>.</figcaption>
 </figure>
 </div>
@@ -3817,17 +3816,17 @@ Warning
 </div>
 <p>If we don’t want overlapping histograms, we can use <strong>facet_wrap()</strong> to split the plots.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(word_df,<span class="fu">aes</span>(<span class="at">x =</span> RF, <span class="at">color =</span> token, <span class="at">fill =</span> token)) <span class="sc">+</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fu">bin_width</span>(word_df<span class="sc">$</span>RF), <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">position =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">5</span>)) <span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"RF (per mil. words)"</span>) <span class="sc">+</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> token)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(word_df, <span class="fu">aes</span>(<span class="at">x =</span> RF, <span class="at">color =</span> token, <span class="at">fill =</span> token)) <span class="sc">+</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fu">bin_width</span>(word_df<span class="sc">$</span>RF), <span class="at">alpha =</span> .<span class="dv">5</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"RF (per mil. words)"</span>) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(token))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="distributions_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="distributions_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>Histogram of the tokens <em>the</em> and <em>of</em>.</figcaption>
 </figure>
 </div>
@@ -3853,7 +3852,7 @@ Pause for Lab Set Question
 <p>We can also calculate dispersion, and there are a variety of measures at our disposal. Our toolkit has several functions for producing these calculations.</p>
 <p>For example, we can find the dispersion of any specific token:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>the <span class="ot">&lt;-</span> <span class="fu">dispersions_token</span>(sc_dfm, <span class="st">"the"</span>) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>the <span class="ot">&lt;-</span> <span class="fu">dispersions_token</span>(sc_dfm, <span class="st">"the"</span>) <span class="sc">|&gt;</span> <span class="fu">unlist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -3865,8 +3864,8 @@ Pause for Lab Set Question
 <td style="text-align: right;">50920.000</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Per_10.5</td>
-<td style="text-align: right;">5240.015</td>
+<td style="text-align: left;">Per_10.6</td>
+<td style="text-align: right;">52400.147</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Relative entropy of all sizes of the corpus parts</td>
@@ -3933,7 +3932,7 @@ Pause for Lab Set Question
 <td style="text-align: right;">50000.333</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Juilland et al.’s U (not requiring equally-sized corpus parts)</td>
+<td style="text-align: left;">Juilland et al.’U (not requiring equally-sized corpus parts)</td>
 <td style="text-align: right;">50010.750</td>
 </tr>
 <tr class="even">
@@ -3966,7 +3965,7 @@ Pause for Lab Set Question
 </div>
 <p>And let’s try another token to compare:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">dispersions_token</span>(sc_dfm, <span class="st">"data"</span>) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">dispersions_token</span>(sc_dfm, <span class="st">"data"</span>) <span class="sc">|&gt;</span> <span class="fu">unlist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -4006,7 +4005,7 @@ Pause for Lab Set Question
 <h3 data-number="4.7.1" class="anchored" data-anchor-id="dispersions-for-all-tokens"><span class="header-section-number">4.7.1</span> Dispersions for all tokens</h3>
 <p>We can also calculate selected dispersion measures for all tokens using <strong>dispersions_all()</strong>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dispersions_all</span>(sc_dfm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dispersions_all</span>(sc_dfm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -4016,7 +4015,7 @@ Pause for Lab Set Question
 <tr class="header">
 <th style="text-align: left;">Token</th>
 <th style="text-align: right;">AF</th>
-<th style="text-align: right;">Per_10.5</th>
+<th style="text-align: right;">Per_10.6</th>
 <th style="text-align: right;">Carrolls_D2</th>
 <th style="text-align: right;">Rosengrens_S</th>
 <th style="text-align: right;">Lynes_D3</th>
@@ -4030,7 +4029,7 @@ Pause for Lab Set Question
 <tr class="odd">
 <td style="text-align: left;">the</td>
 <td style="text-align: right;">50920</td>
-<td style="text-align: right;">5240.015</td>
+<td style="text-align: right;">52400.15</td>
 <td style="text-align: right;">0.989</td>
 <td style="text-align: right;">0.966</td>
 <td style="text-align: right;">0.968</td>
@@ -4042,7 +4041,7 @@ Pause for Lab Set Question
 <tr class="even">
 <td style="text-align: left;">and</td>
 <td style="text-align: right;">25232</td>
-<td style="text-align: right;">2596.545</td>
+<td style="text-align: right;">25965.45</td>
 <td style="text-align: right;">0.990</td>
 <td style="text-align: right;">0.970</td>
 <td style="text-align: right;">0.973</td>
@@ -4054,7 +4053,7 @@ Pause for Lab Set Question
 <tr class="odd">
 <td style="text-align: left;">to</td>
 <td style="text-align: right;">24753</td>
-<td style="text-align: right;">2547.252</td>
+<td style="text-align: right;">25472.52</td>
 <td style="text-align: right;">0.993</td>
 <td style="text-align: right;">0.980</td>
 <td style="text-align: right;">0.983</td>
@@ -4066,7 +4065,7 @@ Pause for Lab Set Question
 <tr class="even">
 <td style="text-align: left;">of</td>
 <td style="text-align: right;">22060</td>
-<td style="text-align: right;">2270.124</td>
+<td style="text-align: right;">22701.24</td>
 <td style="text-align: right;">0.978</td>
 <td style="text-align: right;">0.933</td>
 <td style="text-align: right;">0.935</td>
@@ -4078,7 +4077,7 @@ Pause for Lab Set Question
 <tr class="odd">
 <td style="text-align: left;">a</td>
 <td style="text-align: right;">21614</td>
-<td style="text-align: right;">2224.228</td>
+<td style="text-align: right;">22242.28</td>
 <td style="text-align: right;">0.992</td>
 <td style="text-align: right;">0.977</td>
 <td style="text-align: right;">0.978</td>
@@ -4090,7 +4089,7 @@ Pause for Lab Set Question
 <tr class="even">
 <td style="text-align: left;">in</td>
 <td style="text-align: right;">15969</td>
-<td style="text-align: right;">1643.319</td>
+<td style="text-align: right;">16433.19</td>
 <td style="text-align: right;">0.988</td>
 <td style="text-align: right;">0.962</td>
 <td style="text-align: right;">0.963</td>
@@ -4110,7 +4109,7 @@ Pause for Lab Set Question
 <p>Alternatively, <strong>frequency_table()</strong> returns only Deviation of Proportions and Average Reduced Frequency.</p>
 <p>Note that ARF requires a tokens object and takes a couple of minutes to calculate.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">frequency_table</span>(sc_tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">frequency_table</span>(sc_tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -4121,7 +4120,7 @@ Pause for Lab Set Question
 <th></th>
 <th style="text-align: left;">Token</th>
 <th style="text-align: right;">AF</th>
-<th style="text-align: right;">Per_10.5</th>
+<th style="text-align: right;">Per_10.6</th>
 <th style="text-align: right;">ARF</th>
 <th style="text-align: right;">DP</th>
 </tr>
@@ -4131,7 +4130,7 @@ Pause for Lab Set Question
 <td>1</td>
 <td style="text-align: left;">the</td>
 <td style="text-align: right;">50920</td>
-<td style="text-align: right;">5240.015</td>
+<td style="text-align: right;">52400.15</td>
 <td style="text-align: right;">31901.106</td>
 <td style="text-align: right;">0.139</td>
 </tr>
@@ -4139,7 +4138,7 @@ Pause for Lab Set Question
 <td>2</td>
 <td style="text-align: left;">and</td>
 <td style="text-align: right;">25232</td>
-<td style="text-align: right;">2596.545</td>
+<td style="text-align: right;">25965.45</td>
 <td style="text-align: right;">15914.149</td>
 <td style="text-align: right;">0.123</td>
 </tr>
@@ -4147,7 +4146,7 @@ Pause for Lab Set Question
 <td>3</td>
 <td style="text-align: left;">to</td>
 <td style="text-align: right;">24753</td>
-<td style="text-align: right;">2547.252</td>
+<td style="text-align: right;">25472.52</td>
 <td style="text-align: right;">15468.494</td>
 <td style="text-align: right;">0.090</td>
 </tr>
@@ -4155,7 +4154,7 @@ Pause for Lab Set Question
 <td>5</td>
 <td style="text-align: left;">of</td>
 <td style="text-align: right;">22060</td>
-<td style="text-align: right;">2270.124</td>
+<td style="text-align: right;">22701.24</td>
 <td style="text-align: right;">13089.728</td>
 <td style="text-align: right;">0.199</td>
 </tr>
@@ -4163,7 +4162,7 @@ Pause for Lab Set Question
 <td>4</td>
 <td style="text-align: left;">a</td>
 <td style="text-align: right;">21614</td>
-<td style="text-align: right;">2224.228</td>
+<td style="text-align: right;">22242.28</td>
 <td style="text-align: right;">13239.704</td>
 <td style="text-align: right;">0.109</td>
 </tr>
@@ -4171,7 +4170,7 @@ Pause for Lab Set Question
 <td>6</td>
 <td style="text-align: left;">in</td>
 <td style="text-align: right;">15969</td>
-<td style="text-align: right;">1643.319</td>
+<td style="text-align: right;">16433.19</td>
 <td style="text-align: right;">9772.267</td>
 <td style="text-align: right;">0.146</td>
 </tr>
@@ -4197,21 +4196,21 @@ Pause for Lab Set Question
 <h2 data-number="4.9" class="anchored" data-anchor-id="zipfs-law"><span class="header-section-number">4.9</span> Zipf’s Law</h2>
 <p>Let’s plot rank against frequency for the 100 most frequent tokens in the sample corpus.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(freq_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(rank <span class="sc">&lt;</span> <span class="dv">101</span>), <span class="fu">aes</span>(<span class="at">x =</span> rank, <span class="at">y =</span> frequency)) <span class="sc">+</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>, <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Absolute frequency"</span>) <span class="sc">+</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Rank"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(freq_df <span class="sc">|&gt;</span> <span class="fu">filter</span>(rank <span class="sc">&lt;</span> <span class="dv">101</span>), <span class="fu">aes</span>(<span class="at">x =</span> rank, <span class="at">y =</span> frequency)) <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>, <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Absolute frequency"</span>) <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Rank"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="distributions_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="distributions_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>Token rank vs.&nbsp;frequency.</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>The relationship you’re seeing between the rank of a token and it’s frequency holds true for almost any corpus and is referred to as <strong>Zipf’s Law</strong> (see Brezina pg. 44).</p>
+<p>The relationship you’re seeing between the rank of a token and its frequency holds true for almost any corpus and is referred to as <strong>Zipf’s Law</strong> (see Brezina pg. 44).</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -4631,8 +4630,8 @@ Pause for Lab Set Question
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../labs/processing-pipelines.html" class="pagination-link" aria-label="Tokenizing with quanteda">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tokenizing with quanteda</span></span>
+      <a href="../labs/processing-pipelines.html" class="pagination-link" aria-label="Processing pipelines">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Processing pipelines</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

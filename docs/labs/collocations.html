@@ -204,7 +204,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../labs/processing-pipelines.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tokenizing with quanteda</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Processing pipelines</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -362,8 +362,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../lectures/embed_frequencies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Word Frequencies &amp; Dispersions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../lectures/embed_collocations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Collocations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Collocations</span></span></a>
   </div>
 </li>
       </ul>
@@ -430,27 +436,18 @@ window.Quarto = {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textstats)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Load data:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/sample_corpus.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Load functions:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/helper_functions.R"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/utility_functions.R"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/collocation_functions.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.extras)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="prepare-the-data" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="prepare-the-data"><span class="header-section-number">5.2</span> Prepare the data</h2>
 <p>First, we’ll pre-process our text, create a corpus and tokenize the data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sc_tokens <span class="ot">&lt;-</span> sample_corpus <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">preprocess_text</span>(text)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">what=</span><span class="st">"fastestword"</span>, <span class="at">remove_numbers=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sc_tokens <span class="ot">&lt;-</span> sample_corpus <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">preprocess_text</span>(text)) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">what =</span> <span class="st">"fastestword"</span>, <span class="at">remove_numbers =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="collocates-by-mutual-information-mi" class="level2" data-number="5.3">
@@ -466,28 +463,28 @@ window.Quarto = {
 </ul>
 <p>We’ll start by making a table of tokens that collocate with the token <em>money</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>money_collocations <span class="ot">&lt;-</span> <span class="fu">collocates_by_MI</span>(sc_tokens, <span class="st">"money"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>money_collocations <span class="ot">&lt;-</span> <span class="fu">collocates_by_MI</span>(sc_tokens, <span class="st">"money"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Check the result:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="sscfyiashd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#sscfyiashd table {
+<div id="xrylmnktkf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xrylmnktkf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#sscfyiashd thead, #sscfyiashd tbody, #sscfyiashd tfoot, #sscfyiashd tr, #sscfyiashd td, #sscfyiashd th {
+#xrylmnktkf thead, #xrylmnktkf tbody, #xrylmnktkf tfoot, #xrylmnktkf tr, #xrylmnktkf td, #xrylmnktkf th {
   border-style: none;
 }
 
-#sscfyiashd p {
+#xrylmnktkf p {
   margin: 0;
   padding: 0;
 }
 
-#sscfyiashd .gt_table {
+#xrylmnktkf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -513,12 +510,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#sscfyiashd .gt_caption {
+#xrylmnktkf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#sscfyiashd .gt_title {
+#xrylmnktkf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -530,7 +527,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#sscfyiashd .gt_subtitle {
+#xrylmnktkf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -542,7 +539,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#sscfyiashd .gt_heading {
+#xrylmnktkf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -554,13 +551,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#sscfyiashd .gt_bottom_border {
+#xrylmnktkf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sscfyiashd .gt_col_headings {
+#xrylmnktkf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -575,7 +572,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#sscfyiashd .gt_col_heading {
+#xrylmnktkf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -595,7 +592,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#sscfyiashd .gt_column_spanner_outer {
+#xrylmnktkf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -607,15 +604,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#sscfyiashd .gt_column_spanner_outer:first-child {
+#xrylmnktkf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sscfyiashd .gt_column_spanner_outer:last-child {
+#xrylmnktkf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sscfyiashd .gt_column_spanner {
+#xrylmnktkf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -627,11 +624,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#sscfyiashd .gt_spanner_row {
+#xrylmnktkf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#sscfyiashd .gt_group_heading {
+#xrylmnktkf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -657,7 +654,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#sscfyiashd .gt_empty_group_heading {
+#xrylmnktkf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -672,15 +669,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#sscfyiashd .gt_from_md > :first-child {
+#xrylmnktkf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sscfyiashd .gt_from_md > :last-child {
+#xrylmnktkf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sscfyiashd .gt_row {
+#xrylmnktkf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -699,7 +696,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#sscfyiashd .gt_stub {
+#xrylmnktkf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -712,7 +709,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#sscfyiashd .gt_stub_row_group {
+#xrylmnktkf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -726,15 +723,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#sscfyiashd .gt_row_group_first td {
+#xrylmnktkf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#sscfyiashd .gt_row_group_first th {
+#xrylmnktkf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#sscfyiashd .gt_summary_row {
+#xrylmnktkf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -744,16 +741,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#sscfyiashd .gt_first_summary_row {
+#xrylmnktkf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#sscfyiashd .gt_first_summary_row.thick {
+#xrylmnktkf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#sscfyiashd .gt_last_summary_row {
+#xrylmnktkf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -763,7 +760,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#sscfyiashd .gt_grand_summary_row {
+#xrylmnktkf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -773,7 +770,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#sscfyiashd .gt_first_grand_summary_row {
+#xrylmnktkf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -783,7 +780,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#sscfyiashd .gt_last_grand_summary_row_top {
+#xrylmnktkf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -793,11 +790,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#sscfyiashd .gt_striped {
+#xrylmnktkf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sscfyiashd .gt_table_body {
+#xrylmnktkf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -806,7 +803,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#sscfyiashd .gt_footnotes {
+#xrylmnktkf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -820,7 +817,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#sscfyiashd .gt_footnote {
+#xrylmnktkf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -829,7 +826,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#sscfyiashd .gt_sourcenotes {
+#xrylmnktkf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -843,7 +840,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#sscfyiashd .gt_sourcenote {
+#xrylmnktkf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -851,72 +848,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#sscfyiashd .gt_left {
+#xrylmnktkf .gt_left {
   text-align: left;
 }
 
-#sscfyiashd .gt_center {
+#xrylmnktkf .gt_center {
   text-align: center;
 }
 
-#sscfyiashd .gt_right {
+#xrylmnktkf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sscfyiashd .gt_font_normal {
+#xrylmnktkf .gt_font_normal {
   font-weight: normal;
 }
 
-#sscfyiashd .gt_font_bold {
+#xrylmnktkf .gt_font_bold {
   font-weight: bold;
 }
 
-#sscfyiashd .gt_font_italic {
+#xrylmnktkf .gt_font_italic {
   font-style: italic;
 }
 
-#sscfyiashd .gt_super {
+#xrylmnktkf .gt_super {
   font-size: 65%;
 }
 
-#sscfyiashd .gt_footnote_marks {
+#xrylmnktkf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#sscfyiashd .gt_asterisk {
+#xrylmnktkf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#sscfyiashd .gt_indent_1 {
+#xrylmnktkf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#sscfyiashd .gt_indent_2 {
+#xrylmnktkf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#sscfyiashd .gt_indent_3 {
+#xrylmnktkf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#sscfyiashd .gt_indent_4 {
+#xrylmnktkf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#sscfyiashd .gt_indent_5 {
+#xrylmnktkf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#sscfyiashd .katex-display {
+#xrylmnktkf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#sscfyiashd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xrylmnktkf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -927,7 +924,7 @@ window.Quarto = {
 <th id="token" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">token</th>
 <th id="col_freq" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">col_freq</th>
 <th id="total_freq" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">total_freq</th>
-<th id="MI_1" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">MI_1</th>
+<th id="PMI" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">PMI</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -935,61 +932,61 @@ window.Quarto = {
 <td class="gt_row gt_left" headers="token">10:29</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">11.08049</td>
+<td class="gt_row gt_right" headers="PMI">11.08049</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="token">38th</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">11.08049</td>
+<td class="gt_row gt_right" headers="PMI">11.08049</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="token">allocations</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">11.08049</td>
+<td class="gt_row gt_right" headers="PMI">11.08049</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="token">americanizing</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">11.08049</td>
+<td class="gt_row gt_right" headers="PMI">11.08049</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="token">anthedon</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">11.08049</td>
+<td class="gt_row gt_right" headers="PMI">11.08049</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="token">assignats</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">11.08049</td>
+<td class="gt_row gt_right" headers="PMI">11.08049</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="token">bamboozling</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">11.08049</td>
+<td class="gt_row gt_right" headers="PMI">11.08049</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="token">baser</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">11.08049</td>
+<td class="gt_row gt_right" headers="PMI">11.08049</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="token">borrowers</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">11.08049</td>
+<td class="gt_row gt_right" headers="PMI">11.08049</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="token">bridegrooms</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">11.08049</td>
+<td class="gt_row gt_right" headers="PMI">11.08049</td>
 </tr>
 </tbody>
 </table>
@@ -999,27 +996,27 @@ window.Quarto = {
 </div>
 <p>Now, let’s make a similar table for collocates of <em>time</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>time_collocations <span class="ot">&lt;-</span> <span class="fu">collocates_by_MI</span>(sc_tokens, <span class="st">"time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>time_collocations <span class="ot">&lt;-</span> <span class="fu">collocates_by_MI</span>(sc_tokens, <span class="st">"time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="odlpplcllm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#odlpplcllm table {
+<div id="vsvodfcztx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vsvodfcztx table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#odlpplcllm thead, #odlpplcllm tbody, #odlpplcllm tfoot, #odlpplcllm tr, #odlpplcllm td, #odlpplcllm th {
+#vsvodfcztx thead, #vsvodfcztx tbody, #vsvodfcztx tfoot, #vsvodfcztx tr, #vsvodfcztx td, #vsvodfcztx th {
   border-style: none;
 }
 
-#odlpplcllm p {
+#vsvodfcztx p {
   margin: 0;
   padding: 0;
 }
 
-#odlpplcllm .gt_table {
+#vsvodfcztx .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1045,12 +1042,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#odlpplcllm .gt_caption {
+#vsvodfcztx .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#odlpplcllm .gt_title {
+#vsvodfcztx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1062,7 +1059,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#odlpplcllm .gt_subtitle {
+#vsvodfcztx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1074,7 +1071,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#odlpplcllm .gt_heading {
+#vsvodfcztx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1086,13 +1083,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#odlpplcllm .gt_bottom_border {
+#vsvodfcztx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#odlpplcllm .gt_col_headings {
+#vsvodfcztx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1107,7 +1104,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#odlpplcllm .gt_col_heading {
+#vsvodfcztx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1127,7 +1124,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#odlpplcllm .gt_column_spanner_outer {
+#vsvodfcztx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1139,15 +1136,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#odlpplcllm .gt_column_spanner_outer:first-child {
+#vsvodfcztx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#odlpplcllm .gt_column_spanner_outer:last-child {
+#vsvodfcztx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#odlpplcllm .gt_column_spanner {
+#vsvodfcztx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1159,11 +1156,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#odlpplcllm .gt_spanner_row {
+#vsvodfcztx .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#odlpplcllm .gt_group_heading {
+#vsvodfcztx .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1189,7 +1186,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#odlpplcllm .gt_empty_group_heading {
+#vsvodfcztx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1204,15 +1201,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#odlpplcllm .gt_from_md > :first-child {
+#vsvodfcztx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#odlpplcllm .gt_from_md > :last-child {
+#vsvodfcztx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#odlpplcllm .gt_row {
+#vsvodfcztx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1231,7 +1228,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#odlpplcllm .gt_stub {
+#vsvodfcztx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1244,7 +1241,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#odlpplcllm .gt_stub_row_group {
+#vsvodfcztx .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1258,15 +1255,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#odlpplcllm .gt_row_group_first td {
+#vsvodfcztx .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#odlpplcllm .gt_row_group_first th {
+#vsvodfcztx .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#odlpplcllm .gt_summary_row {
+#vsvodfcztx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1276,16 +1273,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#odlpplcllm .gt_first_summary_row {
+#vsvodfcztx .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#odlpplcllm .gt_first_summary_row.thick {
+#vsvodfcztx .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#odlpplcllm .gt_last_summary_row {
+#vsvodfcztx .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1295,7 +1292,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#odlpplcllm .gt_grand_summary_row {
+#vsvodfcztx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1305,7 +1302,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#odlpplcllm .gt_first_grand_summary_row {
+#vsvodfcztx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1315,7 +1312,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#odlpplcllm .gt_last_grand_summary_row_top {
+#vsvodfcztx .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1325,11 +1322,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#odlpplcllm .gt_striped {
+#vsvodfcztx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#odlpplcllm .gt_table_body {
+#vsvodfcztx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1338,7 +1335,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#odlpplcllm .gt_footnotes {
+#vsvodfcztx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1352,7 +1349,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#odlpplcllm .gt_footnote {
+#vsvodfcztx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1361,7 +1358,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#odlpplcllm .gt_sourcenotes {
+#vsvodfcztx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1375,7 +1372,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#odlpplcllm .gt_sourcenote {
+#vsvodfcztx .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1383,72 +1380,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#odlpplcllm .gt_left {
+#vsvodfcztx .gt_left {
   text-align: left;
 }
 
-#odlpplcllm .gt_center {
+#vsvodfcztx .gt_center {
   text-align: center;
 }
 
-#odlpplcllm .gt_right {
+#vsvodfcztx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#odlpplcllm .gt_font_normal {
+#vsvodfcztx .gt_font_normal {
   font-weight: normal;
 }
 
-#odlpplcllm .gt_font_bold {
+#vsvodfcztx .gt_font_bold {
   font-weight: bold;
 }
 
-#odlpplcllm .gt_font_italic {
+#vsvodfcztx .gt_font_italic {
   font-style: italic;
 }
 
-#odlpplcllm .gt_super {
+#vsvodfcztx .gt_super {
   font-size: 65%;
 }
 
-#odlpplcllm .gt_footnote_marks {
+#vsvodfcztx .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#odlpplcllm .gt_asterisk {
+#vsvodfcztx .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#odlpplcllm .gt_indent_1 {
+#vsvodfcztx .gt_indent_1 {
   text-indent: 5px;
 }
 
-#odlpplcllm .gt_indent_2 {
+#vsvodfcztx .gt_indent_2 {
   text-indent: 10px;
 }
 
-#odlpplcllm .gt_indent_3 {
+#vsvodfcztx .gt_indent_3 {
   text-indent: 15px;
 }
 
-#odlpplcllm .gt_indent_4 {
+#vsvodfcztx .gt_indent_4 {
   text-indent: 20px;
 }
 
-#odlpplcllm .gt_indent_5 {
+#vsvodfcztx .gt_indent_5 {
   text-indent: 25px;
 }
 
-#odlpplcllm .katex-display {
+#vsvodfcztx .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#odlpplcllm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#vsvodfcztx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1459,7 +1456,7 @@ window.Quarto = {
 <th id="token" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">token</th>
 <th id="col_freq" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">col_freq</th>
 <th id="total_freq" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">total_freq</th>
-<th id="MI_1" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">MI_1</th>
+<th id="PMI" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">PMI</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -1467,61 +1464,61 @@ window.Quarto = {
 <td class="gt_row gt_left" headers="token">decleat</td>
 <td class="gt_row gt_right" headers="col_freq">2</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">10.135473</td>
+<td class="gt_row gt_right" headers="PMI">10.135473</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="token">poignantly</td>
 <td class="gt_row gt_right" headers="col_freq">2</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">10.135473</td>
+<td class="gt_row gt_right" headers="PMI">10.135473</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="token">16a</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">9.135473</td>
+<td class="gt_row gt_right" headers="PMI">9.135473</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="token">17a</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">9.135473</td>
+<td class="gt_row gt_right" headers="PMI">9.135473</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="token">21h</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">9.135473</td>
+<td class="gt_row gt_right" headers="PMI">9.135473</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="token">aba</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">9.135473</td>
+<td class="gt_row gt_right" headers="PMI">9.135473</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="token">ablution</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">9.135473</td>
+<td class="gt_row gt_right" headers="PMI">9.135473</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="token">abnegate</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">9.135473</td>
+<td class="gt_row gt_right" headers="PMI">9.135473</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="token">admonitions</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">9.135473</td>
+<td class="gt_row gt_right" headers="PMI">9.135473</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="token">aguada</td>
 <td class="gt_row gt_right" headers="col_freq">1</td>
 <td class="gt_row gt_right" headers="total_freq">1</td>
-<td class="gt_row gt_right" headers="MI_1">9.135473</td>
+<td class="gt_row gt_right" headers="PMI">9.135473</td>
 </tr>
 </tbody>
 </table>
@@ -1532,29 +1529,29 @@ window.Quarto = {
 <p>As is clear from the above table, MI is sensitive to rare/infrequent words. Because of that sensitivity, it is common to make thresholds for both token frequency (absolute frequency) and MI score (usually at some value <span class="math inline">\(\ge\)</span> 3).</p>
 <p>For our purposes, we’ll filter for AF <span class="math inline">\(\ge\)</span> 5 and MI <span class="math inline">\(\ge\)</span> 5.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tc <span class="ot">&lt;-</span> time_collocations <span class="sc">%&gt;%</span> <span class="fu">filter</span>(col_freq <span class="sc">&gt;=</span> <span class="dv">5</span>, MI_1 <span class="sc">&gt;=</span> <span class="dv">5</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> money_collocations <span class="sc">%&gt;%</span> <span class="fu">filter</span>(col_freq <span class="sc">&gt;=</span> <span class="dv">5</span>, MI_1 <span class="sc">&gt;=</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tc <span class="ot">&lt;-</span> time_collocations <span class="sc">|&gt;</span> <span class="fu">filter</span>(col_freq <span class="sc">&gt;=</span> <span class="dv">5</span>, PMI <span class="sc">&gt;=</span> <span class="dv">5</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> money_collocations <span class="sc">|&gt;</span> <span class="fu">filter</span>(col_freq <span class="sc">&gt;=</span> <span class="dv">5</span>, PMI <span class="sc">&gt;=</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Check the result:</p>
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row quarto-layout-valign-bottom">
-<div id="olyctyqsct" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#olyctyqsct table {
+<div id="tjnfukxcyc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tjnfukxcyc table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#olyctyqsct thead, #olyctyqsct tbody, #olyctyqsct tfoot, #olyctyqsct tr, #olyctyqsct td, #olyctyqsct th {
+#tjnfukxcyc thead, #tjnfukxcyc tbody, #tjnfukxcyc tfoot, #tjnfukxcyc tr, #tjnfukxcyc td, #tjnfukxcyc th {
   border-style: none;
 }
 
-#olyctyqsct p {
+#tjnfukxcyc p {
   margin: 0;
   padding: 0;
 }
 
-#olyctyqsct .gt_table {
+#tjnfukxcyc .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1580,12 +1577,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#olyctyqsct .gt_caption {
+#tjnfukxcyc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#olyctyqsct .gt_title {
+#tjnfukxcyc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1597,7 +1594,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#olyctyqsct .gt_subtitle {
+#tjnfukxcyc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1609,7 +1606,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#olyctyqsct .gt_heading {
+#tjnfukxcyc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1621,13 +1618,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#olyctyqsct .gt_bottom_border {
+#tjnfukxcyc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#olyctyqsct .gt_col_headings {
+#tjnfukxcyc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1642,7 +1639,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#olyctyqsct .gt_col_heading {
+#tjnfukxcyc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1662,7 +1659,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#olyctyqsct .gt_column_spanner_outer {
+#tjnfukxcyc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1674,15 +1671,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#olyctyqsct .gt_column_spanner_outer:first-child {
+#tjnfukxcyc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#olyctyqsct .gt_column_spanner_outer:last-child {
+#tjnfukxcyc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#olyctyqsct .gt_column_spanner {
+#tjnfukxcyc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1694,11 +1691,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#olyctyqsct .gt_spanner_row {
+#tjnfukxcyc .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#olyctyqsct .gt_group_heading {
+#tjnfukxcyc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1724,7 +1721,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#olyctyqsct .gt_empty_group_heading {
+#tjnfukxcyc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1739,15 +1736,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#olyctyqsct .gt_from_md > :first-child {
+#tjnfukxcyc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#olyctyqsct .gt_from_md > :last-child {
+#tjnfukxcyc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#olyctyqsct .gt_row {
+#tjnfukxcyc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1766,7 +1763,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#olyctyqsct .gt_stub {
+#tjnfukxcyc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1779,7 +1776,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#olyctyqsct .gt_stub_row_group {
+#tjnfukxcyc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1793,15 +1790,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#olyctyqsct .gt_row_group_first td {
+#tjnfukxcyc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#olyctyqsct .gt_row_group_first th {
+#tjnfukxcyc .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#olyctyqsct .gt_summary_row {
+#tjnfukxcyc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1811,16 +1808,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#olyctyqsct .gt_first_summary_row {
+#tjnfukxcyc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#olyctyqsct .gt_first_summary_row.thick {
+#tjnfukxcyc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#olyctyqsct .gt_last_summary_row {
+#tjnfukxcyc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1830,7 +1827,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#olyctyqsct .gt_grand_summary_row {
+#tjnfukxcyc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1840,7 +1837,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#olyctyqsct .gt_first_grand_summary_row {
+#tjnfukxcyc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1850,7 +1847,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#olyctyqsct .gt_last_grand_summary_row_top {
+#tjnfukxcyc .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1860,11 +1857,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#olyctyqsct .gt_striped {
+#tjnfukxcyc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#olyctyqsct .gt_table_body {
+#tjnfukxcyc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1873,7 +1870,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#olyctyqsct .gt_footnotes {
+#tjnfukxcyc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1887,7 +1884,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#olyctyqsct .gt_footnote {
+#tjnfukxcyc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1896,7 +1893,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#olyctyqsct .gt_sourcenotes {
+#tjnfukxcyc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1910,7 +1907,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#olyctyqsct .gt_sourcenote {
+#tjnfukxcyc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1918,72 +1915,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#olyctyqsct .gt_left {
+#tjnfukxcyc .gt_left {
   text-align: left;
 }
 
-#olyctyqsct .gt_center {
+#tjnfukxcyc .gt_center {
   text-align: center;
 }
 
-#olyctyqsct .gt_right {
+#tjnfukxcyc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#olyctyqsct .gt_font_normal {
+#tjnfukxcyc .gt_font_normal {
   font-weight: normal;
 }
 
-#olyctyqsct .gt_font_bold {
+#tjnfukxcyc .gt_font_bold {
   font-weight: bold;
 }
 
-#olyctyqsct .gt_font_italic {
+#tjnfukxcyc .gt_font_italic {
   font-style: italic;
 }
 
-#olyctyqsct .gt_super {
+#tjnfukxcyc .gt_super {
   font-size: 65%;
 }
 
-#olyctyqsct .gt_footnote_marks {
+#tjnfukxcyc .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#olyctyqsct .gt_asterisk {
+#tjnfukxcyc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#olyctyqsct .gt_indent_1 {
+#tjnfukxcyc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#olyctyqsct .gt_indent_2 {
+#tjnfukxcyc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#olyctyqsct .gt_indent_3 {
+#tjnfukxcyc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#olyctyqsct .gt_indent_4 {
+#tjnfukxcyc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#olyctyqsct .gt_indent_5 {
+#tjnfukxcyc .gt_indent_5 {
   text-indent: 25px;
 }
 
-#olyctyqsct .katex-display {
+#tjnfukxcyc .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#olyctyqsct div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#tjnfukxcyc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1995,7 +1992,7 @@ window.Quarto = {
 <th id="token" class="gt_col_heading gt_columns_bottom_border gt_left" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">token</th>
 <th id="col_freq" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">col_freq</th>
 <th id="total_freq" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">total_freq</th>
-<th id="MI_1" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">MI_1</th>
+<th id="PMI" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">PMI</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -2003,83 +2000,83 @@ window.Quarto = {
 <td class="gt_row gt_left" style="text-align: left;" headers="token">warner</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">6</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">8</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">8.720435</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">8.720435</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">cessation</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">5</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">7</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">8.650046</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">8.650046</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">irradiation</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">5</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">7</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">8.650046</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">8.650046</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">lag</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">5</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">7</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">8.650046</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">8.650046</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">wasting</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">7</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">11</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">8.483396</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">8.483396</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">frame</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">7</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">16</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">7.942828</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">7.942828</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">periods</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">5</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">14</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">7.650046</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">7.650046</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">spent</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">34</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">122</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">7.292199</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">7.292199</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">spend</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">26</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">111</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">7.041497</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">7.041497</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">waste</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">11</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">58</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">6.736924</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">6.736924</td>
 </tr>
 </tbody>
 </table>
 
 </div>
-<div id="zabnuadxtm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zabnuadxtm table {
+<div id="mqkfhczsyn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mqkfhczsyn table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zabnuadxtm thead, #zabnuadxtm tbody, #zabnuadxtm tfoot, #zabnuadxtm tr, #zabnuadxtm td, #zabnuadxtm th {
+#mqkfhczsyn thead, #mqkfhczsyn tbody, #mqkfhczsyn tfoot, #mqkfhczsyn tr, #mqkfhczsyn td, #mqkfhczsyn th {
   border-style: none;
 }
 
-#zabnuadxtm p {
+#mqkfhczsyn p {
   margin: 0;
   padding: 0;
 }
 
-#zabnuadxtm .gt_table {
+#mqkfhczsyn .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2105,12 +2102,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#zabnuadxtm .gt_caption {
+#mqkfhczsyn .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zabnuadxtm .gt_title {
+#mqkfhczsyn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2122,7 +2119,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#zabnuadxtm .gt_subtitle {
+#mqkfhczsyn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2134,7 +2131,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#zabnuadxtm .gt_heading {
+#mqkfhczsyn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2146,13 +2143,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#zabnuadxtm .gt_bottom_border {
+#mqkfhczsyn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zabnuadxtm .gt_col_headings {
+#mqkfhczsyn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2167,7 +2164,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#zabnuadxtm .gt_col_heading {
+#mqkfhczsyn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2187,7 +2184,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#zabnuadxtm .gt_column_spanner_outer {
+#mqkfhczsyn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2199,15 +2196,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#zabnuadxtm .gt_column_spanner_outer:first-child {
+#mqkfhczsyn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zabnuadxtm .gt_column_spanner_outer:last-child {
+#mqkfhczsyn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zabnuadxtm .gt_column_spanner {
+#mqkfhczsyn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2219,11 +2216,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#zabnuadxtm .gt_spanner_row {
+#mqkfhczsyn .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zabnuadxtm .gt_group_heading {
+#mqkfhczsyn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2249,7 +2246,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#zabnuadxtm .gt_empty_group_heading {
+#mqkfhczsyn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2264,15 +2261,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#zabnuadxtm .gt_from_md > :first-child {
+#mqkfhczsyn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zabnuadxtm .gt_from_md > :last-child {
+#mqkfhczsyn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zabnuadxtm .gt_row {
+#mqkfhczsyn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2291,7 +2288,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#zabnuadxtm .gt_stub {
+#mqkfhczsyn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2304,7 +2301,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#zabnuadxtm .gt_stub_row_group {
+#mqkfhczsyn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2318,15 +2315,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#zabnuadxtm .gt_row_group_first td {
+#mqkfhczsyn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zabnuadxtm .gt_row_group_first th {
+#mqkfhczsyn .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zabnuadxtm .gt_summary_row {
+#mqkfhczsyn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2336,16 +2333,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#zabnuadxtm .gt_first_summary_row {
+#mqkfhczsyn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zabnuadxtm .gt_first_summary_row.thick {
+#mqkfhczsyn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zabnuadxtm .gt_last_summary_row {
+#mqkfhczsyn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2355,7 +2352,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#zabnuadxtm .gt_grand_summary_row {
+#mqkfhczsyn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2365,7 +2362,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#zabnuadxtm .gt_first_grand_summary_row {
+#mqkfhczsyn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2375,7 +2372,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#zabnuadxtm .gt_last_grand_summary_row_top {
+#mqkfhczsyn .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2385,11 +2382,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#zabnuadxtm .gt_striped {
+#mqkfhczsyn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zabnuadxtm .gt_table_body {
+#mqkfhczsyn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2398,7 +2395,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#zabnuadxtm .gt_footnotes {
+#mqkfhczsyn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2412,7 +2409,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#zabnuadxtm .gt_footnote {
+#mqkfhczsyn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2421,7 +2418,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#zabnuadxtm .gt_sourcenotes {
+#mqkfhczsyn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2435,7 +2432,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#zabnuadxtm .gt_sourcenote {
+#mqkfhczsyn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2443,72 +2440,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#zabnuadxtm .gt_left {
+#mqkfhczsyn .gt_left {
   text-align: left;
 }
 
-#zabnuadxtm .gt_center {
+#mqkfhczsyn .gt_center {
   text-align: center;
 }
 
-#zabnuadxtm .gt_right {
+#mqkfhczsyn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zabnuadxtm .gt_font_normal {
+#mqkfhczsyn .gt_font_normal {
   font-weight: normal;
 }
 
-#zabnuadxtm .gt_font_bold {
+#mqkfhczsyn .gt_font_bold {
   font-weight: bold;
 }
 
-#zabnuadxtm .gt_font_italic {
+#mqkfhczsyn .gt_font_italic {
   font-style: italic;
 }
 
-#zabnuadxtm .gt_super {
+#mqkfhczsyn .gt_super {
   font-size: 65%;
 }
 
-#zabnuadxtm .gt_footnote_marks {
+#mqkfhczsyn .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zabnuadxtm .gt_asterisk {
+#mqkfhczsyn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zabnuadxtm .gt_indent_1 {
+#mqkfhczsyn .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zabnuadxtm .gt_indent_2 {
+#mqkfhczsyn .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zabnuadxtm .gt_indent_3 {
+#mqkfhczsyn .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zabnuadxtm .gt_indent_4 {
+#mqkfhczsyn .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zabnuadxtm .gt_indent_5 {
+#mqkfhczsyn .gt_indent_5 {
   text-indent: 25px;
 }
 
-#zabnuadxtm .katex-display {
+#mqkfhczsyn .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#zabnuadxtm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#mqkfhczsyn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2520,7 +2517,7 @@ window.Quarto = {
 <th id="token" class="gt_col_heading gt_columns_bottom_border gt_left" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">token</th>
 <th id="col_freq" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">col_freq</th>
 <th id="total_freq" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">total_freq</th>
-<th id="MI_1" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">MI_1</th>
+<th id="PMI" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">PMI</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -2528,61 +2525,61 @@ window.Quarto = {
 <td class="gt_row gt_left" style="text-align: left;" headers="token">owe</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">5</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">21</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">9.010102</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">9.010102</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">raise</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">10</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">79</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">8.098639</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">8.098639</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">extra</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">6</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">64</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">7.665454</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">7.665454</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">spend</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">10</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">111</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">7.608004</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">7.608004</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">insurance</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">5</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">64</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">7.402420</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">7.402420</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">spent</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">9</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">122</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">7.319679</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">7.319679</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">amount</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">6</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">109</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">6.897270</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">6.897270</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">making</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">14</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">343</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">6.465782</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">6.465782</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">cost</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">6</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">154</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">6.398668</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">6.398668</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" style="text-align: left;" headers="token">buy</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="col_freq">5</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="total_freq">150</td>
-<td class="gt_row gt_right" style="text-align: left;" headers="MI_1">6.173601</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="PMI">6.173601</td>
 </tr>
 </tbody>
 </table>
@@ -2596,7 +2593,7 @@ window.Quarto = {
 <p>A <a href="https://www.data-imaginist.com/2017/introducing-tidygraph/"><strong>tbl_graph</strong></a> is a data structure for <strong>tidyverse</strong> (ggplot2) network plotting.</p>
 <p>For this, we’ll use the <strong>col_network( )</strong> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">col_network</span>(tc, mc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">col_network</span>(tc, mc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2617,17 +2614,21 @@ Pause for Lab Set Question
 <p>The network plot shows the tokens that distinctly collocate with either <em>time</em> or <em>money</em>, as well as those that intersect. The distance from the central tokens (<em>time</em> and <em>money</em>) is governed by the MI score and the transparency (or alpha) is governed by the token frequency.</p>
 <p>The aesthetic details of the plot can be manipulated in the various <strong>ggraph</strong> options.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(net, <span class="at">weight =</span> link_weight, <span class="at">layout =</span> <span class="st">"stress"</span>) <span class="sc">+</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray80"</span>, <span class="at">alpha =</span> .<span class="dv">75</span>) <span class="sc">+</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">alpha =</span> node_weight, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> n_intersects)) <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label), <span class="at">repel =</span> T, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.9</span>)) <span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_graph</span>() <span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(net, <span class="at">weight =</span> link_weight, <span class="at">layout =</span> <span class="st">"stress"</span>) <span class="sc">+</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray80"</span>, <span class="at">alpha =</span> .<span class="dv">75</span>) <span class="sc">+</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">alpha =</span> node_weight, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> n_intersects)) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label), <span class="at">repel =</span> T, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.9</span>)) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_graph</span>() <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: ggrepel: 51 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="collocations_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="collocations_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2644,58 +2645,63 @@ Pause for Lab Set Question
 <li><p>Read in the files using <a href="https://readtext.quanteda.io/articles/readtext_vignette.html"><strong>readtext</strong></a>. And for the purposes of efficiency, we’ll sample out 50 rows.</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>files_list <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"../data/screenplay_corpus"</span>, <span class="at">full.names =</span> T, <span class="at">pattern =</span> <span class="st">"*.txt"</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> <span class="fu">sample</span>(files_list, <span class="dv">50</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  readtext<span class="sc">::</span><span class="fu">readtext</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>files_list <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"../data/screenplay_corpus"</span>, <span class="at">full.names =</span> T, <span class="at">pattern =</span> <span class="st">"*.txt"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> <span class="fu">sample</span>(files_list, <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  readtext<span class="sc">::</span><span class="fu">readtext</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="extract-the-dialogue" class="level3" data-number="5.6.2">
 <h3 data-number="5.6.2" class="anchored" data-anchor-id="extract-the-dialogue"><span class="header-section-number">5.6.2</span> Extract the dialogue</h3>
-<p>For the purposes of the lab, we’ll simply load the data. These particular files are formatted using some simple markup. So we’ll use the <strong>from_play()</strong> function to extract the dialogue.</p>
+<p>For the purposes of the lab, we’ll simply load the data. These particular files are formatted using some simple markup. So we’ll use the <strong>from_play()</strong> function in <code>cmu.textstat</code> to extract the dialogue.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/screenplays.rda"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> <span class="fu">from_play</span>(sp, <span class="at">extract =</span> <span class="st">"dialogue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cmu.textstat)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> <span class="fu">from_play</span>(screenplays, <span class="at">extract =</span> <span class="st">"dialogue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="tokenize" class="level3" data-number="5.6.3">
 <h3 data-number="5.6.3" class="anchored" data-anchor-id="tokenize"><span class="header-section-number">5.6.3</span> Tokenize</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span>   sp <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">preprocess_text</span>(text)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">what=</span><span class="st">"fastestword"</span>, <span class="at">remove_numbers=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> sp <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">preprocess_text</span>(text)) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>() <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">what=</span><span class="st">"fastestword"</span>, <span class="at">remove_numbers=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="calculate-mi" class="level3" data-number="5.6.4">
 <h3 data-number="5.6.4" class="anchored" data-anchor-id="calculate-mi"><span class="header-section-number">5.6.4</span> Calculate MI</h3>
 <p>Now we’ll calculate collocations for the tokens <em>boy</em> and <em>girl</em>, and filter. Note that we’re only looking for tokens 3 words to the left of the node word.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">collocates_by_MI</span>(sp, <span class="st">"boy"</span>, <span class="at">left =</span> <span class="dv">3</span>, <span class="at">right =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_freq <span class="sc">&gt;=</span> <span class="dv">3</span> <span class="sc">&amp;</span> MI_1 <span class="sc">&gt;=</span> <span class="dv">3</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>g  <span class="ot">&lt;-</span> <span class="fu">collocates_by_MI</span>(sp, <span class="st">"girl"</span>, <span class="at">left =</span> <span class="dv">3</span>, <span class="at">right =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_freq <span class="sc">&gt;=</span> <span class="dv">3</span> <span class="sc">&amp;</span> MI_1 <span class="sc">&gt;=</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">collocates_by_MI</span>(sp, <span class="st">"boy"</span>, <span class="at">left =</span> <span class="dv">3</span>, <span class="at">right =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_freq <span class="sc">&gt;=</span> <span class="dv">3</span> <span class="sc">&amp;</span> PMI <span class="sc">&gt;=</span> <span class="dv">3</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>g  <span class="ot">&lt;-</span> <span class="fu">collocates_by_MI</span>(sp, <span class="st">"girl"</span>, <span class="at">left =</span> <span class="dv">3</span>, <span class="at">right =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(col_freq <span class="sc">&gt;=</span> <span class="dv">3</span> <span class="sc">&amp;</span> PMI <span class="sc">&gt;=</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="plot-the-network" class="level3" data-number="5.6.5">
 <h3 data-number="5.6.5" class="anchored" data-anchor-id="plot-the-network"><span class="header-section-number">5.6.5</span> Plot the network</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">col_network</span>(b, g)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(net, <span class="at">weight =</span> link_weight, <span class="at">layout =</span> <span class="st">"stress"</span>) <span class="sc">+</span> </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray80"</span>, <span class="at">alpha =</span> .<span class="dv">75</span>) <span class="sc">+</span> </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">alpha =</span> node_weight, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> n_intersects)) <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label), <span class="at">repel =</span> T, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.9</span>)) <span class="sc">+</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_graph</span>() <span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">col_network</span>(b, g)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(net, <span class="at">weight =</span> link_weight, <span class="at">layout =</span> <span class="st">"stress"</span>) <span class="sc">+</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray80"</span>, <span class="at">alpha =</span> .<span class="dv">75</span>) <span class="sc">+</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">alpha =</span> node_weight, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> n_intersects)) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> label), <span class="at">repel =</span> T, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.9</span>)) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_graph</span>() <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: ggrepel: 30 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="collocations_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="collocations_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

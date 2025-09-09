@@ -162,7 +162,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../labs/processing-pipelines.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tokenizing with quanteda</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Processing pipelines</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -320,8 +320,14 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../lectures/embed_frequencies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Word Frequencies &amp; Dispersions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../lectures/embed_collocations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Collocations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Collocations</span></span></a>
   </div>
 </li>
       </ul>
@@ -424,23 +430,23 @@ Table&nbsp;19.1: Here’s a table.
 </figcaption>
 <div aria-describedby="tbl-corpus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="uoungsllqr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#uoungsllqr table {
+<div id="zlfwtuweoh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zlfwtuweoh table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#uoungsllqr thead, #uoungsllqr tbody, #uoungsllqr tfoot, #uoungsllqr tr, #uoungsllqr td, #uoungsllqr th {
+#zlfwtuweoh thead, #zlfwtuweoh tbody, #zlfwtuweoh tfoot, #zlfwtuweoh tr, #zlfwtuweoh td, #zlfwtuweoh th {
   border-style: none;
 }
 
-#uoungsllqr p {
+#zlfwtuweoh p {
   margin: 0;
   padding: 0;
 }
 
-#uoungsllqr .gt_table {
+#zlfwtuweoh .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -466,12 +472,12 @@ Table&nbsp;19.1: Here’s a table.
   border-left-color: #D3D3D3;
 }
 
-#uoungsllqr .gt_caption {
+#zlfwtuweoh .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#uoungsllqr .gt_title {
+#zlfwtuweoh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -483,7 +489,7 @@ Table&nbsp;19.1: Here’s a table.
   border-bottom-width: 0;
 }
 
-#uoungsllqr .gt_subtitle {
+#zlfwtuweoh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -495,7 +501,7 @@ Table&nbsp;19.1: Here’s a table.
   border-top-width: 0;
 }
 
-#uoungsllqr .gt_heading {
+#zlfwtuweoh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -507,13 +513,13 @@ Table&nbsp;19.1: Here’s a table.
   border-right-color: #D3D3D3;
 }
 
-#uoungsllqr .gt_bottom_border {
+#zlfwtuweoh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uoungsllqr .gt_col_headings {
+#zlfwtuweoh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -528,7 +534,7 @@ Table&nbsp;19.1: Here’s a table.
   border-right-color: #D3D3D3;
 }
 
-#uoungsllqr .gt_col_heading {
+#zlfwtuweoh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -548,7 +554,7 @@ Table&nbsp;19.1: Here’s a table.
   overflow-x: hidden;
 }
 
-#uoungsllqr .gt_column_spanner_outer {
+#zlfwtuweoh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -560,15 +566,15 @@ Table&nbsp;19.1: Here’s a table.
   padding-right: 4px;
 }
 
-#uoungsllqr .gt_column_spanner_outer:first-child {
+#zlfwtuweoh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uoungsllqr .gt_column_spanner_outer:last-child {
+#zlfwtuweoh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uoungsllqr .gt_column_spanner {
+#zlfwtuweoh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -580,11 +586,11 @@ Table&nbsp;19.1: Here’s a table.
   width: 100%;
 }
 
-#uoungsllqr .gt_spanner_row {
+#zlfwtuweoh .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#uoungsllqr .gt_group_heading {
+#zlfwtuweoh .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -610,7 +616,7 @@ Table&nbsp;19.1: Here’s a table.
   text-align: left;
 }
 
-#uoungsllqr .gt_empty_group_heading {
+#zlfwtuweoh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -625,15 +631,15 @@ Table&nbsp;19.1: Here’s a table.
   vertical-align: middle;
 }
 
-#uoungsllqr .gt_from_md > :first-child {
+#zlfwtuweoh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uoungsllqr .gt_from_md > :last-child {
+#zlfwtuweoh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uoungsllqr .gt_row {
+#zlfwtuweoh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -652,7 +658,7 @@ Table&nbsp;19.1: Here’s a table.
   overflow-x: hidden;
 }
 
-#uoungsllqr .gt_stub {
+#zlfwtuweoh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -665,7 +671,7 @@ Table&nbsp;19.1: Here’s a table.
   padding-right: 5px;
 }
 
-#uoungsllqr .gt_stub_row_group {
+#zlfwtuweoh .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -679,15 +685,15 @@ Table&nbsp;19.1: Here’s a table.
   vertical-align: top;
 }
 
-#uoungsllqr .gt_row_group_first td {
+#zlfwtuweoh .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#uoungsllqr .gt_row_group_first th {
+#zlfwtuweoh .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#uoungsllqr .gt_summary_row {
+#zlfwtuweoh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -697,16 +703,16 @@ Table&nbsp;19.1: Here’s a table.
   padding-right: 5px;
 }
 
-#uoungsllqr .gt_first_summary_row {
+#zlfwtuweoh .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#uoungsllqr .gt_first_summary_row.thick {
+#zlfwtuweoh .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#uoungsllqr .gt_last_summary_row {
+#zlfwtuweoh .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -716,7 +722,7 @@ Table&nbsp;19.1: Here’s a table.
   border-bottom-color: #D3D3D3;
 }
 
-#uoungsllqr .gt_grand_summary_row {
+#zlfwtuweoh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -726,7 +732,7 @@ Table&nbsp;19.1: Here’s a table.
   padding-right: 5px;
 }
 
-#uoungsllqr .gt_first_grand_summary_row {
+#zlfwtuweoh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -736,7 +742,7 @@ Table&nbsp;19.1: Here’s a table.
   border-top-color: #D3D3D3;
 }
 
-#uoungsllqr .gt_last_grand_summary_row_top {
+#zlfwtuweoh .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -746,11 +752,11 @@ Table&nbsp;19.1: Here’s a table.
   border-bottom-color: #D3D3D3;
 }
 
-#uoungsllqr .gt_striped {
+#zlfwtuweoh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uoungsllqr .gt_table_body {
+#zlfwtuweoh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -759,7 +765,7 @@ Table&nbsp;19.1: Here’s a table.
   border-bottom-color: #D3D3D3;
 }
 
-#uoungsllqr .gt_footnotes {
+#zlfwtuweoh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -773,7 +779,7 @@ Table&nbsp;19.1: Here’s a table.
   border-right-color: #D3D3D3;
 }
 
-#uoungsllqr .gt_footnote {
+#zlfwtuweoh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -782,7 +788,7 @@ Table&nbsp;19.1: Here’s a table.
   padding-right: 5px;
 }
 
-#uoungsllqr .gt_sourcenotes {
+#zlfwtuweoh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -796,7 +802,7 @@ Table&nbsp;19.1: Here’s a table.
   border-right-color: #D3D3D3;
 }
 
-#uoungsllqr .gt_sourcenote {
+#zlfwtuweoh .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -804,72 +810,72 @@ Table&nbsp;19.1: Here’s a table.
   padding-right: 5px;
 }
 
-#uoungsllqr .gt_left {
+#zlfwtuweoh .gt_left {
   text-align: left;
 }
 
-#uoungsllqr .gt_center {
+#zlfwtuweoh .gt_center {
   text-align: center;
 }
 
-#uoungsllqr .gt_right {
+#zlfwtuweoh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uoungsllqr .gt_font_normal {
+#zlfwtuweoh .gt_font_normal {
   font-weight: normal;
 }
 
-#uoungsllqr .gt_font_bold {
+#zlfwtuweoh .gt_font_bold {
   font-weight: bold;
 }
 
-#uoungsllqr .gt_font_italic {
+#zlfwtuweoh .gt_font_italic {
   font-style: italic;
 }
 
-#uoungsllqr .gt_super {
+#zlfwtuweoh .gt_super {
   font-size: 65%;
 }
 
-#uoungsllqr .gt_footnote_marks {
+#zlfwtuweoh .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#uoungsllqr .gt_asterisk {
+#zlfwtuweoh .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#uoungsllqr .gt_indent_1 {
+#zlfwtuweoh .gt_indent_1 {
   text-indent: 5px;
 }
 
-#uoungsllqr .gt_indent_2 {
+#zlfwtuweoh .gt_indent_2 {
   text-indent: 10px;
 }
 
-#uoungsllqr .gt_indent_3 {
+#zlfwtuweoh .gt_indent_3 {
   text-indent: 15px;
 }
 
-#uoungsllqr .gt_indent_4 {
+#zlfwtuweoh .gt_indent_4 {
   text-indent: 20px;
 }
 
-#uoungsllqr .gt_indent_5 {
+#zlfwtuweoh .gt_indent_5 {
   text-indent: 25px;
 }
 
-#uoungsllqr .katex-display {
+#zlfwtuweoh .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#uoungsllqr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zlfwtuweoh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>

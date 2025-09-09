@@ -224,7 +224,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../labs/processing-pipelines.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tokenizing with quanteda</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Processing pipelines</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -382,8 +382,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../lectures/embed_frequencies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Word Frequencies &amp; Dispersions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../lectures/embed_collocations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Collocations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Collocations</span></span></a>
   </div>
 </li>
       </ul>
@@ -486,70 +492,62 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textstats)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Load the functions:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/keyness_functions.R"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/helper_functions.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Load the data:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/sample_corpus.rda"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/multiword_expressions.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.extras)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cmu.textstat)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="pre-process-the-data-create-a-corpus" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="pre-process-the-data-create-a-corpus"><span class="header-section-number">6.2.2</span> Pre-process the data &amp; create a corpus</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sc <span class="ot">&lt;-</span> sample_corpus <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">preprocess_text</span>(text)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sc <span class="ot">&lt;-</span> sample_corpus <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">preprocess_text</span>(text)) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="extract-meta-data-from-file-names" class="level3" data-number="6.2.3">
 <h3 data-number="6.2.3" class="anchored" data-anchor-id="extract-meta-data-from-file-names"><span class="header-section-number">6.2.3</span> Extract meta-data from file names</h3>
 <p>We’ll extract some meta-data by (1) selecting the <strong>doc_id</strong> column, (2) extracting the initial letter string before the underscore, and (3) renaming the vector <strong>text_type</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>doc_categories <span class="ot">&lt;-</span> sample_corpus <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(doc_id) <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doc_id =</span> <span class="fu">str_extract</span>(doc_id, <span class="st">"^[a-z]+"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text_type =</span> doc_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>doc_categories <span class="ot">&lt;-</span> sample_corpus <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(doc_id) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doc_id =</span> <span class="fu">str_extract</span>(doc_id, <span class="st">"^[a-z]+"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text_type =</span> doc_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="assign-the-meta-data-to-the-corpus" class="level3" data-number="6.2.4">
 <h3 data-number="6.2.4" class="anchored" data-anchor-id="assign-the-meta-data-to-the-corpus"><span class="header-section-number">6.2.4</span> Assign the meta-data to the corpus</h3>
 <p>The accessor function <code>docvars()</code> lets us add or modify data in an object. We’re going to use it to assign <strong>text_type</strong> as a variable. Note that <strong>doc_categories</strong> could include more than one column and the assignment process would be the same.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(sc) <span class="ot">&lt;-</span> doc_categories</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(sc) <span class="ot">&lt;-</span> doc_categories</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And check the result:</p>
 <div class="cell" data-tbl-cap="Partial summary of sample corpus.">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sc <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sc <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="ihtuqucozz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ihtuqucozz table {
+<div id="bqkvpgktnr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#bqkvpgktnr table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ihtuqucozz thead, #ihtuqucozz tbody, #ihtuqucozz tfoot, #ihtuqucozz tr, #ihtuqucozz td, #ihtuqucozz th {
+#bqkvpgktnr thead, #bqkvpgktnr tbody, #bqkvpgktnr tfoot, #bqkvpgktnr tr, #bqkvpgktnr td, #bqkvpgktnr th {
   border-style: none;
 }
 
-#ihtuqucozz p {
+#bqkvpgktnr p {
   margin: 0;
   padding: 0;
 }
 
-#ihtuqucozz .gt_table {
+#bqkvpgktnr .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -575,12 +573,12 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-left-color: #D3D3D3;
 }
 
-#ihtuqucozz .gt_caption {
+#bqkvpgktnr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ihtuqucozz .gt_title {
+#bqkvpgktnr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -592,7 +590,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-width: 0;
 }
 
-#ihtuqucozz .gt_subtitle {
+#bqkvpgktnr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -604,7 +602,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-width: 0;
 }
 
-#ihtuqucozz .gt_heading {
+#bqkvpgktnr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -616,13 +614,13 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ihtuqucozz .gt_bottom_border {
+#bqkvpgktnr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ihtuqucozz .gt_col_headings {
+#bqkvpgktnr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -637,7 +635,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ihtuqucozz .gt_col_heading {
+#bqkvpgktnr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -657,7 +655,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#ihtuqucozz .gt_column_spanner_outer {
+#bqkvpgktnr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -669,15 +667,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 4px;
 }
 
-#ihtuqucozz .gt_column_spanner_outer:first-child {
+#bqkvpgktnr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ihtuqucozz .gt_column_spanner_outer:last-child {
+#bqkvpgktnr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ihtuqucozz .gt_column_spanner {
+#bqkvpgktnr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -689,11 +687,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   width: 100%;
 }
 
-#ihtuqucozz .gt_spanner_row {
+#bqkvpgktnr .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ihtuqucozz .gt_group_heading {
+#bqkvpgktnr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -719,7 +717,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   text-align: left;
 }
 
-#ihtuqucozz .gt_empty_group_heading {
+#bqkvpgktnr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -734,15 +732,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: middle;
 }
 
-#ihtuqucozz .gt_from_md > :first-child {
+#bqkvpgktnr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ihtuqucozz .gt_from_md > :last-child {
+#bqkvpgktnr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ihtuqucozz .gt_row {
+#bqkvpgktnr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -761,7 +759,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#ihtuqucozz .gt_stub {
+#bqkvpgktnr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -774,7 +772,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ihtuqucozz .gt_stub_row_group {
+#bqkvpgktnr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -788,15 +786,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: top;
 }
 
-#ihtuqucozz .gt_row_group_first td {
+#bqkvpgktnr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ihtuqucozz .gt_row_group_first th {
+#bqkvpgktnr .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ihtuqucozz .gt_summary_row {
+#bqkvpgktnr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -806,16 +804,16 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ihtuqucozz .gt_first_summary_row {
+#bqkvpgktnr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ihtuqucozz .gt_first_summary_row.thick {
+#bqkvpgktnr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ihtuqucozz .gt_last_summary_row {
+#bqkvpgktnr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -825,7 +823,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#ihtuqucozz .gt_grand_summary_row {
+#bqkvpgktnr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -835,7 +833,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ihtuqucozz .gt_first_grand_summary_row {
+#bqkvpgktnr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -845,7 +843,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-color: #D3D3D3;
 }
 
-#ihtuqucozz .gt_last_grand_summary_row_top {
+#bqkvpgktnr .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -855,11 +853,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#ihtuqucozz .gt_striped {
+#bqkvpgktnr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ihtuqucozz .gt_table_body {
+#bqkvpgktnr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -868,7 +866,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#ihtuqucozz .gt_footnotes {
+#bqkvpgktnr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -882,7 +880,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ihtuqucozz .gt_footnote {
+#bqkvpgktnr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -891,7 +889,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ihtuqucozz .gt_sourcenotes {
+#bqkvpgktnr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -905,7 +903,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ihtuqucozz .gt_sourcenote {
+#bqkvpgktnr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -913,72 +911,72 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ihtuqucozz .gt_left {
+#bqkvpgktnr .gt_left {
   text-align: left;
 }
 
-#ihtuqucozz .gt_center {
+#bqkvpgktnr .gt_center {
   text-align: center;
 }
 
-#ihtuqucozz .gt_right {
+#bqkvpgktnr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ihtuqucozz .gt_font_normal {
+#bqkvpgktnr .gt_font_normal {
   font-weight: normal;
 }
 
-#ihtuqucozz .gt_font_bold {
+#bqkvpgktnr .gt_font_bold {
   font-weight: bold;
 }
 
-#ihtuqucozz .gt_font_italic {
+#bqkvpgktnr .gt_font_italic {
   font-style: italic;
 }
 
-#ihtuqucozz .gt_super {
+#bqkvpgktnr .gt_super {
   font-size: 65%;
 }
 
-#ihtuqucozz .gt_footnote_marks {
+#bqkvpgktnr .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ihtuqucozz .gt_asterisk {
+#bqkvpgktnr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ihtuqucozz .gt_indent_1 {
+#bqkvpgktnr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ihtuqucozz .gt_indent_2 {
+#bqkvpgktnr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ihtuqucozz .gt_indent_3 {
+#bqkvpgktnr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ihtuqucozz .gt_indent_4 {
+#bqkvpgktnr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ihtuqucozz .gt_indent_5 {
+#bqkvpgktnr .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ihtuqucozz .katex-display {
+#bqkvpgktnr .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ihtuqucozz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#bqkvpgktnr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1076,10 +1074,10 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <section id="create-a-dfm" class="level3" data-number="6.2.5">
 <h3 data-number="6.2.5" class="anchored" data-anchor-id="create-a-dfm"><span class="header-section-number">6.2.5</span> Create a <strong>dfm</strong></h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sc_dfm <span class="ot">&lt;-</span> sc <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">what=</span><span class="st">"fastestword"</span>, <span class="at">remove_numbers=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_compound</span>(<span class="at">pattern =</span> <span class="fu">phrase</span>(multiword_expressions)) <span class="sc">%&gt;%</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dfm</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sc_dfm <span class="ot">&lt;-</span> sc <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">what=</span><span class="st">"fastestword"</span>, <span class="at">remove_numbers=</span><span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_compound</span>(<span class="at">pattern =</span> <span class="fu">phrase</span>(multiword_expressions)) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dfm</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -1087,53 +1085,54 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <h2 data-number="6.3" class="anchored" data-anchor-id="a-corpus-composition-table"><span class="header-section-number">6.3</span> A corpus composition table</h2>
 <p>It is conventional to report out the composition of the corpus or corpora you are using for your study. Here will will sum our tokens by text-type and similarly count the number of texts in each grouping.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>corpus_comp <span class="ot">&lt;-</span> <span class="fu">ntoken</span>(sc_dfm) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Tokens =</span> .) <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"Text_Type"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Text_Type =</span> <span class="fu">str_extract</span>(Text_Type, <span class="st">"^[a-z]+"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Text_Type) <span class="sc">%&gt;%</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Texts =</span> <span class="fu">n</span>(),</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Tokens =</span> <span class="fu">sum</span>(Tokens)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Text_Type =</span> <span class="fu">c</span>(<span class="st">"Academic"</span>, <span class="st">"Blog"</span>, <span class="st">"Fiction"</span>, <span class="st">"Magazine"</span>, <span class="st">"News"</span>, <span class="st">"Spoken"</span>, <span class="st">"Television/Movies"</span>, <span class="st">"Web"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>corpus_comp <span class="ot">&lt;-</span> <span class="fu">ntoken</span>(sc_dfm) <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"Text_Type"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Text_Type, <span class="at">Tokens =</span> <span class="st">`</span><span class="at">ntoken(sc_dfm)</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Text_Type =</span> <span class="fu">str_extract</span>(Text_Type, <span class="st">"^[a-z]+"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Text_Type) <span class="sc">|&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Texts =</span> <span class="fu">n</span>(),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Tokens =</span> <span class="fu">sum</span>(Tokens)) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Text_Type =</span> <span class="fu">c</span>(<span class="st">"Academic"</span>, <span class="st">"Blog"</span>, <span class="st">"Fiction"</span>, <span class="st">"Magazine"</span>, <span class="st">"News"</span>, <span class="st">"Spoken"</span>, <span class="st">"Television/Movies"</span>, <span class="st">"Web"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, using <code>grand_summary_rows()</code>, we can append a row of totals at the bottom of the table.</p>
 <div class="cell" data-tbl-cap="Composition of the sample corpus.">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>corpus_comp <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_integer</span>() <span class="sc">|&gt;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Text_Type =</span> <span class="fu">md</span>(<span class="st">"**Text Type**"</span>),</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Texts =</span> <span class="fu">md</span>(<span class="st">"**Texts**"</span>),</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Tokens =</span> <span class="fu">md</span>(<span class="st">"**Tokens**"</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grand_summary_rows</span>(</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(Texts, Tokens),</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">fns =</span> <span class="fu">list</span>(</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>      Total <span class="sc">~</span> <span class="fu">sum</span>(.)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    ) ,</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">fmt =</span> <span class="sc">~</span> <span class="fu">fmt_integer</span>(.)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>corpus_comp <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_integer</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Text_Type =</span> <span class="fu">md</span>(<span class="st">"**Text Type**"</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Texts =</span> <span class="fu">md</span>(<span class="st">"**Texts**"</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Tokens =</span> <span class="fu">md</span>(<span class="st">"**Tokens**"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grand_summary_rows</span>(</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(Texts, Tokens),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">fns =</span> <span class="fu">list</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      Total <span class="sc">~</span> <span class="fu">sum</span>(.)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    ) ,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">fmt =</span> <span class="sc">~</span> <span class="fu">fmt_integer</span>(.)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="oodsweoczd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#oodsweoczd table {
+<div id="hhznkaergs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hhznkaergs table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#oodsweoczd thead, #oodsweoczd tbody, #oodsweoczd tfoot, #oodsweoczd tr, #oodsweoczd td, #oodsweoczd th {
+#hhznkaergs thead, #hhznkaergs tbody, #hhznkaergs tfoot, #hhznkaergs tr, #hhznkaergs td, #hhznkaergs th {
   border-style: none;
 }
 
-#oodsweoczd p {
+#hhznkaergs p {
   margin: 0;
   padding: 0;
 }
 
-#oodsweoczd .gt_table {
+#hhznkaergs .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1159,12 +1158,12 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-left-color: #D3D3D3;
 }
 
-#oodsweoczd .gt_caption {
+#hhznkaergs .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#oodsweoczd .gt_title {
+#hhznkaergs .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1176,7 +1175,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-width: 0;
 }
 
-#oodsweoczd .gt_subtitle {
+#hhznkaergs .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1188,7 +1187,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-width: 0;
 }
 
-#oodsweoczd .gt_heading {
+#hhznkaergs .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1200,13 +1199,13 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#oodsweoczd .gt_bottom_border {
+#hhznkaergs .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oodsweoczd .gt_col_headings {
+#hhznkaergs .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1221,7 +1220,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#oodsweoczd .gt_col_heading {
+#hhznkaergs .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1241,7 +1240,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#oodsweoczd .gt_column_spanner_outer {
+#hhznkaergs .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1253,15 +1252,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 4px;
 }
 
-#oodsweoczd .gt_column_spanner_outer:first-child {
+#hhznkaergs .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oodsweoczd .gt_column_spanner_outer:last-child {
+#hhznkaergs .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oodsweoczd .gt_column_spanner {
+#hhznkaergs .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1273,11 +1272,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   width: 100%;
 }
 
-#oodsweoczd .gt_spanner_row {
+#hhznkaergs .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#oodsweoczd .gt_group_heading {
+#hhznkaergs .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1303,7 +1302,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   text-align: left;
 }
 
-#oodsweoczd .gt_empty_group_heading {
+#hhznkaergs .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1318,15 +1317,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: middle;
 }
 
-#oodsweoczd .gt_from_md > :first-child {
+#hhznkaergs .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oodsweoczd .gt_from_md > :last-child {
+#hhznkaergs .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oodsweoczd .gt_row {
+#hhznkaergs .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1345,7 +1344,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#oodsweoczd .gt_stub {
+#hhznkaergs .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1358,7 +1357,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#oodsweoczd .gt_stub_row_group {
+#hhznkaergs .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1372,15 +1371,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: top;
 }
 
-#oodsweoczd .gt_row_group_first td {
+#hhznkaergs .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oodsweoczd .gt_row_group_first th {
+#hhznkaergs .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#oodsweoczd .gt_summary_row {
+#hhznkaergs .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1390,16 +1389,16 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#oodsweoczd .gt_first_summary_row {
+#hhznkaergs .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oodsweoczd .gt_first_summary_row.thick {
+#hhznkaergs .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oodsweoczd .gt_last_summary_row {
+#hhznkaergs .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1409,7 +1408,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#oodsweoczd .gt_grand_summary_row {
+#hhznkaergs .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1419,7 +1418,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#oodsweoczd .gt_first_grand_summary_row {
+#hhznkaergs .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1429,7 +1428,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-color: #D3D3D3;
 }
 
-#oodsweoczd .gt_last_grand_summary_row_top {
+#hhznkaergs .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1439,11 +1438,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#oodsweoczd .gt_striped {
+#hhznkaergs .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oodsweoczd .gt_table_body {
+#hhznkaergs .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1452,7 +1451,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#oodsweoczd .gt_footnotes {
+#hhznkaergs .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1466,7 +1465,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#oodsweoczd .gt_footnote {
+#hhznkaergs .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1475,7 +1474,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#oodsweoczd .gt_sourcenotes {
+#hhznkaergs .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1489,7 +1488,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#oodsweoczd .gt_sourcenote {
+#hhznkaergs .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1497,72 +1496,72 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#oodsweoczd .gt_left {
+#hhznkaergs .gt_left {
   text-align: left;
 }
 
-#oodsweoczd .gt_center {
+#hhznkaergs .gt_center {
   text-align: center;
 }
 
-#oodsweoczd .gt_right {
+#hhznkaergs .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oodsweoczd .gt_font_normal {
+#hhznkaergs .gt_font_normal {
   font-weight: normal;
 }
 
-#oodsweoczd .gt_font_bold {
+#hhznkaergs .gt_font_bold {
   font-weight: bold;
 }
 
-#oodsweoczd .gt_font_italic {
+#hhznkaergs .gt_font_italic {
   font-style: italic;
 }
 
-#oodsweoczd .gt_super {
+#hhznkaergs .gt_super {
   font-size: 65%;
 }
 
-#oodsweoczd .gt_footnote_marks {
+#hhznkaergs .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#oodsweoczd .gt_asterisk {
+#hhznkaergs .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oodsweoczd .gt_indent_1 {
+#hhznkaergs .gt_indent_1 {
   text-indent: 5px;
 }
 
-#oodsweoczd .gt_indent_2 {
+#hhznkaergs .gt_indent_2 {
   text-indent: 10px;
 }
 
-#oodsweoczd .gt_indent_3 {
+#hhznkaergs .gt_indent_3 {
   text-indent: 15px;
 }
 
-#oodsweoczd .gt_indent_4 {
+#hhznkaergs .gt_indent_4 {
   text-indent: 20px;
 }
 
-#oodsweoczd .gt_indent_5 {
+#hhznkaergs .gt_indent_5 {
   text-indent: 25px;
 }
 
-#oodsweoczd .katex-display {
+#hhznkaergs .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#oodsweoczd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hhznkaergs div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1645,36 +1644,36 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <p>When we use it with textstat_keyness we are indicating that we want the papers with discipline_cat equal to “acad” to be our <strong>target corpus</strong>. The everything else (i.e., “acad” == FALSE) will be the <strong>reference corpus</strong>.</p>
 <p>The specific method we’re using is log-likelihood, which is designated by “lr”. Thus keyness will show the tokens that are more frequent in papers written for the <em>academic</em> text-type vs.&nbsp;those written for other text-types.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="ot">&lt;-</span> <span class="fu">textstat_keyness</span>(sc_dfm, <span class="fu">docvars</span>(sc_dfm, <span class="st">"text_type"</span>) <span class="sc">==</span> <span class="st">"acad"</span>, <span class="at">measure =</span> <span class="st">"lr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="ot">&lt;-</span> <span class="fu">textstat_keyness</span>(sc_dfm, <span class="fu">docvars</span>(sc_dfm, <span class="st">"text_type"</span>) <span class="sc">==</span> <span class="st">"acad"</span>, <span class="at">measure =</span> <span class="st">"lr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note the second argument: <code>docvars(sc_dfm, "text_type") == "acad"</code>. That slightly awkward syntax simply produces a logical vector. You could store it and pass the vector the function, as well.</p>
 <div class="cell" data-tbl-cap="Tokens with the highest keyness values in the academic text-type when compared to the rest of the sample corpus.">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="st">"G2"</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="st">"G2"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="cxdmqkogcn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cxdmqkogcn table {
+<div id="uizydpvdhi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#uizydpvdhi table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cxdmqkogcn thead, #cxdmqkogcn tbody, #cxdmqkogcn tfoot, #cxdmqkogcn tr, #cxdmqkogcn td, #cxdmqkogcn th {
+#uizydpvdhi thead, #uizydpvdhi tbody, #uizydpvdhi tfoot, #uizydpvdhi tr, #uizydpvdhi td, #uizydpvdhi th {
   border-style: none;
 }
 
-#cxdmqkogcn p {
+#uizydpvdhi p {
   margin: 0;
   padding: 0;
 }
 
-#cxdmqkogcn .gt_table {
+#uizydpvdhi .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1700,12 +1699,12 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-left-color: #D3D3D3;
 }
 
-#cxdmqkogcn .gt_caption {
+#uizydpvdhi .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cxdmqkogcn .gt_title {
+#uizydpvdhi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1717,7 +1716,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-width: 0;
 }
 
-#cxdmqkogcn .gt_subtitle {
+#uizydpvdhi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1729,7 +1728,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-width: 0;
 }
 
-#cxdmqkogcn .gt_heading {
+#uizydpvdhi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1741,13 +1740,13 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#cxdmqkogcn .gt_bottom_border {
+#uizydpvdhi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cxdmqkogcn .gt_col_headings {
+#uizydpvdhi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1762,7 +1761,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#cxdmqkogcn .gt_col_heading {
+#uizydpvdhi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1782,7 +1781,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#cxdmqkogcn .gt_column_spanner_outer {
+#uizydpvdhi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1794,15 +1793,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 4px;
 }
 
-#cxdmqkogcn .gt_column_spanner_outer:first-child {
+#uizydpvdhi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cxdmqkogcn .gt_column_spanner_outer:last-child {
+#uizydpvdhi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cxdmqkogcn .gt_column_spanner {
+#uizydpvdhi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1814,11 +1813,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   width: 100%;
 }
 
-#cxdmqkogcn .gt_spanner_row {
+#uizydpvdhi .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cxdmqkogcn .gt_group_heading {
+#uizydpvdhi .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1844,7 +1843,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   text-align: left;
 }
 
-#cxdmqkogcn .gt_empty_group_heading {
+#uizydpvdhi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1859,15 +1858,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: middle;
 }
 
-#cxdmqkogcn .gt_from_md > :first-child {
+#uizydpvdhi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cxdmqkogcn .gt_from_md > :last-child {
+#uizydpvdhi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cxdmqkogcn .gt_row {
+#uizydpvdhi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1886,7 +1885,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#cxdmqkogcn .gt_stub {
+#uizydpvdhi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1899,7 +1898,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#cxdmqkogcn .gt_stub_row_group {
+#uizydpvdhi .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1913,15 +1912,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: top;
 }
 
-#cxdmqkogcn .gt_row_group_first td {
+#uizydpvdhi .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cxdmqkogcn .gt_row_group_first th {
+#uizydpvdhi .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cxdmqkogcn .gt_summary_row {
+#uizydpvdhi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1931,16 +1930,16 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#cxdmqkogcn .gt_first_summary_row {
+#uizydpvdhi .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cxdmqkogcn .gt_first_summary_row.thick {
+#uizydpvdhi .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cxdmqkogcn .gt_last_summary_row {
+#uizydpvdhi .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1950,7 +1949,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#cxdmqkogcn .gt_grand_summary_row {
+#uizydpvdhi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1960,7 +1959,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#cxdmqkogcn .gt_first_grand_summary_row {
+#uizydpvdhi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1970,7 +1969,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-color: #D3D3D3;
 }
 
-#cxdmqkogcn .gt_last_grand_summary_row_top {
+#uizydpvdhi .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1980,11 +1979,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#cxdmqkogcn .gt_striped {
+#uizydpvdhi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cxdmqkogcn .gt_table_body {
+#uizydpvdhi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1993,7 +1992,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#cxdmqkogcn .gt_footnotes {
+#uizydpvdhi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2007,7 +2006,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#cxdmqkogcn .gt_footnote {
+#uizydpvdhi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2016,7 +2015,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#cxdmqkogcn .gt_sourcenotes {
+#uizydpvdhi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2030,7 +2029,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#cxdmqkogcn .gt_sourcenote {
+#uizydpvdhi .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2038,72 +2037,72 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#cxdmqkogcn .gt_left {
+#uizydpvdhi .gt_left {
   text-align: left;
 }
 
-#cxdmqkogcn .gt_center {
+#uizydpvdhi .gt_center {
   text-align: center;
 }
 
-#cxdmqkogcn .gt_right {
+#uizydpvdhi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cxdmqkogcn .gt_font_normal {
+#uizydpvdhi .gt_font_normal {
   font-weight: normal;
 }
 
-#cxdmqkogcn .gt_font_bold {
+#uizydpvdhi .gt_font_bold {
   font-weight: bold;
 }
 
-#cxdmqkogcn .gt_font_italic {
+#uizydpvdhi .gt_font_italic {
   font-style: italic;
 }
 
-#cxdmqkogcn .gt_super {
+#uizydpvdhi .gt_super {
   font-size: 65%;
 }
 
-#cxdmqkogcn .gt_footnote_marks {
+#uizydpvdhi .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cxdmqkogcn .gt_asterisk {
+#uizydpvdhi .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cxdmqkogcn .gt_indent_1 {
+#uizydpvdhi .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cxdmqkogcn .gt_indent_2 {
+#uizydpvdhi .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cxdmqkogcn .gt_indent_3 {
+#uizydpvdhi .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cxdmqkogcn .gt_indent_4 {
+#uizydpvdhi .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cxdmqkogcn .gt_indent_5 {
+#uizydpvdhi .gt_indent_5 {
   text-indent: 25px;
 }
 
-#cxdmqkogcn .katex-display {
+#uizydpvdhi .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#cxdmqkogcn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#uizydpvdhi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2200,43 +2199,43 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <h3 data-number="6.4.1" class="anchored" data-anchor-id="creating-sub-corpora"><span class="header-section-number">6.4.1</span> Creating sub-corpora</h3>
 <p>If we want to compare one text-type (as our target corpus) to another (as our reference corpus), we can easily subset the data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sub_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_subset</span>(sc_dfm, text_type <span class="sc">==</span> <span class="st">"acad"</span> <span class="sc">|</span> text_type <span class="sc">==</span> <span class="st">"fic"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sub_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_subset</span>(sc_dfm, text_type <span class="sc">==</span> <span class="st">"acad"</span> <span class="sc">|</span> text_type <span class="sc">==</span> <span class="st">"fic"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When we do this, the resulting data will still include <strong>all</strong> the tokens in the sample corpus, including those that do not appear in either the academic or fiction text-type. To deal with this, we will trim the dfm.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sub_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_trim</span>(sub_dfm, <span class="at">min_termfreq =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sub_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_trim</span>(sub_dfm, <span class="at">min_termfreq =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We’ll do the same for fiction.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fic_kw <span class="ot">&lt;-</span> <span class="fu">textstat_keyness</span>(sub_dfm, <span class="fu">docvars</span>(sub_dfm, <span class="st">"text_type"</span>) <span class="sc">==</span> <span class="st">"fic"</span>, <span class="at">measure =</span> <span class="st">"lr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fic_kw <span class="ot">&lt;-</span> <span class="fu">textstat_keyness</span>(sub_dfm, <span class="fu">docvars</span>(sub_dfm, <span class="st">"text_type"</span>) <span class="sc">==</span> <span class="st">"fic"</span>, <span class="at">measure =</span> <span class="st">"lr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tbl-cap="Tokens with the highest keyness values in the fiction text-type when compared to the academic text-type.">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>fic_kw <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="st">"G2"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fic_kw <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="st">"G2"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="ocvvwwgorr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ocvvwwgorr table {
+<div id="ktxpvomugo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ktxpvomugo table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ocvvwwgorr thead, #ocvvwwgorr tbody, #ocvvwwgorr tfoot, #ocvvwwgorr tr, #ocvvwwgorr td, #ocvvwwgorr th {
+#ktxpvomugo thead, #ktxpvomugo tbody, #ktxpvomugo tfoot, #ktxpvomugo tr, #ktxpvomugo td, #ktxpvomugo th {
   border-style: none;
 }
 
-#ocvvwwgorr p {
+#ktxpvomugo p {
   margin: 0;
   padding: 0;
 }
 
-#ocvvwwgorr .gt_table {
+#ktxpvomugo .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2262,12 +2261,12 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-left-color: #D3D3D3;
 }
 
-#ocvvwwgorr .gt_caption {
+#ktxpvomugo .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ocvvwwgorr .gt_title {
+#ktxpvomugo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2279,7 +2278,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-width: 0;
 }
 
-#ocvvwwgorr .gt_subtitle {
+#ktxpvomugo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2291,7 +2290,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-width: 0;
 }
 
-#ocvvwwgorr .gt_heading {
+#ktxpvomugo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2303,13 +2302,13 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ocvvwwgorr .gt_bottom_border {
+#ktxpvomugo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ocvvwwgorr .gt_col_headings {
+#ktxpvomugo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2324,7 +2323,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ocvvwwgorr .gt_col_heading {
+#ktxpvomugo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2344,7 +2343,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#ocvvwwgorr .gt_column_spanner_outer {
+#ktxpvomugo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2356,15 +2355,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 4px;
 }
 
-#ocvvwwgorr .gt_column_spanner_outer:first-child {
+#ktxpvomugo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ocvvwwgorr .gt_column_spanner_outer:last-child {
+#ktxpvomugo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ocvvwwgorr .gt_column_spanner {
+#ktxpvomugo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2376,11 +2375,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   width: 100%;
 }
 
-#ocvvwwgorr .gt_spanner_row {
+#ktxpvomugo .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ocvvwwgorr .gt_group_heading {
+#ktxpvomugo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2406,7 +2405,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   text-align: left;
 }
 
-#ocvvwwgorr .gt_empty_group_heading {
+#ktxpvomugo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2421,15 +2420,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: middle;
 }
 
-#ocvvwwgorr .gt_from_md > :first-child {
+#ktxpvomugo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ocvvwwgorr .gt_from_md > :last-child {
+#ktxpvomugo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ocvvwwgorr .gt_row {
+#ktxpvomugo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2448,7 +2447,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#ocvvwwgorr .gt_stub {
+#ktxpvomugo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2461,7 +2460,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ocvvwwgorr .gt_stub_row_group {
+#ktxpvomugo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2475,15 +2474,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: top;
 }
 
-#ocvvwwgorr .gt_row_group_first td {
+#ktxpvomugo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ocvvwwgorr .gt_row_group_first th {
+#ktxpvomugo .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ocvvwwgorr .gt_summary_row {
+#ktxpvomugo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2493,16 +2492,16 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ocvvwwgorr .gt_first_summary_row {
+#ktxpvomugo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ocvvwwgorr .gt_first_summary_row.thick {
+#ktxpvomugo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ocvvwwgorr .gt_last_summary_row {
+#ktxpvomugo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2512,7 +2511,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#ocvvwwgorr .gt_grand_summary_row {
+#ktxpvomugo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2522,7 +2521,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ocvvwwgorr .gt_first_grand_summary_row {
+#ktxpvomugo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2532,7 +2531,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-color: #D3D3D3;
 }
 
-#ocvvwwgorr .gt_last_grand_summary_row_top {
+#ktxpvomugo .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2542,11 +2541,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#ocvvwwgorr .gt_striped {
+#ktxpvomugo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ocvvwwgorr .gt_table_body {
+#ktxpvomugo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2555,7 +2554,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#ocvvwwgorr .gt_footnotes {
+#ktxpvomugo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2569,7 +2568,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ocvvwwgorr .gt_footnote {
+#ktxpvomugo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2578,7 +2577,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ocvvwwgorr .gt_sourcenotes {
+#ktxpvomugo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2592,7 +2591,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ocvvwwgorr .gt_sourcenote {
+#ktxpvomugo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2600,72 +2599,72 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ocvvwwgorr .gt_left {
+#ktxpvomugo .gt_left {
   text-align: left;
 }
 
-#ocvvwwgorr .gt_center {
+#ktxpvomugo .gt_center {
   text-align: center;
 }
 
-#ocvvwwgorr .gt_right {
+#ktxpvomugo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ocvvwwgorr .gt_font_normal {
+#ktxpvomugo .gt_font_normal {
   font-weight: normal;
 }
 
-#ocvvwwgorr .gt_font_bold {
+#ktxpvomugo .gt_font_bold {
   font-weight: bold;
 }
 
-#ocvvwwgorr .gt_font_italic {
+#ktxpvomugo .gt_font_italic {
   font-style: italic;
 }
 
-#ocvvwwgorr .gt_super {
+#ktxpvomugo .gt_super {
   font-size: 65%;
 }
 
-#ocvvwwgorr .gt_footnote_marks {
+#ktxpvomugo .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ocvvwwgorr .gt_asterisk {
+#ktxpvomugo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ocvvwwgorr .gt_indent_1 {
+#ktxpvomugo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ocvvwwgorr .gt_indent_2 {
+#ktxpvomugo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ocvvwwgorr .gt_indent_3 {
+#ktxpvomugo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ocvvwwgorr .gt_indent_4 {
+#ktxpvomugo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ocvvwwgorr .gt_indent_5 {
+#ktxpvomugo .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ocvvwwgorr .katex-display {
+#ktxpvomugo .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ocvvwwgorr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ktxpvomugo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2760,35 +2759,35 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 </div>
 <p>Note that if we switch our target and reference corpora (academic as target, fiction as reference), the tail of the keyness table contains the negative values of the original (fiction as target, academic and reference), which you may have already gathered given the formula above.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="ot">&lt;-</span> <span class="fu">textstat_keyness</span>(sub_dfm, <span class="fu">docvars</span>(sub_dfm, <span class="st">"text_type"</span>) <span class="sc">==</span> <span class="st">"acad"</span>, <span class="at">measure =</span> <span class="st">"lr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="ot">&lt;-</span> <span class="fu">textstat_keyness</span>(sub_dfm, <span class="fu">docvars</span>(sub_dfm, <span class="st">"text_type"</span>) <span class="sc">==</span> <span class="st">"acad"</span>, <span class="at">measure =</span> <span class="st">"lr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tbl-cap="Tokens with the lowest keyness values int the academic text-type when compared to the fiction text-type.">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="st">"G2"</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="st">"G2"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="shbmpynabf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#shbmpynabf table {
+<div id="bdiwgcvzgp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#bdiwgcvzgp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#shbmpynabf thead, #shbmpynabf tbody, #shbmpynabf tfoot, #shbmpynabf tr, #shbmpynabf td, #shbmpynabf th {
+#bdiwgcvzgp thead, #bdiwgcvzgp tbody, #bdiwgcvzgp tfoot, #bdiwgcvzgp tr, #bdiwgcvzgp td, #bdiwgcvzgp th {
   border-style: none;
 }
 
-#shbmpynabf p {
+#bdiwgcvzgp p {
   margin: 0;
   padding: 0;
 }
 
-#shbmpynabf .gt_table {
+#bdiwgcvzgp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2814,12 +2813,12 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-left-color: #D3D3D3;
 }
 
-#shbmpynabf .gt_caption {
+#bdiwgcvzgp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#shbmpynabf .gt_title {
+#bdiwgcvzgp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2831,7 +2830,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-width: 0;
 }
 
-#shbmpynabf .gt_subtitle {
+#bdiwgcvzgp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2843,7 +2842,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-width: 0;
 }
 
-#shbmpynabf .gt_heading {
+#bdiwgcvzgp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2855,13 +2854,13 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#shbmpynabf .gt_bottom_border {
+#bdiwgcvzgp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#shbmpynabf .gt_col_headings {
+#bdiwgcvzgp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2876,7 +2875,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#shbmpynabf .gt_col_heading {
+#bdiwgcvzgp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2896,7 +2895,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#shbmpynabf .gt_column_spanner_outer {
+#bdiwgcvzgp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2908,15 +2907,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 4px;
 }
 
-#shbmpynabf .gt_column_spanner_outer:first-child {
+#bdiwgcvzgp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#shbmpynabf .gt_column_spanner_outer:last-child {
+#bdiwgcvzgp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#shbmpynabf .gt_column_spanner {
+#bdiwgcvzgp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2928,11 +2927,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   width: 100%;
 }
 
-#shbmpynabf .gt_spanner_row {
+#bdiwgcvzgp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#shbmpynabf .gt_group_heading {
+#bdiwgcvzgp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2958,7 +2957,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   text-align: left;
 }
 
-#shbmpynabf .gt_empty_group_heading {
+#bdiwgcvzgp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2973,15 +2972,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: middle;
 }
 
-#shbmpynabf .gt_from_md > :first-child {
+#bdiwgcvzgp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#shbmpynabf .gt_from_md > :last-child {
+#bdiwgcvzgp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#shbmpynabf .gt_row {
+#bdiwgcvzgp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3000,7 +2999,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#shbmpynabf .gt_stub {
+#bdiwgcvzgp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3013,7 +3012,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#shbmpynabf .gt_stub_row_group {
+#bdiwgcvzgp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3027,15 +3026,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: top;
 }
 
-#shbmpynabf .gt_row_group_first td {
+#bdiwgcvzgp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#shbmpynabf .gt_row_group_first th {
+#bdiwgcvzgp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#shbmpynabf .gt_summary_row {
+#bdiwgcvzgp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3045,16 +3044,16 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#shbmpynabf .gt_first_summary_row {
+#bdiwgcvzgp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#shbmpynabf .gt_first_summary_row.thick {
+#bdiwgcvzgp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#shbmpynabf .gt_last_summary_row {
+#bdiwgcvzgp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3064,7 +3063,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#shbmpynabf .gt_grand_summary_row {
+#bdiwgcvzgp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3074,7 +3073,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#shbmpynabf .gt_first_grand_summary_row {
+#bdiwgcvzgp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3084,7 +3083,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-color: #D3D3D3;
 }
 
-#shbmpynabf .gt_last_grand_summary_row_top {
+#bdiwgcvzgp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3094,11 +3093,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#shbmpynabf .gt_striped {
+#bdiwgcvzgp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#shbmpynabf .gt_table_body {
+#bdiwgcvzgp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3107,7 +3106,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#shbmpynabf .gt_footnotes {
+#bdiwgcvzgp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3121,7 +3120,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#shbmpynabf .gt_footnote {
+#bdiwgcvzgp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3130,7 +3129,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#shbmpynabf .gt_sourcenotes {
+#bdiwgcvzgp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3144,7 +3143,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#shbmpynabf .gt_sourcenote {
+#bdiwgcvzgp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3152,72 +3151,72 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#shbmpynabf .gt_left {
+#bdiwgcvzgp .gt_left {
   text-align: left;
 }
 
-#shbmpynabf .gt_center {
+#bdiwgcvzgp .gt_center {
   text-align: center;
 }
 
-#shbmpynabf .gt_right {
+#bdiwgcvzgp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#shbmpynabf .gt_font_normal {
+#bdiwgcvzgp .gt_font_normal {
   font-weight: normal;
 }
 
-#shbmpynabf .gt_font_bold {
+#bdiwgcvzgp .gt_font_bold {
   font-weight: bold;
 }
 
-#shbmpynabf .gt_font_italic {
+#bdiwgcvzgp .gt_font_italic {
   font-style: italic;
 }
 
-#shbmpynabf .gt_super {
+#bdiwgcvzgp .gt_super {
   font-size: 65%;
 }
 
-#shbmpynabf .gt_footnote_marks {
+#bdiwgcvzgp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#shbmpynabf .gt_asterisk {
+#bdiwgcvzgp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#shbmpynabf .gt_indent_1 {
+#bdiwgcvzgp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#shbmpynabf .gt_indent_2 {
+#bdiwgcvzgp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#shbmpynabf .gt_indent_3 {
+#bdiwgcvzgp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#shbmpynabf .gt_indent_4 {
+#bdiwgcvzgp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#shbmpynabf .gt_indent_5 {
+#bdiwgcvzgp .gt_indent_5 {
   text-indent: 25px;
 }
 
-#shbmpynabf .katex-display {
+#bdiwgcvzgp .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#shbmpynabf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#bdiwgcvzgp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3350,43 +3349,43 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <h3 data-number="6.5.2" class="anchored" data-anchor-id="the-keyness_table-function"><span class="header-section-number">6.5.2</span> The <code>keyness_table()</code> function</h3>
 <p>We’ll start by creating 2 dfms–a target and a reference:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>acad_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_subset</span>(sc_dfm, text_type <span class="sc">==</span> <span class="st">"acad"</span>) <span class="sc">%&gt;%</span> <span class="fu">dfm_trim</span>(<span class="at">min_termfreq =</span> <span class="dv">1</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>fic_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_subset</span>(sc_dfm, text_type <span class="sc">==</span> <span class="st">"fic"</span>) <span class="sc">%&gt;%</span> <span class="fu">dfm_trim</span>(<span class="at">min_termfreq =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>acad_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_subset</span>(sc_dfm, text_type <span class="sc">==</span> <span class="st">"acad"</span>) <span class="sc">|&gt;</span> <span class="fu">dfm_trim</span>(<span class="at">min_termfreq =</span> <span class="dv">1</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>fic_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_subset</span>(sc_dfm, text_type <span class="sc">==</span> <span class="st">"fic"</span>) <span class="sc">|&gt;</span> <span class="fu">dfm_trim</span>(<span class="at">min_termfreq =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we will use the <code>keyness_table()</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="ot">&lt;-</span> <span class="fu">keyness_table</span>(acad_dfm, fic_dfm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="ot">&lt;-</span> <span class="fu">keyness_table</span>(acad_dfm, fic_dfm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And check the result:</p>
 <div class="cell" data-tbl-cap="Tokens with the highest keyness values in the academic text-type when compared to the fiction text-type.">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="sc">|&gt;</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="st">"LL"</span>, <span class="st">"LR"</span>, <span class="st">"Per_10.5_Tar"</span>, <span class="st">"Per_10.5_Ref"</span>, <span class="st">"DP_Tar"</span>, <span class="st">"DP_Ref"</span>),</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="st">"PV"</span>,</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>acad_kw <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="st">"LL"</span>, <span class="st">"LR"</span>, <span class="st">"Per_10.5_Tar"</span>, <span class="st">"Per_10.5_Ref"</span>, <span class="st">"DP_Tar"</span>, <span class="st">"DP_Ref"</span>),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="st">"PV"</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="qtgotykbbd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qtgotykbbd table {
+<div id="qradkjyesz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qradkjyesz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qtgotykbbd thead, #qtgotykbbd tbody, #qtgotykbbd tfoot, #qtgotykbbd tr, #qtgotykbbd td, #qtgotykbbd th {
+#qradkjyesz thead, #qradkjyesz tbody, #qradkjyesz tfoot, #qradkjyesz tr, #qradkjyesz td, #qradkjyesz th {
   border-style: none;
 }
 
-#qtgotykbbd p {
+#qradkjyesz p {
   margin: 0;
   padding: 0;
 }
 
-#qtgotykbbd .gt_table {
+#qradkjyesz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3412,12 +3411,12 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-left-color: #D3D3D3;
 }
 
-#qtgotykbbd .gt_caption {
+#qradkjyesz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qtgotykbbd .gt_title {
+#qradkjyesz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3429,7 +3428,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-width: 0;
 }
 
-#qtgotykbbd .gt_subtitle {
+#qradkjyesz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3441,7 +3440,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-width: 0;
 }
 
-#qtgotykbbd .gt_heading {
+#qradkjyesz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3453,13 +3452,13 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#qtgotykbbd .gt_bottom_border {
+#qradkjyesz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qtgotykbbd .gt_col_headings {
+#qradkjyesz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3474,7 +3473,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#qtgotykbbd .gt_col_heading {
+#qradkjyesz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3494,7 +3493,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#qtgotykbbd .gt_column_spanner_outer {
+#qradkjyesz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3506,15 +3505,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 4px;
 }
 
-#qtgotykbbd .gt_column_spanner_outer:first-child {
+#qradkjyesz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qtgotykbbd .gt_column_spanner_outer:last-child {
+#qradkjyesz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qtgotykbbd .gt_column_spanner {
+#qradkjyesz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3526,11 +3525,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   width: 100%;
 }
 
-#qtgotykbbd .gt_spanner_row {
+#qradkjyesz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qtgotykbbd .gt_group_heading {
+#qradkjyesz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3556,7 +3555,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   text-align: left;
 }
 
-#qtgotykbbd .gt_empty_group_heading {
+#qradkjyesz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3571,15 +3570,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: middle;
 }
 
-#qtgotykbbd .gt_from_md > :first-child {
+#qradkjyesz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qtgotykbbd .gt_from_md > :last-child {
+#qradkjyesz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qtgotykbbd .gt_row {
+#qradkjyesz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3598,7 +3597,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#qtgotykbbd .gt_stub {
+#qradkjyesz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3611,7 +3610,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#qtgotykbbd .gt_stub_row_group {
+#qradkjyesz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3625,15 +3624,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: top;
 }
 
-#qtgotykbbd .gt_row_group_first td {
+#qradkjyesz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qtgotykbbd .gt_row_group_first th {
+#qradkjyesz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qtgotykbbd .gt_summary_row {
+#qradkjyesz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3643,16 +3642,16 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#qtgotykbbd .gt_first_summary_row {
+#qradkjyesz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qtgotykbbd .gt_first_summary_row.thick {
+#qradkjyesz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qtgotykbbd .gt_last_summary_row {
+#qradkjyesz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3662,7 +3661,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#qtgotykbbd .gt_grand_summary_row {
+#qradkjyesz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3672,7 +3671,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#qtgotykbbd .gt_first_grand_summary_row {
+#qradkjyesz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3682,7 +3681,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-color: #D3D3D3;
 }
 
-#qtgotykbbd .gt_last_grand_summary_row_top {
+#qradkjyesz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3692,11 +3691,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#qtgotykbbd .gt_striped {
+#qradkjyesz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qtgotykbbd .gt_table_body {
+#qradkjyesz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3705,7 +3704,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#qtgotykbbd .gt_footnotes {
+#qradkjyesz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3719,7 +3718,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#qtgotykbbd .gt_footnote {
+#qradkjyesz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3728,7 +3727,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#qtgotykbbd .gt_sourcenotes {
+#qradkjyesz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3742,7 +3741,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#qtgotykbbd .gt_sourcenote {
+#qradkjyesz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3750,72 +3749,72 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#qtgotykbbd .gt_left {
+#qradkjyesz .gt_left {
   text-align: left;
 }
 
-#qtgotykbbd .gt_center {
+#qradkjyesz .gt_center {
   text-align: center;
 }
 
-#qtgotykbbd .gt_right {
+#qradkjyesz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qtgotykbbd .gt_font_normal {
+#qradkjyesz .gt_font_normal {
   font-weight: normal;
 }
 
-#qtgotykbbd .gt_font_bold {
+#qradkjyesz .gt_font_bold {
   font-weight: bold;
 }
 
-#qtgotykbbd .gt_font_italic {
+#qradkjyesz .gt_font_italic {
   font-style: italic;
 }
 
-#qtgotykbbd .gt_super {
+#qradkjyesz .gt_super {
   font-size: 65%;
 }
 
-#qtgotykbbd .gt_footnote_marks {
+#qradkjyesz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qtgotykbbd .gt_asterisk {
+#qradkjyesz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qtgotykbbd .gt_indent_1 {
+#qradkjyesz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qtgotykbbd .gt_indent_2 {
+#qradkjyesz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qtgotykbbd .gt_indent_3 {
+#qradkjyesz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qtgotykbbd .gt_indent_4 {
+#qradkjyesz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qtgotykbbd .gt_indent_5 {
+#qradkjyesz .gt_indent_5 {
   text-indent: 25px;
 }
 
-#qtgotykbbd .katex-display {
+#qradkjyesz .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#qtgotykbbd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#qradkjyesz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3838,20 +3837,8 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">of</td>
-<td class="gt_row gt_right" headers="LL">1,225.77</td>
-<td class="gt_row gt_right" headers="LR">1.25</td>
-<td class="gt_row gt_right" headers="PV">0.00000</td>
-<td class="gt_row gt_right" headers="AF_Tar">4848</td>
-<td class="gt_row gt_right" headers="AF_Ref">2153</td>
-<td class="gt_row gt_right" headers="Per_10.5_Tar">3,992.03</td>
-<td class="gt_row gt_right" headers="Per_10.5_Ref">1,673.61</td>
-<td class="gt_row gt_right" headers="DP_Tar">0.09</td>
-<td class="gt_row gt_right" headers="DP_Ref">0.15</td>
-</tr>
-<tr class="even">
 <td class="gt_row gt_left" headers="Token">the</td>
-<td class="gt_row gt_right" headers="LL">250.03</td>
+<td class="gt_row gt_right" headers="LL">26,650.42</td>
 <td class="gt_row gt_right" headers="LR">0.37</td>
 <td class="gt_row gt_right" headers="PV">0.00000</td>
 <td class="gt_row gt_right" headers="AF_Tar">8273</td>
@@ -3861,57 +3848,33 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <td class="gt_row gt_right" headers="DP_Tar">0.11</td>
 <td class="gt_row gt_right" headers="DP_Ref">0.10</td>
 </tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Token">social</td>
-<td class="gt_row gt_right" headers="LL">248.10</td>
-<td class="gt_row gt_right" headers="LR">4.98</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="Token">of</td>
+<td class="gt_row gt_right" headers="LL">26,152.01</td>
+<td class="gt_row gt_right" headers="LR">1.25</td>
 <td class="gt_row gt_right" headers="PV">0.00000</td>
-<td class="gt_row gt_right" headers="AF_Tar">208</td>
-<td class="gt_row gt_right" headers="AF_Ref">7</td>
-<td class="gt_row gt_right" headers="Per_10.5_Tar">171.28</td>
-<td class="gt_row gt_right" headers="Per_10.5_Ref">5.44</td>
-<td class="gt_row gt_right" headers="DP_Tar">0.65</td>
-<td class="gt_row gt_right" headers="DP_Ref">0.88</td>
+<td class="gt_row gt_right" headers="AF_Tar">4848</td>
+<td class="gt_row gt_right" headers="AF_Ref">2153</td>
+<td class="gt_row gt_right" headers="Per_10.5_Tar">3,992.03</td>
+<td class="gt_row gt_right" headers="Per_10.5_Ref">1,673.61</td>
+<td class="gt_row gt_right" headers="DP_Tar">0.09</td>
+<td class="gt_row gt_right" headers="DP_Ref">0.15</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Token">and</td>
+<td class="gt_row gt_right" headers="LL">16,208.50</td>
+<td class="gt_row gt_right" headers="LR">0.23</td>
+<td class="gt_row gt_right" headers="PV">0.00000</td>
+<td class="gt_row gt_right" headers="AF_Tar">3462</td>
+<td class="gt_row gt_right" headers="AF_Ref">3135</td>
+<td class="gt_row gt_right" headers="Per_10.5_Tar">2,850.74</td>
+<td class="gt_row gt_right" headers="Per_10.5_Ref">2,436.96</td>
+<td class="gt_row gt_right" headers="DP_Tar">0.09</td>
+<td class="gt_row gt_right" headers="DP_Ref">0.10</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">are</td>
-<td class="gt_row gt_right" headers="LL">221.19</td>
-<td class="gt_row gt_right" headers="LR">1.44</td>
-<td class="gt_row gt_right" headers="PV">0.00000</td>
-<td class="gt_row gt_right" headers="AF_Tar">707</td>
-<td class="gt_row gt_right" headers="AF_Ref">276</td>
-<td class="gt_row gt_right" headers="Per_10.5_Tar">582.17</td>
-<td class="gt_row gt_right" headers="Per_10.5_Ref">214.55</td>
-<td class="gt_row gt_right" headers="DP_Tar">0.21</td>
-<td class="gt_row gt_right" headers="DP_Ref">0.30</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Token">studies</td>
-<td class="gt_row gt_right" headers="LL">213.17</td>
-<td class="gt_row gt_right" headers="LR">7.36</td>
-<td class="gt_row gt_right" headers="PV">0.00000</td>
-<td class="gt_row gt_right" headers="AF_Tar">155</td>
-<td class="gt_row gt_right" headers="AF_Ref">1</td>
-<td class="gt_row gt_right" headers="Per_10.5_Tar">127.63</td>
-<td class="gt_row gt_right" headers="Per_10.5_Ref">0.78</td>
-<td class="gt_row gt_right" headers="DP_Tar">0.67</td>
-<td class="gt_row gt_right" headers="DP_Ref">0.98</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Token">by</td>
-<td class="gt_row gt_right" headers="LL">209.00</td>
-<td class="gt_row gt_right" headers="LR">1.29</td>
-<td class="gt_row gt_right" headers="PV">0.00000</td>
-<td class="gt_row gt_right" headers="AF_Tar">790</td>
-<td class="gt_row gt_right" headers="AF_Ref">342</td>
-<td class="gt_row gt_right" headers="Per_10.5_Tar">650.52</td>
-<td class="gt_row gt_right" headers="Per_10.5_Ref">265.85</td>
-<td class="gt_row gt_right" headers="DP_Tar">0.17</td>
-<td class="gt_row gt_right" headers="DP_Ref">0.22</td>
-</tr>
-<tr class="odd">
 <td class="gt_row gt_left" headers="Token">in</td>
-<td class="gt_row gt_right" headers="LL">185.82</td>
+<td class="gt_row gt_right" headers="LL">15,433.39</td>
 <td class="gt_row gt_right" headers="LR">0.58</td>
 <td class="gt_row gt_right" headers="PV">0.00000</td>
 <td class="gt_row gt_right" headers="AF_Tar">2715</td>
@@ -3921,33 +3884,21 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <td class="gt_row gt_right" headers="DP_Tar">0.11</td>
 <td class="gt_row gt_right" headers="DP_Ref">0.09</td>
 </tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Token">students</td>
-<td class="gt_row gt_right" headers="LL">179.36</td>
-<td class="gt_row gt_right" headers="LR">5.27</td>
-<td class="gt_row gt_right" headers="PV">0.00000</td>
-<td class="gt_row gt_right" headers="AF_Tar">146</td>
-<td class="gt_row gt_right" headers="AF_Ref">4</td>
-<td class="gt_row gt_right" headers="Per_10.5_Tar">120.22</td>
-<td class="gt_row gt_right" headers="Per_10.5_Ref">3.11</td>
-<td class="gt_row gt_right" headers="DP_Tar">0.80</td>
-<td class="gt_row gt_right" headers="DP_Ref">0.94</td>
-</tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">research</td>
-<td class="gt_row gt_right" headers="LL">175.19</td>
-<td class="gt_row gt_right" headers="LR">4.74</td>
+<td class="gt_row gt_left" headers="Token">to</td>
+<td class="gt_row gt_right" headers="LL">13,954.49</td>
+<td class="gt_row gt_right" headers="LR">0.06</td>
 <td class="gt_row gt_right" headers="PV">0.00000</td>
-<td class="gt_row gt_right" headers="AF_Tar">151</td>
-<td class="gt_row gt_right" headers="AF_Ref">6</td>
-<td class="gt_row gt_right" headers="Per_10.5_Tar">124.34</td>
-<td class="gt_row gt_right" headers="Per_10.5_Ref">4.66</td>
-<td class="gt_row gt_right" headers="DP_Tar">0.63</td>
-<td class="gt_row gt_right" headers="DP_Ref">0.90</td>
+<td class="gt_row gt_right" headers="AF_Tar">2944</td>
+<td class="gt_row gt_right" headers="AF_Ref">2986</td>
+<td class="gt_row gt_right" headers="Per_10.5_Tar">2,424.20</td>
+<td class="gt_row gt_right" headers="Per_10.5_Ref">2,321.13</td>
+<td class="gt_row gt_right" headers="DP_Tar">0.11</td>
+<td class="gt_row gt_right" headers="DP_Ref">0.07</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Token">is</td>
-<td class="gt_row gt_right" headers="LL">171.74</td>
+<td class="gt_row gt_right" headers="LL">9,466.51</td>
 <td class="gt_row gt_right" headers="LR">0.87</td>
 <td class="gt_row gt_right" headers="PV">0.00000</td>
 <td class="gt_row gt_right" headers="AF_Tar">1241</td>
@@ -3956,6 +3907,54 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <td class="gt_row gt_right" headers="Per_10.5_Ref">559.68</td>
 <td class="gt_row gt_right" headers="DP_Tar">0.23</td>
 <td class="gt_row gt_right" headers="DP_Ref">0.36</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Token">that</td>
+<td class="gt_row gt_right" headers="LL">9,185.11</td>
+<td class="gt_row gt_right" headers="LR">0.18</td>
+<td class="gt_row gt_right" headers="PV">0.00000</td>
+<td class="gt_row gt_right" headers="AF_Tar">1456</td>
+<td class="gt_row gt_right" headers="AF_Ref">1364</td>
+<td class="gt_row gt_right" headers="Per_10.5_Tar">1,198.93</td>
+<td class="gt_row gt_right" headers="Per_10.5_Ref">1,060.29</td>
+<td class="gt_row gt_right" headers="DP_Tar">0.16</td>
+<td class="gt_row gt_right" headers="DP_Ref">0.17</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Token">for</td>
+<td class="gt_row gt_right" headers="LL">8,063.67</td>
+<td class="gt_row gt_right" headers="LR">0.47</td>
+<td class="gt_row gt_right" headers="PV">0.00000</td>
+<td class="gt_row gt_right" headers="AF_Tar">1105</td>
+<td class="gt_row gt_right" headers="AF_Ref">848</td>
+<td class="gt_row gt_right" headers="Per_10.5_Tar">909.90</td>
+<td class="gt_row gt_right" headers="Per_10.5_Ref">659.18</td>
+<td class="gt_row gt_right" headers="DP_Tar">0.18</td>
+<td class="gt_row gt_right" headers="DP_Ref">0.13</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Token">as</td>
+<td class="gt_row gt_right" headers="LL">7,219.89</td>
+<td class="gt_row gt_right" headers="LR">0.87</td>
+<td class="gt_row gt_right" headers="PV">0.00000</td>
+<td class="gt_row gt_right" headers="AF_Tar">865</td>
+<td class="gt_row gt_right" headers="AF_Ref">502</td>
+<td class="gt_row gt_right" headers="Per_10.5_Tar">712.27</td>
+<td class="gt_row gt_right" headers="Per_10.5_Ref">390.22</td>
+<td class="gt_row gt_right" headers="DP_Tar">0.21</td>
+<td class="gt_row gt_right" headers="DP_Ref">0.19</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Token">by</td>
+<td class="gt_row gt_right" headers="LL">7,144.62</td>
+<td class="gt_row gt_right" headers="LR">1.29</td>
+<td class="gt_row gt_right" headers="PV">0.00000</td>
+<td class="gt_row gt_right" headers="AF_Tar">790</td>
+<td class="gt_row gt_right" headers="AF_Ref">342</td>
+<td class="gt_row gt_right" headers="Per_10.5_Tar">650.52</td>
+<td class="gt_row gt_right" headers="Per_10.5_Ref">265.85</td>
+<td class="gt_row gt_right" headers="DP_Tar">0.17</td>
+<td class="gt_row gt_right" headers="DP_Ref">0.22</td>
 </tr>
 </tbody>
 </table>
@@ -3980,40 +3979,40 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <h3 data-number="6.5.3" class="anchored" data-anchor-id="keyness-pairs"><span class="header-section-number">6.5.3</span> Keyness pairs</h3>
 <p>There is also a function for quickly generating pair-wise keyness comparisions among multiple sub-corpora. To demonstrate, create a third <strong>dfm</strong>, this time containing news articles.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>news_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_subset</span>(sc_dfm, text_type <span class="sc">==</span> <span class="st">"news"</span>) <span class="sc">%&gt;%</span> <span class="fu">dfm_trim</span>(<span class="at">min_termfreq =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>news_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_subset</span>(sc_dfm, text_type <span class="sc">==</span> <span class="st">"news"</span>) <span class="sc">|&gt;</span> <span class="fu">dfm_trim</span>(<span class="at">min_termfreq =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To produce a data.frame comparing more than two sup-corpora, use the <code>keyness_pairs()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>kp <span class="ot">&lt;-</span> <span class="fu">keyness_pairs</span>(news_dfm, acad_dfm, fic_dfm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>kp <span class="ot">&lt;-</span> <span class="fu">keyness_pairs</span>(news_dfm, acad_dfm, fic_dfm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Check the result:</p>
 <div class="cell" data-tbl-cap="Pairwise comparisions of news (target) vs. academic (reference), news (target) vs. fiction (reference), and academic (target) vs. fiction (reference).">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>kp <span class="sc">|&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="fu">everything</span>(),</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>kp <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="fu">everything</span>(),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="ufbxzkrawu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ufbxzkrawu table {
+<div id="kmoslewqoe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kmoslewqoe table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ufbxzkrawu thead, #ufbxzkrawu tbody, #ufbxzkrawu tfoot, #ufbxzkrawu tr, #ufbxzkrawu td, #ufbxzkrawu th {
+#kmoslewqoe thead, #kmoslewqoe tbody, #kmoslewqoe tfoot, #kmoslewqoe tr, #kmoslewqoe td, #kmoslewqoe th {
   border-style: none;
 }
 
-#ufbxzkrawu p {
+#kmoslewqoe p {
   margin: 0;
   padding: 0;
 }
 
-#ufbxzkrawu .gt_table {
+#kmoslewqoe .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4039,12 +4038,12 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-left-color: #D3D3D3;
 }
 
-#ufbxzkrawu .gt_caption {
+#kmoslewqoe .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ufbxzkrawu .gt_title {
+#kmoslewqoe .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4056,7 +4055,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-width: 0;
 }
 
-#ufbxzkrawu .gt_subtitle {
+#kmoslewqoe .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4068,7 +4067,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-width: 0;
 }
 
-#ufbxzkrawu .gt_heading {
+#kmoslewqoe .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4080,13 +4079,13 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ufbxzkrawu .gt_bottom_border {
+#kmoslewqoe .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ufbxzkrawu .gt_col_headings {
+#kmoslewqoe .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4101,7 +4100,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ufbxzkrawu .gt_col_heading {
+#kmoslewqoe .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4121,7 +4120,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#ufbxzkrawu .gt_column_spanner_outer {
+#kmoslewqoe .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4133,15 +4132,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 4px;
 }
 
-#ufbxzkrawu .gt_column_spanner_outer:first-child {
+#kmoslewqoe .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ufbxzkrawu .gt_column_spanner_outer:last-child {
+#kmoslewqoe .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ufbxzkrawu .gt_column_spanner {
+#kmoslewqoe .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4153,11 +4152,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   width: 100%;
 }
 
-#ufbxzkrawu .gt_spanner_row {
+#kmoslewqoe .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ufbxzkrawu .gt_group_heading {
+#kmoslewqoe .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4183,7 +4182,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   text-align: left;
 }
 
-#ufbxzkrawu .gt_empty_group_heading {
+#kmoslewqoe .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4198,15 +4197,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: middle;
 }
 
-#ufbxzkrawu .gt_from_md > :first-child {
+#kmoslewqoe .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ufbxzkrawu .gt_from_md > :last-child {
+#kmoslewqoe .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ufbxzkrawu .gt_row {
+#kmoslewqoe .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4225,7 +4224,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#ufbxzkrawu .gt_stub {
+#kmoslewqoe .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4238,7 +4237,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ufbxzkrawu .gt_stub_row_group {
+#kmoslewqoe .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4252,15 +4251,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: top;
 }
 
-#ufbxzkrawu .gt_row_group_first td {
+#kmoslewqoe .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ufbxzkrawu .gt_row_group_first th {
+#kmoslewqoe .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ufbxzkrawu .gt_summary_row {
+#kmoslewqoe .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4270,16 +4269,16 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ufbxzkrawu .gt_first_summary_row {
+#kmoslewqoe .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ufbxzkrawu .gt_first_summary_row.thick {
+#kmoslewqoe .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ufbxzkrawu .gt_last_summary_row {
+#kmoslewqoe .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4289,7 +4288,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#ufbxzkrawu .gt_grand_summary_row {
+#kmoslewqoe .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4299,7 +4298,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ufbxzkrawu .gt_first_grand_summary_row {
+#kmoslewqoe .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4309,7 +4308,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-color: #D3D3D3;
 }
 
-#ufbxzkrawu .gt_last_grand_summary_row_top {
+#kmoslewqoe .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4319,11 +4318,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#ufbxzkrawu .gt_striped {
+#kmoslewqoe .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ufbxzkrawu .gt_table_body {
+#kmoslewqoe .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4332,7 +4331,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#ufbxzkrawu .gt_footnotes {
+#kmoslewqoe .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4346,7 +4345,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ufbxzkrawu .gt_footnote {
+#kmoslewqoe .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4355,7 +4354,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ufbxzkrawu .gt_sourcenotes {
+#kmoslewqoe .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4369,7 +4368,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#ufbxzkrawu .gt_sourcenote {
+#kmoslewqoe .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4377,72 +4376,72 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#ufbxzkrawu .gt_left {
+#kmoslewqoe .gt_left {
   text-align: left;
 }
 
-#ufbxzkrawu .gt_center {
+#kmoslewqoe .gt_center {
   text-align: center;
 }
 
-#ufbxzkrawu .gt_right {
+#kmoslewqoe .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ufbxzkrawu .gt_font_normal {
+#kmoslewqoe .gt_font_normal {
   font-weight: normal;
 }
 
-#ufbxzkrawu .gt_font_bold {
+#kmoslewqoe .gt_font_bold {
   font-weight: bold;
 }
 
-#ufbxzkrawu .gt_font_italic {
+#kmoslewqoe .gt_font_italic {
   font-style: italic;
 }
 
-#ufbxzkrawu .gt_super {
+#kmoslewqoe .gt_super {
   font-size: 65%;
 }
 
-#ufbxzkrawu .gt_footnote_marks {
+#kmoslewqoe .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ufbxzkrawu .gt_asterisk {
+#kmoslewqoe .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ufbxzkrawu .gt_indent_1 {
+#kmoslewqoe .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ufbxzkrawu .gt_indent_2 {
+#kmoslewqoe .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ufbxzkrawu .gt_indent_3 {
+#kmoslewqoe .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ufbxzkrawu .gt_indent_4 {
+#kmoslewqoe .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ufbxzkrawu .gt_indent_5 {
+#kmoslewqoe .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ufbxzkrawu .katex-display {
+#kmoslewqoe .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ufbxzkrawu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#kmoslewqoe div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4465,124 +4464,124 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
+<td class="gt_row gt_left" headers="Token">a</td>
+<td class="gt_row gt_right" headers="A_v_B_LL">13,663.33</td>
+<td class="gt_row gt_right" headers="A_v_B_LR">0.16</td>
+<td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
+<td class="gt_row gt_right" headers="A_v_C_LL">−12,474.90</td>
+<td class="gt_row gt_right" headers="A_v_C_LR">−0.07</td>
+<td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
+<td class="gt_row gt_right" headers="B_v_C_LL">−11,328.28</td>
+<td class="gt_row gt_right" headers="B_v_C_LR">−0.23</td>
+<td class="gt_row gt_right" headers="B_v_C_PV">0.00</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Token">s</td>
+<td class="gt_row gt_right" headers="A_v_B_LL">9,328.23</td>
+<td class="gt_row gt_right" headers="A_v_B_LR">0.81</td>
+<td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
+<td class="gt_row gt_right" headers="A_v_C_LL">7,826.94</td>
+<td class="gt_row gt_right" headers="A_v_C_LR">0.04</td>
+<td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
+<td class="gt_row gt_right" headers="B_v_C_LL">−4,318.61</td>
+<td class="gt_row gt_right" headers="B_v_C_LR">−0.77</td>
+<td class="gt_row gt_right" headers="B_v_C_PV">0.00</td>
+</tr>
+<tr class="odd">
 <td class="gt_row gt_left" headers="Token">he</td>
-<td class="gt_row gt_right" headers="A_v_B_LL">492.01</td>
+<td class="gt_row gt_right" headers="A_v_B_LL">8,226.48</td>
 <td class="gt_row gt_right" headers="A_v_B_LR">2.32</td>
 <td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
-<td class="gt_row gt_right" headers="A_v_C_LL">−394.56</td>
+<td class="gt_row gt_right" headers="A_v_C_LL">−4,095.76</td>
 <td class="gt_row gt_right" headers="A_v_C_LR">−1.13</td>
 <td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
-<td class="gt_row gt_right" headers="B_v_C_LL">−1,686.80</td>
+<td class="gt_row gt_right" headers="B_v_C_LL">−463.01</td>
 <td class="gt_row gt_right" headers="B_v_C_LR">−3.46</td>
 <td class="gt_row gt_right" headers="B_v_C_PV">0.00</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">said</td>
-<td class="gt_row gt_right" headers="A_v_B_LL">455.34</td>
-<td class="gt_row gt_right" headers="A_v_B_LR">3.69</td>
-<td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
-<td class="gt_row gt_right" headers="A_v_C_LL">1.94</td>
-<td class="gt_row gt_right" headers="A_v_C_LR">0.13</td>
-<td class="gt_row gt_right" headers="A_v_C_PV">0.16</td>
-<td class="gt_row gt_right" headers="B_v_C_LL">−414.33</td>
-<td class="gt_row gt_right" headers="B_v_C_LR">−3.56</td>
-<td class="gt_row gt_right" headers="B_v_C_PV">0.00</td>
-</tr>
-<tr class="odd">
 <td class="gt_row gt_left" headers="Token">i</td>
-<td class="gt_row gt_right" headers="A_v_B_LL">430.97</td>
+<td class="gt_row gt_right" headers="A_v_B_LL">7,314.70</td>
 <td class="gt_row gt_right" headers="A_v_B_LR">2.36</td>
 <td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
-<td class="gt_row gt_right" headers="A_v_C_LL">−853.61</td>
+<td class="gt_row gt_right" headers="A_v_C_LL">−2,952.03</td>
 <td class="gt_row gt_right" headers="A_v_C_LR">−1.65</td>
 <td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
-<td class="gt_row gt_right" headers="B_v_C_LL">−2,330.44</td>
+<td class="gt_row gt_right" headers="B_v_C_LL">−255.14</td>
 <td class="gt_row gt_right" headers="B_v_C_LR">−4.00</td>
 <td class="gt_row gt_right" headers="B_v_C_PV">0.00</td>
 </tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Token">n't</td>
-<td class="gt_row gt_right" headers="A_v_B_LL">333.06</td>
-<td class="gt_row gt_right" headers="A_v_B_LR">3.23</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Token">for</td>
+<td class="gt_row gt_right" headers="A_v_B_LL">7,201.62</td>
+<td class="gt_row gt_right" headers="A_v_B_LR">0.01</td>
 <td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
-<td class="gt_row gt_right" headers="A_v_C_LL">−173.20</td>
-<td class="gt_row gt_right" headers="A_v_C_LR">−1.10</td>
+<td class="gt_row gt_right" headers="A_v_C_LL">7,916.10</td>
+<td class="gt_row gt_right" headers="A_v_C_LR">0.47</td>
 <td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
-<td class="gt_row gt_right" headers="B_v_C_LL">−926.44</td>
-<td class="gt_row gt_right" headers="B_v_C_LR">−4.33</td>
+<td class="gt_row gt_right" headers="B_v_C_LL">8,063.67</td>
+<td class="gt_row gt_right" headers="B_v_C_LR">0.47</td>
+<td class="gt_row gt_right" headers="B_v_C_PV">0.00</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Token">it</td>
+<td class="gt_row gt_right" headers="A_v_B_LL">6,835.17</td>
+<td class="gt_row gt_right" headers="A_v_B_LR">0.61</td>
+<td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
+<td class="gt_row gt_right" headers="A_v_C_LL">−4,959.84</td>
+<td class="gt_row gt_right" headers="A_v_C_LR">−0.66</td>
+<td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
+<td class="gt_row gt_right" headers="B_v_C_LL">−3,094.59</td>
+<td class="gt_row gt_right" headers="B_v_C_LR">−1.27</td>
 <td class="gt_row gt_right" headers="B_v_C_PV">0.00</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">you</td>
-<td class="gt_row gt_right" headers="A_v_B_LL">327.51</td>
-<td class="gt_row gt_right" headers="A_v_B_LR">3.06</td>
+<td class="gt_row gt_left" headers="Token">was</td>
+<td class="gt_row gt_right" headers="A_v_B_LL">6,293.08</td>
+<td class="gt_row gt_right" headers="A_v_B_LR">0.38</td>
 <td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
-<td class="gt_row gt_right" headers="A_v_C_LL">−410.98</td>
-<td class="gt_row gt_right" headers="A_v_C_LR">−1.54</td>
+<td class="gt_row gt_right" headers="A_v_C_LL">−4,529.06</td>
+<td class="gt_row gt_right" headers="A_v_C_LR">−0.82</td>
 <td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
-<td class="gt_row gt_right" headers="B_v_C_LL">−1,355.34</td>
-<td class="gt_row gt_right" headers="B_v_C_LR">−4.60</td>
+<td class="gt_row gt_right" headers="B_v_C_LL">−3,399.76</td>
+<td class="gt_row gt_right" headers="B_v_C_LR">−1.20</td>
 <td class="gt_row gt_right" headers="B_v_C_PV">0.00</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">mr</td>
-<td class="gt_row gt_right" headers="A_v_B_LL">236.58</td>
-<td class="gt_row gt_right" headers="A_v_B_LR">5.10</td>
+<td class="gt_row gt_left" headers="Token">at</td>
+<td class="gt_row gt_right" headers="A_v_B_LL">5,929.91</td>
+<td class="gt_row gt_right" headers="A_v_B_LR">0.91</td>
 <td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
-<td class="gt_row gt_right" headers="A_v_C_LL">75.25</td>
-<td class="gt_row gt_right" headers="A_v_C_LR">1.61</td>
+<td class="gt_row gt_right" headers="A_v_C_LL">5,093.97</td>
+<td class="gt_row gt_right" headers="A_v_C_LR">0.09</td>
 <td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
-<td class="gt_row gt_right" headers="B_v_C_LL">−60.92</td>
-<td class="gt_row gt_right" headers="B_v_C_LR">−3.48</td>
+<td class="gt_row gt_right" headers="B_v_C_LL">−2,628.84</td>
+<td class="gt_row gt_right" headers="B_v_C_LR">−0.82</td>
 <td class="gt_row gt_right" headers="B_v_C_PV">0.00</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="Token">park</td>
-<td class="gt_row gt_right" headers="A_v_B_LL">226.44</td>
-<td class="gt_row gt_right" headers="A_v_B_LR">8.36</td>
+<td class="gt_row gt_left" headers="Token">with</td>
+<td class="gt_row gt_right" headers="A_v_B_LL">5,902.92</td>
+<td class="gt_row gt_right" headers="A_v_B_LR">0.14</td>
 <td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
-<td class="gt_row gt_right" headers="A_v_C_LL">139.47</td>
-<td class="gt_row gt_right" headers="A_v_C_LR">3.20</td>
+<td class="gt_row gt_right" headers="A_v_C_LL">−5,479.47</td>
+<td class="gt_row gt_right" headers="A_v_C_LR">−0.13</td>
 <td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
-<td class="gt_row gt_right" headers="B_v_C_LL">−25.26</td>
-<td class="gt_row gt_right" headers="B_v_C_LR">−5.16</td>
+<td class="gt_row gt_right" headers="B_v_C_LL">−5,052.60</td>
+<td class="gt_row gt_right" headers="B_v_C_LR">−0.27</td>
 <td class="gt_row gt_right" headers="B_v_C_PV">0.00</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="Token">she</td>
-<td class="gt_row gt_right" headers="A_v_B_LL">212.56</td>
-<td class="gt_row gt_right" headers="A_v_B_LR">2.36</td>
+<td class="gt_row gt_left" headers="Token">on</td>
+<td class="gt_row gt_right" headers="A_v_B_LL">5,792.19</td>
+<td class="gt_row gt_right" headers="A_v_B_LR">0.03</td>
 <td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
-<td class="gt_row gt_right" headers="A_v_C_LL">−919.21</td>
-<td class="gt_row gt_right" headers="A_v_C_LR">−2.21</td>
+<td class="gt_row gt_right" headers="A_v_C_LL">−5,664.56</td>
+<td class="gt_row gt_right" headers="A_v_C_LR">−0.02</td>
 <td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
-<td class="gt_row gt_right" headers="B_v_C_LL">−1,850.64</td>
-<td class="gt_row gt_right" headers="B_v_C_LR">−4.57</td>
+<td class="gt_row gt_right" headers="B_v_C_LL">−5,695.08</td>
+<td class="gt_row gt_right" headers="B_v_C_LR">−0.05</td>
 <td class="gt_row gt_right" headers="B_v_C_PV">0.00</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Token">p.m</td>
-<td class="gt_row gt_right" headers="A_v_B_LL">209.56</td>
-<td class="gt_row gt_right" headers="A_v_B_LR">8.25</td>
-<td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
-<td class="gt_row gt_right" headers="A_v_C_LL">199.71</td>
-<td class="gt_row gt_right" headers="A_v_C_LR">6.33</td>
-<td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
-<td class="gt_row gt_right" headers="B_v_C_LL">−2.66</td>
-<td class="gt_row gt_right" headers="B_v_C_LR">−1.92</td>
-<td class="gt_row gt_right" headers="B_v_C_PV">0.10</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Token">ob</td>
-<td class="gt_row gt_right" headers="A_v_B_LL">198.31</td>
-<td class="gt_row gt_right" headers="A_v_B_LR">8.17</td>
-<td class="gt_row gt_right" headers="A_v_B_PV">0.00</td>
-<td class="gt_row gt_right" headers="A_v_C_LL">206.63</td>
-<td class="gt_row gt_right" headers="A_v_C_LR">8.25</td>
-<td class="gt_row gt_right" headers="A_v_C_PV">0.00</td>
-<td class="gt_row gt_right" headers="B_v_C_LL">0.00</td>
-<td class="gt_row gt_right" headers="B_v_C_LR">0.08</td>
-<td class="gt_row gt_right" headers="B_v_C_PV">1.00</td>
 </tr>
 </tbody>
 </table>
@@ -4597,36 +4596,36 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <p>The concept of <a href="https://lexically.net/downloads/version5/HTML/index.html?keykeyness_definition.htm">“<strong>key key words</strong>”</a> was introduced by Mike Smith for the WordSmith concordancer. The process compares each text in the target corpus to the reference corpus. Log-likelihood is calculated for each comparison. Then a mean is calculated for keyness and effect size. In addition, a range is provided for the number of texts in which keyness reaches significance for a given threshold. (The default is <em>p</em> &lt; 0.05.) That range is returned as a percentage.</p>
 <p>In this way, <strong>key key words</strong> accounts for the dispersion of key words by indicating whether a keyness value is driven by a relatively high frequency in a few target texts or many.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>kk <span class="ot">&lt;-</span> <span class="fu">key_keys</span>(acad_dfm, fic_dfm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>kk <span class="ot">&lt;-</span> <span class="fu">key_keys</span>(acad_dfm, fic_dfm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Again, we can look at the first few rows of the table:</p>
 <div class="cell" data-tbl-cap="Key key words when comparing the academic text-type to the fiction text-type.">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>kk <span class="sc">|&gt;</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="fu">everything</span>(),</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>kk <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="fu">everything</span>(),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="qzubwgbwjb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qzubwgbwjb table {
+<div id="vnlguwxgpb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vnlguwxgpb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qzubwgbwjb thead, #qzubwgbwjb tbody, #qzubwgbwjb tfoot, #qzubwgbwjb tr, #qzubwgbwjb td, #qzubwgbwjb th {
+#vnlguwxgpb thead, #vnlguwxgpb tbody, #vnlguwxgpb tfoot, #vnlguwxgpb tr, #vnlguwxgpb td, #vnlguwxgpb th {
   border-style: none;
 }
 
-#qzubwgbwjb p {
+#vnlguwxgpb p {
   margin: 0;
   padding: 0;
 }
 
-#qzubwgbwjb .gt_table {
+#vnlguwxgpb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4652,12 +4651,12 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-left-color: #D3D3D3;
 }
 
-#qzubwgbwjb .gt_caption {
+#vnlguwxgpb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qzubwgbwjb .gt_title {
+#vnlguwxgpb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4669,7 +4668,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-width: 0;
 }
 
-#qzubwgbwjb .gt_subtitle {
+#vnlguwxgpb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4681,7 +4680,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-width: 0;
 }
 
-#qzubwgbwjb .gt_heading {
+#vnlguwxgpb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4693,13 +4692,13 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#qzubwgbwjb .gt_bottom_border {
+#vnlguwxgpb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qzubwgbwjb .gt_col_headings {
+#vnlguwxgpb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4714,7 +4713,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#qzubwgbwjb .gt_col_heading {
+#vnlguwxgpb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4734,7 +4733,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#qzubwgbwjb .gt_column_spanner_outer {
+#vnlguwxgpb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4746,15 +4745,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 4px;
 }
 
-#qzubwgbwjb .gt_column_spanner_outer:first-child {
+#vnlguwxgpb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qzubwgbwjb .gt_column_spanner_outer:last-child {
+#vnlguwxgpb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qzubwgbwjb .gt_column_spanner {
+#vnlguwxgpb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4766,11 +4765,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   width: 100%;
 }
 
-#qzubwgbwjb .gt_spanner_row {
+#vnlguwxgpb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qzubwgbwjb .gt_group_heading {
+#vnlguwxgpb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4796,7 +4795,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   text-align: left;
 }
 
-#qzubwgbwjb .gt_empty_group_heading {
+#vnlguwxgpb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4811,15 +4810,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: middle;
 }
 
-#qzubwgbwjb .gt_from_md > :first-child {
+#vnlguwxgpb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qzubwgbwjb .gt_from_md > :last-child {
+#vnlguwxgpb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qzubwgbwjb .gt_row {
+#vnlguwxgpb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4838,7 +4837,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   overflow-x: hidden;
 }
 
-#qzubwgbwjb .gt_stub {
+#vnlguwxgpb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4851,7 +4850,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#qzubwgbwjb .gt_stub_row_group {
+#vnlguwxgpb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4865,15 +4864,15 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   vertical-align: top;
 }
 
-#qzubwgbwjb .gt_row_group_first td {
+#vnlguwxgpb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qzubwgbwjb .gt_row_group_first th {
+#vnlguwxgpb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qzubwgbwjb .gt_summary_row {
+#vnlguwxgpb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4883,16 +4882,16 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#qzubwgbwjb .gt_first_summary_row {
+#vnlguwxgpb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qzubwgbwjb .gt_first_summary_row.thick {
+#vnlguwxgpb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qzubwgbwjb .gt_last_summary_row {
+#vnlguwxgpb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4902,7 +4901,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#qzubwgbwjb .gt_grand_summary_row {
+#vnlguwxgpb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4912,7 +4911,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#qzubwgbwjb .gt_first_grand_summary_row {
+#vnlguwxgpb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4922,7 +4921,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-top-color: #D3D3D3;
 }
 
-#qzubwgbwjb .gt_last_grand_summary_row_top {
+#vnlguwxgpb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4932,11 +4931,11 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#qzubwgbwjb .gt_striped {
+#vnlguwxgpb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qzubwgbwjb .gt_table_body {
+#vnlguwxgpb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4945,7 +4944,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-bottom-color: #D3D3D3;
 }
 
-#qzubwgbwjb .gt_footnotes {
+#vnlguwxgpb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4959,7 +4958,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#qzubwgbwjb .gt_footnote {
+#vnlguwxgpb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4968,7 +4967,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#qzubwgbwjb .gt_sourcenotes {
+#vnlguwxgpb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4982,7 +4981,7 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   border-right-color: #D3D3D3;
 }
 
-#qzubwgbwjb .gt_sourcenote {
+#vnlguwxgpb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4990,72 +4989,72 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
   padding-right: 5px;
 }
 
-#qzubwgbwjb .gt_left {
+#vnlguwxgpb .gt_left {
   text-align: left;
 }
 
-#qzubwgbwjb .gt_center {
+#vnlguwxgpb .gt_center {
   text-align: center;
 }
 
-#qzubwgbwjb .gt_right {
+#vnlguwxgpb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qzubwgbwjb .gt_font_normal {
+#vnlguwxgpb .gt_font_normal {
   font-weight: normal;
 }
 
-#qzubwgbwjb .gt_font_bold {
+#vnlguwxgpb .gt_font_bold {
   font-weight: bold;
 }
 
-#qzubwgbwjb .gt_font_italic {
+#vnlguwxgpb .gt_font_italic {
   font-style: italic;
 }
 
-#qzubwgbwjb .gt_super {
+#vnlguwxgpb .gt_super {
   font-size: 65%;
 }
 
-#qzubwgbwjb .gt_footnote_marks {
+#vnlguwxgpb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qzubwgbwjb .gt_asterisk {
+#vnlguwxgpb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qzubwgbwjb .gt_indent_1 {
+#vnlguwxgpb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qzubwgbwjb .gt_indent_2 {
+#vnlguwxgpb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qzubwgbwjb .gt_indent_3 {
+#vnlguwxgpb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qzubwgbwjb .gt_indent_4 {
+#vnlguwxgpb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qzubwgbwjb .gt_indent_5 {
+#vnlguwxgpb .gt_indent_5 {
   text-indent: 25px;
 }
 
-#qzubwgbwjb .katex-display {
+#vnlguwxgpb .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#qzubwgbwjb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#vnlguwxgpb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -5075,72 +5074,72 @@ LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
 <tr class="odd">
 <td class="gt_row gt_left" headers="token">of</td>
 <td class="gt_row gt_right" headers="key_range">98.00</td>
-<td class="gt_row gt_right" headers="key_mean">59.20</td>
-<td class="gt_row gt_right" headers="key_sd">36.40</td>
+<td class="gt_row gt_right" headers="key_mean">68.30</td>
+<td class="gt_row gt_right" headers="key_sd">39.31</td>
 <td class="gt_row gt_right" headers="effect_mean">1.21</td>
 </tr>
 <tr class="even">
+<td class="gt_row gt_left" headers="token">are</td>
+<td class="gt_row gt_right" headers="key_range">82.00</td>
+<td class="gt_row gt_right" headers="key_mean">63.58</td>
+<td class="gt_row gt_right" headers="key_sd">59.01</td>
+<td class="gt_row gt_right" headers="effect_mean">1.10</td>
+</tr>
+<tr class="odd">
 <td class="gt_row gt_left" headers="token">social</td>
-<td class="gt_row gt_right" headers="key_range">38.00</td>
-<td class="gt_row gt_right" headers="key_mean">25.00</td>
-<td class="gt_row gt_right" headers="key_sd">70.11</td>
+<td class="gt_row gt_right" headers="key_range">52.00</td>
+<td class="gt_row gt_right" headers="key_mean">62.23</td>
+<td class="gt_row gt_right" headers="key_sd">147.95</td>
 <td class="gt_row gt_right" headers="effect_mean">3.41</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="token">by</td>
+<td class="gt_row gt_right" headers="key_range">96.00</td>
+<td class="gt_row gt_right" headers="key_mean">61.03</td>
+<td class="gt_row gt_right" headers="key_sd">39.11</td>
+<td class="gt_row gt_right" headers="effect_mean">1.13</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="token">studies</td>
 <td class="gt_row gt_right" headers="key_range">44.00</td>
-<td class="gt_row gt_right" headers="key_mean">22.56</td>
-<td class="gt_row gt_right" headers="key_sd">67.90</td>
+<td class="gt_row gt_right" headers="key_mean">53.05</td>
+<td class="gt_row gt_right" headers="key_sd">138.47</td>
 <td class="gt_row gt_right" headers="effect_mean">5.93</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="token">students</td>
-<td class="gt_row gt_right" headers="key_range">16.00</td>
-<td class="gt_row gt_right" headers="key_mean">19.64</td>
-<td class="gt_row gt_right" headers="key_sd">70.17</td>
-<td class="gt_row gt_right" headers="effect_mean">3.56</td>
+<td class="gt_row gt_left" headers="token">the</td>
+<td class="gt_row gt_right" headers="key_range">82.00</td>
+<td class="gt_row gt_right" headers="key_mean">51.85</td>
+<td class="gt_row gt_right" headers="key_sd">171.81</td>
+<td class="gt_row gt_right" headers="effect_mean">0.31</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="token">the</td>
+<td class="gt_row gt_left" headers="token">is</td>
+<td class="gt_row gt_right" headers="key_range">76.00</td>
+<td class="gt_row gt_right" headers="key_mean">51.73</td>
+<td class="gt_row gt_right" headers="key_sd">49.88</td>
+<td class="gt_row gt_right" headers="effect_mean">0.52</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="token">or</td>
+<td class="gt_row gt_right" headers="key_range">78.00</td>
+<td class="gt_row gt_right" headers="key_mean">48.83</td>
+<td class="gt_row gt_right" headers="key_sd">100.99</td>
+<td class="gt_row gt_right" headers="effect_mean">0.73</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="token">study</td>
 <td class="gt_row gt_right" headers="key_range">64.00</td>
-<td class="gt_row gt_right" headers="key_mean">17.80</td>
-<td class="gt_row gt_right" headers="key_sd">26.72</td>
-<td class="gt_row gt_right" headers="effect_mean">0.31</td>
+<td class="gt_row gt_right" headers="key_mean">46.28</td>
+<td class="gt_row gt_right" headers="key_sd">69.57</td>
+<td class="gt_row gt_right" headers="effect_mean">3.27</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="token">research</td>
-<td class="gt_row gt_right" headers="key_range">34.00</td>
-<td class="gt_row gt_right" headers="key_mean">17.57</td>
-<td class="gt_row gt_right" headers="key_sd">63.50</td>
+<td class="gt_row gt_right" headers="key_range">54.00</td>
+<td class="gt_row gt_right" headers="key_mean">45.58</td>
+<td class="gt_row gt_right" headers="key_sd">128.60</td>
 <td class="gt_row gt_right" headers="effect_mean">3.48</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="token">political</td>
-<td class="gt_row gt_right" headers="key_range">26.00</td>
-<td class="gt_row gt_right" headers="key_mean">17.00</td>
-<td class="gt_row gt_right" headers="key_sd">57.92</td>
-<td class="gt_row gt_right" headers="effect_mean">3.78</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="token">changes</td>
-<td class="gt_row gt_right" headers="key_range">44.00</td>
-<td class="gt_row gt_right" headers="key_mean">16.51</td>
-<td class="gt_row gt_right" headers="key_sd">62.96</td>
-<td class="gt_row gt_right" headers="effect_mean">4.71</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="token">science</td>
-<td class="gt_row gt_right" headers="key_range">16.00</td>
-<td class="gt_row gt_right" headers="key_mean">15.65</td>
-<td class="gt_row gt_right" headers="key_sd">60.28</td>
-<td class="gt_row gt_right" headers="effect_mean">3.46</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="token">study</td>
-<td class="gt_row gt_right" headers="key_range">46.00</td>
-<td class="gt_row gt_right" headers="key_mean">15.35</td>
-<td class="gt_row gt_right" headers="key_sd">27.65</td>
-<td class="gt_row gt_right" headers="effect_mean">3.27</td>
 </tr>
 </tbody>
 </table>
