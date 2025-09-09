@@ -23,7 +23,8 @@ library(tidyverse)
 We could then split the vector, say at each space.
 
 ```{r}
-totc_tkns <- totc_txt |> str_split(" ")
+totc_tkns <- totc_txt |> 
+  str_split(" ")
 ```
 
 Then, we can create a table of counts.
@@ -62,7 +63,7 @@ There may be specific instances when we want to do this. But normally, we'd want
 lowercase <- tolower(totc_txt)  |>
   str_split(" ")
 
-totc_df <- table(lowercase) %>% # make a table of counts
+totc_df <- table(lowercase) |> # make a table of counts
   as_tibble() |>
   rename(Token = lowercase, AF = n) |> # rename columns
   arrange(desc(AF)) # sort the data by frequency

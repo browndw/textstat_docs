@@ -10,7 +10,7 @@ This is a short lab that introduces the concept of:
 
 This lab will also cover the process of reading in a corpus from a directory of text files.
 
-## Load the needed packages 
+## Load the needed packages
 
 ```{r}
 #| message: false
@@ -21,23 +21,8 @@ library(ggraph)
 library(gt)
 library(quanteda)
 library(quanteda.textstats)
+library(quanteda.extras)
 library(tidyverse)
-```
-
-Load data:
-
-```{r}
-
-load("../data/sample_corpus.rda")
-```
-
-Load functions:
-
-```{r}
-
-source("../R/helper_functions.R")
-source("../R/utility_functions.R")
-source("../R/collocation_functions.R")
 ```
 
 ## Prepare the data
@@ -45,11 +30,10 @@ source("../R/collocation_functions.R")
 First, we'll pre-process our text, create a corpus and tokenize the data:
 
 ```{r}
-
-sc_tokens <- sample_corpus %>%
-  mutate(text = preprocess_text(text)) %>%
-  corpus() %>%
-  tokens(what="fastestword", remove_numbers=TRUE)
+sc_tokens <- sample_corpus |>
+  mutate(text = preprocess_text(text)) |>
+  corpus() |>
+  tokens(what = "fastestword", remove_numbers = TRUE)
 ```
 
 ## Collocates by mutual information (MI)
@@ -70,7 +54,6 @@ $$E_{11} = \frac{R_{1} \times C_{1}}{N}$$
 We'll start by making a table of tokens that collocate with the token *money*.
 
 ```{r}
-
 money_collocations <- collocates_by_MI(sc_tokens, "money")
 ```
 
@@ -104,9 +87,8 @@ As is clear from the above table, MI is sensitive to rare/infrequent words. Beca
 For our purposes, we'll filter for AF $\ge$ 5 and MI $\ge$ 5.
 
 ```{r}
-
-tc <- time_collocations %>% filter(col_freq >= 5, MI_1 >= 5)
-mc <- money_collocations %>% filter(col_freq >= 5, MI_1 >= 5)
+tc <- time_collocations |> filter(col_freq >= 5, PMI >= 5)
+mc <- money_collocations |> filter(col_freq >= 5, PMI >= 5)
 ```
 
 Check the result:
@@ -184,25 +166,26 @@ set.seed(1234)
 
 files_list <- list.files("../data/screenplay_corpus", full.names = T, pattern = "*.txt")
 
-sp <- sample(files_list, 50) %>%
+sp <- sample(files_list, 50) |>
   readtext::readtext()
 ```
 
 ### Extract the dialogue
 
-For the purposes of the lab, we'll simply load the data. These particular files are formatted using some simple markup. So we'll use the **from_play()** function to extract the dialogue.
+For the purposes of the lab, we'll simply load the data. These particular files are formatted using some simple markup. So we'll use the **from_play()** function in `cmu.textstat` to extract the dialogue.
 
 ```{r}
-load("../data/screenplays.rda")
-sp <- from_play(sp, extract = "dialogue")
+library(cmu.textstat)
+
+sp <- from_play(screenplays, extract = "dialogue")
 ```
 
 ### Tokenize
 
 ```{r}
-sp <-   sp %>%
-  mutate(text = preprocess_text(text)) %>%
-  corpus() %>%
+sp <- sp |>
+  mutate(text = preprocess_text(text)) |>
+  corpus() |>
   tokens(what="fastestword", remove_numbers=TRUE)
 ```
 
@@ -211,11 +194,11 @@ sp <-   sp %>%
 Now we'll calculate collocations for the tokens *boy* and *girl*, and filter. Note that we're only looking for tokens 3 words to the left of the node word.
 
 ```{r}
-b <- collocates_by_MI(sp, "boy", left = 3, right = 0) %>% 
-  filter(col_freq >= 3 & MI_1 >= 3)
+b <- collocates_by_MI(sp, "boy", left = 3, right = 0) |> 
+  filter(col_freq >= 3 & PMI >= 3)
 
-g  <- collocates_by_MI(sp, "girl", left = 3, right = 0) %>% 
-  filter(col_freq >= 3 & MI_1 >= 3)
+g  <- collocates_by_MI(sp, "girl", left = 3, right = 0) |> 
+  filter(col_freq >= 3 & PMI >= 3)
 ```
 
 ### Plot the network

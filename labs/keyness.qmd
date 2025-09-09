@@ -56,23 +56,10 @@ We'll begin, just as we did in the distributions lab.
 library(tidyverse)
 library(quanteda)
 library(quanteda.textstats)
+library(quanteda.extras)
+library(cmu.textstat)
 library(gt)
 ```
-
-Load the functions:
-
-```{r}
-source("../R/keyness_functions.R")
-source("../R/helper_functions.R")
-```
-
-Load the data:
-
-```{r}
-load("../data/sample_corpus.rda")
-load("../data/multiword_expressions.rda")
-```
-
 
 ### Pre-process the data & create a corpus
 
@@ -81,8 +68,8 @@ load("../data/multiword_expressions.rda")
 #| error: false
 #| warning: false
 
-sc <- sample_corpus %>%
-  mutate(text = preprocess_text(text)) %>%
+sc <- sample_corpus |>
+  mutate(text = preprocess_text(text)) |>
   corpus()
 ```
 
@@ -91,9 +78,9 @@ sc <- sample_corpus %>%
 We'll extract some meta-data by (1) selecting the **doc_id** column, (2) extracting the initial letter string before the underscore, and (3) renaming the vector **text_type**.
 
 ```{r extract_metadata}
-doc_categories <- sample_corpus %>%
-  dplyr::select(doc_id) %>%
-  mutate(doc_id = str_extract(doc_id, "^[a-z]+")) %>%
+doc_categories <- sample_corpus |>
+  dplyr::select(doc_id) |>
+  mutate(doc_id = str_extract(doc_id, "^[a-z]+")) |>
   rename(text_type = doc_id)
 ```
 
@@ -122,9 +109,9 @@ Note the new column (**text_type** on the right). We could assign any number of 
 ### Create a **dfm**
 
 ```{r}
-sc_dfm <- sc %>%
-  tokens(what="fastestword", remove_numbers=TRUE) %>%
-  tokens_compound(pattern = phrase(multiword_expressions)) %>%
+sc_dfm <- sc |>
+  tokens(what="fastestword", remove_numbers=TRUE) |>
+  tokens_compound(pattern = phrase(multiword_expressions)) |>
   dfm()
 ```
 
@@ -133,13 +120,14 @@ sc_dfm <- sc %>%
 It is conventional to report out the composition of the corpus or corpora you are using for your study. Here will will sum our tokens by text-type and similarly count the number of texts in each grouping.
 
 ```{r}
-corpus_comp <- ntoken(sc_dfm) %>% 
-  data.frame(Tokens = .) %>%
-  rownames_to_column("Text_Type") %>%
-  mutate(Text_Type = str_extract(Text_Type, "^[a-z]+")) %>%
-  group_by(Text_Type) %>%
+corpus_comp <- ntoken(sc_dfm) |> 
+  as.data.frame() |>
+  rownames_to_column("Text_Type") |>
+  select(Text_Type, Tokens = `ntoken(sc_dfm)`) |>
+  mutate(Text_Type = str_extract(Text_Type, "^[a-z]+")) |>
+  group_by(Text_Type) |>
   summarize(Texts = n(),
-    Tokens = sum(Tokens)) %>%
+    Tokens = sum(Tokens)) |>
   mutate(Text_Type = c("Academic", "Blog", "Fiction", "Magazine", "News", "Spoken", "Television/Movies", "Web"))
 ```
 
@@ -268,8 +256,8 @@ You are welcome to use any of these effect size measures. Our repo comes with a 
 We'll start by creating 2 dfms--a target and a reference:
 
 ```{r create_dfms}
-acad_dfm <- dfm_subset(sc_dfm, text_type == "acad") %>% dfm_trim(min_termfreq = 1)
-fic_dfm <- dfm_subset(sc_dfm, text_type == "fic") %>% dfm_trim(min_termfreq = 1)
+acad_dfm <- dfm_subset(sc_dfm, text_type == "acad") |> dfm_trim(min_termfreq = 1)
+fic_dfm <- dfm_subset(sc_dfm, text_type == "fic") |> dfm_trim(min_termfreq = 1)
 ```
 
 Then we will use the `keyness_table()` function.
@@ -313,7 +301,7 @@ The columns are as follows:
 There is also a function for quickly generating pair-wise keyness comparisions among multiple sub-corpora. To demonstrate, create a third **dfm**, this time containing news articles.
 
 ```{r}
-news_dfm <- dfm_subset(sc_dfm, text_type == "news") %>% dfm_trim(min_termfreq = 1)
+news_dfm <- dfm_subset(sc_dfm, text_type == "news") |> dfm_trim(min_termfreq = 1)
 ```
 
 To produce a data.frame comparing more than two sup-corpora, use the `keyness_pairs()` function:

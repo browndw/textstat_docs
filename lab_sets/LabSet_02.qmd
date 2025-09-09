@@ -16,27 +16,22 @@ The preview of this lab set is rendered in HTML. However, all assignments must b
 library(tidyverse)
 library(quanteda)
 library(quanteda.textstats)
+library(quanteda.extras)
+library(cmu.textstat)
 ```
 
-
 ```{r}
-load("../data/sample_corpus.rda")
-source("../R/dispersion_functions.R")
-source("../R/helper_functions.R")
-```
-
-
-```{r}
-sc_tokens <- sample_corpus %>%
-  corpus() %>%
-  tokens(remove_punct = TRUE, remove_numbers = TRUE, remove_symbols = TRUE, what = "word") %>%
+sc_tokens <- sample_corpus |>
+  corpus() |>
+  tokens(remove_punct = TRUE, remove_numbers = TRUE, 
+         remove_symbols = TRUE, what = "word") |>
   tokens_tolower()
 
-sc_dfm <- sc_tokens %>%
+sc_dfm <- sc_tokens |>
   dfm()
 
-sc_freq <- sc_dfm %>%
-  textstat_frequency() %>%
+sc_freq <- sc_dfm |>
+  textstat_frequency() |>
   mutate(RF = (frequency/sum(frequency))*1000000)
 ```
 
@@ -53,8 +48,8 @@ What do you notice (or what conclusions can you draw) from the plots you've gene
 ### Task 2
 
 ```{r}
-the <- dispersions_token(sc_dfm, "the") %>% unlist()
-data <- dispersions_token(sc_dfm, "data") %>% unlist()
+the <- dispersions_token(sc_dfm, "the") |> unlist()
+data <- dispersions_token(sc_dfm, "data") |> unlist()
 ```
 
 ```{r}
@@ -89,7 +84,7 @@ Write a sentence or two reporting the frequencies and dispersions of *the* and *
 #| fig-width: 7
 #| fig-cap: "Token rank vs. frequency."
 
-ggplot(sc_freq %>% filter(rank < 101), aes(x = rank, y = frequency)) +
+ggplot(sc_freq |> filter(rank < 101), aes(x = rank, y = frequency)) +
   geom_point(shape = 1, alpha = .5) +
   theme_classic() +
   ylab("Absolute frequency") +
@@ -119,16 +114,9 @@ library(quanteda.textstats)
 
 
 ```{r}
-source("../R/helper_functions.R")
-source("../R/utility_functions.R")
-source("../R/collocation_functions.R")
-```
-
-
-```{r}
-sc_tokens <- sample_corpus %>%
-  mutate(text = preprocess_text(text)) %>%
-  corpus() %>%
+sc_tokens <- sample_corpus |>
+  mutate(text = preprocess_text(text)) |>
+  corpus() |>
   tokens(what="fastestword", remove_numbers=TRUE)
 ```
 
@@ -144,8 +132,8 @@ Report the collocations of *time* and *money* in 2 or 3 sentences following the 
 ### Task 2
 
 ```{r}
-tc <- time_collocations %>% filter(col_freq >= 5 & MI_1 >= 5)
-mc <- money_collocations %>% filter(col_freq >= 5 & MI_1 >= 5)
+tc <- time_collocations |> filter(col_freq >= 5 & PMI >= 5)
+mc <- money_collocations |> filter(col_freq >= 5 & PMI >= 5)
 net <- col_network(tc, mc)
 ```
 
@@ -178,22 +166,20 @@ Write a 2-4 sentence interpretation of the *time* vs. *money* collocational netw
 Load the down-sampled screenplays, extract the dialogue, and tokenize the data.
 
 ```{r}
-load("../data/screenplays.rda")
+sp <- from_play(screenplays, extract = "dialogue")
 
-sp <- from_play(sp, extract = "dialogue")
-
-sp <-   sp %>%
-  mutate(text = preprocess_text(text)) %>%
-  corpus() %>%
+sp <-   sp |>
+  mutate(text = preprocess_text(text)) |>
+  corpus() |>
   tokens(what="fastestword", remove_numbers=TRUE)
 ```
 
 ```{r}
 b <- collocates_by_MI(sp, "boy", left = 3, right = 0)
-b <- b %>% filter(col_freq >= 3 & MI_1 >= 3)
+b <- b |> filter(col_freq >= 3 & PMI >= 3)
 
 g  <- collocates_by_MI(sp, "girl", left = 3, right = 0)
-g <- g %>% filter(col_freq >= 3 & MI_1 >= 3)
+g <- g |> filter(col_freq >= 3 & PMI >= 3)
 ```
 
 #### Plot the network
@@ -224,14 +210,6 @@ Write a 3-5 sentence interpretation of the *boy* vs. *girl* collocational networ
 ### Task 1
 
 #### Create a keyness table
-
-
-```{r}
-source("../R/keyness_functions.R")
-source("../R/helper_functions.R")
-load("../data/sample_corpus.rda")
-```
-
 
 1. In the code block below, create a document-feature matrix of the blog text-type.
 2. In the same code-block create a keyness table with the blog text-type as the target corpus and the news text-type as the reference.

@@ -1,5 +1,3 @@
-
-
 # Part-of-Speech Tagging and Dependency Parsing
 
 In the previous lab, we worked with keyness and effect sizes, specifically using log-likelihood and log ratio measures.
@@ -48,23 +46,12 @@ Paste the information into the text field here: <https://urd2.let.rug.nl/~kleiwe
 library(tidyverse)
 library(quanteda)
 library(quanteda.textstats)
+library(quanteda.extras)
+library(cmu.textstat)
 library(udpipe)
 library(gt)
 ```
 
-Load the functions:
-
-```{r}
-source("../R/keyness_functions.R")
-source("../R/helper_functions.R")
-```
-
-Load the data:
-
-
-```{r}
-load("../data/sample_corpus.rda")
-```
 
 
 ## Parsing
@@ -97,7 +84,7 @@ annotation <- udpipe(txt, ud_model)
 #| code-fold: true
 #| tbl-cap: "Annotation of a sample sentence."
 
-annotation[,8:15] |>
+annotation[, 8:15] |>
   gt() |>
   as_raw_html()
 ```
@@ -270,8 +257,9 @@ I would, however, advise against altering the original parsed file. We may want 
 So we will try an alternative. We use the **tokens_select()** function to either keep or remove tokens based on regular expressions.
 
 ```{r}
-sub_dfm <- sub_tkns %>%
-  tokens_select("^.*[a-zA-Z0-9]+.*_[a-z]", selection = "keep", valuetype = "regex", case_insensitive = T) %>%
+sub_dfm <- sub_tkns |>
+  tokens_select("^.*[a-zA-Z0-9]+.*_[a-z]", selection = "keep", valuetype = "regex",
+                case_insensitive = TRUE) |>
   dfm()
 
 ```
@@ -291,14 +279,14 @@ textstat_frequency(sub_dfm, n = 10) |>
 If we want to compare one text-type (as our target corpus) to another (as our reference corpus), we can easily subset the data.
 
 ```{r subset_corpus}
-acad_dfm <- dfm_subset(sub_dfm, text_type == "acad") %>% dfm_trim(min_termfreq = 1)
-fic_dfm <- dfm_subset(sub_dfm, text_type == "fic") %>% dfm_trim(min_termfreq = 1)
+acad_dfm <- dfm_subset(sub_dfm, text_type == "acad") |> dfm_trim(min_termfreq = 1)
+fic_dfm <- dfm_subset(sub_dfm, text_type == "fic") |> dfm_trim(min_termfreq = 1)
 ```
 
 And finally, we can generate a keyness table, 
 
 ```{r}
-acad_v_fic <- keyness_table(acad_dfm, fic_dfm) %>%
+acad_v_fic <- keyness_table(acad_dfm, fic_dfm) |>
   separate(col = Token, into = c("Token", "Tag"), sep = "_")
 ```
 
@@ -375,7 +363,6 @@ Note that **udpipe** extracts overlapping constituents of phrase structures. Nor
 That will generate a logical vector, which we can use to filter out only those phrases that don't overlap with another.
 
 ```{r acad_unique}
-
 idx <- seq(1:nrow(acad_nps))
 
 is_unique <- lapply(idx, function(i) sum(data.table::between(acad_nps$start[i], acad_nps$start, acad_nps$end) & data.table::between(acad_nps$end[i], acad_nps$start, acad_nps$end)) == 1) %>% unlist()
