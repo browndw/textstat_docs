@@ -311,7 +311,7 @@ Examples from Brezina, page 53:
 - The definitive article *the* is the most frequent word (type) in the BE06 corpus, occurring in the texts with the mean relative frequency of 51.64 per 1,000 (SD = 14.17).
 - Swear words are unequally distributed in the  BNC64 corpus. For instance, *&#@%* occurs 123 times in only 14 out of 64 speaker samples, with DP = 0.85.
 
-## [Lab tasks 2 and 3]
+## [Lab tasks 2 and 3, `distributions.qmd`]
 
 # Frequency distributions
 
