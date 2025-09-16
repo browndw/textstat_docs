@@ -266,7 +266,7 @@ ggplot(binom_cis, aes(x = corpus, y = estimate * NF)) +
 
 - For very skewed data, you may want to set the number of bins manually
 
-## [Lab task 1]
+## [Lab task 1, `distributions.qmd`]
 
 # Dispersion
 

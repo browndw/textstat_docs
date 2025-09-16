@@ -1,17 +1,21 @@
 ---
 title: Collocations
 subtitle: Introduction to association measures
-format: 
+format:
   clean-revealjs:
     transition: fade
 html-math-method:
   method: mathjax
   url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 author:
+  - name: Alex Reinhart
+    email: areinhar@stat.cmu.edu
+    orcid: 0000-0002-6658-514X
+    affiliations: Statistics & Data Science 36-468/668
   - name: David Brown
     orcid: 0000-0001-7745-6354
     email: dwb2@andrew.cmu.edu
-    affiliations: Statistics & Data Science 36-468/668
+    affiliations: Dept. of English
 date: last-modified
 date-format: "[Fall] YYYY"
 title-slide-attributes: 
