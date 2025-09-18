@@ -555,19 +555,18 @@ David Brown <a href="https://orcid.org/0000-0001-7745-6354" class="quarto-title-
 <li>Pointwise mutual information (PMI) <span class="citation" data-cites="church1990word">(<a href="#/works-cited" role="doc-biblioref" onclick="">Church and Hanks 1990</a>)</span>. <a href="https://www.cambridge.org/core/books/statistics-in-corpus-linguistics/semantics-and-discourse/3CC9D42A719A484A565BC139E9353A2C#A-sec-32">See Brezina, chapter 3</a>.</li>
 </ul>
 <div style="font-size: 65%;">
-<p>The formula for calculating PMI is as follows:</p>
 <p><span class="math display">\[
-PMI = \log_{2} \left( \frac{O_{11}}{E_{11}} \right)
+\text{PMI} = \log_{2} \left( \frac{O_{11}}{E_{11}} \right)
 \]</span></p>
 <p>Where <em>O<sub>11</sub></em> and <em>E<sub>11</sub></em> are the observed (i.e., collocate in the span divided by the total number of words in the corpus) and expected frequencies of the node word within a given window. The expected frequency is given by:</p>
 <p><span class="math display">\[
 E_{11} = \frac{R_{1} \times C_{1}}{N}
 \]</span></p>
 <ul>
-<li><em>N</em> is the number of words in the corpus</li>
-<li><em>R<sub>1</sub></em> is the frequency of the node in the whole corpus</li>
-<li><em>C<sub>1</sub></em> is the frequency of the collocate in the whole corpus</li>
-<li>The accepted cutoff for a meaningful association is MI &gt; 3</li>
+<li><span class="math inline">\(N\)</span> is the number of words in the corpus</li>
+<li><span class="math inline">\(R_1\)</span> is the frequency of the node in the whole corpus</li>
+<li><span class="math inline">\(C_1\)</span> is the frequency of the collocate in the whole corpus</li>
+<li>The accepted cutoff for a meaningful association is PMI &gt; 3</li>
 </ul>
 </div>
 </section>
@@ -598,13 +597,13 @@ E_{11} = \frac{R_{1} \times C_{1}}{N}
 <div style="font-size: 65%;">
 <p><span class="math display">\[
 \begin{aligned}
-PMI{^k} = \log_{2} \left( \frac{O_{11}{^k}}{E_{11}} \right) = PMI - (1 - k)\times\log_{2} \left( O_{11} \right)
+\text{PMI}^k = \log_{2} \left( \frac{O_{11}{^k}}{E_{11}} \right) = \text{PMI} - (1 - k)\times\log_{2} \left( O_{11} \right)
 \\
 \text{where}~2 \ge k \le 3
 \end{aligned}
 \]</span></p>
 <p><span class="math display">\[
-NPMI = \frac{PMI}{-\log_{2}(O_{11})}
+\text{NPMI} = \frac{\text{PMI}}{-\log_{2}(O_{11})}
 \]</span></p>
 </div>
 </section>
@@ -692,7 +691,7 @@ NPMI = \frac{PMI}{-\log_{2}(O_{11})}
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fjmcdfazqw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="vpzrruuolu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   
 <table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: bolder; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" data-bgcolor="#FFFFFF">
@@ -779,7 +778,7 @@ NPMI = \frac{PMI}{-\log_{2}(O_{11})}
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<div id="bhbkiukcpd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ogrnpqtqgl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   
 <table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: bolder; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" data-bgcolor="#FFFFFF">
