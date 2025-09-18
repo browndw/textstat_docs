@@ -47,6 +47,7 @@ book:
          - lectures/embed_llms-history.qmd
          - lectures/embed_frequencies.qmd
          - lectures/embed_collocations.qmd
+         - lectures/embed_keyness.qmd
          
 bibliography: references.bib
 
