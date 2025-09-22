@@ -1,4 +1,3 @@
-
 # Logistic Regression
 
 This is a script that walks you through basic logistic and multinomial regression. Logistic regression can be applied to binary variables. In our textbook, Brezina walks though an examples applied to  lexico-grammar. What are the conditions that predict whether the definite article (*the*) or the indefinite article ("a") occur? Or predict which  relative pronoun (*that* or *which*) is used?
@@ -24,11 +23,10 @@ library(nnet)
 library(gt)
 ```
 
-Load metadata:
+Load metadata (`bawe_meta` and `micusp_meta`):
 
 ```{r}
-load("../data/micusp_meta.rda")
-load("../data/bawe_meta.rda")
+library(cmu.textstat)
 ```
 
 ```{r}
@@ -61,7 +59,7 @@ micusp_meta |>
 
 Preparing linguistic data for logistic regression is often a complex process, as it will be for this lab. Our problem comes from Brezina (pg. 130) and concerns *that* vs. *which*:
 
-> While writing this chapter, I encountered the following situation: my word processor underlines with a wiggly line a phrse that included the relative pronoun *which*, signaling a potential grammatical error or inaccuracy. The correction off correction offered was to either add a comma in front of *which* or use the relative pronoun *that* instead., with the reasoning being as follows: 'If these words are not essential to the meaning of your sentences, use "which" and separate the words with a comma.'
+> While writing this chapter, I encountered the following situation: my word processor underlines with a wiggly line a phrse that included the relative pronoun *which*, signaling a potential grammatical error or inaccuracy. The correction off correction offered was to either add a comma in front of *which* or use the relative pronoun *that* instead, with the reasoning being as follows: 'If these words are not essential to the meaning of your sentences, use "which" and separate the words with a comma.'
 
 We are going to mimic Brezina's experiment, but instead of using the BE06 and AmE06 corpora, we will use the Michigan Corpus of Upper-Level Student Papers (MICUSP) and the British Academic Written English corpus (BAWE).
 
@@ -74,18 +72,19 @@ To save time, the data has already been tagged with **udpipe**. To tag files thi
 # target_folder <- "/Users/user/Downloads/bawe_udpipe/"
 # files_list <- list.files("/Users/user/Downloads/bawe_body", full.names = T)
 
-tag_text <- function(x){
+tag_text <- function(x) {
   
-  file_name <- basename(x) %>% str_remove(".txt")
+  file_name <- basename(x) |> str_remove(".txt")
   output_file <- paste0(target_folder, file_name, "_udp.txt")
-  txt <- readr::read_file(x) %>% str_squish()
-  annotation <- udpipe_annotate(udmodel, txt, parser = "none") %>% 
-    as.data.frame() %>%
-    dplyr::select(token, xpos) %>%
+  txt <- readr::read_file(x) |> str_squish()
+  annotation <- udpipe_annotate(udmodel, txt, parser = "none") |>
+    as.data.frame() |>
+    dplyr::select(token, xpos) |>
     unite("token", token:xpos)
   
-  new_txt <- paste(annotation$token, collapse=" ")
-  write.table(new_txt, output_file, quote = F, row.names = F, col.names = F)
+  new_txt <- paste(annotation$token, collapse = " ")
+  write.table(new_txt, output_file, quote = FALSE, row.names = FALSE,
+              col.names = FALSE)
   
 }
 
@@ -101,28 +100,24 @@ Here, again, you could download the full data set and place it the data director
 
 set.seed(123)
 
-us_files_list <- list.files("../data/micusp_udpipe", full.names = T)
-uk_files_list <- list.files("../data/bawe_udpipe", full.names = T)
+us_files_list <- list.files("../data/micusp_udpipe", full.names = TRUE)
+uk_files_list <- list.files("../data/bawe_udpipe", full.names = TRUE)
 
 us_sample <- sample(us_files_list, 100)
 uk_sample <- sample(uk_files_list, 100)
 ```
 
-To save time, we'll load the down-sampled data directly.
+To save time, the down-sampled data is already included in the `cmu.textstat` package as `us_sample` and `uk_sample`.
 
-```{r}
-load("../data/student_samples.rda")
-```
-
-And tokenize our sub-sample.
+So we tokenize our sub-sample.
 
 ```{r tokens}
-us_tokens <- us_sample %>%
-  corpus() %>%
+us_tokens <- us_sample |>
+  corpus() |>
   tokens(what = "fastestword")
   
-uk_tokens <- uk_sample %>%
-  corpus() %>%
+uk_tokens <- uk_sample |>
+  corpus() |>
   tokens(what = "fastestword")
 ```
 
@@ -138,14 +133,15 @@ For this experiment, we want to select sequences that have have noun followed by
 We'll begin by generating what are called skipgrams. A skipgram "skips" over a specified number of tokens. We'll generate skipgrams 2 to 3 tokens long and skipping over 0 or 1 tokens. Thus, we'll generate a series of phrases, 2 to 3 tokens in length.
 
 ```{r grams}
-us_grams <- tokens_skipgrams(us_tokens, n=2:3, skip=0:1, concatenator = " ")
-uk_grams <- tokens_skipgrams(uk_tokens, n=2:3, skip=0:1, concatenator = " ")
+us_grams <- tokens_skipgrams(us_tokens, n = 2:3, skip = 0:1, concatenator = " ")
+uk_grams <- tokens_skipgrams(uk_tokens, n = 2:3, skip = 0:1, concatenator = " ")
 ```
 
 For our purposes, we don't need all of these. So we want to begin culling our tokens. First we know that we're only interested in those ngrams ending with *that* or *which*. So we can first identify those.
 
 ```{r that_which}
-us_grams <- tokens_select(us_grams, "that_\\S+$|which_\\S+$", selection = "keep", valuetype = "regex", case_insensitive = T)
+us_grams <- tokens_select(us_grams, "that_\\S+$|which_\\S+$", selection = "keep",
+                          valuetype = "regex", case_insensitive = TRUE)
 ```
 
 However, we need to sort further. Our tokens of interest can appear in a variety of contexts. For example, "that" frequently appears following a verb of thinking or speaking, as it does here: *has_VHZ discussed_VVN that_WDT*.
@@ -155,23 +151,27 @@ We only want those instances where "that" or "which" is modifying a noun, as in 
 So next, we'll select only those ngrams that being with a word that's been tagged as a noun (having the _NN tag).
 
 ```{r head_noun}
-us_grams <- tokens_select(us_grams, "^[a-z]+_NN\\d?", selection = "keep", valuetype = "regex", case_insensitive = T)
+us_grams <- tokens_select(us_grams, "^[a-z]+_NN\\d?", selection = "keep",
+                          valuetype = "regex", case_insensitive = TRUE)
 ```
 
 Finally, we want only those 3 token sequences that have a medial comma like: *earth_NN ,\_, that_WDT*
 
 ```{r medial_comma}
-us_grams <- tokens_select(us_grams, "\\s[^,]+_[^,]+\\s", selection = "remove", valuetype = "regex", case_insensitive = T)
+us_grams <- tokens_select(us_grams, "\\s[^,]+_[^,]+\\s", selection = "remove", 
+                          valuetype = "regex", case_insensitive = TRUE)
 ```
 
 So let's repeat the sorting process with the UK data.
 
 ```{r uk_grams}
-uk_grams <- uk_grams %>%
-  tokens_select("that_\\S+$|which_\\S+$", selection = "keep", valuetype = "regex", case_insensitive = T) %>%
-  tokens_select("^[a-z]+_NN\\d?", selection = "keep", valuetype = "regex", case_insensitive = T) %>%
-  tokens_select("\\s[^,]+_[^,]+\\s", selection = "remove", valuetype = "regex", case_insensitive = T)
-
+uk_grams <- uk_grams |>
+  tokens_select("that_\\S+$|which_\\S+$", selection = "keep", 
+                valuetype = "regex", case_insensitive = TRUE) |>
+  tokens_select("^[a-z]+_NN\\d?", selection = "keep",
+                valuetype = "regex", case_insensitive = TRUE) |>
+  tokens_select("\\s[^,]+_[^,]+\\s", selection = "remove", 
+                valuetype = "regex", case_insensitive = TRUE)
 ```
 
 ### Structuring the data
@@ -179,8 +179,8 @@ uk_grams <- uk_grams %>%
 Now let's convert our data structure to a data frame.
 
 ```{r}
-us_grams <- data.frame(feature = unlist(us_grams), stringsAsFactors = F)
-uk_grams <- data.frame(feature = unlist(uk_grams), stringsAsFactors = F)
+us_grams <- data.frame(feature = unlist(us_grams))
+uk_grams <- data.frame(feature = unlist(uk_grams))
 ```
 
 ```{r}
@@ -204,39 +204,39 @@ uk_grams |>
 ```
 
 
-We're going to follow Brezina's recommendation on pg. 122 for stucturing and idenfiying our variables using some prefixing.
+We're going to follow Brezina's recommendation on pg. 122 for stucturing and identifying our variables using some prefixing.
 
 ```{r}
-us_grams <- us_grams %>%
-  rownames_to_column("doc_id") %>%
-  mutate(doc_id = str_replace(doc_id, "_\\S+$", "")) %>%
-  mutate(comma_sep = ifelse(str_detect(feature, ",") == T, "B_yes", "A_no")) %>%
-  mutate(rel_type = ifelse(str_detect(feature, "that_") == T, "A_that", "B_which"))
+us_grams <- us_grams |>
+  rownames_to_column("doc_id") |>
+  mutate(doc_id = str_replace(doc_id, "_\\S+$", "")) |>
+  mutate(comma_sep = ifelse(str_detect(feature, ","), "B_yes", "A_no")) |>
+  mutate(rel_type = ifelse(str_detect(feature, "that_"), "A_that", "B_which"))
 
-uk_grams <- uk_grams %>%
-  rownames_to_column("doc_id") %>%
-  mutate(doc_id = str_replace(doc_id, "_\\S+$", "")) %>%
-  mutate(comma_sep = ifelse(str_detect(feature, ",") == T, "B_yes", "A_no")) %>%
-  mutate(rel_type = ifelse(str_detect(feature, "that_") == T, "A_that", "B_which"))
+uk_grams <- uk_grams |>
+  rownames_to_column("doc_id") |>
+  mutate(doc_id = str_replace(doc_id, "_\\S+$", "")) |>
+  mutate(comma_sep = ifelse(str_detect(feature, ","), "B_yes", "A_no")) |>
+  mutate(rel_type = ifelse(str_detect(feature, "that_"), "A_that", "B_which"))
 ```
 
-Now let's join some metadata. We'll select the speaker_status variable. Again, we'll clean it using some prefixing. Finally, we'll add a column that identifyies the location as being in US.
+Now let's join some metadata. We'll select the speaker_status variable. Again, we'll clean it using some prefixing. Finally, we'll add a column that identifies the location as being in US.
 
 ```{r us_meta}
-us_grams <- us_grams %>% 
-  left_join(select(micusp_meta, doc_id, speaker_status), by = "doc_id") %>%
-  mutate(speaker_status = str_replace(speaker_status, "NNS", "B_NNS")) %>%
-  mutate(speaker_status = str_replace(speaker_status, "^NS$", "A_NS")) %>%
+us_grams <- us_grams |>
+  left_join(select(micusp_meta, doc_id, speaker_status), by = "doc_id") |>
+  mutate(speaker_status = str_replace(speaker_status, "NNS", "B_NNS")) |>
+  mutate(speaker_status = str_replace(speaker_status, "^NS$", "A_NS")) |>
   mutate(nat_id = "A_US")
 ```
 
 The UK data doesn't have a speaker_status column but it does have a first_language column. We can make a column that matches the US data using **ifelse()**.
 
 ```{r uk_meta}
-uk_grams <- uk_grams %>% 
-  left_join(dplyr::select(bawe_meta, doc_id, speaker_l1), by = "doc_id") %>%
-  mutate(speaker_l1 = ifelse(str_detect(speaker_l1, "English") == T, "A_NS", "B_NNS")) %>%
-  rename(speaker_status = speaker_l1) %>%
+uk_grams <- uk_grams |>
+  left_join(dplyr::select(bawe_meta, doc_id, speaker_l1), by = "doc_id") |>
+  mutate(speaker_l1 = ifelse(str_detect(speaker_l1, "English"), "A_NS", "B_NNS")) |>
+  rename(speaker_status = speaker_l1) |>
   mutate(nat_id = "B_UK")
 ```
 
@@ -245,7 +245,7 @@ uk_grams <- uk_grams %>%
 Before running the regression model, we can combine the two tables. We also need to convert some character columns into factors (or categorical variables).
 
 ```{r}
-rel_data <- bind_rows(us_grams, uk_grams) %>%
+rel_data <- bind_rows(us_grams, uk_grams) |>
   mutate_at(3:6, factor)
 ```
 
@@ -256,12 +256,15 @@ To understand how to set up the model, it might help to refer to pg. 119. Our ou
 * speaker_status: whether the student is a native speaker of English or not
 
 ```{r}
-glm_fit <- glm(rel_type ~ comma_sep + nat_id + speaker_status, data = rel_data, family = "binomial")
+glm_fit <- glm(rel_type ~ comma_sep + nat_id + speaker_status, data = rel_data, 
+               family = "binomial")
 ```
 
 ### Evaluating the model
 
-Logistic regression has some prerequisites and assumptions. One of which is there is no colinearity between predictors. One tool for colinearity diagnostics is VIF. VIF (or variance inflation factors) measure the inflation in the variances of the parameter estimates due to collinearities that exist among the predictors and range from 1 upwards. The numerical value for VIF tells you (in decimal form) what percentage the variance is inflated for each coefficient. For example, a VIF of 1.9 tells you that the variance of a particular coefficient is 90% bigger than what you would expect if there was no multicollinearity — if there was no correlation with other predictors.
+Before interpreting our model, it can be worth checking on the predictors. If the predictors are collinear---if one predictor is approximately a linear combination of other predictors---the results can be difficult to interpret, and there will be large standard errors. Collinearity might indicate that some of our predictors measure essentially the same thing, or that we accidentally messed up our data preparation.
+
+One tool for collinearity diagnostics is VIF. VIF (or variance inflation factors) measure the inflation in the variances of the parameter estimates due to collinearities that exist among the predictors and range from 1 upwards. The numerical value for VIF tells you (in decimal form) what percentage the variance is inflated for each coefficient. For example, a VIF of 1.9 tells you that the variance of a particular coefficient is 90% bigger than what you would expect if there was no collinearity — if there was no correlation with other predictors.
 
 ```{r}
 car::vif(glm_fit)
@@ -280,13 +283,14 @@ For a nicely formatted output, we can use the **gtsummary** package to put those
 ```{r}
 #| tbl-cap: "Logistic regression estimates of *which* or *that*."
 
-gtsummary::tbl_regression(glm_fit, exponentiate = TRUE) |>
-  gtsummary::add_global_p() |>
-  gtsummary::add_glance_table(
-    include = c(nobs, logLik, AIC, BIC))
+library(gtsummary)
+
+tbl_regression(glm_fit, exponentiate = TRUE) |>
+  add_global_p() |>
+  add_glance_table(include = c(nobs, logLik, AIC, BIC))
 ```
 
-While no exact equivalent to the R2 of linear regression exists, an R2 index can be used to assess the model fit. Note that pseudo R2 have been critiqued for their lack of accuracy. See Brezina pg. 125.
+While no exact equivalent to the $R^2$ of linear regression exists, an $R^2$ index can be used to assess the model fit. Note that pseudo-$R^2$ have been critiqued for their lack of accuracy. See Brezina pg. 125.
 
 We can also generate what Brezina calls a C-index. The C-index is the area under an ROC. The ROC is a curve generated by plotting the true positive rate (TPR) against the false positive rate (FPR) at various threshold settings while the AUC is the area under the ROC curve. As a rule of thumb, a model with good predictive ability should have an AUC closer to 1 (1 is ideal) than to 0.5. These can be calculated and plotted using packages like **ROCR**. You can find examples of the plots and the resulting AUC values as in this one:
 
@@ -307,16 +311,15 @@ ___
 
 ## Case 2
 
-Let's trying making another model. This time, we'll just use the untaggged MICUSP data. Note that our choices are a little different here. We're leaving in punctuation and numbers. This is because we'll be doing something a little different with this tokens object.
+Let's trying making another model. This time, we'll just use the untaggged MICUSP data, also available in `cmu.textstat`. Note that our choices are a little different here. We're leaving in punctuation and numbers. This is because we'll be doing something a little different with this tokens object.
 
 ### Prepare the data
 
 ```{r}
-load("../data/micusp_mini.rda")
-
-micusp_tokens <- micusp_mini %>%
-  corpus() %>%
-  tokens(include_docvars=T, remove_punct = F, remove_numbers = F, remove_symbols = T, what = "word")
+micusp_tokens <- micusp_mini |>
+  corpus() |>
+  tokens(include_docvars = TRUE, remove_punct = FALSE,
+         remove_numbers = FALSE, remove_symbols = TRUE, what = "word")
 ```
 
 Now we load in a dictionary. This dictionary has almost 15,000 entries. It is organized into only 2 categories: phrases that communicate high confidence and those that communicate hedged confidence. Go and look at the Hyland article on stance and engagement for more on the importance of these kinds of features to academic writing.
@@ -328,14 +331,14 @@ hb_dict <- dictionary(file = "../data/hedges_boosters.yml")
 Next we create a new tokens object from our original one. By using tokens_lookup() with our dictionary, we will create groupings based on our dictionary. Note that our dictionary has only 1 level. But if we can a more complex taxonomy, we can specify which level of the taxonomy we'd like to group our tokens under.
 
 ```{r}
-hb <- micusp_tokens %>%
-  tokens_lookup(dictionary = hb_dict, levels = 1) %>%
-  dfm() %>%
-  convert(to = "data.frame") %>% 
+hb <- micusp_tokens |>
+  tokens_lookup(dictionary = hb_dict, levels = 1) |>
+  dfm() |>
+  convert(to = "data.frame") |>
   mutate(
     tokens_total = ntoken(micusp_tokens),
-    hedges_norm = (confidencehedged/tokens_total)*100,
-    boosters_norm = (confidencehigh/tokens_total)*100,
+    hedges_norm = (confidencehedged / tokens_total) * 100,
+    boosters_norm = (confidencehigh / tokens_total) * 100,
   )
 ```
 
@@ -353,8 +356,8 @@ How does this look? Check Brezina pg. 121.
 Now lets check some distributions. First we'll create a data structure for ggplot.
 
 ```{r}
-hb_df <- hb %>% 
-  select(hedges_norm, boosters_norm) %>% 
+hb_df <- hb |>
+  select(hedges_norm, boosters_norm) |>
   pivot_longer(everything(), names_to = "confidence", values_to = "freq_norm")
 ```
 
@@ -366,10 +369,10 @@ Now plot histograms.
 #| fig-cap: "Histograms of hedging and boosing tokens in MICUSP."
 
 ggplot(hb_df,aes(x = freq_norm, color = confidence, fill = confidence)) + 
-  geom_histogram(bins = 10, alpha=.5, position = "identity") +
+  geom_histogram(bins = 10, alpha = 0.5, position = "identity") +
   theme_classic() +
-  theme(axis.text = element_text(size=5)) +
-  facet_wrap(~ confidence)
+  theme(axis.text = element_text(size = 5)) +
+  facet_wrap(vars(confidence))
 ```
 
 And boxplots.
@@ -383,7 +386,7 @@ ggplot(hb_df,aes(x = confidence, y = freq_norm)) +
   geom_boxplot() +
   xlab("") +
   ylab("Frequency (per 100 tokens)") +
-  scale_x_discrete(labels= c("Boosters", "Hedges")) +
+  scale_x_discrete(labels = c("Boosters", "Hedges")) +
   theme_classic() +
   coord_flip()
 ```
@@ -395,14 +398,16 @@ How do these look to you?
 Now let's create some data for our regression models. For this, we'll combine our frequency counts with some metadata: discipline category, speaker status, gender, and paper type. We'll also move the text_id to row names to exclude that column from further processing.
 
 ```{r}
-lr_df <- hb %>% 
-  mutate(doc_id = str_remove_all(doc_id, ".txt")) %>% 
-  dplyr::select(doc_id, hedges_norm, boosters_norm) %>% 
-  left_join(select(micusp_meta, doc_id, discipline_cat, speaker_status, student_gender, paper_type), by ="doc_id") %>% 
-  remove_rownames %>% column_to_rownames(var="doc_id")
+lr_df <- hb |>
+  mutate(doc_id = str_remove_all(doc_id, ".txt")) |>
+  dplyr::select(doc_id, hedges_norm, boosters_norm) |>
+  left_join(select(micusp_meta, doc_id, discipline_cat, speaker_status, student_gender, paper_type),
+            by = "doc_id") |>
+  remove_rownames() |> 
+  column_to_rownames(var="doc_id")
 ```
 
-For the mulinomial regression, we're going to want to collapse all of the discipline categories into 3: Science, Humanities, and Social Science.
+For the multinomial regression, we're going to want to collapse all of the discipline categories into 3: Science, Humanities, and Social Science.
 
 ```{r}
 lr_df$discipline_cat <- str_replace_all(lr_df$discipline_cat, "BIO|CEE|ECO|IOE|MEC|NRE|PHY", "SCI")
@@ -413,7 +418,7 @@ lr_df$discipline_cat <- str_replace_all(lr_df$discipline_cat, "ECO|EDU|LIN|NUR|P
 To carry out our regression, we need to convert our character columns to factors. In other words, they need to be treated like categories not strings. We can do them all with one simple line of code.
 
 ```{r}
-lr_df <- lr_df %>%  mutate_if(is.character, as.factor)
+lr_df <- lr_df |>  mutate_if(is.character, as.factor)
 ```
 
 ## Logistic regression model
@@ -433,7 +438,8 @@ glm_fit2 <- glm(speaker_status ~ boosters_norm + hedges_norm, data = lr_df, fami
 And finally, let's repeat this process with a subset of our data. We have 3 discipline categories, so let's subset out only 2.
 
 ```{r}
-lr_sub <- lr_df %>% filter(discipline_cat == "HUM" | discipline_cat == "SCI")
+lr_sub <- lr_df |>
+  filter(discipline_cat == "HUM" | discipline_cat == "SCI")
 lr_sub$discipline_cat <- droplevels(lr_sub$discipline_cat)
 
 glm_fit3 <- glm(discipline_cat ~ boosters_norm + hedges_norm, data = lr_sub, family = "binomial")
@@ -445,19 +451,19 @@ glm_fit3 <- glm(discipline_cat ~ boosters_norm + hedges_norm, data = lr_sub, fam
 #| warning: false
 #| tbl-cap: "Logistic regression estimates of hedges or boosters for student gender (Model 1), spaker status (Model 2), and discipline (Model 3)."
 
-tbl_1 <- gtsummary::tbl_regression(glm_fit1, exponentiate = TRUE) |>
-  gtsummary::add_global_p()
+tbl_1 <- tbl_regression(glm_fit1, exponentiate = TRUE) |>
+  add_global_p()
 
-tbl_2 <- gtsummary::tbl_regression(glm_fit2, exponentiate = TRUE) |>
-  gtsummary::add_global_p()
+tbl_2 <- tbl_regression(glm_fit2, exponentiate = TRUE) |>
+  add_global_p()
 
-tbl_3 <- gtsummary::tbl_regression(glm_fit3, exponentiate = TRUE) |>
-  gtsummary::add_global_p()
+tbl_3 <- tbl_regression(glm_fit3, exponentiate = TRUE) |>
+  add_global_p()
 
-gtsummary::tbl_merge(
+tbl_merge(
     list(tbl_1, tbl_2, tbl_3),
     tab_spanner = c("**Model 1**", "**Model 2**", "**Model 3**")
-  )
+)
 ```
 
 
@@ -471,7 +477,7 @@ Now let's try multinomial regression on all 3 of the discipline categories. This
 mr_fit <- multinom(discipline_cat ~ boosters_norm + hedges_norm, data = lr_df)
 ```
 
-We first see that some output is generated by running the model, even though we are assigning the model to a new R object. This model-running output includes some iteration history and includes the final log-likelihood 814.275451. This value multiplied by two  is then seen in the model summary as the Residual Deviance and it can be  used in comparisons of nested models.
+We first see that some output is generated by running the model, even though we are assigning the model to a new R object. This model-running output includes some iteration history and includes the final log-likelihood 814.275451. This value, multiplied by two, is then seen in the model summary as the Residual Deviance and it can be  used in comparisons of nested models.
 
 Let's look at a couple of boxplots to give us some context for these numbers.
 
@@ -501,7 +507,7 @@ ggplot(lr_df, aes(x = reorder(discipline_cat, hedges_norm, FUN = median), y = he
   coord_flip()
 ```
 
-Much like logistic regression, th ratio of the probability of choosing one  outcome category over the probability of choosing the baseline category is the relative risk or odds. The relative risk is the right-hand side linear equation exponentiated, leading to the fact that the exponentiated regression coefficients are relative risk ratios for a unit change in the predictor variable. We can exponentiate the coefficients from our model to see these odds ratios.
+Much like logistic regression, the ratio of the probability of choosing one  outcome category over the probability of choosing the baseline category is the relative risk or odds. The relative risk is the right-hand side linear equation exponentiated, leading to the fact that the exponentiated regression coefficients are relative risk ratios for a unit change in the predictor variable. We can exponentiate the coefficients from our model to see these odds ratios.
 
 ```{r}
 #| code-fold: true
@@ -518,8 +524,8 @@ multinom_pivot_wider <- function(x) {
       function(lvl) {
         gtsummary::modify_table_body(
           x, 
-          ~dplyr::filter(.x, .data$groupname_col %in% lvl) %>%
-            dplyr::ungroup() %>%
+          ~dplyr::filter(.x, .data$groupname_col %in% lvl) |>
+            dplyr::ungroup() |>
             dplyr::select(-.data$groupname_col)
         )
       }
@@ -528,7 +534,7 @@ multinom_pivot_wider <- function(x) {
   gtsummary::tbl_merge(df$tbl, tab_spanner = paste0("**", df$outcome_level, "**"))
 }
 
-nnet::multinom(discipline_cat ~ boosters_norm + hedges_norm, data = lr_df) %>%
+nnet::multinom(discipline_cat ~ boosters_norm + hedges_norm, data = lr_df) |>
   gtsummary::tbl_regression(exponentiate = TRUE) |>
   gtsummary::add_global_p() |>
   multinom_pivot_wider()
@@ -549,8 +555,8 @@ prob_disc <- cbind(hb_new, predict(mr_fit, newdata = hb_new, type = "probs", se 
 We'll format a data frame for plotting.
 
 ```{r}
-plot_prob <- prob_disc %>% 
-  pivot_longer(hedges_norm:boosters_norm, names_to = "feature", values_to = "confidence") %>% 
+plot_prob <- prob_disc |>
+  pivot_longer(hedges_norm:boosters_norm, names_to = "feature", values_to = "confidence") |>
   pivot_longer(HUM:SOCSCI, names_to = "variable", values_to = "probability")
 ```
 
@@ -563,7 +569,7 @@ Finally, we'll create a plot the probabilities and color by hedges & boosters.
 
 ggplot(plot_prob, aes(x = confidence, y = probability, color = feature)) + geom_line() + 
   theme_classic() +
-  facet_grid(variable ~ ., scales = "free")
+  facet_grid(rows = vars(variable), scales = "free")
 ```
 
 \break

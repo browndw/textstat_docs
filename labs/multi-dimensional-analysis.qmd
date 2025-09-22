@@ -20,7 +20,7 @@ library(gt)
 Load functions:
 
 ```{r}
-source("../R/mda_functions.R")
+library(mda.biber)
 ```
 
 ## Case 1: Biber Tagger
@@ -55,10 +55,10 @@ We will join the data with the metadata, in order to calculate dimension scores 
 #| warning: false
 #| message: false
 
-bc <- bc %>%
-  left_join(dplyr::select(bc_meta, doc_id, text_type)) %>%
-  mutate(text_type = as.factor(text_type)) %>%
-  column_to_rownames("doc_id") %>%
+bc <- bc |>
+  left_join(dplyr::select(bc_meta, doc_id, text_type)) |>
+  mutate(text_type = as.factor(text_type)) |>
+  column_to_rownames("doc_id") |>
   dplyr::select(text_type, everything())
 ```
 
@@ -188,15 +188,17 @@ ___
 
 ## Case 2: DocuScope
 
-Unlike the Biber tagger, DocuScope is a dictionary based tagger. It has been developed at CMU by David Kaufer and Suguru Ishizaki since the early 2000s. A small version of it is on Canvas, which you can download. You can find the dictionary categories described here:
+Unlike the Biber tagger, DocuScope is a dictionary-based tagger. It has been developed at CMU by David Kaufer and Suguru Ishizaki since the early 2000s. You can find the dictionary categories described here:
 
 <https://docuscospacy.readthedocs.io/en/latest/docuscope.html#categories>
 
 ### Load the dictionary
 
+A simplified version of the DocuScope dictionary is included in `quanteda.extras`. We'll also use `micusp_mini` from `cmu.textstat`.
+
 ```{r}
-load("../data/ds_dict.rda")
-load("../data/micusp_mini.rda")
+library(quanteda.extras)
+library(cmu.textstat)
 ```
 
 DocuScope is a very large dictionary (or lexicon) that organizes tens of millions of words and phrases into rhetorically oriented categories. It has some overlap with a few Biber's functional categories (like hedges), but is fundamentally different, as it isn't bases on parts-of-speech.
@@ -213,46 +215,44 @@ ds_dict[1:3]
 Again, we will use the **micusp_mini*, and we'll begin by tokenizing the data. Note that we're retaining as much of the original data as possible including punctuation. This is because our dictionary includes punctuation marks in it's entries.
 
 ```{r}
-micusp_tokens <- micusp_mini %>%
-  corpus() %>%
-  tokens(remove_punct = F, remove_numbers = F, remove_symbols = F, what = "word")
+micusp_tokens <- micusp_mini |>
+  corpus() |>
+  tokens(remove_punct = FALSE, remove_numbers = FALSE, 
+         remove_symbols = FALSE, what = "word")
 ```
 
 Next, we will use the **tokens_lookup()** function to count and categorize our features.
 
 ```{r}
-ds_counts <- micusp_tokens %>%
-  tokens_lookup(dictionary = ds_dict, levels = 1, valuetype = "fixed") %>%
-  dfm() %>%
-  convert(to = "data.frame") %>%
+ds_counts <- micusp_tokens |>
+  tokens_lookup(dictionary = ds_dict, levels = 1, valuetype = "fixed") |>
+  dfm() |>
+  convert(to = "data.frame") |>
   as_tibble()
 ```
 
 Finally, we need to normalize the counts. Because DocuScope is not categorizing ALL of our tokens, we need a total count from the original tokens object.
 
 ```{r}
-tot_counts <- quanteda::ntoken(micusp_tokens) %>%
-  data.frame(tot_counts = .) %>%
-  tibble::rownames_to_column("doc_id") %>%
+tot_counts <- data.frame(tot_counts = quanteda::ntoken(micusp_tokens)) |>
+  tibble::rownames_to_column("doc_id") |>
   dplyr::as_tibble()
 
 ds_counts <- dplyr::full_join(ds_counts, tot_counts, by = "doc_id")
-
 ```
 
 Now we can normalize by the total counts before preparing the data for factor analysis.
 
 ```{r}
-ds_counts <- ds_counts %>%
-  dplyr::mutate_if(is.numeric, list(~./tot_counts), na.rm = TRUE) %>%
-  dplyr::mutate_if(is.numeric, list(~.*100), na.rm = TRUE) %>%
+ds_counts <- ds_counts |>
+  dplyr::mutate_if(is.numeric, list(~./tot_counts), na.rm = TRUE) |>
+  dplyr::mutate_if(is.numeric, list(~.*100), na.rm = TRUE) |>
   dplyr::select(-tot_counts)
 
 ds_counts <- ds_counts %>%
-  mutate(text_type = str_extract(doc_id, "^[A-Z]+")) %>%
-  mutate(text_type = as.factor(text_type)) %>%
+  mutate(text_type = str_extract(doc_id, "^[A-Z]+")) |>
+  mutate(text_type = as.factor(text_type)) |>
   column_to_rownames("doc_id")
-
 ```
 
 ### Calculating factor loadings and MDA score

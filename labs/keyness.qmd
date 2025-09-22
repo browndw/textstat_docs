@@ -25,19 +25,19 @@ The most commonly used (though not the only option) is called log-likelihood in 
 
 The calculation is based on a 2 × 2 contingency table. It is similar to a chi-square test, but performs better when corpora are unequally sized.
 
-Expected frequencies are based on the relative size of each corpus (in total number of words N~i~) and the total number of observed frequencies:
+Expected frequencies are based on the relative size of each corpus (in total number of words C~i~) and observed frequencies:
 
 $$
-E_i = \sum_i O_i \times \frac{N_i}{\sum_i N_i}
+E_{ij} =\frac{R_i C_j}{N}
 $$
 And log-likelihood is calculated according the formula:
 
 $$
-LL = 2 \times \sum_i O_i \ln \frac{O_i}{E_i}
+LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
 $$
 A good explanation of its implementation in linguistics can be found here: <http://ucrel.lancs.ac.uk/llwizard.html>
 
-In addition to log-likelihood, the `textstat_keyness()` function in **quanteda** has other optional measures.
+In addition to log-likelihood, the `textstat_keyness()` function in `quanteda.textstats` has other optional measures.
 
 See here: <https://quanteda.io/reference/textstat_keyness.html>
 
@@ -56,7 +56,6 @@ library(tidyverse)
 library(quanteda)
 library(quanteda.textstats)
 library(quanteda.extras)
-# library(cmu.textstat)
 library(gt)
 ```
 
@@ -159,7 +158,7 @@ Now that we have a **dfm** we perform keyness calculations. First, let's carry o
 
 When we use it with textstat_keyness we are indicating that we want the papers with discipline_cat equal to "acad" to be our **target corpus**. The everything else (i.e., "acad" == FALSE) will be the **reference corpus**.
 
-The specific method we're using is log-likelihood, which is designated by "lr". Thus keyness will show the tokens that are more frequent in papers written for the *academic* text-type vs. those written for other text-types.
+The specific method we're using is the likelihood ratio test, which is designated by "lr". Thus keyness will show the tokens that are more frequent in papers written for the *academic* text-type vs. those written for other text-types.
 
 ```{r}
 acad_kw <- textstat_keyness(sc_dfm, docvars(sc_dfm, "text_type") == "acad", 
@@ -309,7 +308,7 @@ news_dfm <- dfm_subset(sc_dfm, text_type == "news") |>
   dfm_trim(min_termfreq = 1)
 ```
 
-To produce a data.frame comparing more than two sup-corpora, use the `keyness_pairs()` function:
+To produce a data.frame comparing more than two sub-corpora, use the `keyness_pairs()` function:
 
 ```{r key_pairs, message = FALSE, error=FALSE, warning=FALSE}
 kp <- keyness_pairs(news_dfm, acad_dfm, fic_dfm)
@@ -347,8 +346,9 @@ Again, we can look at the first few rows of the table:
 kk |>
   head(10) |>
   gt() |>
-  fmt_number(everything(),
-             decimals = 2)
+  fmt_number(c(-token, -key_range),
+             decimals = 2) |>
+  fmt_percent(key_range, decimals = 0, scale_values = FALSE)
 ```
 
 ::: callout-important

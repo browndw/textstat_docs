@@ -16,7 +16,9 @@ And paste the following sentence into the text field:
 
 > The company offers credit cards, loans and interest-generating accounts.
 
-Then, click the "Process Input" button. You should now see an output. If you choose the "Table" tab, you can view the output in a tablular format.
+Under **Model**, select the `english-ewt-ut` model.
+
+Then, click the "Process Input" button. You should now see an output. If you choose the "Show Table" tab, you can view the output in a tabular format.
 
 ### Basic parse structure
 
@@ -28,11 +30,11 @@ The **xpos** tags are Penn Treebank tags, which you can find here: <https://www.
 
 The part-of-speech tags are followed by a column of integers that refer to the id of the token that is at the head of the dependency structure, which is followed by the **dependency relation** identifier.
 
-For a list of all dependency abbreviaitons see here: <https://universaldependencies.org/u/dep/index.html>. 
+For a list of all dependency abbreviations see here: <https://universaldependencies.org/u/dep/index.html>. 
 
 ### Visualize the dependency
 
-From the "Output Text" tab, copy the output start with the **sent_id** including the pound sign
+From the "Output Text" tab, copy the output starting with the **sent_id**, including the pound sign.
 
 Paste the information into the text field here: <https://urd2.let.rug.nl/~kleiweg/conllu/>. Then click the "Submit Query" button below the text field. This should generate a visualization of the dependency structure.
 
@@ -51,8 +53,6 @@ library(cmu.textstat)
 library(udpipe)
 library(gt)
 ```
-
-
 
 ## Parsing
 
@@ -105,27 +105,29 @@ library(ggraph)
 First we'll create a plotting function.
 
 ```{r}
-plot_annotation <- function(x, size = 3){
-  stopifnot(is.data.frame(x) & all(c("sentence_id", "token_id", "head_token_id", "dep_rel",
-                                     "token_id", "token", "lemma", "upos", "xpos", "feats") %in% colnames(x)))
+plot_annotation <- function(x, size = 3) {
+  stopifnot(is.data.frame(x) &&
+              all(c("sentence_id", "token_id", "head_token_id", "dep_rel",
+                    "token_id", "token", "lemma", "upos", "xpos", "feats") %in% colnames(x)))
   x <- x[!is.na(x$head_token_id), ]
   x <- x[x$sentence_id %in% min(x$sentence_id), ]
+  
   edges <- x[x$head_token_id != 0, c("token_id", "head_token_id", "dep_rel")]
   edges <- edges[edges$dep_rel != "punct",]
   edges$head_token_id <- ifelse(edges$head_token_id == 0, edges$token_id, edges$head_token_id)
-  nodes = x[, c("token_id", "token", "lemma", "upos", "xpos", "feats")]
+  nodes <- x[, c("token_id", "token", "lemma", "upos", "xpos", "feats")]
   edges$label <- edges$dep_rel
   g <- graph_from_data_frame(edges,
                              vertices = nodes,
                              directed = TRUE)
+  
   ggraph(g, layout = "linear") +
     geom_edge_arc(ggplot2::aes(label = dep_rel, vjust = -0.20), fold = T,linemitre = 2,
                   arrow = grid::arrow(length = unit(3, 'mm'), ends = "last", type = "closed"),
                   end_cap = ggraph::label_rect("wordswordswords"),
                   label_colour = "red", check_overlap = TRUE, label_size = size) +
     geom_node_label(ggplot2::aes(label = token), col = "black", size = size, fontface = "bold") +
-    geom_node_text(ggplot2::aes(label = xpos), nudge_y = -0.35, size = size) +
-    theme_graph(base_family = "Arial Narrow")
+    geom_node_text(ggplot2::aes(label = xpos), nudge_y = -0.35, size = size)
 }
 ```
 
@@ -149,11 +151,11 @@ Parsing text is a computationally intensive process and can take time. So for th
 #| error: false
 
 set.seed(123)
-sub_corpus <- quanteda.extras::sample_corpus %>%
-  mutate(text_type = str_extract(doc_id, "^[a-z]+")) %>%
-  group_by(text_type) %>%
-  sample_n(5) %>%
-  ungroup() %>%
+sub_corpus <- quanteda.extras::sample_corpus |>
+  mutate(text_type = str_extract(doc_id, "^[a-z]+")) |>
+  group_by(text_type) |>
+  sample_n(5) |>
+  ungroup() |>
   dplyr::select(doc_id, text)
 ```
 
@@ -163,13 +165,13 @@ Parallel processing is a method whereby separate parts of an overall complex tas
 
 The **udpipe()** function has an argument for assigning cores: **parallel.cores = 1L**. It's easy to set up, so feel free to use that option.
 
-A second option, requires more preparation, but is even faster. So we'll walk through how it works. First, we will split the corpus based on available cores.
+A second option requires more preparation, but is even faster. So we'll walk through how it works. First, we will split the corpus based on available cores.
 
 ```{r}
 corpus_split <- split(sub_corpus, seq(1, nrow(sub_corpus), by = 10))
 ```
 
-For parallel processing in R, we'll us the package **future.apply**.
+For parallel processing in R, we'll use the package **future.apply**.
 
 ```{r}
 #| message: false
@@ -186,23 +188,23 @@ ncores <- 4L
 plan(multisession, workers = ncores)
 
 annotate_splits <- function(corpus_text) {
-  ud_model <- udpipe_load_model("../models/english-ewt-ud-2.5-191206.udpipe")
+  ud_model <- udpipe_load_model("english-ewt-ud-2.5-191206.udpipe")
   x <- data.table::as.data.table(udpipe_annotate(ud_model, x = corpus_text$text,
                                                  doc_id = corpus_text$doc_id))
   return(x)
 }
 ```
 
-Finally, we annotate using **future_lapply**. On my machine, this takes roughly 32 seconds.
+Finally, we annotate using **future_lapply**. On my machine, this takes roughly 7 seconds.
 
 ```{r anno_splits}
-annotation <- future_lapply(corpus_split, annotate_splits, future.seed = T)
+annotation <- future_lapply(corpus_split, annotate_splits, future.seed = TRUE)
 ```
 
-As you might guess, the output is a list of data frames, so we'll combine them using **rbindlist()**.
+As you might guess, the output is a list of data frames, so we'll combine them using **bind_rows()**.
 
 ```{r}
-annotation <- data.table::rbindlist(annotation)
+annotation <- bind_rows(annotation)
 ```
 
 ## Process with quanteda
@@ -212,8 +214,9 @@ annotation <- data.table::rbindlist(annotation)
 If we want to do any further processing in **quanteda**, we need to make a couple of adjustments to our data frame. 
 
 ```{r}
-anno_edit <- annotation %>%
-  dplyr::select(doc_id, sentence_id, token_id, token, lemma, upos, xpos, head_token_id, dep_rel) %>%
+anno_edit <- annotation |>
+  dplyr::select(doc_id, sentence_id, token_id, token, lemma,
+                upos, xpos, head_token_id, dep_rel) |>
   rename(pos = upos, tag = xpos)
 
 anno_edit <- structure(anno_edit, class = c("spacyr_parsed", "data.frame"))
@@ -261,7 +264,6 @@ sub_dfm <- sub_tkns |>
   tokens_select("^.*[a-zA-Z0-9]+.*_[a-z]", selection = "keep", valuetype = "regex",
                 case_insensitive = TRUE) |>
   dfm()
-
 ```
 
 And check the frequencies:
@@ -279,11 +281,13 @@ textstat_frequency(sub_dfm, n = 10) |>
 If we want to compare one text-type (as our target corpus) to another (as our reference corpus), we can easily subset the data.
 
 ```{r subset_corpus}
-acad_dfm <- dfm_subset(sub_dfm, text_type == "acad") |> dfm_trim(min_termfreq = 1)
-fic_dfm <- dfm_subset(sub_dfm, text_type == "fic") |> dfm_trim(min_termfreq = 1)
+acad_dfm <- dfm_subset(sub_dfm, text_type == "acad") |> 
+  dfm_trim(min_termfreq = 1)
+fic_dfm <- dfm_subset(sub_dfm, text_type == "fic") |> 
+  dfm_trim(min_termfreq = 1)
 ```
 
-And finally, we can generate a keyness table, 
+And finally, we can generate a keyness table.
 
 ```{r}
 acad_v_fic <- keyness_table(acad_dfm, fic_dfm) |>
@@ -296,7 +300,8 @@ From that data, we can filter specific lexical classes, like modal verbs:
 #| code-fold: true
 #| tbl-cap: "A keyness comparision of modal verbs in a sub-sample of the academic vs. fiction text-types."
 
-acad_v_fic %>% filter(Tag == "md") |>
+acad_v_fic |>
+  filter(Tag == "md") |>
   gt() |>
   fmt_number(columns = c('LL', 'LR', 'Per_10.4_Tar', 'Per_10.4_Ref'), decimals = 2) |>
   fmt_number(columns = c('DP_Tar', 'DP_Ref'), decimals = 3) |>
@@ -319,28 +324,29 @@ We can also extract phrases of specific types. To so so, we first use the functi
 annotation$phrase_tag <- as_phrasemachine(annotation$upos, type = "upos")
 ```
 
-Next, we can use the function **keywords_phrases()** to extract phrase-types based on regular expressions. Refer to the documentation for suggested **regex** patterns: <https://www.rdocumentation.org/packages/udpipe/versions/0.8.6/topics/keywords_phrases>.
+Next, we can use the function **keywords_phrases()** to extract phrase-types based on regular expressions. Refer to the documentation for suggested **regex** patterns: <https://cran.r-project.org/web/packages/udpipe/refman/udpipe.html#keywords_phrases>.
 
 You can also read examples of use cases: <https://bnosac.github.io/udpipe/docs/doc7.html>.
 
 First, we'll subset our data into annotations by text-type. 
 
 ```{r anno_split}
-acad_anno <- annotation %>% filter(str_detect(doc_id, "acad"))
-fic_anno <- annotation %>% filter(str_detect(doc_id, "fic"))
+acad_anno <- annotation |>
+  filter(str_detect(doc_id, "acad"))
+fic_anno <- annotation |>
+  filter(str_detect(doc_id, "fic"))
 ```
 
 
 ```{r key_phrases}
-
 acad_nps <- keywords_phrases(x = acad_anno$phrase_tag, term = tolower(acad_anno$token), 
                           pattern = "(A|N)*N(P+D*(A|N)*N)*", 
-                          is_regex = TRUE, detailed = T)
+                          is_regex = TRUE, detailed = TRUE)
 
 
 fic_nps <- keywords_phrases(x = fic_anno$phrase_tag, term = tolower(fic_anno$token), 
                              pattern = "(A|N)*N(P+D*(A|N)*N)*", 
-                             is_regex = TRUE, detailed = T)
+                             is_regex = TRUE, detailed = TRUE)
 ```
 
 
@@ -365,7 +371,12 @@ That will generate a logical vector, which we can use to filter out only those p
 ```{r acad_unique}
 idx <- seq(1:nrow(acad_nps))
 
-is_unique <- lapply(idx, function(i) sum(data.table::between(acad_nps$start[i], acad_nps$start, acad_nps$end) & data.table::between(acad_nps$end[i], acad_nps$start, acad_nps$end)) == 1) %>% unlist()
+is_unique <- lapply(idx, function(i) {
+  sum(data.table::between(acad_nps$start[i], acad_nps$start, acad_nps$end) & 
+        data.table::between(acad_nps$end[i], acad_nps$start, acad_nps$end)) == 1
+  }
+) |>
+  unlist()
 
 acad_nps <- acad_nps[is_unique, ]
 ```
@@ -373,7 +384,12 @@ acad_nps <- acad_nps[is_unique, ]
 ```{r fic_unique}
 idx <- seq(1:nrow(fic_nps))
 
-is_unique <- lapply(idx, function(i) sum(data.table::between(fic_nps$start[i], fic_nps$start, fic_nps$end) & data.table::between(fic_nps$end[i], fic_nps$start, fic_nps$end)) == 1) %>% unlist()
+is_unique <- lapply(idx, function(i) {
+  sum(data.table::between(fic_nps$start[i], fic_nps$start, fic_nps$end) & 
+        data.table::between(fic_nps$end[i], fic_nps$start, fic_nps$end)) == 1
+  }
+) |>
+  unlist()
 
 fic_nps <- fic_nps[is_unique, ]
 ```
@@ -381,10 +397,10 @@ fic_nps <- fic_nps[is_unique, ]
 We can also add a rough accounting of the lengths of the noun phrases by summing the spaces and adding 1.
 
 ```{r}
-acad_nps <- acad_nps %>%
+acad_nps <- acad_nps |>
   mutate(phrase_length = str_count(keyword, " ") + 1)
 
-fic_nps <- fic_nps %>%
+fic_nps <- fic_nps |>
   mutate(phrase_length = str_count(keyword, " ") + 1)
 ```
 
