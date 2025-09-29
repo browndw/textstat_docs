@@ -31,11 +31,11 @@ For this lab, we will use data prepared using the R package **pseudobibeR**, whi
 
 The scripts are not really taggers. Rather, they use **udpipe** or **spaCy** part-of-speech tagging and dependency parsing to summarize patterns. They organize 67 categories that are described here:
 
-<https://cmu-textstat-docs.readthedocs.io/en/latest/pseudobibeR/pseudobibeR.html>
+<https://cran.r-project.org/web/packages/pseudobibeR/refman/pseudobibeR.html>
 
 For this lab, you won't need to use the package functions. But if you'd like to try it out for any of your projects, you can follow the instructions here:
 
-<https://cmu-textstat-docs.readthedocs.io/en/latest/pseudobibeR/pseudobibeR.html>
+<https://cran.r-project.org/web/packages/pseudobibeR/refman/pseudobibeR.html>
 
 ### The Brown Corpus
 
@@ -43,10 +43,10 @@ Let's start with counts from the Brown Corpus. The Brown family of corpora is di
 
 <http://icame.uib.no/brown/bcm.html>
 
-```{r, warning=FALSE, message=FALSE}
-bc <- read_csv("https://raw.githubusercontent.com/browndw/cmu-textstat-docs/main/docs/_static/labs_files/data-csv/bc_biber.csv", show_col_types = FALSE)
+The data is included as `brown_biber` and `brown_meta` in the `cmu.textstat` package:
 
-bc_meta <- read_csv("https://raw.githubusercontent.com/browndw/cmu-textstat-docs/main/docs/_static/labs_files/data-csv/brown_meta.csv", show_col_types = FALSE)
+```{r, warning=FALSE, message=FALSE}
+library(cmu.textstat)
 ```
 
 We will join the data with the metadata, in order to calculate dimension scores by register and evaluate them. Note that it **must** be formatted as a factor. For convenience sake, we'll move the file names to the row names and put our factor as the first column.
@@ -55,11 +55,11 @@ We will join the data with the metadata, in order to calculate dimension scores 
 #| warning: false
 #| message: false
 
-bc <- bc |>
-  left_join(dplyr::select(bc_meta, doc_id, text_type)) |>
+brown_biber <- brown_biber |>
+  left_join(dplyr::select(brown_meta, doc_id, text_type)) |>
   mutate(text_type = as.factor(text_type)) |>
   column_to_rownames("doc_id") |>
-  dplyr::select(text_type, everything())
+  relocate(text_type)
 ```
 
 ### Correlation matrix
@@ -67,7 +67,9 @@ bc <- bc |>
 Before calculating our factors, let's check a correlation matrix. Note that we're dropping the first (factor) column.
 
 ```{r}
-bc_cor <- cor(bc[-1], method = "pearson")
+bc_cor <- brown_biber |>
+  select(!text_type) |>
+  cor(method = "pearson")
 ```
 
 ```{r}
@@ -75,7 +77,7 @@ bc_cor <- cor(bc[-1], method = "pearson")
 #| fig-height: 7
 #| fig-cap: "Correlation matrix of lexico-grammatical categories."
 
-corrplot::corrplot(bc_cor, type = "upper", order = "hclust", 
+corrplot::corrplot(bc_cor, type = "upper", order = "hclust",
          tl.col = "black", tl.srt = 45, diag = F, tl.cex = 0.5)
 ```
 
@@ -88,7 +90,7 @@ Typically, the number of factors is chosen after inspecting a scree plot.
 #| fig-height: 3.5
 #| fig-cap: "Scree plot of factors."
 
-screeplot_mda(bc)
+screeplot_mda(brown_biber)
 ```
 
 A common method for interpreting a scree plot is to look for the "bend" in the elbow, which would be 3 or 4 factors in this case. We can also look at the results of other kinds of solutions like optimal coordinates, which measures the gradients associated with eigenvalues and their preceding coordinates, and acceleration factor, which determines the coordinate where the slope of the curve changes most abruptly. In this case OC suggests 6 factors and AF 1.
@@ -106,7 +108,7 @@ To place our categories along the dimensions, data is standardized by converting
 For these calculations, we will use the `mda_loadings()` function.
 
 ```{r}
-bc_mda <- mda_loadings(bc, n_factors = 3)
+bc_mda <- mda_loadings(brown_biber, n_factors = 3)
 ```
 
 We can access factor loadings and group means through attributes.
@@ -114,14 +116,13 @@ We can access factor loadings and group means through attributes.
 ```{r}
 #| tbl-cap: "Factor loadings for the Brown Corpus."
 
-attr(bc_mda, 'loadings')|>
+attr(bc_mda, 'loadings') |>
   rownames_to_column("Feature") |>
-  gt() |> 
+  gt() |>
   fmt_number(
     columns = everything(),
     decimals = 2
-  ) |>
-  as_raw_html()
+  )
 ```
 
 ### Plotting the results
@@ -137,7 +138,7 @@ The means are conventionally positioned on a stick plot of the kind Brezina show
 stickplot_mda(bc_mda, n_factor = 1)
 ```
 
-We can also show the same plot with the factor loadings. 
+We can also show the same plot with the factor loadings.
 
 ```{r}
 #| warning: false

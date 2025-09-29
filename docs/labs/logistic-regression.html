@@ -105,6 +105,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -346,7 +375,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/embed_keyness.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Collocations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Keyness</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/embed_factor-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Factor analysis and MDA</span></span></a>
   </div>
 </li>
       </ul>
@@ -416,10 +451,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nnet)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Load metadata:</p>
+<p>Load metadata (<code>bawe_meta</code> and <code>micusp_meta</code>):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/micusp_meta.rda"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/bawe_meta.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cmu.textstat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tbl-cap="Metadata associated with the Michigan Corpus of Upper-Level Student Papers (MICUSP)">
 <details class="code-fold">
@@ -432,7 +466,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_raw_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fjhemyngbc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ywlwnrufcb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table" data-quarto-disable-processing="true" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 10px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF"><caption><p>Metadata associated with the Michigan Corpus of Upper-Level Student
 Papers (MICUSP)</p></caption>
@@ -580,7 +614,7 @@ Papers (MICUSP)</p></caption>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_raw_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="ypijmpcbpo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="omqoppgjyd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table" data-quarto-disable-processing="true" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 10px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF"><caption><p>Metadata associated with the British Academic Written English (BAWE)
 corpus.</p></caption>
@@ -722,7 +756,7 @@ corpus.</p></caption>
 <h2 data-number="8.2" class="anchored" data-anchor-id="case-1"><span class="header-section-number">8.2</span> Case 1</h2>
 <p>Preparing linguistic data for logistic regression is often a complex process, as it will be for this lab. Our problem comes from Brezina (pg. 130) and concerns <em>that</em> vs.&nbsp;<em>which</em>:</p>
 <blockquote class="blockquote">
-<p>While writing this chapter, I encountered the following situation: my word processor underlines with a wiggly line a phrse that included the relative pronoun <em>which</em>, signaling a potential grammatical error or inaccuracy. The correction off correction offered was to either add a comma in front of <em>which</em> or use the relative pronoun <em>that</em> instead., with the reasoning being as follows: ‘If these words are not essential to the meaning of your sentences, use “which” and separate the words with a comma.’</p>
+<p>While writing this chapter, I encountered the following situation: my word processor underlines with a wiggly line a phrse that included the relative pronoun <em>which</em>, signaling a potential grammatical error or inaccuracy. The correction off correction offered was to either add a comma in front of <em>which</em> or use the relative pronoun <em>that</em> instead, with the reasoning being as follows: ‘If these words are not essential to the meaning of your sentences, use “which” and separate the words with a comma.’</p>
 </blockquote>
 <p>We are going to mimic Brezina’s experiment, but instead of using the BE06 and AmE06 corpora, we will use the Michigan Corpus of Upper-Level Student Papers (MICUSP) and the British Academic Written English corpus (BAWE).</p>
 <p>To save time, the data has already been tagged with <strong>udpipe</strong>. To tag files this way is relatively straightforward. Don’t run the chunk below, but you can see how it would work if you uncommented the code lines.</p>
@@ -731,22 +765,23 @@ corpus.</p></caption>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># target_folder &lt;- "/Users/user/Downloads/bawe_udpipe/"</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># files_list &lt;- list.files("/Users/user/Downloads/bawe_body", full.names = T)</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>tag_text <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>tag_text <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  file_name <span class="ot">&lt;-</span> <span class="fu">basename</span>(x) <span class="sc">%&gt;%</span> <span class="fu">str_remove</span>(<span class="st">".txt"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  file_name <span class="ot">&lt;-</span> <span class="fu">basename</span>(x) <span class="sc">|&gt;</span> <span class="fu">str_remove</span>(<span class="st">".txt"</span>)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  output_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(target_folder, file_name, <span class="st">"_udp.txt"</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  txt <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_file</span>(x) <span class="sc">%&gt;%</span> <span class="fu">str_squish</span>()</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  annotation <span class="ot">&lt;-</span> <span class="fu">udpipe_annotate</span>(udmodel, txt, <span class="at">parser =</span> <span class="st">"none"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(token, xpos) <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  txt <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_file</span>(x) <span class="sc">|&gt;</span> <span class="fu">str_squish</span>()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  annotation <span class="ot">&lt;-</span> <span class="fu">udpipe_annotate</span>(udmodel, txt, <span class="at">parser =</span> <span class="st">"none"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(token, xpos) <span class="sc">|&gt;</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unite</span>(<span class="st">"token"</span>, token<span class="sc">:</span>xpos)</span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  new_txt <span class="ot">&lt;-</span> <span class="fu">paste</span>(annotation<span class="sc">$</span>token, <span class="at">collapse=</span><span class="st">" "</span>)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(new_txt, output_file, <span class="at">quote =</span> F, <span class="at">row.names =</span> F, <span class="at">col.names =</span> F)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># lapply(files_list, tag_text)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  new_txt <span class="ot">&lt;-</span> <span class="fu">paste</span>(annotation<span class="sc">$</span>token, <span class="at">collapse =</span> <span class="st">" "</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(new_txt, output_file, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">col.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># lapply(files_list, tag_text)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="prepare-tokens" class="level2" data-number="8.3">
@@ -755,25 +790,22 @@ corpus.</p></caption>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>us_files_list <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"../data/micusp_udpipe"</span>, <span class="at">full.names =</span> T)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>uk_files_list <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"../data/bawe_udpipe"</span>, <span class="at">full.names =</span> T)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>us_files_list <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"../data/micusp_udpipe"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>uk_files_list <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"../data/bawe_udpipe"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>us_sample <span class="ot">&lt;-</span> <span class="fu">sample</span>(us_files_list, <span class="dv">100</span>)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>uk_sample <span class="ot">&lt;-</span> <span class="fu">sample</span>(uk_files_list, <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To save time, we’ll load the down-sampled data directly.</p>
+<p>To save time, the down-sampled data is already included in the <code>cmu.textstat</code> package as <code>us_sample</code> and <code>uk_sample</code>.</p>
+<p>So we tokenize our sub-sample.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/student_samples.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>And tokenize our sub-sample.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>us_tokens <span class="ot">&lt;-</span> us_sample <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">what =</span> <span class="st">"fastestword"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>uk_tokens <span class="ot">&lt;-</span> uk_sample <span class="sc">%&gt;%</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">what =</span> <span class="st">"fastestword"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>us_tokens <span class="ot">&lt;-</span> us_sample <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">what =</span> <span class="st">"fastestword"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>uk_tokens <span class="ot">&lt;-</span> uk_sample <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">what =</span> <span class="st">"fastestword"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="select-token-sequences" class="level3" data-number="8.3.1">
 <h3 data-number="8.3.1" class="anchored" data-anchor-id="select-token-sequences"><span class="header-section-number">8.3.1</span> Select token sequences</h3>
@@ -786,42 +818,48 @@ corpus.</p></caption>
 </ul>
 <p>We’ll begin by generating what are called skipgrams. A skipgram “skips” over a specified number of tokens. We’ll generate skipgrams 2 to 3 tokens long and skipping over 0 or 1 tokens. Thus, we’ll generate a series of phrases, 2 to 3 tokens in length.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> <span class="fu">tokens_skipgrams</span>(us_tokens, <span class="at">n=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">skip=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">concatenator =</span> <span class="st">" "</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>uk_grams <span class="ot">&lt;-</span> <span class="fu">tokens_skipgrams</span>(uk_tokens, <span class="at">n=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">skip=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">concatenator =</span> <span class="st">" "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> <span class="fu">tokens_skipgrams</span>(us_tokens, <span class="at">n =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">skip =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">concatenator =</span> <span class="st">" "</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>uk_grams <span class="ot">&lt;-</span> <span class="fu">tokens_skipgrams</span>(uk_tokens, <span class="at">n =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">skip =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">concatenator =</span> <span class="st">" "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For our purposes, we don’t need all of these. So we want to begin culling our tokens. First we know that we’re only interested in those ngrams ending with <em>that</em> or <em>which</em>. So we can first identify those.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> <span class="fu">tokens_select</span>(us_grams, <span class="st">"that_</span><span class="sc">\\</span><span class="st">S+$|which_</span><span class="sc">\\</span><span class="st">S+$"</span>, <span class="at">selection =</span> <span class="st">"keep"</span>, <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> <span class="fu">tokens_select</span>(us_grams, <span class="st">"that_</span><span class="sc">\\</span><span class="st">S+$|which_</span><span class="sc">\\</span><span class="st">S+$"</span>, <span class="at">selection =</span> <span class="st">"keep"</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>However, we need to sort further. Our tokens of interest can appear in a variety of contexts. For example, “that” frequently appears following a verb of thinking or speaking, as it does here: <em>has_VHZ discussed_VVN that_WDT</em>.</p>
 <p>We only want those instances where “that” or “which” is modifying a noun, as in this example: <em>belief_NN that_WDT</em>.</p>
 <p>So next, we’ll select only those ngrams that being with a word that’s been tagged as a noun (having the _NN tag).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> <span class="fu">tokens_select</span>(us_grams, <span class="st">"^[a-z]+_NN</span><span class="sc">\\</span><span class="st">d?"</span>, <span class="at">selection =</span> <span class="st">"keep"</span>, <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> <span class="fu">tokens_select</span>(us_grams, <span class="st">"^[a-z]+_NN</span><span class="sc">\\</span><span class="st">d?"</span>, <span class="at">selection =</span> <span class="st">"keep"</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, we want only those 3 token sequences that have a medial comma like: <em>earth_NN ,_, that_WDT</em></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> <span class="fu">tokens_select</span>(us_grams, <span class="st">"</span><span class="sc">\\</span><span class="st">s[^,]+_[^,]+</span><span class="sc">\\</span><span class="st">s"</span>, <span class="at">selection =</span> <span class="st">"remove"</span>, <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> <span class="fu">tokens_select</span>(us_grams, <span class="st">"</span><span class="sc">\\</span><span class="st">s[^,]+_[^,]+</span><span class="sc">\\</span><span class="st">s"</span>, <span class="at">selection =</span> <span class="st">"remove"</span>, </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So let’s repeat the sorting process with the UK data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>uk_grams <span class="ot">&lt;-</span> uk_grams <span class="sc">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_select</span>(<span class="st">"that_</span><span class="sc">\\</span><span class="st">S+$|which_</span><span class="sc">\\</span><span class="st">S+$"</span>, <span class="at">selection =</span> <span class="st">"keep"</span>, <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> T) <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_select</span>(<span class="st">"^[a-z]+_NN</span><span class="sc">\\</span><span class="st">d?"</span>, <span class="at">selection =</span> <span class="st">"keep"</span>, <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> T) <span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_select</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s[^,]+_[^,]+</span><span class="sc">\\</span><span class="st">s"</span>, <span class="at">selection =</span> <span class="st">"remove"</span>, <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>uk_grams <span class="ot">&lt;-</span> uk_grams <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_select</span>(<span class="st">"that_</span><span class="sc">\\</span><span class="st">S+$|which_</span><span class="sc">\\</span><span class="st">S+$"</span>, <span class="at">selection =</span> <span class="st">"keep"</span>, </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_select</span>(<span class="st">"^[a-z]+_NN</span><span class="sc">\\</span><span class="st">d?"</span>, <span class="at">selection =</span> <span class="st">"keep"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_select</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s[^,]+_[^,]+</span><span class="sc">\\</span><span class="st">s"</span>, <span class="at">selection =</span> <span class="st">"remove"</span>, </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">valuetype =</span> <span class="st">"regex"</span>, <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="structuring-the-data" class="level3" data-number="8.3.2">
 <h3 data-number="8.3.2" class="anchored" data-anchor-id="structuring-the-data"><span class="header-section-number">8.3.2</span> Structuring the data</h3>
 <p>Now let’s convert our data structure to a data frame.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">feature =</span> <span class="fu">unlist</span>(us_grams), <span class="at">stringsAsFactors =</span> F)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>uk_grams <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">feature =</span> <span class="fu">unlist</span>(uk_grams), <span class="at">stringsAsFactors =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">feature =</span> <span class="fu">unlist</span>(us_grams))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>uk_grams <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">feature =</span> <span class="fu">unlist</span>(uk_grams))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="jdtqvzfspo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="pykoiwiasw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table" data-quarto-disable-processing="true" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <caption>US sequences with a relative pronoun.</caption>
@@ -848,7 +886,7 @@ corpus.</p></caption>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="hexduffuas" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="lqcfgcdxes" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table" data-quarto-disable-processing="true" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <caption>UK sequences with a relative pronoun.</caption>
@@ -876,43 +914,43 @@ corpus.</p></caption>
 </div>
 </div>
 </div>
-<p>We’re going to follow Brezina’s recommendation on pg. 122 for stucturing and idenfiying our variables using some prefixing.</p>
+<p>We’re going to follow Brezina’s recommendation on pg. 122 for stucturing and identifying our variables using some prefixing.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> us_grams <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"doc_id"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doc_id =</span> <span class="fu">str_replace</span>(doc_id, <span class="st">"_</span><span class="sc">\\</span><span class="st">S+$"</span>, <span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">comma_sep =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(feature, <span class="st">","</span>) <span class="sc">==</span> T, <span class="st">"B_yes"</span>, <span class="st">"A_no"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rel_type =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(feature, <span class="st">"that_"</span>) <span class="sc">==</span> T, <span class="st">"A_that"</span>, <span class="st">"B_which"</span>))</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>uk_grams <span class="ot">&lt;-</span> uk_grams <span class="sc">%&gt;%</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"doc_id"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doc_id =</span> <span class="fu">str_replace</span>(doc_id, <span class="st">"_</span><span class="sc">\\</span><span class="st">S+$"</span>, <span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">comma_sep =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(feature, <span class="st">","</span>) <span class="sc">==</span> T, <span class="st">"B_yes"</span>, <span class="st">"A_no"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rel_type =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(feature, <span class="st">"that_"</span>) <span class="sc">==</span> T, <span class="st">"A_that"</span>, <span class="st">"B_which"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> us_grams <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"doc_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doc_id =</span> <span class="fu">str_replace</span>(doc_id, <span class="st">"_</span><span class="sc">\\</span><span class="st">S+$"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">comma_sep =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(feature, <span class="st">","</span>), <span class="st">"B_yes"</span>, <span class="st">"A_no"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rel_type =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(feature, <span class="st">"that_"</span>), <span class="st">"A_that"</span>, <span class="st">"B_which"</span>))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>uk_grams <span class="ot">&lt;-</span> uk_grams <span class="sc">|&gt;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"doc_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doc_id =</span> <span class="fu">str_replace</span>(doc_id, <span class="st">"_</span><span class="sc">\\</span><span class="st">S+$"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">comma_sep =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(feature, <span class="st">","</span>), <span class="st">"B_yes"</span>, <span class="st">"A_no"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rel_type =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(feature, <span class="st">"that_"</span>), <span class="st">"A_that"</span>, <span class="st">"B_which"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now let’s join some metadata. We’ll select the speaker_status variable. Again, we’ll clean it using some prefixing. Finally, we’ll add a column that identifyies the location as being in US.</p>
+<p>Now let’s join some metadata. We’ll select the speaker_status variable. Again, we’ll clean it using some prefixing. Finally, we’ll add a column that identifies the location as being in US.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> us_grams <span class="sc">%&gt;%</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(micusp_meta, doc_id, speaker_status), <span class="at">by =</span> <span class="st">"doc_id"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">speaker_status =</span> <span class="fu">str_replace</span>(speaker_status, <span class="st">"NNS"</span>, <span class="st">"B_NNS"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">speaker_status =</span> <span class="fu">str_replace</span>(speaker_status, <span class="st">"^NS$"</span>, <span class="st">"A_NS"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nat_id =</span> <span class="st">"A_US"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>us_grams <span class="ot">&lt;-</span> us_grams <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(micusp_meta, doc_id, speaker_status), <span class="at">by =</span> <span class="st">"doc_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">speaker_status =</span> <span class="fu">str_replace</span>(speaker_status, <span class="st">"NNS"</span>, <span class="st">"B_NNS"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">speaker_status =</span> <span class="fu">str_replace</span>(speaker_status, <span class="st">"^NS$"</span>, <span class="st">"A_NS"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nat_id =</span> <span class="st">"A_US"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The UK data doesn’t have a speaker_status column but it does have a first_language column. We can make a column that matches the US data using <strong>ifelse()</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>uk_grams <span class="ot">&lt;-</span> uk_grams <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(bawe_meta, doc_id, speaker_l1), <span class="at">by =</span> <span class="st">"doc_id"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">speaker_l1 =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(speaker_l1, <span class="st">"English"</span>) <span class="sc">==</span> T, <span class="st">"A_NS"</span>, <span class="st">"B_NNS"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">speaker_status =</span> speaker_l1) <span class="sc">%&gt;%</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nat_id =</span> <span class="st">"B_UK"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>uk_grams <span class="ot">&lt;-</span> uk_grams <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(bawe_meta, doc_id, speaker_l1), <span class="at">by =</span> <span class="st">"doc_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">speaker_l1 =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(speaker_l1, <span class="st">"English"</span>), <span class="st">"A_NS"</span>, <span class="st">"B_NNS"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">speaker_status =</span> speaker_l1) <span class="sc">|&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nat_id =</span> <span class="st">"B_UK"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="logistic-regression-model" class="level3" data-number="8.3.3">
 <h3 data-number="8.3.3" class="anchored" data-anchor-id="logistic-regression-model"><span class="header-section-number">8.3.3</span> Logistic regression model</h3>
 <p>Before running the regression model, we can combine the two tables. We also need to convert some character columns into factors (or categorical variables).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>rel_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(us_grams, uk_grams) <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>, factor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>rel_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(us_grams, uk_grams) <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>, factor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To understand how to set up the model, it might help to refer to pg. 119. Our outcome variable is <em>that/which</em> or the rel_type column. For logistic regression, this must be binary. For our first model, we’ll set up 3 predictor variables:</p>
 <ul>
@@ -921,14 +959,16 @@ corpus.</p></caption>
 <li>speaker_status: whether the student is a native speaker of English or not</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>glm_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(rel_type <span class="sc">~</span> comma_sep <span class="sc">+</span> nat_id <span class="sc">+</span> speaker_status, <span class="at">data =</span> rel_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>glm_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(rel_type <span class="sc">~</span> comma_sep <span class="sc">+</span> nat_id <span class="sc">+</span> speaker_status, <span class="at">data =</span> rel_data, </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">family =</span> <span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="evaluating-the-model" class="level3" data-number="8.3.4">
 <h3 data-number="8.3.4" class="anchored" data-anchor-id="evaluating-the-model"><span class="header-section-number">8.3.4</span> Evaluating the model</h3>
-<p>Logistic regression has some prerequisites and assumptions. One of which is there is no colinearity between predictors. One tool for colinearity diagnostics is VIF. VIF (or variance inflation factors) measure the inflation in the variances of the parameter estimates due to collinearities that exist among the predictors and range from 1 upwards. The numerical value for VIF tells you (in decimal form) what percentage the variance is inflated for each coefficient. For example, a VIF of 1.9 tells you that the variance of a particular coefficient is 90% bigger than what you would expect if there was no multicollinearity — if there was no correlation with other predictors.</p>
+<p>Before interpreting our model, it can be worth checking on the predictors. If the predictors are collinear—if one predictor is approximately a linear combination of other predictors—the results can be difficult to interpret, and there will be large standard errors. Collinearity might indicate that some of our predictors measure essentially the same thing, or that we accidentally messed up our data preparation.</p>
+<p>One tool for collinearity diagnostics is VIF. VIF (or variance inflation factors) measure the inflation in the variances of the parameter estimates due to collinearities that exist among the predictors and range from 1 upwards. The numerical value for VIF tells you (in decimal form) what percentage the variance is inflated for each coefficient. For example, a VIF of 1.9 tells you that the variance of a particular coefficient is 90% bigger than what you would expect if there was no collinearity — if there was no correlation with other predictors.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(glm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(glm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     comma_sep         nat_id speaker_status 
       1.001520       1.079571       1.078274 </code></pre>
@@ -940,28 +980,29 @@ corpus.</p></caption>
 <p><code>exp(cbind(OR = coef(glm_fit), confint(glm_fit)))</code></p>
 <p>For a nicely formatted output, we can use the <strong>gtsummary</strong> package to put those values into a table.</p>
 <div class="cell" data-tbl-cap="Logistic regression estimates of *which* or *that*.">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>gtsummary<span class="sc">::</span><span class="fu">tbl_regression</span>(glm_fit, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">add_global_p</span>() <span class="sc">|&gt;</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">add_glance_table</span>(</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">include =</span> <span class="fu">c</span>(nobs, logLik, AIC, BIC))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_regression</span>(glm_fit, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_global_p</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_glance_table</span>(<span class="at">include =</span> <span class="fu">c</span>(nobs, logLik, AIC, BIC))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="uxgpqetxws" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#uxgpqetxws table {
+<div id="ytrweceuyb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ytrweceuyb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#uxgpqetxws thead, #uxgpqetxws tbody, #uxgpqetxws tfoot, #uxgpqetxws tr, #uxgpqetxws td, #uxgpqetxws th {
+#ytrweceuyb thead, #ytrweceuyb tbody, #ytrweceuyb tfoot, #ytrweceuyb tr, #ytrweceuyb td, #ytrweceuyb th {
   border-style: none;
 }
 
-#uxgpqetxws p {
+#ytrweceuyb p {
   margin: 0;
   padding: 0;
 }
 
-#uxgpqetxws .gt_table {
+#ytrweceuyb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -987,12 +1028,12 @@ corpus.</p></caption>
   border-left-color: #D3D3D3;
 }
 
-#uxgpqetxws .gt_caption {
+#ytrweceuyb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#uxgpqetxws .gt_title {
+#ytrweceuyb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1004,7 +1045,7 @@ corpus.</p></caption>
   border-bottom-width: 0;
 }
 
-#uxgpqetxws .gt_subtitle {
+#ytrweceuyb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1016,7 +1057,7 @@ corpus.</p></caption>
   border-top-width: 0;
 }
 
-#uxgpqetxws .gt_heading {
+#ytrweceuyb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1028,13 +1069,13 @@ corpus.</p></caption>
   border-right-color: #D3D3D3;
 }
 
-#uxgpqetxws .gt_bottom_border {
+#ytrweceuyb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uxgpqetxws .gt_col_headings {
+#ytrweceuyb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1049,7 +1090,7 @@ corpus.</p></caption>
   border-right-color: #D3D3D3;
 }
 
-#uxgpqetxws .gt_col_heading {
+#ytrweceuyb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1069,7 +1110,7 @@ corpus.</p></caption>
   overflow-x: hidden;
 }
 
-#uxgpqetxws .gt_column_spanner_outer {
+#ytrweceuyb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1081,15 +1122,15 @@ corpus.</p></caption>
   padding-right: 4px;
 }
 
-#uxgpqetxws .gt_column_spanner_outer:first-child {
+#ytrweceuyb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uxgpqetxws .gt_column_spanner_outer:last-child {
+#ytrweceuyb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uxgpqetxws .gt_column_spanner {
+#ytrweceuyb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1101,11 +1142,11 @@ corpus.</p></caption>
   width: 100%;
 }
 
-#uxgpqetxws .gt_spanner_row {
+#ytrweceuyb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#uxgpqetxws .gt_group_heading {
+#ytrweceuyb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1131,7 +1172,7 @@ corpus.</p></caption>
   text-align: left;
 }
 
-#uxgpqetxws .gt_empty_group_heading {
+#ytrweceuyb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1146,15 +1187,15 @@ corpus.</p></caption>
   vertical-align: middle;
 }
 
-#uxgpqetxws .gt_from_md > :first-child {
+#ytrweceuyb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uxgpqetxws .gt_from_md > :last-child {
+#ytrweceuyb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uxgpqetxws .gt_row {
+#ytrweceuyb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1173,7 +1214,7 @@ corpus.</p></caption>
   overflow-x: hidden;
 }
 
-#uxgpqetxws .gt_stub {
+#ytrweceuyb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1186,7 +1227,7 @@ corpus.</p></caption>
   padding-right: 5px;
 }
 
-#uxgpqetxws .gt_stub_row_group {
+#ytrweceuyb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1200,15 +1241,15 @@ corpus.</p></caption>
   vertical-align: top;
 }
 
-#uxgpqetxws .gt_row_group_first td {
+#ytrweceuyb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#uxgpqetxws .gt_row_group_first th {
+#ytrweceuyb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#uxgpqetxws .gt_summary_row {
+#ytrweceuyb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1218,16 +1259,16 @@ corpus.</p></caption>
   padding-right: 5px;
 }
 
-#uxgpqetxws .gt_first_summary_row {
+#ytrweceuyb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#uxgpqetxws .gt_first_summary_row.thick {
+#ytrweceuyb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#uxgpqetxws .gt_last_summary_row {
+#ytrweceuyb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1237,7 +1278,7 @@ corpus.</p></caption>
   border-bottom-color: #D3D3D3;
 }
 
-#uxgpqetxws .gt_grand_summary_row {
+#ytrweceuyb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1247,7 +1288,7 @@ corpus.</p></caption>
   padding-right: 5px;
 }
 
-#uxgpqetxws .gt_first_grand_summary_row {
+#ytrweceuyb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1257,7 +1298,7 @@ corpus.</p></caption>
   border-top-color: #D3D3D3;
 }
 
-#uxgpqetxws .gt_last_grand_summary_row_top {
+#ytrweceuyb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1267,11 +1308,11 @@ corpus.</p></caption>
   border-bottom-color: #D3D3D3;
 }
 
-#uxgpqetxws .gt_striped {
+#ytrweceuyb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uxgpqetxws .gt_table_body {
+#ytrweceuyb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1280,7 +1321,7 @@ corpus.</p></caption>
   border-bottom-color: #D3D3D3;
 }
 
-#uxgpqetxws .gt_footnotes {
+#ytrweceuyb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1294,7 +1335,7 @@ corpus.</p></caption>
   border-right-color: #D3D3D3;
 }
 
-#uxgpqetxws .gt_footnote {
+#ytrweceuyb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1303,7 +1344,7 @@ corpus.</p></caption>
   padding-right: 5px;
 }
 
-#uxgpqetxws .gt_sourcenotes {
+#ytrweceuyb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1317,7 +1358,7 @@ corpus.</p></caption>
   border-right-color: #D3D3D3;
 }
 
-#uxgpqetxws .gt_sourcenote {
+#ytrweceuyb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1325,72 +1366,72 @@ corpus.</p></caption>
   padding-right: 5px;
 }
 
-#uxgpqetxws .gt_left {
+#ytrweceuyb .gt_left {
   text-align: left;
 }
 
-#uxgpqetxws .gt_center {
+#ytrweceuyb .gt_center {
   text-align: center;
 }
 
-#uxgpqetxws .gt_right {
+#ytrweceuyb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uxgpqetxws .gt_font_normal {
+#ytrweceuyb .gt_font_normal {
   font-weight: normal;
 }
 
-#uxgpqetxws .gt_font_bold {
+#ytrweceuyb .gt_font_bold {
   font-weight: bold;
 }
 
-#uxgpqetxws .gt_font_italic {
+#ytrweceuyb .gt_font_italic {
   font-style: italic;
 }
 
-#uxgpqetxws .gt_super {
+#ytrweceuyb .gt_super {
   font-size: 65%;
 }
 
-#uxgpqetxws .gt_footnote_marks {
+#ytrweceuyb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#uxgpqetxws .gt_asterisk {
+#ytrweceuyb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#uxgpqetxws .gt_indent_1 {
+#ytrweceuyb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#uxgpqetxws .gt_indent_2 {
+#ytrweceuyb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#uxgpqetxws .gt_indent_3 {
+#ytrweceuyb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#uxgpqetxws .gt_indent_4 {
+#ytrweceuyb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#uxgpqetxws .gt_indent_5 {
+#ytrweceuyb .gt_indent_5 {
   text-indent: 25px;
 }
 
-#uxgpqetxws .katex-display {
+#ytrweceuyb .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#uxgpqetxws div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ytrweceuyb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1521,12 +1562,12 @@ corpus.</p></caption>
 </div>
 </div>
 </div>
-<p>While no exact equivalent to the R2 of linear regression exists, an R2 index can be used to assess the model fit. Note that pseudo R2 have been critiqued for their lack of accuracy. See Brezina pg. 125.</p>
+<p>While no exact equivalent to the <span class="math inline">\(R^2\)</span> of linear regression exists, an <span class="math inline">\(R^2\)</span> index can be used to assess the model fit. Note that pseudo-<span class="math inline">\(R^2\)</span> have been critiqued for their lack of accuracy. See Brezina pg. 125.</p>
 <p>We can also generate what Brezina calls a C-index. The C-index is the area under an ROC. The ROC is a curve generated by plotting the true positive rate (TPR) against the false positive rate (FPR) at various threshold settings while the AUC is the area under the ROC curve. As a rule of thumb, a model with good predictive ability should have an AUC closer to 1 (1 is ideal) than to 0.5. These can be calculated and plotted using packages like <strong>ROCR</strong>. You can find examples of the plots and the resulting AUC values as in this one:</p>
 <p><a href="https://www.r-bloggers.com/a-small-introduction-to-the-rocr-package/" class="uri">https://www.r-bloggers.com/a-small-introduction-to-the-rocr-package/</a></p>
 <p>For our purposes we’ll just use the <strong>Cstat()</strong> function from *<strong>DescTools</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">Cstat</span>(glm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">Cstat</span>(glm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6482311</code></pre>
 </div>
@@ -1537,31 +1578,30 @@ corpus.</p></caption>
 </section>
 <section id="case-2" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="case-2"><span class="header-section-number">8.4</span> Case 2</h2>
-<p>Let’s trying making another model. This time, we’ll just use the untaggged MICUSP data. Note that our choices are a little different here. We’re leaving in punctuation and numbers. This is because we’ll be doing something a little different with this tokens object.</p>
+<p>Let’s trying making another model. This time, we’ll just use the untaggged MICUSP data, also available in <code>cmu.textstat</code>. Note that our choices are a little different here. We’re leaving in punctuation and numbers. This is because we’ll be doing something a little different with this tokens object.</p>
 <section id="prepare-the-data" class="level3" data-number="8.4.1">
 <h3 data-number="8.4.1" class="anchored" data-anchor-id="prepare-the-data"><span class="header-section-number">8.4.1</span> Prepare the data</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/micusp_mini.rda"</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>micusp_tokens <span class="ot">&lt;-</span> micusp_mini <span class="sc">%&gt;%</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">include_docvars=</span>T, <span class="at">remove_punct =</span> F, <span class="at">remove_numbers =</span> F, <span class="at">remove_symbols =</span> T, <span class="at">what =</span> <span class="st">"word"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>micusp_tokens <span class="ot">&lt;-</span> micusp_mini <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corpus</span>() <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>(<span class="at">include_docvars =</span> <span class="cn">TRUE</span>, <span class="at">remove_punct =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">remove_numbers =</span> <span class="cn">FALSE</span>, <span class="at">remove_symbols =</span> <span class="cn">TRUE</span>, <span class="at">what =</span> <span class="st">"word"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we load in a dictionary. This dictionary has almost 15,000 entries. It is organized into only 2 categories: phrases that communicate high confidence and those that communicate hedged confidence. Go and look at the Hyland article on stance and engagement for more on the importance of these kinds of features to academic writing.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>hb_dict <span class="ot">&lt;-</span> <span class="fu">dictionary</span>(<span class="at">file =</span> <span class="st">"../data/hedges_boosters.yml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>hb_dict <span class="ot">&lt;-</span> <span class="fu">dictionary</span>(<span class="at">file =</span> <span class="st">"../data/hedges_boosters.yml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next we create a new tokens object from our original one. By using tokens_lookup() with our dictionary, we will create groupings based on our dictionary. Note that our dictionary has only 1 level. But if we can a more complex taxonomy, we can specify which level of the taxonomy we’d like to group our tokens under.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>hb <span class="ot">&lt;-</span> micusp_tokens <span class="sc">%&gt;%</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_lookup</span>(<span class="at">dictionary =</span> hb_dict, <span class="at">levels =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dfm</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">convert</span>(<span class="at">to =</span> <span class="st">"data.frame"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">tokens_total =</span> <span class="fu">ntoken</span>(micusp_tokens),</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">hedges_norm =</span> (confidencehedged<span class="sc">/</span>tokens_total)<span class="sc">*</span><span class="dv">100</span>,</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">boosters_norm =</span> (confidencehigh<span class="sc">/</span>tokens_total)<span class="sc">*</span><span class="dv">100</span>,</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>hb <span class="ot">&lt;-</span> micusp_tokens <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_lookup</span>(<span class="at">dictionary =</span> hb_dict, <span class="at">levels =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dfm</span>() <span class="sc">|&gt;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">convert</span>(<span class="at">to =</span> <span class="st">"data.frame"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">tokens_total =</span> <span class="fu">ntoken</span>(micusp_tokens),</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">hedges_norm =</span> (confidencehedged <span class="sc">/</span> tokens_total) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">boosters_norm =</span> (confidencehigh <span class="sc">/</span> tokens_total) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -1569,7 +1609,7 @@ corpus.</p></caption>
 <h2 data-number="8.5" class="anchored" data-anchor-id="check-assumptions"><span class="header-section-number">8.5</span> Check assumptions</h2>
 <p>This time we’ll do a quick check for colinearity before building the model by calculating the correlation between frequencies of hedges and boosters</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(hb<span class="sc">$</span>hedges_norm, hb<span class="sc">$</span>boosters_norm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(hb<span class="sc">$</span>hedges_norm, hb<span class="sc">$</span>boosters_norm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.02185522</code></pre>
 </div>
@@ -1577,21 +1617,21 @@ corpus.</p></caption>
 <p>How does this look? Check Brezina pg. 121.</p>
 <p>Now lets check some distributions. First we’ll create a data structure for ggplot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>hb_df <span class="ot">&lt;-</span> hb <span class="sc">%&gt;%</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(hedges_norm, boosters_norm) <span class="sc">%&gt;%</span> </span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"confidence"</span>, <span class="at">values_to =</span> <span class="st">"freq_norm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>hb_df <span class="ot">&lt;-</span> hb <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(hedges_norm, boosters_norm) <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"confidence"</span>, <span class="at">values_to =</span> <span class="st">"freq_norm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now plot histograms.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hb_df,<span class="fu">aes</span>(<span class="at">x =</span> freq_norm, <span class="at">color =</span> confidence, <span class="at">fill =</span> confidence)) <span class="sc">+</span> </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">10</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">position =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">5</span>)) <span class="sc">+</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> confidence)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hb_df,<span class="fu">aes</span>(<span class="at">x =</span> freq_norm, <span class="at">color =</span> confidence, <span class="at">fill =</span> confidence)) <span class="sc">+</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">10</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(confidence))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="logistic-regression_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="logistic-regression_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>Histograms of hedging and boosing tokens in MICUSP.</figcaption>
 </figure>
 </div>
@@ -1599,17 +1639,17 @@ corpus.</p></caption>
 </div>
 <p>And boxplots.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hb_df,<span class="fu">aes</span>(<span class="at">x =</span> confidence, <span class="at">y =</span> freq_norm)) <span class="sc">+</span> </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Frequency (per 100 tokens)"</span>) <span class="sc">+</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels=</span> <span class="fu">c</span>(<span class="st">"Boosters"</span>, <span class="st">"Hedges"</span>)) <span class="sc">+</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hb_df,<span class="fu">aes</span>(<span class="at">x =</span> confidence, <span class="at">y =</span> freq_norm)) <span class="sc">+</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Frequency (per 100 tokens)"</span>) <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Boosters"</span>, <span class="st">"Hedges"</span>)) <span class="sc">+</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="logistic-regression_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="logistic-regression_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>Frequencies (per 100 tokens) of hedges and boosters in MICUSP.</figcaption>
 </figure>
 </div>
@@ -1621,75 +1661,78 @@ corpus.</p></caption>
 <h2 data-number="8.6" class="anchored" data-anchor-id="format-the-data"><span class="header-section-number">8.6</span> Format the data</h2>
 <p>Now let’s create some data for our regression models. For this, we’ll combine our frequency counts with some metadata: discipline category, speaker status, gender, and paper type. We’ll also move the text_id to row names to exclude that column from further processing.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>lr_df <span class="ot">&lt;-</span> hb <span class="sc">%&gt;%</span> </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doc_id =</span> <span class="fu">str_remove_all</span>(doc_id, <span class="st">".txt"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(doc_id, hedges_norm, boosters_norm) <span class="sc">%&gt;%</span> </span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(micusp_meta, doc_id, discipline_cat, speaker_status, student_gender, paper_type), <span class="at">by =</span><span class="st">"doc_id"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  remove_rownames <span class="sc">%&gt;%</span> <span class="fu">column_to_rownames</span>(<span class="at">var=</span><span class="st">"doc_id"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>lr_df <span class="ot">&lt;-</span> hb <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">doc_id =</span> <span class="fu">str_remove_all</span>(doc_id, <span class="st">".txt"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(doc_id, hedges_norm, boosters_norm) <span class="sc">|&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(micusp_meta, doc_id, discipline_cat, speaker_status, student_gender, paper_type),</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">"doc_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">remove_rownames</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_to_rownames</span>(<span class="at">var=</span><span class="st">"doc_id"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>For the mulinomial regression, we’re going to want to collapse all of the discipline categories into 3: Science, Humanities, and Social Science.</p>
+<p>For the multinomial regression, we’re going to want to collapse all of the discipline categories into 3: Science, Humanities, and Social Science.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>lr_df<span class="sc">$</span>discipline_cat <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(lr_df<span class="sc">$</span>discipline_cat, <span class="st">"BIO|CEE|ECO|IOE|MEC|NRE|PHY"</span>, <span class="st">"SCI"</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>lr_df<span class="sc">$</span>discipline_cat <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(lr_df<span class="sc">$</span>discipline_cat, <span class="st">"CLS|ENG|HIS|PHI"</span>, <span class="st">"HUM"</span>)</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>lr_df<span class="sc">$</span>discipline_cat <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(lr_df<span class="sc">$</span>discipline_cat, <span class="st">"ECO|EDU|LIN|NUR|POL|PSY|SOC"</span>, <span class="st">"SOCSCI"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>lr_df<span class="sc">$</span>discipline_cat <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(lr_df<span class="sc">$</span>discipline_cat, <span class="st">"BIO|CEE|ECO|IOE|MEC|NRE|PHY"</span>, <span class="st">"SCI"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>lr_df<span class="sc">$</span>discipline_cat <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(lr_df<span class="sc">$</span>discipline_cat, <span class="st">"CLS|ENG|HIS|PHI"</span>, <span class="st">"HUM"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>lr_df<span class="sc">$</span>discipline_cat <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(lr_df<span class="sc">$</span>discipline_cat, <span class="st">"ECO|EDU|LIN|NUR|POL|PSY|SOC"</span>, <span class="st">"SOCSCI"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To carry out our regression, we need to convert our character columns to factors. In other words, they need to be treated like categories not strings. We can do them all with one simple line of code.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>lr_df <span class="ot">&lt;-</span> lr_df <span class="sc">%&gt;%</span>  <span class="fu">mutate_if</span>(is.character, as.factor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>lr_df <span class="ot">&lt;-</span> lr_df <span class="sc">|&gt;</span>  <span class="fu">mutate_if</span>(is.character, as.factor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="logistic-regression-model-1" class="level2" data-number="8.7">
 <h2 data-number="8.7" class="anchored" data-anchor-id="logistic-regression-model-1"><span class="header-section-number">8.7</span> Logistic regression model</h2>
 <p>We’ll start with student gender as our outcome variable and hedges and boosters as our predictors. The <strong>family</strong> argument specifies logistic regression.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>glm_fit1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(student_gender <span class="sc">~</span> boosters_norm <span class="sc">+</span> hedges_norm, <span class="at">data =</span> lr_df, <span class="at">family =</span> <span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>glm_fit1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(student_gender <span class="sc">~</span> boosters_norm <span class="sc">+</span> hedges_norm, <span class="at">data =</span> lr_df, <span class="at">family =</span> <span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And we do something similar for speaker status.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>glm_fit2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(speaker_status <span class="sc">~</span> boosters_norm <span class="sc">+</span> hedges_norm, <span class="at">data =</span> lr_df, <span class="at">family =</span> <span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>glm_fit2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(speaker_status <span class="sc">~</span> boosters_norm <span class="sc">+</span> hedges_norm, <span class="at">data =</span> lr_df, <span class="at">family =</span> <span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And finally, let’s repeat this process with a subset of our data. We have 3 discipline categories, so let’s subset out only 2.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>lr_sub <span class="ot">&lt;-</span> lr_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(discipline_cat <span class="sc">==</span> <span class="st">"HUM"</span> <span class="sc">|</span> discipline_cat <span class="sc">==</span> <span class="st">"SCI"</span>)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>lr_sub<span class="sc">$</span>discipline_cat <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(lr_sub<span class="sc">$</span>discipline_cat)</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>glm_fit3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(discipline_cat <span class="sc">~</span> boosters_norm <span class="sc">+</span> hedges_norm, <span class="at">data =</span> lr_sub, <span class="at">family =</span> <span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>lr_sub <span class="ot">&lt;-</span> lr_df <span class="sc">|&gt;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(discipline_cat <span class="sc">==</span> <span class="st">"HUM"</span> <span class="sc">|</span> discipline_cat <span class="sc">==</span> <span class="st">"SCI"</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>lr_sub<span class="sc">$</span>discipline_cat <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(lr_sub<span class="sc">$</span>discipline_cat)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>glm_fit3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(discipline_cat <span class="sc">~</span> boosters_norm <span class="sc">+</span> hedges_norm, <span class="at">data =</span> lr_sub, <span class="at">family =</span> <span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tbl-cap="Logistic regression estimates of hedges or boosters for student gender (Model 1), spaker status (Model 2), and discipline (Model 3).">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>tbl_1 <span class="ot">&lt;-</span> gtsummary<span class="sc">::</span><span class="fu">tbl_regression</span>(glm_fit1, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">add_global_p</span>()</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>tbl_2 <span class="ot">&lt;-</span> gtsummary<span class="sc">::</span><span class="fu">tbl_regression</span>(glm_fit2, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">add_global_p</span>()</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>tbl_3 <span class="ot">&lt;-</span> gtsummary<span class="sc">::</span><span class="fu">tbl_regression</span>(glm_fit3, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">add_global_p</span>()</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>gtsummary<span class="sc">::</span><span class="fu">tbl_merge</span>(</span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(tbl_1, tbl_2, tbl_3),</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab_spanner =</span> <span class="fu">c</span>(<span class="st">"**Model 1**"</span>, <span class="st">"**Model 2**"</span>, <span class="st">"**Model 3**"</span>)</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>tbl_1 <span class="ot">&lt;-</span> <span class="fu">tbl_regression</span>(glm_fit1, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_global_p</span>()</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>tbl_2 <span class="ot">&lt;-</span> <span class="fu">tbl_regression</span>(glm_fit2, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_global_p</span>()</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>tbl_3 <span class="ot">&lt;-</span> <span class="fu">tbl_regression</span>(glm_fit3, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_global_p</span>()</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_merge</span>(</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(tbl_1, tbl_2, tbl_3),</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab_spanner =</span> <span class="fu">c</span>(<span class="st">"**Model 1**"</span>, <span class="st">"**Model 2**"</span>, <span class="st">"**Model 3**"</span>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="egrnisqckb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#egrnisqckb table {
+<div id="xnhtytkdnr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xnhtytkdnr table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#egrnisqckb thead, #egrnisqckb tbody, #egrnisqckb tfoot, #egrnisqckb tr, #egrnisqckb td, #egrnisqckb th {
+#xnhtytkdnr thead, #xnhtytkdnr tbody, #xnhtytkdnr tfoot, #xnhtytkdnr tr, #xnhtytkdnr td, #xnhtytkdnr th {
   border-style: none;
 }
 
-#egrnisqckb p {
+#xnhtytkdnr p {
   margin: 0;
   padding: 0;
 }
 
-#egrnisqckb .gt_table {
+#xnhtytkdnr .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1715,12 +1758,12 @@ corpus.</p></caption>
   border-left-color: #D3D3D3;
 }
 
-#egrnisqckb .gt_caption {
+#xnhtytkdnr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#egrnisqckb .gt_title {
+#xnhtytkdnr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1732,7 +1775,7 @@ corpus.</p></caption>
   border-bottom-width: 0;
 }
 
-#egrnisqckb .gt_subtitle {
+#xnhtytkdnr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1744,7 +1787,7 @@ corpus.</p></caption>
   border-top-width: 0;
 }
 
-#egrnisqckb .gt_heading {
+#xnhtytkdnr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1756,13 +1799,13 @@ corpus.</p></caption>
   border-right-color: #D3D3D3;
 }
 
-#egrnisqckb .gt_bottom_border {
+#xnhtytkdnr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#egrnisqckb .gt_col_headings {
+#xnhtytkdnr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1777,7 +1820,7 @@ corpus.</p></caption>
   border-right-color: #D3D3D3;
 }
 
-#egrnisqckb .gt_col_heading {
+#xnhtytkdnr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1797,7 +1840,7 @@ corpus.</p></caption>
   overflow-x: hidden;
 }
 
-#egrnisqckb .gt_column_spanner_outer {
+#xnhtytkdnr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1809,15 +1852,15 @@ corpus.</p></caption>
   padding-right: 4px;
 }
 
-#egrnisqckb .gt_column_spanner_outer:first-child {
+#xnhtytkdnr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#egrnisqckb .gt_column_spanner_outer:last-child {
+#xnhtytkdnr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#egrnisqckb .gt_column_spanner {
+#xnhtytkdnr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1829,11 +1872,11 @@ corpus.</p></caption>
   width: 100%;
 }
 
-#egrnisqckb .gt_spanner_row {
+#xnhtytkdnr .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#egrnisqckb .gt_group_heading {
+#xnhtytkdnr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1859,7 +1902,7 @@ corpus.</p></caption>
   text-align: left;
 }
 
-#egrnisqckb .gt_empty_group_heading {
+#xnhtytkdnr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1874,15 +1917,15 @@ corpus.</p></caption>
   vertical-align: middle;
 }
 
-#egrnisqckb .gt_from_md > :first-child {
+#xnhtytkdnr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#egrnisqckb .gt_from_md > :last-child {
+#xnhtytkdnr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#egrnisqckb .gt_row {
+#xnhtytkdnr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1901,7 +1944,7 @@ corpus.</p></caption>
   overflow-x: hidden;
 }
 
-#egrnisqckb .gt_stub {
+#xnhtytkdnr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1914,7 +1957,7 @@ corpus.</p></caption>
   padding-right: 5px;
 }
 
-#egrnisqckb .gt_stub_row_group {
+#xnhtytkdnr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1928,15 +1971,15 @@ corpus.</p></caption>
   vertical-align: top;
 }
 
-#egrnisqckb .gt_row_group_first td {
+#xnhtytkdnr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#egrnisqckb .gt_row_group_first th {
+#xnhtytkdnr .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#egrnisqckb .gt_summary_row {
+#xnhtytkdnr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1946,16 +1989,16 @@ corpus.</p></caption>
   padding-right: 5px;
 }
 
-#egrnisqckb .gt_first_summary_row {
+#xnhtytkdnr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#egrnisqckb .gt_first_summary_row.thick {
+#xnhtytkdnr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#egrnisqckb .gt_last_summary_row {
+#xnhtytkdnr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1965,7 +2008,7 @@ corpus.</p></caption>
   border-bottom-color: #D3D3D3;
 }
 
-#egrnisqckb .gt_grand_summary_row {
+#xnhtytkdnr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1975,7 +2018,7 @@ corpus.</p></caption>
   padding-right: 5px;
 }
 
-#egrnisqckb .gt_first_grand_summary_row {
+#xnhtytkdnr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1985,7 +2028,7 @@ corpus.</p></caption>
   border-top-color: #D3D3D3;
 }
 
-#egrnisqckb .gt_last_grand_summary_row_top {
+#xnhtytkdnr .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1995,11 +2038,11 @@ corpus.</p></caption>
   border-bottom-color: #D3D3D3;
 }
 
-#egrnisqckb .gt_striped {
+#xnhtytkdnr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#egrnisqckb .gt_table_body {
+#xnhtytkdnr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2008,7 +2051,7 @@ corpus.</p></caption>
   border-bottom-color: #D3D3D3;
 }
 
-#egrnisqckb .gt_footnotes {
+#xnhtytkdnr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2022,7 +2065,7 @@ corpus.</p></caption>
   border-right-color: #D3D3D3;
 }
 
-#egrnisqckb .gt_footnote {
+#xnhtytkdnr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2031,7 +2074,7 @@ corpus.</p></caption>
   padding-right: 5px;
 }
 
-#egrnisqckb .gt_sourcenotes {
+#xnhtytkdnr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2045,7 +2088,7 @@ corpus.</p></caption>
   border-right-color: #D3D3D3;
 }
 
-#egrnisqckb .gt_sourcenote {
+#xnhtytkdnr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2053,72 +2096,72 @@ corpus.</p></caption>
   padding-right: 5px;
 }
 
-#egrnisqckb .gt_left {
+#xnhtytkdnr .gt_left {
   text-align: left;
 }
 
-#egrnisqckb .gt_center {
+#xnhtytkdnr .gt_center {
   text-align: center;
 }
 
-#egrnisqckb .gt_right {
+#xnhtytkdnr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#egrnisqckb .gt_font_normal {
+#xnhtytkdnr .gt_font_normal {
   font-weight: normal;
 }
 
-#egrnisqckb .gt_font_bold {
+#xnhtytkdnr .gt_font_bold {
   font-weight: bold;
 }
 
-#egrnisqckb .gt_font_italic {
+#xnhtytkdnr .gt_font_italic {
   font-style: italic;
 }
 
-#egrnisqckb .gt_super {
+#xnhtytkdnr .gt_super {
   font-size: 65%;
 }
 
-#egrnisqckb .gt_footnote_marks {
+#xnhtytkdnr .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#egrnisqckb .gt_asterisk {
+#xnhtytkdnr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#egrnisqckb .gt_indent_1 {
+#xnhtytkdnr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#egrnisqckb .gt_indent_2 {
+#xnhtytkdnr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#egrnisqckb .gt_indent_3 {
+#xnhtytkdnr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#egrnisqckb .gt_indent_4 {
+#xnhtytkdnr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#egrnisqckb .gt_indent_5 {
+#xnhtytkdnr .gt_indent_5 {
   text-indent: 25px;
 }
 
-#egrnisqckb .katex-display {
+#xnhtytkdnr .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#egrnisqckb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xnhtytkdnr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2204,7 +2247,7 @@ corpus.</p></caption>
 <h2 data-number="8.8" class="anchored" data-anchor-id="multinomial-regression-model"><span class="header-section-number">8.8</span> Multinomial regression model</h2>
 <p>Now let’s try multinomial regression on all 3 of the discipline categories. This isn’t covered in the textbook, but it’s worth looking at even if briefly.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>mr_fit <span class="ot">&lt;-</span> <span class="fu">multinom</span>(discipline_cat <span class="sc">~</span> boosters_norm <span class="sc">+</span> hedges_norm, <span class="at">data =</span> lr_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>mr_fit <span class="ot">&lt;-</span> <span class="fu">multinom</span>(discipline_cat <span class="sc">~</span> boosters_norm <span class="sc">+</span> hedges_norm, <span class="at">data =</span> lr_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># weights:  12 (6 variable)
 initial  value 186.764089 
@@ -2213,15 +2256,15 @@ final  value 160.726590
 converged</code></pre>
 </div>
 </div>
-<p>We first see that some output is generated by running the model, even though we are assigning the model to a new R object. This model-running output includes some iteration history and includes the final log-likelihood 814.275451. This value multiplied by two is then seen in the model summary as the Residual Deviance and it can be used in comparisons of nested models.</p>
+<p>We first see that some output is generated by running the model, even though we are assigning the model to a new R object. This model-running output includes some iteration history and includes the final log-likelihood 814.275451. This value, multiplied by two, is then seen in the model summary as the Residual Deviance and it can be used in comparisons of nested models.</p>
 <p>Let’s look at a couple of boxplots to give us some context for these numbers.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lr_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(discipline_cat, boosters_norm, <span class="at">FUN =</span> median), <span class="at">y =</span> boosters_norm)) <span class="sc">+</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Boosters (per 100 tokens)"</span>) <span class="sc">+</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lr_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(discipline_cat, boosters_norm, <span class="at">FUN =</span> median), <span class="at">y =</span> boosters_norm)) <span class="sc">+</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Boosters (per 100 tokens)"</span>) <span class="sc">+</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2232,12 +2275,12 @@ converged</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lr_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(discipline_cat, hedges_norm, <span class="at">FUN =</span> median), <span class="at">y =</span> hedges_norm)) <span class="sc">+</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Hedges (per 100 tokens)"</span>) <span class="sc">+</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lr_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(discipline_cat, hedges_norm, <span class="at">FUN =</span> median), <span class="at">y =</span> hedges_norm)) <span class="sc">+</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Hedges (per 100 tokens)"</span>) <span class="sc">+</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2247,33 +2290,33 @@ converged</code></pre>
 </div>
 </div>
 </div>
-<p>Much like logistic regression, th ratio of the probability of choosing one outcome category over the probability of choosing the baseline category is the relative risk or odds. The relative risk is the right-hand side linear equation exponentiated, leading to the fact that the exponentiated regression coefficients are relative risk ratios for a unit change in the predictor variable. We can exponentiate the coefficients from our model to see these odds ratios.</p>
+<p>Much like logistic regression, the ratio of the probability of choosing one outcome category over the probability of choosing the baseline category is the relative risk or odds. The relative risk is the right-hand side linear equation exponentiated, leading to the fact that the exponentiated regression coefficients are relative risk ratios for a unit change in the predictor variable. We can exponentiate the coefficients from our model to see these odds ratios.</p>
 <div class="cell" data-tbl-cap="Multinomial regression estimates of hedges or boosters.">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>multinom_pivot_wider <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create tibble of results</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">outcome_level =</span> <span class="fu">unique</span>(x<span class="sc">$</span>table_body<span class="sc">$</span>groupname_col))</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>tbl <span class="ot">&lt;-</span> </span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">map</span>(</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>      df<span class="sc">$</span>outcome_level,</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>      <span class="cf">function</span>(lvl) {</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>        gtsummary<span class="sc">::</span><span class="fu">modify_table_body</span>(</span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>          x, </span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>          <span class="sc">~</span>dplyr<span class="sc">::</span><span class="fu">filter</span>(.x, .data<span class="sc">$</span>groupname_col <span class="sc">%in%</span> lvl) <span class="sc">%&gt;%</span></span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>            dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>            dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>.data<span class="sc">$</span>groupname_col)</span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">tbl_merge</span>(df<span class="sc">$</span>tbl, <span class="at">tab_spanner =</span> <span class="fu">paste0</span>(<span class="st">"**"</span>, df<span class="sc">$</span>outcome_level, <span class="st">"**"</span>))</span>
-<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>nnet<span class="sc">::</span><span class="fu">multinom</span>(discipline_cat <span class="sc">~</span> boosters_norm <span class="sc">+</span> hedges_norm, <span class="at">data =</span> lr_df) <span class="sc">%&gt;%</span></span>
-<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">tbl_regression</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">add_global_p</span>() <span class="sc">|&gt;</span></span>
-<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">multinom_pivot_wider</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>multinom_pivot_wider <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create tibble of results</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">outcome_level =</span> <span class="fu">unique</span>(x<span class="sc">$</span>table_body<span class="sc">$</span>groupname_col))</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>tbl <span class="ot">&lt;-</span> </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">map</span>(</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>      df<span class="sc">$</span>outcome_level,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>      <span class="cf">function</span>(lvl) {</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>        gtsummary<span class="sc">::</span><span class="fu">modify_table_body</span>(</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>          x, </span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>          <span class="sc">~</span>dplyr<span class="sc">::</span><span class="fu">filter</span>(.x, .data<span class="sc">$</span>groupname_col <span class="sc">%in%</span> lvl) <span class="sc">|&gt;</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>            dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>            dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>.data<span class="sc">$</span>groupname_col)</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">tbl_merge</span>(df<span class="sc">$</span>tbl, <span class="at">tab_spanner =</span> <span class="fu">paste0</span>(<span class="st">"**"</span>, df<span class="sc">$</span>outcome_level, <span class="st">"**"</span>))</span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>nnet<span class="sc">::</span><span class="fu">multinom</span>(discipline_cat <span class="sc">~</span> boosters_norm <span class="sc">+</span> hedges_norm, <span class="at">data =</span> lr_df) <span class="sc">|&gt;</span></span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">tbl_regression</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">add_global_p</span>() <span class="sc">|&gt;</span></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">multinom_pivot_wider</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># weights:  12 (6 variable)
@@ -2283,23 +2326,23 @@ final  value 160.726590
 converged</code></pre>
 </div>
 <div class="cell-output-display">
-<div id="srmcvdofhd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#srmcvdofhd table {
+<div id="zymztxhaur" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zymztxhaur table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#srmcvdofhd thead, #srmcvdofhd tbody, #srmcvdofhd tfoot, #srmcvdofhd tr, #srmcvdofhd td, #srmcvdofhd th {
+#zymztxhaur thead, #zymztxhaur tbody, #zymztxhaur tfoot, #zymztxhaur tr, #zymztxhaur td, #zymztxhaur th {
   border-style: none;
 }
 
-#srmcvdofhd p {
+#zymztxhaur p {
   margin: 0;
   padding: 0;
 }
 
-#srmcvdofhd .gt_table {
+#zymztxhaur .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2325,12 +2368,12 @@ converged</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#srmcvdofhd .gt_caption {
+#zymztxhaur .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#srmcvdofhd .gt_title {
+#zymztxhaur .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2342,7 +2385,7 @@ converged</code></pre>
   border-bottom-width: 0;
 }
 
-#srmcvdofhd .gt_subtitle {
+#zymztxhaur .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2354,7 +2397,7 @@ converged</code></pre>
   border-top-width: 0;
 }
 
-#srmcvdofhd .gt_heading {
+#zymztxhaur .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2366,13 +2409,13 @@ converged</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#srmcvdofhd .gt_bottom_border {
+#zymztxhaur .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#srmcvdofhd .gt_col_headings {
+#zymztxhaur .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2387,7 +2430,7 @@ converged</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#srmcvdofhd .gt_col_heading {
+#zymztxhaur .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2407,7 +2450,7 @@ converged</code></pre>
   overflow-x: hidden;
 }
 
-#srmcvdofhd .gt_column_spanner_outer {
+#zymztxhaur .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2419,15 +2462,15 @@ converged</code></pre>
   padding-right: 4px;
 }
 
-#srmcvdofhd .gt_column_spanner_outer:first-child {
+#zymztxhaur .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#srmcvdofhd .gt_column_spanner_outer:last-child {
+#zymztxhaur .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#srmcvdofhd .gt_column_spanner {
+#zymztxhaur .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2439,11 +2482,11 @@ converged</code></pre>
   width: 100%;
 }
 
-#srmcvdofhd .gt_spanner_row {
+#zymztxhaur .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#srmcvdofhd .gt_group_heading {
+#zymztxhaur .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2469,7 +2512,7 @@ converged</code></pre>
   text-align: left;
 }
 
-#srmcvdofhd .gt_empty_group_heading {
+#zymztxhaur .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2484,15 +2527,15 @@ converged</code></pre>
   vertical-align: middle;
 }
 
-#srmcvdofhd .gt_from_md > :first-child {
+#zymztxhaur .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#srmcvdofhd .gt_from_md > :last-child {
+#zymztxhaur .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#srmcvdofhd .gt_row {
+#zymztxhaur .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2511,7 +2554,7 @@ converged</code></pre>
   overflow-x: hidden;
 }
 
-#srmcvdofhd .gt_stub {
+#zymztxhaur .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2524,7 +2567,7 @@ converged</code></pre>
   padding-right: 5px;
 }
 
-#srmcvdofhd .gt_stub_row_group {
+#zymztxhaur .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2538,15 +2581,15 @@ converged</code></pre>
   vertical-align: top;
 }
 
-#srmcvdofhd .gt_row_group_first td {
+#zymztxhaur .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#srmcvdofhd .gt_row_group_first th {
+#zymztxhaur .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#srmcvdofhd .gt_summary_row {
+#zymztxhaur .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2556,16 +2599,16 @@ converged</code></pre>
   padding-right: 5px;
 }
 
-#srmcvdofhd .gt_first_summary_row {
+#zymztxhaur .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#srmcvdofhd .gt_first_summary_row.thick {
+#zymztxhaur .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#srmcvdofhd .gt_last_summary_row {
+#zymztxhaur .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2575,7 +2618,7 @@ converged</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#srmcvdofhd .gt_grand_summary_row {
+#zymztxhaur .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2585,7 +2628,7 @@ converged</code></pre>
   padding-right: 5px;
 }
 
-#srmcvdofhd .gt_first_grand_summary_row {
+#zymztxhaur .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2595,7 +2638,7 @@ converged</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#srmcvdofhd .gt_last_grand_summary_row_top {
+#zymztxhaur .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2605,11 +2648,11 @@ converged</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#srmcvdofhd .gt_striped {
+#zymztxhaur .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#srmcvdofhd .gt_table_body {
+#zymztxhaur .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2618,7 +2661,7 @@ converged</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#srmcvdofhd .gt_footnotes {
+#zymztxhaur .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2632,7 +2675,7 @@ converged</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#srmcvdofhd .gt_footnote {
+#zymztxhaur .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2641,7 +2684,7 @@ converged</code></pre>
   padding-right: 5px;
 }
 
-#srmcvdofhd .gt_sourcenotes {
+#zymztxhaur .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2655,7 +2698,7 @@ converged</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#srmcvdofhd .gt_sourcenote {
+#zymztxhaur .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2663,72 +2706,72 @@ converged</code></pre>
   padding-right: 5px;
 }
 
-#srmcvdofhd .gt_left {
+#zymztxhaur .gt_left {
   text-align: left;
 }
 
-#srmcvdofhd .gt_center {
+#zymztxhaur .gt_center {
   text-align: center;
 }
 
-#srmcvdofhd .gt_right {
+#zymztxhaur .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#srmcvdofhd .gt_font_normal {
+#zymztxhaur .gt_font_normal {
   font-weight: normal;
 }
 
-#srmcvdofhd .gt_font_bold {
+#zymztxhaur .gt_font_bold {
   font-weight: bold;
 }
 
-#srmcvdofhd .gt_font_italic {
+#zymztxhaur .gt_font_italic {
   font-style: italic;
 }
 
-#srmcvdofhd .gt_super {
+#zymztxhaur .gt_super {
   font-size: 65%;
 }
 
-#srmcvdofhd .gt_footnote_marks {
+#zymztxhaur .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#srmcvdofhd .gt_asterisk {
+#zymztxhaur .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#srmcvdofhd .gt_indent_1 {
+#zymztxhaur .gt_indent_1 {
   text-indent: 5px;
 }
 
-#srmcvdofhd .gt_indent_2 {
+#zymztxhaur .gt_indent_2 {
   text-indent: 10px;
 }
 
-#srmcvdofhd .gt_indent_3 {
+#zymztxhaur .gt_indent_3 {
   text-indent: 15px;
 }
 
-#srmcvdofhd .gt_indent_4 {
+#zymztxhaur .gt_indent_4 {
   text-indent: 20px;
 }
 
-#srmcvdofhd .gt_indent_5 {
+#zymztxhaur .gt_indent_5 {
   text-indent: 25px;
 }
 
-#srmcvdofhd .katex-display {
+#zymztxhaur .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#srmcvdofhd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zymztxhaur div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2795,27 +2838,27 @@ converged</code></pre>
 </div>
 <p>Sometimes a plot can be helpful in interpreting the results. Let’s start by making some dummy data. For this we’ll sequence frequencies of hedges from 0 to 6 percent of a text, and frequencies of boosters on an inverse scale: from 6 to 0 percent of a text. In essence, we creating hypothetical texts that have at one end have low frequencies of hedges and high frequencies of boosters, have balanced frequencies in the middle, and have high frequencies of hedges and low frequencies of boosters.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>hb_new <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">hedges_norm =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">6</span>, <span class="at">by =</span> .<span class="dv">1</span>), <span class="at">boosters_norm =</span> <span class="fu">seq</span>(<span class="dv">6</span>, <span class="dv">0</span>, <span class="at">by =</span> <span class="sc">-</span>.<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>hb_new <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">hedges_norm =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">6</span>, <span class="at">by =</span> .<span class="dv">1</span>), <span class="at">boosters_norm =</span> <span class="fu">seq</span>(<span class="dv">6</span>, <span class="dv">0</span>, <span class="at">by =</span> <span class="sc">-</span>.<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, we create a data frame of discipline probabilities based on our fit.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>prob_disc <span class="ot">&lt;-</span> <span class="fu">cbind</span>(hb_new, <span class="fu">predict</span>(mr_fit, <span class="at">newdata =</span> hb_new, <span class="at">type =</span> <span class="st">"probs"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>prob_disc <span class="ot">&lt;-</span> <span class="fu">cbind</span>(hb_new, <span class="fu">predict</span>(mr_fit, <span class="at">newdata =</span> hb_new, <span class="at">type =</span> <span class="st">"probs"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We’ll format a data frame for plotting.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>plot_prob <span class="ot">&lt;-</span> prob_disc <span class="sc">%&gt;%</span> </span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(hedges_norm<span class="sc">:</span>boosters_norm, <span class="at">names_to =</span> <span class="st">"feature"</span>, <span class="at">values_to =</span> <span class="st">"confidence"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(HUM<span class="sc">:</span>SOCSCI, <span class="at">names_to =</span> <span class="st">"variable"</span>, <span class="at">values_to =</span> <span class="st">"probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>plot_prob <span class="ot">&lt;-</span> prob_disc <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(hedges_norm<span class="sc">:</span>boosters_norm, <span class="at">names_to =</span> <span class="st">"feature"</span>, <span class="at">values_to =</span> <span class="st">"confidence"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(HUM<span class="sc">:</span>SOCSCI, <span class="at">names_to =</span> <span class="st">"variable"</span>, <span class="at">values_to =</span> <span class="st">"probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, we’ll create a plot the probabilities and color by hedges &amp; boosters.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_prob, <span class="fu">aes</span>(<span class="at">x =</span> confidence, <span class="at">y =</span> probability, <span class="at">color =</span> feature)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(variable <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_prob, <span class="fu">aes</span>(<span class="at">x =</span> confidence, <span class="at">y =</span> probability, <span class="at">color =</span> feature)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(variable), <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="logistic-regression_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="logistic-regression_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>Predicted probabilities across token frequencies for hedging and boosting facetted by disciplinary category.</figcaption>
 </figure>
 </div>
