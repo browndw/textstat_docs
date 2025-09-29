@@ -48,6 +48,7 @@ book:
          - lectures/embed_frequencies.qmd
          - lectures/embed_collocations.qmd
          - lectures/embed_keyness.qmd
+         - lectures/embed_factor-analysis.qmd
          
 bibliography: references.bib
 
