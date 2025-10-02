@@ -562,7 +562,7 @@ plot_prob <- prob_disc |>
 
 Finally, we'll create a plot the probabilities and color by hedges & boosters.
 
-```{r}
+```{r probability-curves}
 #| fig-width: 7
 #| fig-height: 3.5
 #| fig-cap: "Predicted probabilities across token frequencies for hedging and boosting facetted by disciplinary category."

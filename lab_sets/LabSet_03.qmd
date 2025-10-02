@@ -33,13 +33,13 @@ Calculate the mean length of the noun phrases in the 2 two text-types (**acad_np
 
 ### Task 1
 
-Following the example in Brezina (pg. 129), report and briefly interpret the output of the regression model  (**wt_regs**, line 245).
+Following the example in Brezina (pg. 129), report and briefly interpret the output of the regression model you made to evaluate usage of `which` and `that` (**glm_fit**).
 
 > Your response
 
 ## Task 2
 
-Write a brief interpretation of the probability curves illustrated in Figure 5.
+Write a brief interpretation of the probability curves you created (in the chunk named `probability-curves` at the end of the lab):
 
 > Your response
 
