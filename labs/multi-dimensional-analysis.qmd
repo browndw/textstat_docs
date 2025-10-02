@@ -250,7 +250,7 @@ ds_counts <- ds_counts |>
   dplyr::mutate_if(is.numeric, list(~.*100), na.rm = TRUE) |>
   dplyr::select(-tot_counts)
 
-ds_counts <- ds_counts %>%
+ds_counts <- ds_counts |>
   mutate(text_type = str_extract(doc_id, "^[A-Z]+")) |>
   mutate(text_type = as.factor(text_type)) |>
   column_to_rownames("doc_id")

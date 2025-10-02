@@ -114,7 +114,7 @@ ggplot(pron_coord, aes(x = PRON / n * 1000, y = (CCONJ + SCONJ) / n * 1000)) +
 ## Pearson correlation
 
 - Pearson correlation is the correlation coefficient you probably know best
-- The correlation $\rho$ is in $[0, 1]$; 0 means no linear correlation, 1 means perfect linear correlation
+- The correlation $\rho$ is in $[-1, 1]$; 0 means no linear correlation, 1 means perfect linear correlation
 
 $$
 \rho(X, Y) = \frac{\operatorname{cov}(X, Y)}{\sigma_X \sigma_Y} = \frac{\sum_{i=1}^n (x_i - \bar x) (y_i - \bar y)}{\sqrt{\sum_{i=1}^n (x_i - \bar x)^2} \sqrt{\sum_{i=1}^n (y_i - \bar y)^2}}
@@ -262,7 +262,7 @@ pairs(counts)
 ## Coefficient of determination
 
 - Pearson’s correlation coefficient r can be used to account for the amount of variance in one variable "explained" by the other variable
-- For this, calulate its square: $R^2$
+- For this, calculate its square: $R^2$
 
 ## Reporting your results
 
@@ -371,7 +371,7 @@ Biber defined 67 linguistic features, like
 - pied piping
 - mean word length
 - downtoners
-- predictive models
+- predictive modals
 - possibility modals
 - contractions
 
