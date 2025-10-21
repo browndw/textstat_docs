@@ -404,6 +404,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Factor analysis and MDA</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/embed_cluster-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Cluster Analysis</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -542,23 +548,23 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="mrebmeiyhc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mrebmeiyhc table {
+<div id="vhomjfwnrd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vhomjfwnrd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#mrebmeiyhc thead, #mrebmeiyhc tbody, #mrebmeiyhc tfoot, #mrebmeiyhc tr, #mrebmeiyhc td, #mrebmeiyhc th {
+#vhomjfwnrd thead, #vhomjfwnrd tbody, #vhomjfwnrd tfoot, #vhomjfwnrd tr, #vhomjfwnrd td, #vhomjfwnrd th {
   border-style: none;
 }
 
-#mrebmeiyhc p {
+#vhomjfwnrd p {
   margin: 0;
   padding: 0;
 }
 
-#mrebmeiyhc .gt_table {
+#vhomjfwnrd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -584,12 +590,12 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-left-color: #D3D3D3;
 }
 
-#mrebmeiyhc .gt_caption {
+#vhomjfwnrd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#mrebmeiyhc .gt_title {
+#vhomjfwnrd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -601,7 +607,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-width: 0;
 }
 
-#mrebmeiyhc .gt_subtitle {
+#vhomjfwnrd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -613,7 +619,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-width: 0;
 }
 
-#mrebmeiyhc .gt_heading {
+#vhomjfwnrd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -625,13 +631,13 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#mrebmeiyhc .gt_bottom_border {
+#vhomjfwnrd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mrebmeiyhc .gt_col_headings {
+#vhomjfwnrd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -646,7 +652,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#mrebmeiyhc .gt_col_heading {
+#vhomjfwnrd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -666,7 +672,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#mrebmeiyhc .gt_column_spanner_outer {
+#vhomjfwnrd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -678,15 +684,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 4px;
 }
 
-#mrebmeiyhc .gt_column_spanner_outer:first-child {
+#vhomjfwnrd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mrebmeiyhc .gt_column_spanner_outer:last-child {
+#vhomjfwnrd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mrebmeiyhc .gt_column_spanner {
+#vhomjfwnrd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -698,11 +704,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   width: 100%;
 }
 
-#mrebmeiyhc .gt_spanner_row {
+#vhomjfwnrd .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#mrebmeiyhc .gt_group_heading {
+#vhomjfwnrd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -728,7 +734,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   text-align: left;
 }
 
-#mrebmeiyhc .gt_empty_group_heading {
+#vhomjfwnrd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -743,15 +749,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: middle;
 }
 
-#mrebmeiyhc .gt_from_md > :first-child {
+#vhomjfwnrd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mrebmeiyhc .gt_from_md > :last-child {
+#vhomjfwnrd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mrebmeiyhc .gt_row {
+#vhomjfwnrd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -770,7 +776,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#mrebmeiyhc .gt_stub {
+#vhomjfwnrd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -783,7 +789,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#mrebmeiyhc .gt_stub_row_group {
+#vhomjfwnrd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -797,15 +803,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: top;
 }
 
-#mrebmeiyhc .gt_row_group_first td {
+#vhomjfwnrd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#mrebmeiyhc .gt_row_group_first th {
+#vhomjfwnrd .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#mrebmeiyhc .gt_summary_row {
+#vhomjfwnrd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -815,16 +821,16 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#mrebmeiyhc .gt_first_summary_row {
+#vhomjfwnrd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#mrebmeiyhc .gt_first_summary_row.thick {
+#vhomjfwnrd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#mrebmeiyhc .gt_last_summary_row {
+#vhomjfwnrd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -834,7 +840,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#mrebmeiyhc .gt_grand_summary_row {
+#vhomjfwnrd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -844,7 +850,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#mrebmeiyhc .gt_first_grand_summary_row {
+#vhomjfwnrd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -854,7 +860,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-color: #D3D3D3;
 }
 
-#mrebmeiyhc .gt_last_grand_summary_row_top {
+#vhomjfwnrd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -864,11 +870,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#mrebmeiyhc .gt_striped {
+#vhomjfwnrd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mrebmeiyhc .gt_table_body {
+#vhomjfwnrd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -877,7 +883,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#mrebmeiyhc .gt_footnotes {
+#vhomjfwnrd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -891,7 +897,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#mrebmeiyhc .gt_footnote {
+#vhomjfwnrd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -900,7 +906,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#mrebmeiyhc .gt_sourcenotes {
+#vhomjfwnrd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -914,7 +920,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#mrebmeiyhc .gt_sourcenote {
+#vhomjfwnrd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -922,72 +928,72 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#mrebmeiyhc .gt_left {
+#vhomjfwnrd .gt_left {
   text-align: left;
 }
 
-#mrebmeiyhc .gt_center {
+#vhomjfwnrd .gt_center {
   text-align: center;
 }
 
-#mrebmeiyhc .gt_right {
+#vhomjfwnrd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mrebmeiyhc .gt_font_normal {
+#vhomjfwnrd .gt_font_normal {
   font-weight: normal;
 }
 
-#mrebmeiyhc .gt_font_bold {
+#vhomjfwnrd .gt_font_bold {
   font-weight: bold;
 }
 
-#mrebmeiyhc .gt_font_italic {
+#vhomjfwnrd .gt_font_italic {
   font-style: italic;
 }
 
-#mrebmeiyhc .gt_super {
+#vhomjfwnrd .gt_super {
   font-size: 65%;
 }
 
-#mrebmeiyhc .gt_footnote_marks {
+#vhomjfwnrd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#mrebmeiyhc .gt_asterisk {
+#vhomjfwnrd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#mrebmeiyhc .gt_indent_1 {
+#vhomjfwnrd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#mrebmeiyhc .gt_indent_2 {
+#vhomjfwnrd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#mrebmeiyhc .gt_indent_3 {
+#vhomjfwnrd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#mrebmeiyhc .gt_indent_4 {
+#vhomjfwnrd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#mrebmeiyhc .gt_indent_5 {
+#vhomjfwnrd .gt_indent_5 {
   text-indent: 25px;
 }
 
-#mrebmeiyhc .katex-display {
+#vhomjfwnrd .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#mrebmeiyhc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#vhomjfwnrd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1127,23 +1133,23 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="atznzbabnw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#atznzbabnw table {
+<div id="ebdocduiid" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ebdocduiid table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#atznzbabnw thead, #atznzbabnw tbody, #atznzbabnw tfoot, #atznzbabnw tr, #atznzbabnw td, #atznzbabnw th {
+#ebdocduiid thead, #ebdocduiid tbody, #ebdocduiid tfoot, #ebdocduiid tr, #ebdocduiid td, #ebdocduiid th {
   border-style: none;
 }
 
-#atznzbabnw p {
+#ebdocduiid p {
   margin: 0;
   padding: 0;
 }
 
-#atznzbabnw .gt_table {
+#ebdocduiid .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1169,12 +1175,12 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-left-color: #D3D3D3;
 }
 
-#atznzbabnw .gt_caption {
+#ebdocduiid .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#atznzbabnw .gt_title {
+#ebdocduiid .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1186,7 +1192,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-width: 0;
 }
 
-#atznzbabnw .gt_subtitle {
+#ebdocduiid .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1198,7 +1204,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-width: 0;
 }
 
-#atznzbabnw .gt_heading {
+#ebdocduiid .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1210,13 +1216,13 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#atznzbabnw .gt_bottom_border {
+#ebdocduiid .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#atznzbabnw .gt_col_headings {
+#ebdocduiid .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1231,7 +1237,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#atznzbabnw .gt_col_heading {
+#ebdocduiid .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1251,7 +1257,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#atznzbabnw .gt_column_spanner_outer {
+#ebdocduiid .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1263,15 +1269,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 4px;
 }
 
-#atznzbabnw .gt_column_spanner_outer:first-child {
+#ebdocduiid .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#atznzbabnw .gt_column_spanner_outer:last-child {
+#ebdocduiid .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#atznzbabnw .gt_column_spanner {
+#ebdocduiid .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1283,11 +1289,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   width: 100%;
 }
 
-#atznzbabnw .gt_spanner_row {
+#ebdocduiid .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#atznzbabnw .gt_group_heading {
+#ebdocduiid .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1313,7 +1319,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   text-align: left;
 }
 
-#atznzbabnw .gt_empty_group_heading {
+#ebdocduiid .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1328,15 +1334,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: middle;
 }
 
-#atznzbabnw .gt_from_md > :first-child {
+#ebdocduiid .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#atznzbabnw .gt_from_md > :last-child {
+#ebdocduiid .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#atznzbabnw .gt_row {
+#ebdocduiid .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1355,7 +1361,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#atznzbabnw .gt_stub {
+#ebdocduiid .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1368,7 +1374,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#atznzbabnw .gt_stub_row_group {
+#ebdocduiid .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1382,15 +1388,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: top;
 }
 
-#atznzbabnw .gt_row_group_first td {
+#ebdocduiid .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#atznzbabnw .gt_row_group_first th {
+#ebdocduiid .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#atznzbabnw .gt_summary_row {
+#ebdocduiid .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1400,16 +1406,16 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#atznzbabnw .gt_first_summary_row {
+#ebdocduiid .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#atznzbabnw .gt_first_summary_row.thick {
+#ebdocduiid .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#atznzbabnw .gt_last_summary_row {
+#ebdocduiid .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1419,7 +1425,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#atznzbabnw .gt_grand_summary_row {
+#ebdocduiid .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1429,7 +1435,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#atznzbabnw .gt_first_grand_summary_row {
+#ebdocduiid .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1439,7 +1445,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-color: #D3D3D3;
 }
 
-#atznzbabnw .gt_last_grand_summary_row_top {
+#ebdocduiid .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1449,11 +1455,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#atznzbabnw .gt_striped {
+#ebdocduiid .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#atznzbabnw .gt_table_body {
+#ebdocduiid .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1462,7 +1468,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#atznzbabnw .gt_footnotes {
+#ebdocduiid .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1476,7 +1482,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#atznzbabnw .gt_footnote {
+#ebdocduiid .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1485,7 +1491,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#atznzbabnw .gt_sourcenotes {
+#ebdocduiid .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1499,7 +1505,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#atznzbabnw .gt_sourcenote {
+#ebdocduiid .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1507,72 +1513,72 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#atznzbabnw .gt_left {
+#ebdocduiid .gt_left {
   text-align: left;
 }
 
-#atznzbabnw .gt_center {
+#ebdocduiid .gt_center {
   text-align: center;
 }
 
-#atznzbabnw .gt_right {
+#ebdocduiid .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#atznzbabnw .gt_font_normal {
+#ebdocduiid .gt_font_normal {
   font-weight: normal;
 }
 
-#atznzbabnw .gt_font_bold {
+#ebdocduiid .gt_font_bold {
   font-weight: bold;
 }
 
-#atznzbabnw .gt_font_italic {
+#ebdocduiid .gt_font_italic {
   font-style: italic;
 }
 
-#atznzbabnw .gt_super {
+#ebdocduiid .gt_super {
   font-size: 65%;
 }
 
-#atznzbabnw .gt_footnote_marks {
+#ebdocduiid .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#atznzbabnw .gt_asterisk {
+#ebdocduiid .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#atznzbabnw .gt_indent_1 {
+#ebdocduiid .gt_indent_1 {
   text-indent: 5px;
 }
 
-#atznzbabnw .gt_indent_2 {
+#ebdocduiid .gt_indent_2 {
   text-indent: 10px;
 }
 
-#atznzbabnw .gt_indent_3 {
+#ebdocduiid .gt_indent_3 {
   text-indent: 15px;
 }
 
-#atznzbabnw .gt_indent_4 {
+#ebdocduiid .gt_indent_4 {
   text-indent: 20px;
 }
 
-#atznzbabnw .gt_indent_5 {
+#ebdocduiid .gt_indent_5 {
   text-indent: 25px;
 }
 
-#atznzbabnw .katex-display {
+#ebdocduiid .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#atznzbabnw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ebdocduiid div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1669,23 +1675,23 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="edrwqwznrf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#edrwqwznrf table {
+<div id="klthpvdwky" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#klthpvdwky table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#edrwqwznrf thead, #edrwqwznrf tbody, #edrwqwznrf tfoot, #edrwqwznrf tr, #edrwqwznrf td, #edrwqwznrf th {
+#klthpvdwky thead, #klthpvdwky tbody, #klthpvdwky tfoot, #klthpvdwky tr, #klthpvdwky td, #klthpvdwky th {
   border-style: none;
 }
 
-#edrwqwznrf p {
+#klthpvdwky p {
   margin: 0;
   padding: 0;
 }
 
-#edrwqwznrf .gt_table {
+#klthpvdwky .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1711,12 +1717,12 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-left-color: #D3D3D3;
 }
 
-#edrwqwznrf .gt_caption {
+#klthpvdwky .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#edrwqwznrf .gt_title {
+#klthpvdwky .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1728,7 +1734,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-width: 0;
 }
 
-#edrwqwznrf .gt_subtitle {
+#klthpvdwky .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1740,7 +1746,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-width: 0;
 }
 
-#edrwqwznrf .gt_heading {
+#klthpvdwky .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1752,13 +1758,13 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#edrwqwznrf .gt_bottom_border {
+#klthpvdwky .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#edrwqwznrf .gt_col_headings {
+#klthpvdwky .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1773,7 +1779,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#edrwqwznrf .gt_col_heading {
+#klthpvdwky .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1793,7 +1799,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#edrwqwznrf .gt_column_spanner_outer {
+#klthpvdwky .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1805,15 +1811,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 4px;
 }
 
-#edrwqwznrf .gt_column_spanner_outer:first-child {
+#klthpvdwky .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#edrwqwznrf .gt_column_spanner_outer:last-child {
+#klthpvdwky .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#edrwqwznrf .gt_column_spanner {
+#klthpvdwky .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1825,11 +1831,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   width: 100%;
 }
 
-#edrwqwznrf .gt_spanner_row {
+#klthpvdwky .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#edrwqwznrf .gt_group_heading {
+#klthpvdwky .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1855,7 +1861,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   text-align: left;
 }
 
-#edrwqwznrf .gt_empty_group_heading {
+#klthpvdwky .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1870,15 +1876,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: middle;
 }
 
-#edrwqwznrf .gt_from_md > :first-child {
+#klthpvdwky .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#edrwqwznrf .gt_from_md > :last-child {
+#klthpvdwky .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#edrwqwznrf .gt_row {
+#klthpvdwky .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1897,7 +1903,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#edrwqwznrf .gt_stub {
+#klthpvdwky .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1910,7 +1916,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#edrwqwznrf .gt_stub_row_group {
+#klthpvdwky .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1924,15 +1930,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: top;
 }
 
-#edrwqwznrf .gt_row_group_first td {
+#klthpvdwky .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#edrwqwznrf .gt_row_group_first th {
+#klthpvdwky .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#edrwqwznrf .gt_summary_row {
+#klthpvdwky .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1942,16 +1948,16 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#edrwqwznrf .gt_first_summary_row {
+#klthpvdwky .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#edrwqwznrf .gt_first_summary_row.thick {
+#klthpvdwky .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#edrwqwznrf .gt_last_summary_row {
+#klthpvdwky .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1961,7 +1967,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#edrwqwznrf .gt_grand_summary_row {
+#klthpvdwky .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1971,7 +1977,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#edrwqwznrf .gt_first_grand_summary_row {
+#klthpvdwky .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1981,7 +1987,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-color: #D3D3D3;
 }
 
-#edrwqwznrf .gt_last_grand_summary_row_top {
+#klthpvdwky .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1991,11 +1997,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#edrwqwznrf .gt_striped {
+#klthpvdwky .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#edrwqwznrf .gt_table_body {
+#klthpvdwky .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2004,7 +2010,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#edrwqwznrf .gt_footnotes {
+#klthpvdwky .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2018,7 +2024,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#edrwqwznrf .gt_footnote {
+#klthpvdwky .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2027,7 +2033,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#edrwqwznrf .gt_sourcenotes {
+#klthpvdwky .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2041,7 +2047,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#edrwqwznrf .gt_sourcenote {
+#klthpvdwky .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2049,72 +2055,72 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#edrwqwznrf .gt_left {
+#klthpvdwky .gt_left {
   text-align: left;
 }
 
-#edrwqwznrf .gt_center {
+#klthpvdwky .gt_center {
   text-align: center;
 }
 
-#edrwqwznrf .gt_right {
+#klthpvdwky .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#edrwqwznrf .gt_font_normal {
+#klthpvdwky .gt_font_normal {
   font-weight: normal;
 }
 
-#edrwqwznrf .gt_font_bold {
+#klthpvdwky .gt_font_bold {
   font-weight: bold;
 }
 
-#edrwqwznrf .gt_font_italic {
+#klthpvdwky .gt_font_italic {
   font-style: italic;
 }
 
-#edrwqwznrf .gt_super {
+#klthpvdwky .gt_super {
   font-size: 65%;
 }
 
-#edrwqwznrf .gt_footnote_marks {
+#klthpvdwky .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#edrwqwznrf .gt_asterisk {
+#klthpvdwky .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#edrwqwznrf .gt_indent_1 {
+#klthpvdwky .gt_indent_1 {
   text-indent: 5px;
 }
 
-#edrwqwznrf .gt_indent_2 {
+#klthpvdwky .gt_indent_2 {
   text-indent: 10px;
 }
 
-#edrwqwznrf .gt_indent_3 {
+#klthpvdwky .gt_indent_3 {
   text-indent: 15px;
 }
 
-#edrwqwznrf .gt_indent_4 {
+#klthpvdwky .gt_indent_4 {
   text-indent: 20px;
 }
 
-#edrwqwznrf .gt_indent_5 {
+#klthpvdwky .gt_indent_5 {
   text-indent: 25px;
 }
 
-#edrwqwznrf .katex-display {
+#klthpvdwky .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#edrwqwznrf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#klthpvdwky div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2232,23 +2238,23 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="asjgpbfcwc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#asjgpbfcwc table {
+<div id="zwwqvnaiur" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zwwqvnaiur table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#asjgpbfcwc thead, #asjgpbfcwc tbody, #asjgpbfcwc tfoot, #asjgpbfcwc tr, #asjgpbfcwc td, #asjgpbfcwc th {
+#zwwqvnaiur thead, #zwwqvnaiur tbody, #zwwqvnaiur tfoot, #zwwqvnaiur tr, #zwwqvnaiur td, #zwwqvnaiur th {
   border-style: none;
 }
 
-#asjgpbfcwc p {
+#zwwqvnaiur p {
   margin: 0;
   padding: 0;
 }
 
-#asjgpbfcwc .gt_table {
+#zwwqvnaiur .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2274,12 +2280,12 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-left-color: #D3D3D3;
 }
 
-#asjgpbfcwc .gt_caption {
+#zwwqvnaiur .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#asjgpbfcwc .gt_title {
+#zwwqvnaiur .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2291,7 +2297,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-width: 0;
 }
 
-#asjgpbfcwc .gt_subtitle {
+#zwwqvnaiur .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2303,7 +2309,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-width: 0;
 }
 
-#asjgpbfcwc .gt_heading {
+#zwwqvnaiur .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2315,13 +2321,13 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#asjgpbfcwc .gt_bottom_border {
+#zwwqvnaiur .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#asjgpbfcwc .gt_col_headings {
+#zwwqvnaiur .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2336,7 +2342,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#asjgpbfcwc .gt_col_heading {
+#zwwqvnaiur .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2356,7 +2362,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#asjgpbfcwc .gt_column_spanner_outer {
+#zwwqvnaiur .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2368,15 +2374,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 4px;
 }
 
-#asjgpbfcwc .gt_column_spanner_outer:first-child {
+#zwwqvnaiur .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#asjgpbfcwc .gt_column_spanner_outer:last-child {
+#zwwqvnaiur .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#asjgpbfcwc .gt_column_spanner {
+#zwwqvnaiur .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2388,11 +2394,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   width: 100%;
 }
 
-#asjgpbfcwc .gt_spanner_row {
+#zwwqvnaiur .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#asjgpbfcwc .gt_group_heading {
+#zwwqvnaiur .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2418,7 +2424,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   text-align: left;
 }
 
-#asjgpbfcwc .gt_empty_group_heading {
+#zwwqvnaiur .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2433,15 +2439,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: middle;
 }
 
-#asjgpbfcwc .gt_from_md > :first-child {
+#zwwqvnaiur .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#asjgpbfcwc .gt_from_md > :last-child {
+#zwwqvnaiur .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#asjgpbfcwc .gt_row {
+#zwwqvnaiur .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2460,7 +2466,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#asjgpbfcwc .gt_stub {
+#zwwqvnaiur .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2473,7 +2479,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#asjgpbfcwc .gt_stub_row_group {
+#zwwqvnaiur .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2487,15 +2493,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: top;
 }
 
-#asjgpbfcwc .gt_row_group_first td {
+#zwwqvnaiur .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#asjgpbfcwc .gt_row_group_first th {
+#zwwqvnaiur .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#asjgpbfcwc .gt_summary_row {
+#zwwqvnaiur .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2505,16 +2511,16 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#asjgpbfcwc .gt_first_summary_row {
+#zwwqvnaiur .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#asjgpbfcwc .gt_first_summary_row.thick {
+#zwwqvnaiur .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#asjgpbfcwc .gt_last_summary_row {
+#zwwqvnaiur .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2524,7 +2530,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#asjgpbfcwc .gt_grand_summary_row {
+#zwwqvnaiur .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2534,7 +2540,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#asjgpbfcwc .gt_first_grand_summary_row {
+#zwwqvnaiur .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2544,7 +2550,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-color: #D3D3D3;
 }
 
-#asjgpbfcwc .gt_last_grand_summary_row_top {
+#zwwqvnaiur .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2554,11 +2560,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#asjgpbfcwc .gt_striped {
+#zwwqvnaiur .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#asjgpbfcwc .gt_table_body {
+#zwwqvnaiur .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2567,7 +2573,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#asjgpbfcwc .gt_footnotes {
+#zwwqvnaiur .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2581,7 +2587,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#asjgpbfcwc .gt_footnote {
+#zwwqvnaiur .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2590,7 +2596,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#asjgpbfcwc .gt_sourcenotes {
+#zwwqvnaiur .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2604,7 +2610,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#asjgpbfcwc .gt_sourcenote {
+#zwwqvnaiur .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2612,72 +2618,72 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#asjgpbfcwc .gt_left {
+#zwwqvnaiur .gt_left {
   text-align: left;
 }
 
-#asjgpbfcwc .gt_center {
+#zwwqvnaiur .gt_center {
   text-align: center;
 }
 
-#asjgpbfcwc .gt_right {
+#zwwqvnaiur .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#asjgpbfcwc .gt_font_normal {
+#zwwqvnaiur .gt_font_normal {
   font-weight: normal;
 }
 
-#asjgpbfcwc .gt_font_bold {
+#zwwqvnaiur .gt_font_bold {
   font-weight: bold;
 }
 
-#asjgpbfcwc .gt_font_italic {
+#zwwqvnaiur .gt_font_italic {
   font-style: italic;
 }
 
-#asjgpbfcwc .gt_super {
+#zwwqvnaiur .gt_super {
   font-size: 65%;
 }
 
-#asjgpbfcwc .gt_footnote_marks {
+#zwwqvnaiur .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#asjgpbfcwc .gt_asterisk {
+#zwwqvnaiur .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#asjgpbfcwc .gt_indent_1 {
+#zwwqvnaiur .gt_indent_1 {
   text-indent: 5px;
 }
 
-#asjgpbfcwc .gt_indent_2 {
+#zwwqvnaiur .gt_indent_2 {
   text-indent: 10px;
 }
 
-#asjgpbfcwc .gt_indent_3 {
+#zwwqvnaiur .gt_indent_3 {
   text-indent: 15px;
 }
 
-#asjgpbfcwc .gt_indent_4 {
+#zwwqvnaiur .gt_indent_4 {
   text-indent: 20px;
 }
 
-#asjgpbfcwc .gt_indent_5 {
+#zwwqvnaiur .gt_indent_5 {
   text-indent: 25px;
 }
 
-#asjgpbfcwc .katex-display {
+#zwwqvnaiur .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#asjgpbfcwc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zwwqvnaiur div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2784,23 +2790,23 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="evdvjzztjd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#evdvjzztjd table {
+<div id="fziyaksefl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fziyaksefl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#evdvjzztjd thead, #evdvjzztjd tbody, #evdvjzztjd tfoot, #evdvjzztjd tr, #evdvjzztjd td, #evdvjzztjd th {
+#fziyaksefl thead, #fziyaksefl tbody, #fziyaksefl tfoot, #fziyaksefl tr, #fziyaksefl td, #fziyaksefl th {
   border-style: none;
 }
 
-#evdvjzztjd p {
+#fziyaksefl p {
   margin: 0;
   padding: 0;
 }
 
-#evdvjzztjd .gt_table {
+#fziyaksefl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2826,12 +2832,12 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-left-color: #D3D3D3;
 }
 
-#evdvjzztjd .gt_caption {
+#fziyaksefl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#evdvjzztjd .gt_title {
+#fziyaksefl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2843,7 +2849,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-width: 0;
 }
 
-#evdvjzztjd .gt_subtitle {
+#fziyaksefl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2855,7 +2861,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-width: 0;
 }
 
-#evdvjzztjd .gt_heading {
+#fziyaksefl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2867,13 +2873,13 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#evdvjzztjd .gt_bottom_border {
+#fziyaksefl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#evdvjzztjd .gt_col_headings {
+#fziyaksefl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2888,7 +2894,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#evdvjzztjd .gt_col_heading {
+#fziyaksefl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2908,7 +2914,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#evdvjzztjd .gt_column_spanner_outer {
+#fziyaksefl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2920,15 +2926,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 4px;
 }
 
-#evdvjzztjd .gt_column_spanner_outer:first-child {
+#fziyaksefl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#evdvjzztjd .gt_column_spanner_outer:last-child {
+#fziyaksefl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#evdvjzztjd .gt_column_spanner {
+#fziyaksefl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2940,11 +2946,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   width: 100%;
 }
 
-#evdvjzztjd .gt_spanner_row {
+#fziyaksefl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#evdvjzztjd .gt_group_heading {
+#fziyaksefl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2970,7 +2976,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   text-align: left;
 }
 
-#evdvjzztjd .gt_empty_group_heading {
+#fziyaksefl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2985,15 +2991,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: middle;
 }
 
-#evdvjzztjd .gt_from_md > :first-child {
+#fziyaksefl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#evdvjzztjd .gt_from_md > :last-child {
+#fziyaksefl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#evdvjzztjd .gt_row {
+#fziyaksefl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3012,7 +3018,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#evdvjzztjd .gt_stub {
+#fziyaksefl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3025,7 +3031,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#evdvjzztjd .gt_stub_row_group {
+#fziyaksefl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3039,15 +3045,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: top;
 }
 
-#evdvjzztjd .gt_row_group_first td {
+#fziyaksefl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#evdvjzztjd .gt_row_group_first th {
+#fziyaksefl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#evdvjzztjd .gt_summary_row {
+#fziyaksefl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3057,16 +3063,16 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#evdvjzztjd .gt_first_summary_row {
+#fziyaksefl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#evdvjzztjd .gt_first_summary_row.thick {
+#fziyaksefl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#evdvjzztjd .gt_last_summary_row {
+#fziyaksefl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3076,7 +3082,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#evdvjzztjd .gt_grand_summary_row {
+#fziyaksefl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3086,7 +3092,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#evdvjzztjd .gt_first_grand_summary_row {
+#fziyaksefl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3096,7 +3102,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-color: #D3D3D3;
 }
 
-#evdvjzztjd .gt_last_grand_summary_row_top {
+#fziyaksefl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3106,11 +3112,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#evdvjzztjd .gt_striped {
+#fziyaksefl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#evdvjzztjd .gt_table_body {
+#fziyaksefl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3119,7 +3125,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#evdvjzztjd .gt_footnotes {
+#fziyaksefl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3133,7 +3139,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#evdvjzztjd .gt_footnote {
+#fziyaksefl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3142,7 +3148,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#evdvjzztjd .gt_sourcenotes {
+#fziyaksefl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3156,7 +3162,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#evdvjzztjd .gt_sourcenote {
+#fziyaksefl .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3164,72 +3170,72 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#evdvjzztjd .gt_left {
+#fziyaksefl .gt_left {
   text-align: left;
 }
 
-#evdvjzztjd .gt_center {
+#fziyaksefl .gt_center {
   text-align: center;
 }
 
-#evdvjzztjd .gt_right {
+#fziyaksefl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#evdvjzztjd .gt_font_normal {
+#fziyaksefl .gt_font_normal {
   font-weight: normal;
 }
 
-#evdvjzztjd .gt_font_bold {
+#fziyaksefl .gt_font_bold {
   font-weight: bold;
 }
 
-#evdvjzztjd .gt_font_italic {
+#fziyaksefl .gt_font_italic {
   font-style: italic;
 }
 
-#evdvjzztjd .gt_super {
+#fziyaksefl .gt_super {
   font-size: 65%;
 }
 
-#evdvjzztjd .gt_footnote_marks {
+#fziyaksefl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#evdvjzztjd .gt_asterisk {
+#fziyaksefl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#evdvjzztjd .gt_indent_1 {
+#fziyaksefl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#evdvjzztjd .gt_indent_2 {
+#fziyaksefl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#evdvjzztjd .gt_indent_3 {
+#fziyaksefl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#evdvjzztjd .gt_indent_4 {
+#fziyaksefl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#evdvjzztjd .gt_indent_5 {
+#fziyaksefl .gt_indent_5 {
   text-indent: 25px;
 }
 
-#evdvjzztjd .katex-display {
+#fziyaksefl .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#evdvjzztjd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#fziyaksefl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3385,23 +3391,23 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="dnunshagod" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#dnunshagod table {
+<div id="lwpbrfaduq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lwpbrfaduq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dnunshagod thead, #dnunshagod tbody, #dnunshagod tfoot, #dnunshagod tr, #dnunshagod td, #dnunshagod th {
+#lwpbrfaduq thead, #lwpbrfaduq tbody, #lwpbrfaduq tfoot, #lwpbrfaduq tr, #lwpbrfaduq td, #lwpbrfaduq th {
   border-style: none;
 }
 
-#dnunshagod p {
+#lwpbrfaduq p {
   margin: 0;
   padding: 0;
 }
 
-#dnunshagod .gt_table {
+#lwpbrfaduq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3427,12 +3433,12 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-left-color: #D3D3D3;
 }
 
-#dnunshagod .gt_caption {
+#lwpbrfaduq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dnunshagod .gt_title {
+#lwpbrfaduq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3444,7 +3450,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-width: 0;
 }
 
-#dnunshagod .gt_subtitle {
+#lwpbrfaduq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3456,7 +3462,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-width: 0;
 }
 
-#dnunshagod .gt_heading {
+#lwpbrfaduq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3468,13 +3474,13 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#dnunshagod .gt_bottom_border {
+#lwpbrfaduq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dnunshagod .gt_col_headings {
+#lwpbrfaduq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3489,7 +3495,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#dnunshagod .gt_col_heading {
+#lwpbrfaduq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3509,7 +3515,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#dnunshagod .gt_column_spanner_outer {
+#lwpbrfaduq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3521,15 +3527,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 4px;
 }
 
-#dnunshagod .gt_column_spanner_outer:first-child {
+#lwpbrfaduq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dnunshagod .gt_column_spanner_outer:last-child {
+#lwpbrfaduq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dnunshagod .gt_column_spanner {
+#lwpbrfaduq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3541,11 +3547,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   width: 100%;
 }
 
-#dnunshagod .gt_spanner_row {
+#lwpbrfaduq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#dnunshagod .gt_group_heading {
+#lwpbrfaduq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3571,7 +3577,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   text-align: left;
 }
 
-#dnunshagod .gt_empty_group_heading {
+#lwpbrfaduq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3586,15 +3592,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: middle;
 }
 
-#dnunshagod .gt_from_md > :first-child {
+#lwpbrfaduq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dnunshagod .gt_from_md > :last-child {
+#lwpbrfaduq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dnunshagod .gt_row {
+#lwpbrfaduq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3613,7 +3619,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#dnunshagod .gt_stub {
+#lwpbrfaduq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3626,7 +3632,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#dnunshagod .gt_stub_row_group {
+#lwpbrfaduq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3640,15 +3646,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: top;
 }
 
-#dnunshagod .gt_row_group_first td {
+#lwpbrfaduq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dnunshagod .gt_row_group_first th {
+#lwpbrfaduq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#dnunshagod .gt_summary_row {
+#lwpbrfaduq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3658,16 +3664,16 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#dnunshagod .gt_first_summary_row {
+#lwpbrfaduq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dnunshagod .gt_first_summary_row.thick {
+#lwpbrfaduq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dnunshagod .gt_last_summary_row {
+#lwpbrfaduq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3677,7 +3683,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#dnunshagod .gt_grand_summary_row {
+#lwpbrfaduq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3687,7 +3693,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#dnunshagod .gt_first_grand_summary_row {
+#lwpbrfaduq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3697,7 +3703,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-color: #D3D3D3;
 }
 
-#dnunshagod .gt_last_grand_summary_row_top {
+#lwpbrfaduq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3707,11 +3713,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#dnunshagod .gt_striped {
+#lwpbrfaduq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dnunshagod .gt_table_body {
+#lwpbrfaduq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3720,7 +3726,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#dnunshagod .gt_footnotes {
+#lwpbrfaduq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3734,7 +3740,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#dnunshagod .gt_footnote {
+#lwpbrfaduq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3743,7 +3749,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#dnunshagod .gt_sourcenotes {
+#lwpbrfaduq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3757,7 +3763,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#dnunshagod .gt_sourcenote {
+#lwpbrfaduq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3765,72 +3771,72 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#dnunshagod .gt_left {
+#lwpbrfaduq .gt_left {
   text-align: left;
 }
 
-#dnunshagod .gt_center {
+#lwpbrfaduq .gt_center {
   text-align: center;
 }
 
-#dnunshagod .gt_right {
+#lwpbrfaduq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dnunshagod .gt_font_normal {
+#lwpbrfaduq .gt_font_normal {
   font-weight: normal;
 }
 
-#dnunshagod .gt_font_bold {
+#lwpbrfaduq .gt_font_bold {
   font-weight: bold;
 }
 
-#dnunshagod .gt_font_italic {
+#lwpbrfaduq .gt_font_italic {
   font-style: italic;
 }
 
-#dnunshagod .gt_super {
+#lwpbrfaduq .gt_super {
   font-size: 65%;
 }
 
-#dnunshagod .gt_footnote_marks {
+#lwpbrfaduq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#dnunshagod .gt_asterisk {
+#lwpbrfaduq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dnunshagod .gt_indent_1 {
+#lwpbrfaduq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dnunshagod .gt_indent_2 {
+#lwpbrfaduq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dnunshagod .gt_indent_3 {
+#lwpbrfaduq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dnunshagod .gt_indent_4 {
+#lwpbrfaduq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dnunshagod .gt_indent_5 {
+#lwpbrfaduq .gt_indent_5 {
   text-indent: 25px;
 }
 
-#dnunshagod .katex-display {
+#lwpbrfaduq .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#dnunshagod div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#lwpbrfaduq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4013,23 +4019,23 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="hjqmheddna" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hjqmheddna table {
+<div id="buehdbvhdl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#buehdbvhdl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hjqmheddna thead, #hjqmheddna tbody, #hjqmheddna tfoot, #hjqmheddna tr, #hjqmheddna td, #hjqmheddna th {
+#buehdbvhdl thead, #buehdbvhdl tbody, #buehdbvhdl tfoot, #buehdbvhdl tr, #buehdbvhdl td, #buehdbvhdl th {
   border-style: none;
 }
 
-#hjqmheddna p {
+#buehdbvhdl p {
   margin: 0;
   padding: 0;
 }
 
-#hjqmheddna .gt_table {
+#buehdbvhdl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4055,12 +4061,12 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-left-color: #D3D3D3;
 }
 
-#hjqmheddna .gt_caption {
+#buehdbvhdl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hjqmheddna .gt_title {
+#buehdbvhdl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4072,7 +4078,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-width: 0;
 }
 
-#hjqmheddna .gt_subtitle {
+#buehdbvhdl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4084,7 +4090,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-width: 0;
 }
 
-#hjqmheddna .gt_heading {
+#buehdbvhdl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4096,13 +4102,13 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#hjqmheddna .gt_bottom_border {
+#buehdbvhdl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hjqmheddna .gt_col_headings {
+#buehdbvhdl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4117,7 +4123,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#hjqmheddna .gt_col_heading {
+#buehdbvhdl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4137,7 +4143,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#hjqmheddna .gt_column_spanner_outer {
+#buehdbvhdl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4149,15 +4155,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 4px;
 }
 
-#hjqmheddna .gt_column_spanner_outer:first-child {
+#buehdbvhdl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hjqmheddna .gt_column_spanner_outer:last-child {
+#buehdbvhdl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hjqmheddna .gt_column_spanner {
+#buehdbvhdl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4169,11 +4175,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   width: 100%;
 }
 
-#hjqmheddna .gt_spanner_row {
+#buehdbvhdl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hjqmheddna .gt_group_heading {
+#buehdbvhdl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4199,7 +4205,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   text-align: left;
 }
 
-#hjqmheddna .gt_empty_group_heading {
+#buehdbvhdl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4214,15 +4220,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: middle;
 }
 
-#hjqmheddna .gt_from_md > :first-child {
+#buehdbvhdl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hjqmheddna .gt_from_md > :last-child {
+#buehdbvhdl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hjqmheddna .gt_row {
+#buehdbvhdl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4241,7 +4247,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#hjqmheddna .gt_stub {
+#buehdbvhdl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4254,7 +4260,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#hjqmheddna .gt_stub_row_group {
+#buehdbvhdl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4268,15 +4274,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: top;
 }
 
-#hjqmheddna .gt_row_group_first td {
+#buehdbvhdl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hjqmheddna .gt_row_group_first th {
+#buehdbvhdl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hjqmheddna .gt_summary_row {
+#buehdbvhdl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4286,16 +4292,16 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#hjqmheddna .gt_first_summary_row {
+#buehdbvhdl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hjqmheddna .gt_first_summary_row.thick {
+#buehdbvhdl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hjqmheddna .gt_last_summary_row {
+#buehdbvhdl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4305,7 +4311,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#hjqmheddna .gt_grand_summary_row {
+#buehdbvhdl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4315,7 +4321,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#hjqmheddna .gt_first_grand_summary_row {
+#buehdbvhdl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4325,7 +4331,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-color: #D3D3D3;
 }
 
-#hjqmheddna .gt_last_grand_summary_row_top {
+#buehdbvhdl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4335,11 +4341,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#hjqmheddna .gt_striped {
+#buehdbvhdl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hjqmheddna .gt_table_body {
+#buehdbvhdl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4348,7 +4354,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#hjqmheddna .gt_footnotes {
+#buehdbvhdl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4362,7 +4368,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#hjqmheddna .gt_footnote {
+#buehdbvhdl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4371,7 +4377,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#hjqmheddna .gt_sourcenotes {
+#buehdbvhdl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4385,7 +4391,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#hjqmheddna .gt_sourcenote {
+#buehdbvhdl .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4393,72 +4399,72 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#hjqmheddna .gt_left {
+#buehdbvhdl .gt_left {
   text-align: left;
 }
 
-#hjqmheddna .gt_center {
+#buehdbvhdl .gt_center {
   text-align: center;
 }
 
-#hjqmheddna .gt_right {
+#buehdbvhdl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hjqmheddna .gt_font_normal {
+#buehdbvhdl .gt_font_normal {
   font-weight: normal;
 }
 
-#hjqmheddna .gt_font_bold {
+#buehdbvhdl .gt_font_bold {
   font-weight: bold;
 }
 
-#hjqmheddna .gt_font_italic {
+#buehdbvhdl .gt_font_italic {
   font-style: italic;
 }
 
-#hjqmheddna .gt_super {
+#buehdbvhdl .gt_super {
   font-size: 65%;
 }
 
-#hjqmheddna .gt_footnote_marks {
+#buehdbvhdl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hjqmheddna .gt_asterisk {
+#buehdbvhdl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hjqmheddna .gt_indent_1 {
+#buehdbvhdl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hjqmheddna .gt_indent_2 {
+#buehdbvhdl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hjqmheddna .gt_indent_3 {
+#buehdbvhdl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hjqmheddna .gt_indent_4 {
+#buehdbvhdl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hjqmheddna .gt_indent_5 {
+#buehdbvhdl .gt_indent_5 {
   text-indent: 25px;
 }
 
-#hjqmheddna .katex-display {
+#buehdbvhdl .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#hjqmheddna div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#buehdbvhdl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4627,23 +4633,23 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(key_range, <span class="at">decimals =</span> <span class="dv">0</span>, <span class="at">scale_values =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fquebvepgf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#fquebvepgf table {
+<div id="armftcnwlf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#armftcnwlf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#fquebvepgf thead, #fquebvepgf tbody, #fquebvepgf tfoot, #fquebvepgf tr, #fquebvepgf td, #fquebvepgf th {
+#armftcnwlf thead, #armftcnwlf tbody, #armftcnwlf tfoot, #armftcnwlf tr, #armftcnwlf td, #armftcnwlf th {
   border-style: none;
 }
 
-#fquebvepgf p {
+#armftcnwlf p {
   margin: 0;
   padding: 0;
 }
 
-#fquebvepgf .gt_table {
+#armftcnwlf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4669,12 +4675,12 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-left-color: #D3D3D3;
 }
 
-#fquebvepgf .gt_caption {
+#armftcnwlf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#fquebvepgf .gt_title {
+#armftcnwlf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4686,7 +4692,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-width: 0;
 }
 
-#fquebvepgf .gt_subtitle {
+#armftcnwlf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4698,7 +4704,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-width: 0;
 }
 
-#fquebvepgf .gt_heading {
+#armftcnwlf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4710,13 +4716,13 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#fquebvepgf .gt_bottom_border {
+#armftcnwlf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#fquebvepgf .gt_col_headings {
+#armftcnwlf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4731,7 +4737,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#fquebvepgf .gt_col_heading {
+#armftcnwlf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4751,7 +4757,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#fquebvepgf .gt_column_spanner_outer {
+#armftcnwlf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4763,15 +4769,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 4px;
 }
 
-#fquebvepgf .gt_column_spanner_outer:first-child {
+#armftcnwlf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#fquebvepgf .gt_column_spanner_outer:last-child {
+#armftcnwlf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#fquebvepgf .gt_column_spanner {
+#armftcnwlf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4783,11 +4789,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   width: 100%;
 }
 
-#fquebvepgf .gt_spanner_row {
+#armftcnwlf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#fquebvepgf .gt_group_heading {
+#armftcnwlf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4813,7 +4819,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   text-align: left;
 }
 
-#fquebvepgf .gt_empty_group_heading {
+#armftcnwlf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4828,15 +4834,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: middle;
 }
 
-#fquebvepgf .gt_from_md > :first-child {
+#armftcnwlf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#fquebvepgf .gt_from_md > :last-child {
+#armftcnwlf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#fquebvepgf .gt_row {
+#armftcnwlf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4855,7 +4861,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   overflow-x: hidden;
 }
 
-#fquebvepgf .gt_stub {
+#armftcnwlf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4868,7 +4874,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#fquebvepgf .gt_stub_row_group {
+#armftcnwlf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4882,15 +4888,15 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   vertical-align: top;
 }
 
-#fquebvepgf .gt_row_group_first td {
+#armftcnwlf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#fquebvepgf .gt_row_group_first th {
+#armftcnwlf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#fquebvepgf .gt_summary_row {
+#armftcnwlf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4900,16 +4906,16 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#fquebvepgf .gt_first_summary_row {
+#armftcnwlf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#fquebvepgf .gt_first_summary_row.thick {
+#armftcnwlf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#fquebvepgf .gt_last_summary_row {
+#armftcnwlf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4919,7 +4925,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#fquebvepgf .gt_grand_summary_row {
+#armftcnwlf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4929,7 +4935,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#fquebvepgf .gt_first_grand_summary_row {
+#armftcnwlf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4939,7 +4945,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-top-color: #D3D3D3;
 }
 
-#fquebvepgf .gt_last_grand_summary_row_top {
+#armftcnwlf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4949,11 +4955,11 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#fquebvepgf .gt_striped {
+#armftcnwlf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#fquebvepgf .gt_table_body {
+#armftcnwlf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4962,7 +4968,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-bottom-color: #D3D3D3;
 }
 
-#fquebvepgf .gt_footnotes {
+#armftcnwlf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4976,7 +4982,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#fquebvepgf .gt_footnote {
+#armftcnwlf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4985,7 +4991,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#fquebvepgf .gt_sourcenotes {
+#armftcnwlf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4999,7 +5005,7 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   border-right-color: #D3D3D3;
 }
 
-#fquebvepgf .gt_sourcenote {
+#armftcnwlf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5007,72 +5013,72 @@ LL = 2 \times \sum_i \sum_j O_{ij} \log \frac{O_{ij}}{E_{ij}}
   padding-right: 5px;
 }
 
-#fquebvepgf .gt_left {
+#armftcnwlf .gt_left {
   text-align: left;
 }
 
-#fquebvepgf .gt_center {
+#armftcnwlf .gt_center {
   text-align: center;
 }
 
-#fquebvepgf .gt_right {
+#armftcnwlf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#fquebvepgf .gt_font_normal {
+#armftcnwlf .gt_font_normal {
   font-weight: normal;
 }
 
-#fquebvepgf .gt_font_bold {
+#armftcnwlf .gt_font_bold {
   font-weight: bold;
 }
 
-#fquebvepgf .gt_font_italic {
+#armftcnwlf .gt_font_italic {
   font-style: italic;
 }
 
-#fquebvepgf .gt_super {
+#armftcnwlf .gt_super {
   font-size: 65%;
 }
 
-#fquebvepgf .gt_footnote_marks {
+#armftcnwlf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#fquebvepgf .gt_asterisk {
+#armftcnwlf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#fquebvepgf .gt_indent_1 {
+#armftcnwlf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#fquebvepgf .gt_indent_2 {
+#armftcnwlf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#fquebvepgf .gt_indent_3 {
+#armftcnwlf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#fquebvepgf .gt_indent_4 {
+#armftcnwlf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#fquebvepgf .gt_indent_5 {
+#armftcnwlf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#fquebvepgf .katex-display {
+#armftcnwlf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#fquebvepgf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#armftcnwlf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
