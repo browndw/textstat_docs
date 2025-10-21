@@ -162,22 +162,19 @@ broom::tidy(f_aov)
 ```{r}
 gtsummary::tbl_regression(lm(Factor1 ~ group, data = bc_mda)) |>
   gtsummary::add_glance_source_note() |>
-  gtsummary::as_gt() |>
-  as_raw_html()
+  gtsummary::as_gt()
 ```
 
 ```{r}
 gtsummary::tbl_regression(lm(Factor2 ~ group, data = bc_mda)) |>
   gtsummary::add_glance_source_note() |>
-  gtsummary::as_gt() |>
-  as_raw_html()
+  gtsummary::as_gt()
 ```
 
 ```{r}
 gtsummary::tbl_regression(lm(Factor3 ~ group, data = bc_mda)) |>
   gtsummary::add_glance_source_note() |>
-  gtsummary::as_gt() |>
-  as_raw_html()
+  gtsummary::as_gt()
 ```
 
 ___
@@ -271,22 +268,19 @@ We can again check to see how explanatory our dimensions are.
 ```{r}
 gtsummary::tbl_regression(lm(Factor1 ~ group, data = micusp_mda)) |>
   gtsummary::add_glance_source_note() |>
-  gtsummary::as_gt() |>
-  as_raw_html()
+  gtsummary::as_gt()
 ```
 
 ```{r}
 gtsummary::tbl_regression(lm(Factor2 ~ group, data = micusp_mda)) |>
   gtsummary::add_glance_source_note() |>
-  gtsummary::as_gt() |>
-  as_raw_html()
+  gtsummary::as_gt()
 ```
 
 ```{r}
 gtsummary::tbl_regression(lm(Factor3 ~ group, data = micusp_mda)) |>
   gtsummary::add_glance_source_note() |>
-  gtsummary::as_gt() |>
-  as_raw_html()
+  gtsummary::as_gt()
 ```
 
 ### Plotting the results
@@ -324,8 +318,7 @@ awm <- kwic(micusp_tokens, ds_dict["AcademicWritingMoves"])
 
 ch |>
   head(10) |>
-  gt() |>
-  as_raw_html()
+  gt()
 ```
 
 
@@ -334,8 +327,7 @@ ch |>
 
 awm |>
   head(10) |>
-  gt() |>
-  as_raw_html()
+  gt()
 ```
 
 \break
