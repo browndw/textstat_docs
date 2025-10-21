@@ -709,7 +709,7 @@ readr::read_csv("data/data_llms-history/vector_embeddings.csv", na = "NA") |>
 -   The proximity of words can be assessed using measures like cosine similarity.
 
 $$
-cosine~similarity = S_{c}(A, B) := cos(\theta) = \frac{A \cdot B}{||A||~||B||}
+\text{cosine similarity} = S_{c}(A, B) := \cos(\theta) = \frac{A \cdot B}{||A||~||B||}
 $$ ![](img/img_llms-history/cos_similarity.png)
 
 ## Emergence of ML {background-video="img/img_llms-history/vector_model_01.mp4" background-video-loop="true" background-video-muted="true"}

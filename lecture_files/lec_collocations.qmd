@@ -206,7 +206,7 @@ $$
 \begin{aligned}
 \text{PMI}^k = \log_{2} \left( \frac{O_{11}{^k}}{E_{11}} \right) = \text{PMI} - (1 - k)\times\log_{2} \left( O_{11} \right)
 \\
-\text{where}~2 \ge k \le 3
+\text{where}~2 \le k \le 3
 \end{aligned}
 $$
 
