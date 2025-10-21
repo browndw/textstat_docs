@@ -28,19 +28,18 @@ We'll start with hierarchical agglomerative clustering (pgs. 154, 159 & 236 in B
 
 ### Prepare the data
 
-Our clustering will be based on part-of-speech counts, so we need to parse some data using **udpipe**. First, we'll get data from the micusp_mini corpus and subset out the Biology and English papers.
+Our clustering will be based on part-of-speech counts, so we need to parse some data using **udpipe**. First, we'll load the `micusp_mini` corpus from the cmu.textstat packageand subset out the Biology and English papers.
 
 ```{r}
-load("../data/micusp_mini.rda")
-```
+library(cmu.textstat)
 
-
-```{r}
-sub_df <- micusp_mini %>%
+sub_df <- micusp_mini |>
   filter(str_detect(doc_id, "BIO|ENG"))
 ```
 
 And parse the data using **udpipe**. This will take a couple of minutes.
+
+**Note!** Look at lab 7, `feature-engineering.qmd`, to see how to download the udpipe model. You already downloaded one for that lab, so change the path in `udpipe_load_model()` to point to where it was saved, or download the model again.
 
 ```{r}
 ud_model <- udpipe_load_model("../models/english-ewt-ud-2.5-191206.udpipe")
@@ -50,8 +49,8 @@ annotation <- udpipe_annotate(ud_model, x = sub_df$text, doc_id = sub_df$doc_id,
 Now, we're going to do something new. We're going to combine our upos and xpos columns.
 
 ```{r}
-anno_edit <- annotation %>%
-  as_tibble() %>%
+anno_edit <- annotation |>
+  as_tibble() |>
   unite("upos", upos:xpos)
 ```
 
@@ -79,23 +78,26 @@ sub_tokens <- tokens_remove(sub_tokens, "^x_\\S+", valuetype = "regex")
 From that, we'll generate a dfm. We'll weight the raw counts, and convert the result to a data frame.
 
 ```{r dfm}
-sub_dfm <- sub_tokens %>%
-  dfm() %>%
-  dfm_weight(scheme = "prop") %>%
+sub_dfm <- sub_tokens |>
+  dfm() |>
+  dfm_weight(scheme = "prop") |>
   convert(to = "data.frame")
 ```
 
 Finally, we're going to convert the first row (doc_id) into row names. And, for convenience, we'll order our columns alphabetically.
 
 ```{r}
-sub_dfm <- sub_dfm %>% column_to_rownames("doc_id") %>% 
+sub_dfm <- sub_dfm |>
+  column_to_rownames("doc_id") %>%
   dplyr::select(order(colnames(.)))
 ```
 
 As we did with factor analysis, we'll scale our variables. Scaling the variables transforms them such that they have a mean of roughly zero, and a standard deviation of 1. See Brezina pg. 152-153. We can check the noun column, for example.
 
 ```{r scale}
-sub_dfm <- sub_dfm %>% scale() %>% data.frame()
+sub_dfm <- sub_dfm |>
+  scale() |>
+  data.frame()
 ```
 
 ```{r}
@@ -164,7 +166,7 @@ Now let's visualize that matrix.
 #| fig-height: 4
 #| fig-cap: "A distance matrix (using Euclidean distances) of sample papers in English and Biology."
 
-fviz_dist(d, gradient = list(low = "tomato", mid = "white", high = "steelblue"))
+fviz_dist(d, gradient = list(low = "steelblue", mid = "white", high = "tomato"))
 ```
 
 ### Clustering structure
@@ -307,13 +309,13 @@ But there a variety of ways to make effective plots. Let's make one that gives u
 
 ### Plotting and dimension reduction
 
-Dimension reduction for plotting k-means is typically done using PCA. So lets start there.
+Dimension reduction for plotting k-means is typically done using PCA. So let's start there.
 
 ```{r}
 km_pca <- prcomp(sub_dfm)
 ```
 
-We can check the percent of variance explained by looking at the eigen values.
+We can check the percent of variance explained by looking at the eigenvalues.
 
 ```{r}
 #| code-fold: true
@@ -328,8 +330,8 @@ round(get_eigenvalue(km_pca), 1) |>
 We can also extract the coordinates for the 2 principal components and create a data frame. We'll also add columns for discipline and cluster membership.
 
 ```{r}
-coord_df <- data.frame(km_pca$x[,1:2]) %>%
-  mutate(Discipline = str_extract(rownames(sub_dfm), "^[A-Z]+")) %>%
+coord_df <- data.frame(km_pca$x[,1:2]) |>
+  mutate(Discipline = str_extract(rownames(sub_dfm), "^[A-Z]+")) |>
   mutate(Cluster = as.factor(paste0("Cluster ", km$cluster)))
 ```
 
@@ -350,8 +352,8 @@ ggplot(coord_df) +
   theme(panel.grid.minor.x = element_blank()) +
   theme(panel.grid.major.y = element_blank()) +
   theme(panel.grid.minor.y = element_blank()) +
-  theme(legend.position="top") +
-  facet_grid(~Cluster)
+  theme(legend.position = "top") +
+  facet_grid(vars(Cluster))
 ```
 
 ### Variable contributions
@@ -364,7 +366,7 @@ Variable contributions to each PC and their relationship to individual observati
 #| fig-cap: "Biplot showing the variables with the 10 highest contributions to principal components 1 and 2."
 
 fviz_pca_biplot(km_pca, repel = TRUE,
-                select.var = list(contrib=10),
+                select.var = list(contrib = 10),
                 col.var = "#2E9FDF", # Variables color
                 col.ind = "#696969"  # Individuals color
 )
@@ -392,7 +394,7 @@ To verify this, we can check to see if the relevant vectors are equal:
 all.equal(km_pca_var$cos2[,1] * 100 / sum(km_pca_var$cos2[,1]), km_pca_var$contrib[,1])
 ```
 
-Here they are in tablular form:
+Here they are in tabular form:
 
 ```{r}
 #| code-fold: true
@@ -400,7 +402,7 @@ Here they are in tablular form:
 # PC1 % Contribution
 
 km_pca_var$contrib[,1] |>
-  sort(decreasing = T) |>
+  sort(decreasing = TRUE) |>
   tibble::enframe() |>
   gt()
 ```
