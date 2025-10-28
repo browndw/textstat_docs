@@ -50,6 +50,7 @@ book:
          - lectures/embed_keyness.qmd
          - lectures/embed_factor-analysis.qmd
          - lectures/embed_cluster-analysis.qmd
+         - lectures/embed_time-series.qmd
          
 bibliography: references.bib
 
