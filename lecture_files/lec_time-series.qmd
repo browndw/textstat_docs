@@ -1,0 +1,273 @@
+---
+title: "Time Series"
+format: 
+  clean-revealjs:
+    transition: fade
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Alex Reinhart
+    email: areinhar@stat.cmu.edu
+    orcid: 0000-0002-6658-514X
+    affiliations: Statistics & Data Science 36-468/668
+  - name: David Brown
+    orcid: 0000-0001-7745-6354
+    email: dwb2@andrew.cmu.edu
+    affiliations: Dept. of English
+date: last-modified
+date-format: "[Fall] YYYY"
+title-slide-attributes: 
+  data-background-image: img/img_shared/text_analysis.png
+  data-background-size: 5%
+  data-background-position: 30% 50%
+bibliography: refs/refs_time-series.bib
+---
+
+```{r setup}
+library(tidyverse)
+library(ngramr.plus)
+theme_set(theme_bw())
+```
+
+## Frequency of *witch hunt* by decade
+
+```{r}
+library(vnc)
+
+witch_hunt |>
+  filter(decade >= 1920) |>
+  ggplot(aes(x = decade, y = counts_permil)) +
+  geom_col() +
+  labs(x = "decade", y = "frequency (per million words)")
+```
+
+## Frequency of *witch hunt* by decade, with CIs
+
+```{r}
+witch_hunt <- witch_hunt |>
+  bind_cols(corpora::prop.cint(k = witch_hunt$token_count, n = witch_hunt$total_count, conf.level = 0.95))
+
+witch_hunt |>
+  filter(decade >= 1920) |>
+  ggplot(aes(x = decade, y = counts_permil, 
+             ymin = lower * 1000000,
+             ymax = upper * 1000000)) +
+  geom_col(alpha = 0.5) +
+  geom_errorbar(width = 1) +
+  labs(x = "decade", y = "frequency (per million words)")
+```
+
+## Frequency of *witch hunt* by decade
+
+```{r witch-hunt-ngram, cache=TRUE, message=FALSE, results="hide"}
+wh <- google_ngram("witch hunt", "eng", by = "year") |>
+  filter(Year >= 1915) |>
+  mutate(decade = trunc((Year + 5) / 10) * 10)
+```
+
+```{r}
+wh |>
+  ggplot(aes(x = factor(decade), y = Per_10.6)) +
+  geom_boxplot() +
+  labs(x = "decade", y = "frequency (per million words)")
+```
+
+## Frequency of *witch hunt* by year, with trend line
+
+```{r}
+ggplot(wh, aes(x = Year, y = Per_10.6)) +
+  geom_point() +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), se = TRUE) +
+  scale_x_continuous(breaks = seq(1920, 2010, by = 10)) +
+  labs(x = "year", y = "frequency (per million words)")
+```
+
+## Does this data show a trend?
+
+# Measuring trends
+
+## Detecting simple linear trends
+
+- A simple way to check for trends is to use a linear model
+- If there's a nonzero slope, there's a time trend
+- Linguists sometimes use $R^2$ to quantify the strength of the trend
+
+## Trends in *witch hunt*
+
+```{r}
+ggplot(wh, aes(x = Year, y = Per_10.6)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  scale_x_continuous(breaks = seq(1920, 2010, by = 10)) +
+  labs(x = "year", y = "frequency (per million words)")
+```
+
+## Summarizing the trend
+
+```{r, echo=TRUE}
+witch_fit <- lm(Per_10.6 ~ Year, data = wh)
+summary(witch_fit)
+```
+
+## Danger!
+
+- This only measures *linear* trends
+- $R^2$, as a measure of "variance explained", is not quite as intuitive as it seems
+
+# Peaks and troughs
+
+## How do we detect peaks or troughs in usage?
+
+- A word's usage may peak at specific times, or it may go through times of low use
+  - e.g., a word becomes briefly popular due to a cultural trend
+- How can we distinguish such a shift from random variation?
+
+## Nonlinear smoothers
+
+- We can fit a *nonlinear smoother* to the data, i.e., a regression that allows nonlinear trends
+- Many such smoothers can produce confidence intervals
+- Individual observations outside the CI can indicate peaks or troughs
+- Frequently done with smoothing splines, as fit by `mgcv`'s `gam()` function
+
+## Peaks and troughs in *witch hunt*
+
+```{r}
+ggplot(wh, aes(x = Year, y = Per_10.6)) +
+  geom_point() +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), se = TRUE) +
+  scale_x_continuous(breaks = seq(1920, 2010, by = 10)) +
+  labs(x = "year", y = "frequency (per million words)")
+```
+
+# Time periods
+
+## Can we break the data into time periods?
+
+- To *periodize* a time series is to split it into distinct time periods
+- If there's a sudden change in use after 1945, maybe there's a pre-1945 period and a post-1945 period
+- Statistically, we can think of this several ways:
+  - Test if two periods are different: simple hypothesis testing
+  - Detect where the mean or slope suddenly changes: changepoint detection
+  - Cluster sequences of similar years: clustering
+
+## Variability-based neighbor clustering
+
+- VNC is an adaptation of hierarchical clustering
+- Any time point can be merged with an *adjacent* time point
+- Linkage is the change in standard deviation (or coefficient of variation) when merged
+- Produces a dendrogram just like hierarchical clustering
+
+## Clustering decades
+
+```{r}
+library(vnc)
+
+wh_decade <- wh |>
+  group_by(decade) |>
+  summarize(permil = mean(Per_10.6))
+
+decade_clust <- vnc_clust(wh_decade$decade, wh_decade$permil)
+plot(decade_clust)
+```
+
+## Clustering years
+
+```{r}
+# no data in 1925, so there's a gap vnc doesn't like
+wh_even <- wh |>
+  filter(Year >= 1926)
+year_clust <- vnc_clust(wh_even$Year, wh_even$Per_10.6)
+plot(year_clust)
+```
+
+## Scree plot
+
+```{r}
+vnc_scree(wh_even$Year, wh_even$Per_10.6)
+```
+
+# Changes in pronoun use
+
+## Do pronouns suggest greater individualism?
+
+@Twenge:2013 claim that:
+
+> Changes in pronoun use in American books suggest a cultural trend toward greater individualism and a parallel trend toward less collectivism. First person plural pronouns such as “we” decreased in use by 10%, and singular pronouns such as “I” and “me” increased 42%. Previous research linked first person singular pronouns to individualism and first person plural pronouns to collectivism (e.g., Gardner et al., 1999; Kashima & Kashima, 1998; Na & Choi, 2009).
+
+> Second person pronouns such as “you” and “your” quadrupled, also consistent with individualism, as they separate the actor and other (Wechsler, 2010). The large increase in second person might partially reflect an increased tendency to directly address the reader and include him or her in the dialogue, another indicator of individualism (e.g., “what you can do,” “your best life”). However, this is speculative.
+
+## Their Figure 1
+
+![](img/img_time-series/twenge-fig1.jpg)
+
+## Changes in pronoun use in American books
+
+We can replicate this ourselves:
+
+```{r}
+library(cmu.textstat)
+
+df <- bind_rows(
+  mutate(person_1st_pl, pronoun = "1st person plural"),
+  mutate(person_1st_sing, pronoun = "1st person singular"),
+  mutate(person_2nd, pronoun = "2nd person")
+)
+
+df |>
+  filter(year > 1960) |>
+  ggplot(aes(x = year, y = counts_permil, color = pronoun)) +
+  geom_line() +
+  labs(y = "frequency (per million)") +
+  theme(legend.position = "inside",
+        legend.position.inside = c(0.2, 0.8))
+```
+
+## Why 1960 as the starting point?
+
+> We chose 1960 as a starting point because many authors have noted that the pace of cultural change in the United States, particularly in individualism, accelerated beginning in the late 1960s through the 1970s...
+
+But we can easily include older data to see what happens
+
+## Changes in pronoun use since 1900
+
+```{r}
+df |>
+  filter(year > 1900) |>
+  ggplot(aes(x = year, y = counts_permil, color = pronoun)) +
+  geom_line() +
+  geom_vline(xintercept = 1960, linetype = "dashed") +
+  labs(y = "frequency (per million)") +
+  theme(legend.position = "inside",
+        legend.position.inside = c(0.2, 0.8))
+```
+
+## Changes in pronoun use in American books, smoothed
+
+```{r}
+df |>
+  filter(year > 1900) |>
+  ggplot(aes(x = year, y = counts_permil, color = pronoun)) +
+  geom_point() +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs")) +
+  labs(y = "frequency (per million)") +
+  theme(legend.position = "inside",
+        legend.position.inside = c(0.2, 0.8))
+```
+
+## What about longer trends?
+
+Google Books has older books, so we can look back further:
+
+```{r}
+df |>
+  filter(year > 1800) |>
+  ggplot(aes(x = year, y = counts_permil, color = pronoun)) +
+  geom_point() +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs")) +
+  labs(y = "frequency (per million)") +
+  theme(legend.position = "inside",
+        legend.position.inside = c(0.7, 0.8))
+```
+
+## Works cited
