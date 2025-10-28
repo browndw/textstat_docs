@@ -209,7 +209,7 @@ $$
 - In the Results and Discussion, each tree plot (dendrogram) needs to be carefully discussed. 
 
 
-How many meaningful factors be observed in the plot?
+How may meaningful factors be observed in the plot?
 
 # K-means clustering
 
@@ -327,5 +327,5 @@ ggplot(kmeans_results, aes(x = K, y = silhouette)) +
   geom_line() +
   scale_x_continuous(breaks = kmeans_results$K,
                      minor_breaks = NULL) +
-  labs(x = K, y = "Silhouette score")
+  labs(x = "K", y = "Silhouette score")
 ```
