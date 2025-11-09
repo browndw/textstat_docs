@@ -1,9 +1,8 @@
-
 # Random Forest
 
-We're going to repeat the Federalist classification problem. Rather than a loasso regression model, however, this time we'll be constructing a random forest classification model.
+We're going to repeat the Federalist classification problem. Rather than a lasso regression model, however, this time we'll be constructing a random forest classification model.
 
-Broadly, random forests generate many classification trees. Each tree gives a classification, and we say the tree "votes" for that class. The forest chooses the classification having the most votes (over all the trees in the forest).  
+Broadly, random forests generate many classification trees. Each tree gives a classification, and we say the tree "votes" for that class. The forest chooses the classification having the most votes (over all the trees in the forest).
 
 If you're unfamiliar with random forests, you can (and should) read more here:
 
@@ -30,7 +29,7 @@ mw_group1 <- c("a", "all", "also", "an", "and", "any", "are", "as", "at", "be", 
 ```
 
 
-Their second an addional 47...
+Their second an additional 47...
 
 ```{r group_2}
 mw_group2 <- c("affect", "again", "although", "among", "another", "because", "between", "both", "city", "commonly", "consequently", "considerable", "contribute", "defensive", "destruction", "did", "direction", "disgracing", "either", "enough", "fortune", "function", "himself", "innovation", "join", "language", "most", "nor", "offensive", "often", "pass", "perhaps", "rapid", "same", "second", "still", "those", "throughout", "under", "vigor", "violate", "violence", "voice", "where", "whether", "while", "whilst")
@@ -52,17 +51,13 @@ mw_all <- sort(c(mw_group1, mw_group2, mw_group3))
 
 # *The Federalist Papers*
 
-And we'll start by setting up our data much like we did for lasso. First, we'll get the metadata...
-
-
-```{r}
-load("../data/federalist_meta.rda")
-load("../data/federalist_papers.rda")
-```
-
+And we'll start by setting up our data much like we did for lasso. First, we'll
+get the metadata, which is provided in the `cmu.textstat` package:
 
 ```{r}
-fed_meta <- federalist_meta %>%
+library(cmu.textstat)
+
+fed_meta <- federalist_meta |>
   dplyr::select(doc_id, author_id)
 ```
 
@@ -71,18 +66,29 @@ fed_meta <- federalist_meta %>%
 Now, we'll tokenize the data.
 
 ```{r}
-fed_tokens <- federalist_papers %>%
-  corpus() %>%
-  tokens(remove_punct = T, remove_symbols = T, what = "word")
+fed_tokens <- federalist_papers |>
+  corpus() |>
+  tokens(remove_punct = TRUE, remove_symbols = TRUE, what = "word")
 ```
 
 And create a weighted dfm. The 3rd line preps the column so it can be merged with our metadata. The 4th orders the tokens by their mean frequencies. This isn't necessary here, but can be useful when doing quick subsetting of variables. And the 5th changes the column name for easy joining.
 
 ```{r}
-fed_dfm <- fed_tokens %>% dfm() %>% dfm_weight(scheme = "prop") %>%
-  convert(to = "data.frame") %>%
-  mutate(doc_id = str_remove(doc_id, ".txt$")) %>%
-  select(doc_id, names(sort(colMeans(.[,-1]), decreasing = TRUE)))
+fed_dfm <- fed_tokens |>
+  dfm() |>
+  dfm_weight(scheme = "prop") |>
+  convert(to = "data.frame")
+
+# Get the tokens in decreasing order of frequency
+words_by_freq <- names(sort(colMeans(fed_dfm[, -1]), decreasing = TRUE))
+
+# Reorder columns
+fed_dfm <- fed_dfm |>
+  select(doc_id, all_of(words_by_freq))
+## fed_dfm <- fed_tokens %>% dfm() %>% dfm_weight(scheme = "prop") %>%
+##   convert(to = "data.frame") %>%
+##   mutate(doc_id = str_remove(doc_id, ".txt$")) %>%
+##   select(doc_id, names(sort(colMeans(.[,-1]), decreasing = TRUE)))
 ```
 
 Now let's join the author_id from the metadata.
@@ -90,8 +96,8 @@ Now let's join the author_id from the metadata.
 ```{r}
 #| message: false
 
-fed_dfm <- fed_dfm %>% 
-  right_join(fed_meta) %>% 
+fed_dfm <- fed_dfm |>
+  right_join(fed_meta) |>
   dplyr::select(doc_id, author_id, everything())
 ```
 
@@ -100,22 +106,25 @@ fed_dfm <- fed_dfm %>%
 Now we can subset out our training and testing data.
 
 ```{r}
-train_dfm <- fed_dfm %>% 
-  filter(author_id == "Hamilton" | author_id == "Madison") %>% 
-  dplyr::select(doc_id, author_id, all_of(mw_all)) %>%
-  mutate(author_id = factor(author_id)) %>%
+train_dfm <- fed_dfm |>
+  filter(author_id == "Hamilton" | author_id == "Madison") |>
+  dplyr::select(doc_id, author_id, all_of(mw_all)) |>
+  mutate(author_id = factor(author_id)) |>
   column_to_rownames("doc_id")
 
-# Note that some R functions have difficulty when column names are same as base function names like 'in' or 'if'.
-# To head off any problems, we'll convert the first letter to upper case.
-colnames(train_dfm)[-1] <- colnames(train_dfm)[-1] %>% str_to_title()
+# Note that some R functions have difficulty when column names are same as base
+# function names like 'in' or 'if'. To head off any problems, we'll convert the
+# first letter to upper case.
+colnames(train_dfm)[-1] <- colnames(train_dfm)[-1] |>
+  str_to_title()
 
-test_dfm <- fed_dfm %>% 
-  filter(author_id == "Disputed") %>% 
-  dplyr::select(doc_id, author_id, all_of(mw_all)) %>%
+test_dfm <- fed_dfm |>
+  filter(author_id == "Disputed") |>
+  dplyr::select(doc_id, author_id, all_of(mw_all)) |>
   column_to_rownames("doc_id")
 
-colnames(test_dfm)[-1] <- colnames(test_dfm)[-1] %>% str_to_title()
+colnames(test_dfm)[-1] <- colnames(test_dfm)[-1] |>
+  str_to_title()
 ```
 
 # Create a model
@@ -132,8 +141,8 @@ We'll set our seed. And generate a model.
 
 set.seed(123)
 
-fed_m1 <- train(author_id ~ ., data=train_dfm, 
-                method="rf", trControl = trainControl(savePredictions = "final"))
+fed_m1 <- train(author_id ~ ., data = train_dfm,
+                method = "rf", trControl = trainControl(savePredictions = "final"))
 ```
 
 ```{r}
@@ -187,24 +196,24 @@ The caret package allows you to set control parameters for the type of cross-val
 #| warning: false
 #| message: false
 
-ctrl_1 <- trainControl(method="cv",
-                     classProbs=T,
-                     savePredictions = T)
+ctrl_1 <- trainControl(method = "cv",
+                       classProbs = TRUE,
+                       savePredictions = TRUE)
 
-ctrl_2 <- trainControl(method = "repeatedcv", 
-                       number = 10, 
-                       repeats = 3, 
-                       savePredictions = TRUE, 
-                       classProbs = TRUE, 
+ctrl_2 <- trainControl(method = "repeatedcv",
+                       number = 10,
+                       repeats = 3,
+                       savePredictions = TRUE,
+                       classProbs = TRUE,
                        search = "grid")
 
-fed_m2 <- train(author_id ~ ., data=train_dfm, 
-                method="rf", preProc=c("center", "scale"), 
-                trControl=ctrl_1, metric="ROC")
+fed_m2 <- train(author_id ~ ., data = train_dfm,
+                method = "rf", preProc = c("center", "scale"),
+                trControl = ctrl_1, metric = "ROC")
 
-fed_m3 <- train(author_id ~ ., data=train_dfm, 
-                method="rf", preProc=c("center", "scale"), 
-                trControl=ctrl_2, metric="ROC")
+fed_m3 <- train(author_id ~ ., data = train_dfm,
+                method = "rf", preProc = c("center", "scale"),
+                trControl = ctrl_2, metric = "ROC")
 ```
 
 ```{r}
@@ -219,7 +228,6 @@ predict(fed_m2, test_dfm, type = "prob") |>
 predict(fed_m3, test_dfm, type = "prob") |>
   rownames_to_column("Disputed") |>
   gt()
-
 ```
 
 For a more complete evaluation of the model, we can use `evalm()` from **MLeval**:
@@ -243,6 +251,6 @@ m2_eval$roc
 ```
 
 
-Okay, we've repeated this task a couple of times now. Both times, we've taken advantage of Mosteller & Wallace's filtering of variables. This has made life much easier for us. But what if we didn't have their candidate words to feed into our models? What if we were starting from the dfm with 8765 words? How would you tackle variable selection, knowing that random forests don't do well with highly zero-skewed variables. So just feeding the entire dfm into random forest isn't going to be the best solution.
+Okay, we've repeated this task a couple of times now. Both times, we've taken advantage of Mosteller & Wallace's filtering of variables. This has made life much easier for us. But what if we didn't have their candidate words to feed into our models? What if we were starting from the dfm with 8765 words? How would you tackle variable selection, knowing that random forests don't do well with highly zero-skewed variables? So just feeding the entire dfm into random forest isn't going to be the best solution.
 
 On the one hand, more common words are certainly good candidates for a model. On the other, you don't want to throw out less frequent words that might be highly discriminatory....
