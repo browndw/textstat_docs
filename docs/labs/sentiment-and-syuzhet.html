@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.30">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../labs/time-series.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -116,7 +117,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/text_analysis.png" alt="" class="navbar-logo">
+    <img src="../images/text_analysis.png" alt="" class="navbar-logo light-content">
+    <img src="../images/text_analysis.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Text Analysis for Statistics &amp; Data Science</span>
@@ -413,35 +415,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="12.1" class="anchored" data-anchor-id="load-packages-and-data"><span class="header-section-number">12.1</span> Load packages and data</h2>
 <p>Load the package that we’ll use in this short lab.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(syuzhet)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Load data from file:</p>
+<p>Load data from <code>cmu.textstat</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/sentiment_data.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cmu.textstat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The novels that Jockers uses as examples are included as data, which can be accessed as <strong>sentiment_data</strong>. There are 4 novels, and we’ll check their names stored in the <strong>doc_id</strong> column.</p>
+<p>The novels that Jockers uses as examples are included as data, which can be accessed as <code>sentiment_data</code>. There are 4 novels, and we’ll check their names stored in the <code>doc_id</code> column.</p>
 <p>For this demonstration, we’ll be using <em>Madame Bovary</em>.</p>
 <div class="cell" data-tbl-cap="A small corpus included in the cmu.textstat package.">
 <div class="cell-output-display">
-<div id="zikpsxggfl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zikpsxggfl table {
+<div id="cmomebrmlu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cmomebrmlu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zikpsxggfl thead, #zikpsxggfl tbody, #zikpsxggfl tfoot, #zikpsxggfl tr, #zikpsxggfl td, #zikpsxggfl th {
+#cmomebrmlu thead, #cmomebrmlu tbody, #cmomebrmlu tfoot, #cmomebrmlu tr, #cmomebrmlu td, #cmomebrmlu th {
   border-style: none;
 }
 
-#zikpsxggfl p {
+#cmomebrmlu p {
   margin: 0;
   padding: 0;
 }
 
-#zikpsxggfl .gt_table {
+#cmomebrmlu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -467,12 +469,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#zikpsxggfl .gt_caption {
+#cmomebrmlu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zikpsxggfl .gt_title {
+#cmomebrmlu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -484,7 +486,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#zikpsxggfl .gt_subtitle {
+#cmomebrmlu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -496,7 +498,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#zikpsxggfl .gt_heading {
+#cmomebrmlu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -508,13 +510,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#zikpsxggfl .gt_bottom_border {
+#cmomebrmlu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zikpsxggfl .gt_col_headings {
+#cmomebrmlu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -529,7 +531,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#zikpsxggfl .gt_col_heading {
+#cmomebrmlu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -549,7 +551,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#zikpsxggfl .gt_column_spanner_outer {
+#cmomebrmlu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -561,15 +563,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#zikpsxggfl .gt_column_spanner_outer:first-child {
+#cmomebrmlu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zikpsxggfl .gt_column_spanner_outer:last-child {
+#cmomebrmlu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zikpsxggfl .gt_column_spanner {
+#cmomebrmlu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -581,11 +583,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#zikpsxggfl .gt_spanner_row {
+#cmomebrmlu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zikpsxggfl .gt_group_heading {
+#cmomebrmlu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -611,7 +613,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#zikpsxggfl .gt_empty_group_heading {
+#cmomebrmlu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -626,15 +628,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#zikpsxggfl .gt_from_md > :first-child {
+#cmomebrmlu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zikpsxggfl .gt_from_md > :last-child {
+#cmomebrmlu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zikpsxggfl .gt_row {
+#cmomebrmlu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -653,7 +655,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#zikpsxggfl .gt_stub {
+#cmomebrmlu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -666,7 +668,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#zikpsxggfl .gt_stub_row_group {
+#cmomebrmlu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -680,15 +682,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#zikpsxggfl .gt_row_group_first td {
+#cmomebrmlu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zikpsxggfl .gt_row_group_first th {
+#cmomebrmlu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zikpsxggfl .gt_summary_row {
+#cmomebrmlu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -698,16 +700,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#zikpsxggfl .gt_first_summary_row {
+#cmomebrmlu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zikpsxggfl .gt_first_summary_row.thick {
+#cmomebrmlu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zikpsxggfl .gt_last_summary_row {
+#cmomebrmlu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -717,7 +719,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#zikpsxggfl .gt_grand_summary_row {
+#cmomebrmlu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -727,7 +729,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#zikpsxggfl .gt_first_grand_summary_row {
+#cmomebrmlu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -737,7 +739,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#zikpsxggfl .gt_last_grand_summary_row_top {
+#cmomebrmlu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -747,11 +749,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#zikpsxggfl .gt_striped {
+#cmomebrmlu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zikpsxggfl .gt_table_body {
+#cmomebrmlu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -760,7 +762,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#zikpsxggfl .gt_footnotes {
+#cmomebrmlu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -774,7 +776,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#zikpsxggfl .gt_footnote {
+#cmomebrmlu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -783,7 +785,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#zikpsxggfl .gt_sourcenotes {
+#cmomebrmlu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -797,7 +799,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#zikpsxggfl .gt_sourcenote {
+#cmomebrmlu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -805,77 +807,77 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#zikpsxggfl .gt_left {
+#cmomebrmlu .gt_left {
   text-align: left;
 }
 
-#zikpsxggfl .gt_center {
+#cmomebrmlu .gt_center {
   text-align: center;
 }
 
-#zikpsxggfl .gt_right {
+#cmomebrmlu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zikpsxggfl .gt_font_normal {
+#cmomebrmlu .gt_font_normal {
   font-weight: normal;
 }
 
-#zikpsxggfl .gt_font_bold {
+#cmomebrmlu .gt_font_bold {
   font-weight: bold;
 }
 
-#zikpsxggfl .gt_font_italic {
+#cmomebrmlu .gt_font_italic {
   font-style: italic;
 }
 
-#zikpsxggfl .gt_super {
+#cmomebrmlu .gt_super {
   font-size: 65%;
 }
 
-#zikpsxggfl .gt_footnote_marks {
+#cmomebrmlu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zikpsxggfl .gt_asterisk {
+#cmomebrmlu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zikpsxggfl .gt_indent_1 {
+#cmomebrmlu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zikpsxggfl .gt_indent_2 {
+#cmomebrmlu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zikpsxggfl .gt_indent_3 {
+#cmomebrmlu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zikpsxggfl .gt_indent_4 {
+#cmomebrmlu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zikpsxggfl .gt_indent_5 {
+#cmomebrmlu .gt_indent_5 {
   text-indent: 25px;
 }
 
-#zikpsxggfl .katex-display {
+#cmomebrmlu .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#zikpsxggfl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#cmomebrmlu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <caption>A small corpus included in the cmu.textstat package.</caption>
 <thead>
 <tr class="gt_col_headings header">
@@ -904,37 +906,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="prep-the-data-and-calculate-sentiment" class="level2" data-number="12.2">
 <h2 data-number="12.2" class="anchored" data-anchor-id="prep-the-data-and-calculate-sentiment"><span class="header-section-number">12.2</span> Prep the data and calculate sentiment</h2>
-<p>Next, we do some simple cleaning using <strong>str_squish</strong> from the <strong>stringr</strong> package. Then we’ll split the the novel into sentences and calculate a sentiment score for each.</p>
+<p>Next, we do some simple cleaning using <code>str_squish</code> from the <code>stringr</code> package. Then we’ll split the the novel into sentences and calculate a sentiment score for each.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str_squish() is a useful function from readr for getting rid of extra spaces, carriage returns, etc.</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mb <span class="ot">&lt;-</span> <span class="fu">str_squish</span>(sentiment_data<span class="sc">$</span>text[<span class="dv">1</span>])</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># chunk the novel into sentences</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>mb_sentences <span class="ot">&lt;-</span> <span class="fu">get_sentences</span>(mb)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate and return sentiment scores</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>mb_sentiment <span class="ot">&lt;-</span> <span class="fu">get_sentiment</span>(mb_sentences)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str_squish() is a useful function from readr for getting rid of extra spaces,</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># carriage returns, etc.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>mb <span class="ot">&lt;-</span> <span class="fu">str_squish</span>(sentiment_data<span class="sc">$</span>text[<span class="dv">1</span>])</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># chunk the novel into sentences</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>mb_sentences <span class="ot">&lt;-</span> <span class="fu">get_sentences</span>(mb)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate and return sentiment scores</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>mb_sentiment <span class="ot">&lt;-</span> <span class="fu">get_sentiment</span>(mb_sentences)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s check the data:</p>
 <div class="cell" data-tbl-cap="Sample sentiment scores.">
 <div class="cell-output-display">
-<div id="azsrfbeaej" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#azsrfbeaej table {
+<div id="torbboptaj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#torbboptaj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#azsrfbeaej thead, #azsrfbeaej tbody, #azsrfbeaej tfoot, #azsrfbeaej tr, #azsrfbeaej td, #azsrfbeaej th {
+#torbboptaj thead, #torbboptaj tbody, #torbboptaj tfoot, #torbboptaj tr, #torbboptaj td, #torbboptaj th {
   border-style: none;
 }
 
-#azsrfbeaej p {
+#torbboptaj p {
   margin: 0;
   padding: 0;
 }
 
-#azsrfbeaej .gt_table {
+#torbboptaj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -960,12 +963,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#azsrfbeaej .gt_caption {
+#torbboptaj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#azsrfbeaej .gt_title {
+#torbboptaj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -977,7 +980,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#azsrfbeaej .gt_subtitle {
+#torbboptaj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -989,7 +992,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#azsrfbeaej .gt_heading {
+#torbboptaj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1001,13 +1004,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#azsrfbeaej .gt_bottom_border {
+#torbboptaj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#azsrfbeaej .gt_col_headings {
+#torbboptaj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1022,7 +1025,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#azsrfbeaej .gt_col_heading {
+#torbboptaj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1042,7 +1045,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#azsrfbeaej .gt_column_spanner_outer {
+#torbboptaj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1054,15 +1057,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#azsrfbeaej .gt_column_spanner_outer:first-child {
+#torbboptaj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#azsrfbeaej .gt_column_spanner_outer:last-child {
+#torbboptaj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#azsrfbeaej .gt_column_spanner {
+#torbboptaj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1074,11 +1077,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#azsrfbeaej .gt_spanner_row {
+#torbboptaj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#azsrfbeaej .gt_group_heading {
+#torbboptaj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1104,7 +1107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#azsrfbeaej .gt_empty_group_heading {
+#torbboptaj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1119,15 +1122,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#azsrfbeaej .gt_from_md > :first-child {
+#torbboptaj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#azsrfbeaej .gt_from_md > :last-child {
+#torbboptaj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#azsrfbeaej .gt_row {
+#torbboptaj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1146,7 +1149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#azsrfbeaej .gt_stub {
+#torbboptaj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1159,7 +1162,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#azsrfbeaej .gt_stub_row_group {
+#torbboptaj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1173,15 +1176,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#azsrfbeaej .gt_row_group_first td {
+#torbboptaj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#azsrfbeaej .gt_row_group_first th {
+#torbboptaj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#azsrfbeaej .gt_summary_row {
+#torbboptaj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1191,16 +1194,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#azsrfbeaej .gt_first_summary_row {
+#torbboptaj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#azsrfbeaej .gt_first_summary_row.thick {
+#torbboptaj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#azsrfbeaej .gt_last_summary_row {
+#torbboptaj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1210,7 +1213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#azsrfbeaej .gt_grand_summary_row {
+#torbboptaj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1220,7 +1223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#azsrfbeaej .gt_first_grand_summary_row {
+#torbboptaj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1230,7 +1233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#azsrfbeaej .gt_last_grand_summary_row_top {
+#torbboptaj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1240,11 +1243,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#azsrfbeaej .gt_striped {
+#torbboptaj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#azsrfbeaej .gt_table_body {
+#torbboptaj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1253,7 +1256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#azsrfbeaej .gt_footnotes {
+#torbboptaj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1267,7 +1270,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#azsrfbeaej .gt_footnote {
+#torbboptaj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1276,7 +1279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#azsrfbeaej .gt_sourcenotes {
+#torbboptaj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1290,7 +1293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#azsrfbeaej .gt_sourcenote {
+#torbboptaj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1298,77 +1301,77 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#azsrfbeaej .gt_left {
+#torbboptaj .gt_left {
   text-align: left;
 }
 
-#azsrfbeaej .gt_center {
+#torbboptaj .gt_center {
   text-align: center;
 }
 
-#azsrfbeaej .gt_right {
+#torbboptaj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#azsrfbeaej .gt_font_normal {
+#torbboptaj .gt_font_normal {
   font-weight: normal;
 }
 
-#azsrfbeaej .gt_font_bold {
+#torbboptaj .gt_font_bold {
   font-weight: bold;
 }
 
-#azsrfbeaej .gt_font_italic {
+#torbboptaj .gt_font_italic {
   font-style: italic;
 }
 
-#azsrfbeaej .gt_super {
+#torbboptaj .gt_super {
   font-size: 65%;
 }
 
-#azsrfbeaej .gt_footnote_marks {
+#torbboptaj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#azsrfbeaej .gt_asterisk {
+#torbboptaj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#azsrfbeaej .gt_indent_1 {
+#torbboptaj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#azsrfbeaej .gt_indent_2 {
+#torbboptaj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#azsrfbeaej .gt_indent_3 {
+#torbboptaj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#azsrfbeaej .gt_indent_4 {
+#torbboptaj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#azsrfbeaej .gt_indent_5 {
+#torbboptaj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#azsrfbeaej .katex-display {
+#torbboptaj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#azsrfbeaej div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#torbboptaj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <caption>Sample sentiment scores.</caption>
 <thead>
 <tr class="gt_col_headings header">
@@ -1421,32 +1424,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 <p>This introduced some unwanted outcomes, namely that the resulting wave-forms must begin and end at the same point. The updated function uses a Discrete Cosine Transform (DCT), which is commonly used in data compression.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mb_dct <span class="ot">&lt;-</span> <span class="fu">get_dct_transform</span>(mb_sentiment, <span class="at">low_pass_size =</span> <span class="dv">5</span>, <span class="at">x_reverse_len =</span> <span class="dv">100</span>, <span class="at">scale_vals =</span> <span class="cn">FALSE</span>, <span class="at">scale_range =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>mb_dct <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dct =</span> mb_dct) <span class="sc">%&gt;%</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"time"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> <span class="fu">as.numeric</span>(time))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mb_dct <span class="ot">&lt;-</span> <span class="fu">get_dct_transform</span>(mb_sentiment, <span class="at">low_pass_size =</span> <span class="dv">5</span>, <span class="at">x_reverse_len =</span> <span class="dv">100</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">scale_vals =</span> <span class="cn">FALSE</span>, <span class="at">scale_range =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>mb_dct <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dct =</span> mb_dct) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"time"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> <span class="fu">as.numeric</span>(time))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Check the data:</p>
 <div class="cell" data-tbl-cap="Sample transformed scores.">
 <div class="cell-output-display">
-<div id="jggsszntse" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jggsszntse table {
+<div id="bgkcpsiqqg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#bgkcpsiqqg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jggsszntse thead, #jggsszntse tbody, #jggsszntse tfoot, #jggsszntse tr, #jggsszntse td, #jggsszntse th {
+#bgkcpsiqqg thead, #bgkcpsiqqg tbody, #bgkcpsiqqg tfoot, #bgkcpsiqqg tr, #bgkcpsiqqg td, #bgkcpsiqqg th {
   border-style: none;
 }
 
-#jggsszntse p {
+#bgkcpsiqqg p {
   margin: 0;
   padding: 0;
 }
 
-#jggsszntse .gt_table {
+#bgkcpsiqqg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1472,12 +1476,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#jggsszntse .gt_caption {
+#bgkcpsiqqg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jggsszntse .gt_title {
+#bgkcpsiqqg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1489,7 +1493,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#jggsszntse .gt_subtitle {
+#bgkcpsiqqg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1501,7 +1505,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#jggsszntse .gt_heading {
+#bgkcpsiqqg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1513,13 +1517,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jggsszntse .gt_bottom_border {
+#bgkcpsiqqg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jggsszntse .gt_col_headings {
+#bgkcpsiqqg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1534,7 +1538,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jggsszntse .gt_col_heading {
+#bgkcpsiqqg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1554,7 +1558,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#jggsszntse .gt_column_spanner_outer {
+#bgkcpsiqqg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1566,15 +1570,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#jggsszntse .gt_column_spanner_outer:first-child {
+#bgkcpsiqqg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jggsszntse .gt_column_spanner_outer:last-child {
+#bgkcpsiqqg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jggsszntse .gt_column_spanner {
+#bgkcpsiqqg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1586,11 +1590,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#jggsszntse .gt_spanner_row {
+#bgkcpsiqqg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jggsszntse .gt_group_heading {
+#bgkcpsiqqg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1616,7 +1620,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#jggsszntse .gt_empty_group_heading {
+#bgkcpsiqqg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1631,15 +1635,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#jggsszntse .gt_from_md > :first-child {
+#bgkcpsiqqg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jggsszntse .gt_from_md > :last-child {
+#bgkcpsiqqg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jggsszntse .gt_row {
+#bgkcpsiqqg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1658,7 +1662,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#jggsszntse .gt_stub {
+#bgkcpsiqqg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1671,7 +1675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jggsszntse .gt_stub_row_group {
+#bgkcpsiqqg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1685,15 +1689,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#jggsszntse .gt_row_group_first td {
+#bgkcpsiqqg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jggsszntse .gt_row_group_first th {
+#bgkcpsiqqg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jggsszntse .gt_summary_row {
+#bgkcpsiqqg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1703,16 +1707,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jggsszntse .gt_first_summary_row {
+#bgkcpsiqqg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jggsszntse .gt_first_summary_row.thick {
+#bgkcpsiqqg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jggsszntse .gt_last_summary_row {
+#bgkcpsiqqg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1722,7 +1726,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jggsszntse .gt_grand_summary_row {
+#bgkcpsiqqg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1732,7 +1736,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jggsszntse .gt_first_grand_summary_row {
+#bgkcpsiqqg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1742,7 +1746,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#jggsszntse .gt_last_grand_summary_row_top {
+#bgkcpsiqqg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1752,11 +1756,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jggsszntse .gt_striped {
+#bgkcpsiqqg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jggsszntse .gt_table_body {
+#bgkcpsiqqg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1765,7 +1769,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jggsszntse .gt_footnotes {
+#bgkcpsiqqg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1779,7 +1783,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jggsszntse .gt_footnote {
+#bgkcpsiqqg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1788,7 +1792,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jggsszntse .gt_sourcenotes {
+#bgkcpsiqqg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1802,7 +1806,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jggsszntse .gt_sourcenote {
+#bgkcpsiqqg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1810,77 +1814,77 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jggsszntse .gt_left {
+#bgkcpsiqqg .gt_left {
   text-align: left;
 }
 
-#jggsszntse .gt_center {
+#bgkcpsiqqg .gt_center {
   text-align: center;
 }
 
-#jggsszntse .gt_right {
+#bgkcpsiqqg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jggsszntse .gt_font_normal {
+#bgkcpsiqqg .gt_font_normal {
   font-weight: normal;
 }
 
-#jggsszntse .gt_font_bold {
+#bgkcpsiqqg .gt_font_bold {
   font-weight: bold;
 }
 
-#jggsszntse .gt_font_italic {
+#bgkcpsiqqg .gt_font_italic {
   font-style: italic;
 }
 
-#jggsszntse .gt_super {
+#bgkcpsiqqg .gt_super {
   font-size: 65%;
 }
 
-#jggsszntse .gt_footnote_marks {
+#bgkcpsiqqg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jggsszntse .gt_asterisk {
+#bgkcpsiqqg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jggsszntse .gt_indent_1 {
+#bgkcpsiqqg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jggsszntse .gt_indent_2 {
+#bgkcpsiqqg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jggsszntse .gt_indent_3 {
+#bgkcpsiqqg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jggsszntse .gt_indent_4 {
+#bgkcpsiqqg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jggsszntse .gt_indent_5 {
+#bgkcpsiqqg .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jggsszntse .katex-display {
+#bgkcpsiqqg .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jggsszntse div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#bgkcpsiqqg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <caption>Sample transformed scores.</caption>
 <thead>
 <tr class="gt_col_headings header">
@@ -1937,12 +1941,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Finally, the values can be plotted.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mb_dct, <span class="at">type =</span><span class="st">"l"</span>, <span class="at">xlab =</span> <span class="st">"Narrative Time"</span>, <span class="at">ylab =</span> <span class="st">"Emotional Valence"</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mb_dct, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">xlab =</span> <span class="st">"Narrative Time"</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Emotional Valence"</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="sentiment-and-syuzhet_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Sentiment in using transformed values.</figcaption>
+<figcaption>Sentiment in <em>Madame Bovary</em> using transformed values.</figcaption>
 </figure>
 </div>
 </div>
@@ -1952,20 +1957,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="12.4" class="anchored" data-anchor-id="transformed-vs.-non-transformed-data"><span class="header-section-number">12.4</span> Transformed vs.&nbsp;non-transformed data</h2>
 <p>In order to better compare the before vs.&nbsp;after, let’s create a data frame in which we normalize the narrative time values and scale the sentiment scores.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mb_df <span class="ot">&lt;-</span> mb_sentiment <span class="sc">%&gt;%</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">sentiment =</span> .) <span class="sc">%&gt;%</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"time"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> <span class="fu">as.numeric</span>(time)) <span class="sc">%&gt;%</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> time<span class="sc">/</span><span class="fu">length</span>(mb_sentiment)<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment =</span> <span class="dv">2</span> <span class="sc">*</span> (sentiment <span class="sc">-</span> <span class="fu">min</span>(sentiment))<span class="sc">/</span>( <span class="fu">max</span>(sentiment) <span class="sc">-</span> <span class="fu">min</span>(sentiment)) <span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mb_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">sentiment =</span> mb_sentiment) <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"time"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> <span class="fu">as.numeric</span>(time)) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> time <span class="sc">/</span> <span class="fu">length</span>(mb_sentiment) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment =</span> <span class="dv">2</span> <span class="sc">*</span> (sentiment <span class="sc">-</span> <span class="fu">min</span>(sentiment)) <span class="sc">/</span> (<span class="fu">max</span>(sentiment) <span class="sc">-</span> <span class="fu">min</span>(sentiment)) <span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now, those values can be plotted with the values extracted from DCT.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mb_dct, <span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>dct)) <span class="sc">+</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour=</span> <span class="st">"tomato"</span>) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>mb_df, <span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>sentiment), <span class="at">alpha=</span><span class="fl">0.25</span>, <span class="at">size=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Normalized Narrative Time"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Scaled Sentiment"</span>) <span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mb_dct, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> dct)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">"tomato"</span>) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> mb_df, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> sentiment),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.25</span>, <span class="at">size =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Normalized Narrative Time"</span>) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Scaled Sentiment"</span>) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1981,7 +1987,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Pause for Lab Set Question
+<span class="screen-reader-only">Important</span>Pause for Lab Set Question
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -2044,13 +2050,14 @@ Pause for Lab Set Question
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
