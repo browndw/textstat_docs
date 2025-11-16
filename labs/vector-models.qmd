@@ -1,0 +1,233 @@
+# Introduction to Vector Models and Word Embeddings
+
+This is a quick walk-through tutorial on using vector models. This lab only uses word2vec, which is old but has the advantage of being simple and easy to train. It's possible to get embeddings from modern large language models, but this requires installing a lot more software (and is much easier in Python).
+
+```{r setup}
+library(tidyverse)
+library(gt)
+
+library(Rtsne)
+library(word2vec)
+library(cmu.textstat)
+```
+
+## Basics
+
+The `word2vec` package implements the original word2vec training algorithm. Let's run it on our corpus of Shakespeare plays, extracting specifically the dialogue.
+
+```{r}
+dialogue <- from_play(shakespeare_corpus, "dialogue")
+
+model <- word2vec(txt_clean_word2vec(dialogue$text))
+```
+
+Now we can get embeddings of words using `predict()`:
+
+```{r}
+predict(model, c("dog", "cat"),
+        type = "embedding")
+```
+
+We can see it defaulted to 50-dimensional embeddings. We can do higher dimensions, and large language models usually do, but using those dimensions effectively requires having an enormous training corpus.
+
+We can also get the entire embedding matrix. Using it, we can measure the cosine similarity between words, for instance to find the 10 most similar words to "cat" and "dog":
+
+```{r}
+embeds <- as.matrix(model)
+
+word2vec_similarity(embeds[c("cat", "dog"), ], embeds, top_n = 10, 
+                    type = "cosine")
+```
+
+For a more substantive comparison, let's look at the most similar words to "queen" and "prince" to see how the embeddings capture semantic meaning:
+
+```{r}
+word2vec_similarity(embeds[c("queen", "prince"), ], embeds, top_n = 10, 
+                    type = "cosine")
+```
+
+Shakespeare is fun, but to explore the embeddings of other texts, we should probably create word embeddings based on more modern English. Let's use the Brown corpus. Training the embeddings is easy if you have the corpus.
+
+**Don't run this code chunk!** Instead, skip to the next chunk where we read in the saved embeddings, which you can download from Canvas and save in the same directory as this lab.
+
+```{r}
+#| eval: false
+library(quanteda.extras)
+
+brown <- readtext_lite(list.files("../data/brown_corpus/", pattern = ".*.txt", full.names = TRUE))
+brown_model <- word2vec(txt_clean_word2vec(brown$text))
+write.word2vec(brown_model, "brown.bin")
+```
+
+Here we load the saved pre-made embeddings:
+
+```{r}
+brown_model <- read.word2vec("brown.bin")
+```
+
+## Example from the MICUSP data
+
+Let's try embedding the essays in MICUSP. The `doc2vec()` function calculates the average embedding for all words in a document, so we can get a single embedding for the whole document. First we preprocess the text:
+
+```{r}
+df <- micusp_mini |>
+  mutate(text = preprocess_text(text, remove_numbers = TRUE))
+```
+
+Now let's get the embeddings of each essay:
+
+```{r}
+doc_embeddings <- doc2vec(brown_model, df)
+```
+
+We can also use `word2vec_similarity()` to find the closest documents to a chosen document, using cosine similarity.
+
+```{r}
+closest_docs <- function(doc_id, embeddings) {
+  sims <- word2vec_similarity(embeddings, embeddings[doc_id, , drop = FALSE])
+  
+  data.frame(
+    doc_id = rownames(sims),
+    similarity = unname(sims[, 1])
+  ) |> arrange(desc(similarity))
+}
+```
+
+For a biology essay:
+
+```{r}
+closest_docs("BIO.G0.02.1", doc_embeddings) |> gt()
+```
+
+For an English essay:
+
+```{r}
+closest_docs("ENG.G2.04.1", doc_embeddings) |> gt()
+```
+
+## Plotting
+
+We can reduce the 50-dimensional embeddings down to 2 dimensions. A simple way to do this is PCA, but PCA only can do linear combinations of variables. Instead, we'll try t-SNE, which does nonlinear dimension reduction and can handle more complex structures.
+
+```{r}
+doc_tsne <- Rtsne(doc_embeddings, check_duplicates = FALSE, pca = FALSE,
+                  perplexity = 5, theta = 0.5, dims = 2)
+
+doc_tsne <- data.frame(
+  doc_id = rownames(doc_embeddings),
+  subject = substr(rownames(doc_embeddings), 1, 3),
+  X1 = doc_tsne$Y[, 1],
+  X2 = doc_tsne$Y[, 2]
+)
+```
+
+```{r}
+#| fig-height: 4
+#| fig-width: 7
+#| fig-cap: "Embeddings of MICUSP Mini corpus."
+library(ggrepel)
+
+ggplot(doc_tsne, aes(x = X1, y = X2, color = subject)) +
+  geom_point() +
+  # geom_text_repel(aes(label = doc_id)) +
+  theme_bw()
+```
+
+Do you notice patterns? Do subjects group together? In two dimensions any separation will be less stark than in 50 dimensions, but it is still impressive that the embeddings capture this structure.
+
+## Multi-class classification
+
+We can also use the embeddings in a classification task. Here we have 50 variables, 170 documents, and 17 classes. That's not a lot of data, but perhaps this demonstrates how we'd approach classification in a much larger dataset.
+
+We'll create a random forest, following our previous lab on random forests. This will take a moment to run:
+
+```{r}
+trainset <- data.frame(doc_embeddings) |> 
+  mutate(subject = substr(rownames(doc_embeddings), 1, 3))
+
+train(subject ~ ., data = trainset, 
+      method = "rf", trControl = trainControl(savePredictions = "final"))
+```
+Review the accuracy results reported. They are not very high, but how do they compare to simple random guessing?
+
+## Example from the Federalist Papers
+
+Let's use the embeddings of the *Federalist Papers* to try to study the authorship problem. First we clean the data and get the embeddings:
+
+```{r}
+#| message: false
+fed_txt <- federalist_papers |>
+  left_join(federalist_meta) |>
+  filter(author_id %in% c("Hamilton", "Madison", "Disputed")) |>
+  mutate(text = preprocess_text(text, remove_numbers = TRUE))
+
+fed_embeddings <- doc2vec(brown_model, fed_txt)
+```
+
+For kicks, let's do t-SNE again and see if the authors are separated in the embeddings:
+
+```{r}
+fed_tsne <- Rtsne(fed_embeddings, check_duplicates = FALSE, pca = FALSE,
+                  perplexity = 5, theta = 0.5, dims = 2)
+
+fed_tsne <- data.frame(
+  doc_id = rownames(fed_embeddings),
+  author = fed_txt$author_id,
+  X1 = fed_tsne$Y[, 1],
+  X2 = fed_tsne$Y[, 2]
+)
+
+ggplot(fed_tsne, aes(x = X1, y = X2, color = author)) +
+  geom_point() +
+  theme_bw()
+```
+
+Of course, the plot is reducing 50-dimensional space down to 2, so maybe they'd be easier to separate in 50 dimensions. We can test that by fitting a model. First, let's sample training and test data:
+
+```{r}
+train <- fed_txt |>
+  filter(author_id %in% c("Hamilton", "Madison"))
+
+  # group_by(author_id) %>%
+  # sample_n(14) %>%
+  # ungroup()
+
+test <- fed_txt |>
+  filter(author_id == "Disputed")
+```
+
+We'll use lasso, like we did in the original lab:
+
+```{r}
+#| message: false
+
+library(glmnet)
+
+train_embeddings <- fed_embeddings[train$doc_id, ]
+train_labels <- train$author_id
+
+cv_fit <- cv.glmnet(train_embeddings, train_labels, family = "binomial")
+```
+
+We could print out the non-zero coefficients, but the embeddings are not interpretable, so it's not very meaningful to know that embeddding 27 is zero and 28 is not.
+
+
+### Create a matrix from the test set and predict author
+
+```{r}
+test_embeddings <- fed_embeddings[test$doc_id, ]
+
+lasso_prob <- predict(cv_fit, newx = test_embeddings, type = "response")
+```
+
+### Check results
+
+```{r}
+data.frame(Paper = rownames(lasso_prob), Prob = lasso_prob[, 1]) |>
+  mutate(Author = ifelse(lasso_prob > 0.5, "Madison", "Hamilton")) |>
+  gt() |>
+  fmt_number(columns = "Prob",
+             decimals = 2)
+```
+Of course, we don't expect this to match perfectly. Embeddings capture the subject and meaning of the papers, *not* their writing style, so we're really using the *topics* to classify them, not stylometry.
+Compare this to your results from the original Federalist Papers lab.
