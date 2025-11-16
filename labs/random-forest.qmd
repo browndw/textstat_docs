@@ -85,10 +85,6 @@ words_by_freq <- names(sort(colMeans(fed_dfm[, -1]), decreasing = TRUE))
 # Reorder columns
 fed_dfm <- fed_dfm |>
   select(doc_id, all_of(words_by_freq))
-## fed_dfm <- fed_tokens %>% dfm() %>% dfm_weight(scheme = "prop") %>%
-##   convert(to = "data.frame") %>%
-##   mutate(doc_id = str_remove(doc_id, ".txt$")) %>%
-##   select(doc_id, names(sort(colMeans(.[,-1]), decreasing = TRUE)))
 ```
 
 Now let's join the author_id from the metadata.
