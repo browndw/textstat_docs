@@ -27,7 +27,7 @@ book:
         - labs/cluster-analysis.qmd
         - labs/time-series.qmd
         - labs/sentiment-and-syuzhet.qmd
-        # - labs/vector-models.qmd
+        - labs/vector-models.qmd
         - labs/geospacial-mapping.qmd
         - labs/random-forest.qmd
     - part: Labs Sets
