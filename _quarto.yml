@@ -51,6 +51,7 @@ book:
          - lectures/embed_factor-analysis.qmd
          - lectures/embed_cluster-analysis.qmd
          - lectures/embed_time-series.qmd
+         - lectures/embed_sentiment-analysis.qmd
          
 bibliography: references.bib
 

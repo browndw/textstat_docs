@@ -1,0 +1,4 @@
+
+## Sentiment Analysis
+
+{{< revealjs file="slides/lec_sentiment-analysis.html" height="500px" class="ratio ratio-16x9" >}}
