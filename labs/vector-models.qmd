@@ -9,6 +9,7 @@ library(gt)
 library(Rtsne)
 library(word2vec)
 library(cmu.textstat)
+library(quanteda.extras)
 ```
 
 ## Basics
@@ -142,6 +143,8 @@ We can also use the embeddings in a classification task. Here we have 50 variabl
 We'll create a random forest, following our previous lab on random forests. This will take a moment to run:
 
 ```{r}
+library(caret)
+
 trainset <- data.frame(doc_embeddings) |> 
   mutate(subject = substr(rownames(doc_embeddings), 1, 3))
 
