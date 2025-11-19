@@ -1,0 +1,254 @@
+---
+title: "Text Embeddings"
+format: 
+  clean-revealjs:
+    transition: fade
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Alex Reinhart
+    email: areinhar@stat.cmu.edu
+    orcid: 0000-0002-6658-514X
+    affiliations: Statistics & Data Science 36-468/668
+  - name: David Brown
+    orcid: 0000-0001-7745-6354
+    email: dwb2@andrew.cmu.edu
+    affiliations: Dept. of English
+date: last-modified
+date-format: "[Fall] YYYY"
+title-slide-attributes: 
+  data-background-image: img/img_shared/text_analysis.png
+  data-background-size: 5%
+  data-background-position: 30% 50%
+bibliography: refs/refs_embeddings.bib
+---
+
+# Constructing embeddings
+
+## Embedding text in a vector space
+
+**Q:** How do I do a (regression, classification, etc.) using text as an input?
+
+**A:** Turn the text into numbers so it's a standard statistics problem
+
+. . .
+
+But how to turn text into numbers?
+
+## Standard text representations
+
+- Document-term matrices
+  - $N$ documents, $V$ words, $N \times V$ matrix of word counts
+- Document-feature matrices
+  - $N$ documents, $P$ features (Biber, Docuscope, whatever), $N \times P$ matrix of feature counts
+- One-hot encoding
+  - $N$ documents, $W$ words, $V$ unique words, $W \times V$ matrix of dummy variables
+
+. . .
+
+- These all put text into $\mathbb{R}^p$
+- None are satisfying: they don't give *structure* to $\mathbb{R}^p$
+
+## What does "structure" mean
+
+- In a regression problem where $X \in \mathbb{R}^p$ is used to predict $Y$, we assume observations with similar $X$ values have similar $Y$ values
+  - "Similar" might mean the difference is linearly proportional to the distance (linear model)
+  - Or that we locally average the $Y$s (kernel smoother)
+  - Or that we divide $X$ into regions with similar values (decision tree)
+
+. . .
+
+- Do any of our text encodings have this property?
+
+## Constructing better embeddings
+
+- It would be better if we could "embed" words in $\mathbb{R}^p$ such that
+  - semantically similar words are near each other
+  - semantically different words are far from each other
+- This produces a $V \times p$ matrix of word embedding vectors
+- But how do we choose the embeddings?
+
+## Construct the co-occurrence matrix:
+
+Imagine a $V \times V$ matrix whose entries count how often words $v_i$ and $v_j$ occur near each other in a corpus:
+
+| | Word 1 | Word 2 | Word 3 | ... |
+|---|---|---|---|---|
+| **Word 1** | $v_{11}$ | $v_{12}$ | $v_{13}$ | ... |
+| **Word 2** | $v_{21}$ | $v_{22}$ | $v_{23}$ | ... |
+| **Word 3** | $v_{31}$ | $v_{32}$ | $v_{33}$ | ... |
+| ... | ... | ... | ... | ... |
+
+Call this $C$, the co-occurrence matrix
+
+. . .
+
+What does $C^{T} C$ do?
+
+::: {.notes}
+
+takes inner product of co-occurrence vectors. If centered, that's like correlation
+
+:::
+
+## What if we do PCA?
+
+We could do PCA on the co-occurrence matrix $C$:
+
+- Finds dimensions that explain most of the variation in co-occurrence patterns
+- If co-occurrence = meaning, this finds dimensions that explain variation in meaning!
+- Dimensions are based on linear combinations of co-occurrences
+
+We can produce a $V \times p$ embedding matrix $E$ by taking the first $p$ principal components
+
+## word2vec
+
+- PCA isn't very good at embeddings, but we can do better
+- word2vec [@Mikolov:2013] takes the next step by optimizing what we actually want
+
+. . .
+
+- We want a $V \times p$ matrix $E$ such that
+  - $p$ can be much smaller than $V$
+  - if $E_i$ is the vector for word $i$, $E_i \cdot E_j$ is proportional to how similar $i$ and $j$ are
+
+## The skip-gram model
+
+1. Observe some text:
+
+  > It was a dark and stormy night; the rain fell in torrents, except at occasional intervals, when it was checked by a violent gust of wind which swept up the streets (for it is in London that our scene lies), rattling along the housetops, and fiercely agitating the scanty flame of the lamps that struggled against the darkness. (Edward George Bulwer-Lytton)
+
+2. Initialize two matrices, $E$ and $E'$, with random numbers
+
+3. Choose a window size $N$
+
+## A single classification task
+
+night: and, stormy, the, rain
+
+- $E_\text{night} \cdot E'_\text{and}$, $E_\text{night} \cdot E'_\text{stormy}$, $E_\text{night} \cdot E'_\text{the}$, $E_\text{night} \cdot E'_\text{rain}$ should all be large
+- Should be small for all other words
+- That is, context words can be predicted from the target word
+
+. . .
+
+Use the softmax, Luke:
+
+$$
+\frac{e^{E_\text{night} \cdot E'_\text{and}}}{\sum_{w'} e^{E_\text{night} \cdot E'_w}} \in (0, 1)
+$$
+
+## Make this a regression problem
+
+- Repeat for every word in every context
+- We can turn this into a multinomial logistic regression problem! If that's a probability, take the log-odds and write out a log-likelihood $\ell(E, E')$
+- ...but there are no regression coefficients
+- Instead, we calculate
+  $$
+  \frac{\partial \ell}{\partial E} \qquad \text{and} \qquad \frac{\partial \ell}{\partial E'}
+  $$
+  and move $E$ and $E'$ to improve the likelihood
+- That looks like gradient descent!
+
+## Continuous bag-of-words (CBOW)
+
+- Skip-gram approach has a very big likelihood (for every word, sum over all the other words)
+- This can be bypassed with negative sampling (sample *some* words from the rest of the corpus, not all)
+
+. . .
+
+
+- Or we can change the training entirely:
+  - Want $E_\text{night} \cdot (E'_\text{and} + E'_\text{stormy} + E'_\text{the} + E'_\text{rain})$ to be large
+  - That is, the target word can be predicted from the context
+- Can set up a likelihood the same way
+
+## Pre-trained models
+
+- Both approaches lead to good embeddings; in both cases, keep $E$ and throw away $E'$, or just average them together
+- There are plenty of *pre-trained* models that have been fed huge corpora
+  - Google has a word2vec trained on Google News
+  - Uses 100 billion words of news articles
+  - $V = {}$ 3 million, $p = 300$
+
+## Embedding demo
+
+<https://projector.tensorflow.org/>
+
+## Extensions
+
+- word2vec treats every form of the word as having a different embedding: defenestrate, defenestrates, defenestrated, ...
+- We could lemmatize first, but the forms *are* different
+- fasText [@Bojanowski:2016] breaks each word into multiple $n$-grams and makes its embedding the sum of its $n$-gram embeddings
+  - *defenestrate* becomes *<def*, *efe*, ..., *ate>*, *<defenestrate>*, where each has an embedding of its own
+  - Trained in the same fashion as word2vec
+
+## From words to sentences
+
+If our subject of interest is a whole (sentence, paragraph, text), how do we get an embedding?
+
+1. Just average the word embeddings. Surprisingly, works, but not always very well
+2. Average the word embeddings, weighted (so "the" is weighted less than content words), e.g., with TF-IDF
+3. Extend word2vec to generate document vectors: doc2vec [@Le:2014]
+4. Use an LLM
+
+# Using embeddings
+
+## Sentiment analysis
+
+1. Build a dataset of texts labeled by sentiment
+2. Get their embeddings
+3. Fit your favorite classifier!
+
+. . .
+
+Extend to your favorite text classification task
+
+## Topic modeling
+
+- The goal of topic modeling is to automatically group documents into topics
+- Unlike classification, this is unsupervised
+- Unlike clustering, documents can be in multiple topics in different proportions
+- Ordinary topic models work on word counts, but using the embeddings captures meaning better (see BERTopic)
+
+## Search
+
+- Conventional text search looks for occurrences of your text in the corpus
+- (or maybe stem/lemma of your search, so "defenestration" is found when you search "defenestrate")
+- Vector search looks for texts with similar embeddings
+- Finds documents with similar topics, even if the words aren't literally the same
+
+## Recommender systems
+
+- Watched a movie? Bought a product? Netflix/Amazon/Apple/whoever want you to do it again
+- Recommender systems identify similar moves/products/songs you might enjoy to recommend them
+- "Similar" can be defined using embeddings of the product description, user reviews, ...
+
+## But beware of bias
+
+- Word embeddings extract meaning from co-occurrence in your text corpus
+- ...so they reify biases present in the text
+
+. . .
+
+- This is a party trick:
+  $$
+  E_\text{man} - E_\text{woman} \approx E_\text{king} - E_\text{queen}
+  $$
+- This is concerning:
+  \begin{align*}
+  E_\text{man} - E_\text{woman} &\approx E_\text{computer programmer} - E_\text{homemaker} \\
+  E_\text{father} - E_\text{doctor} &\approx E_\text{mother} - E_\text{nurse}
+  \end{align*}
+- (in the word2vec trained on Google News)
+
+## In summary
+
+Word embeddings are cool. But:
+
+- There are lots of competing ways to make them
+- They're still very reductionist
+- It's not obvious how to use them to learn about *language*, rather than about content
+
+## Works cited

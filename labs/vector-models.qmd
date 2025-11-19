@@ -232,5 +232,7 @@ data.frame(Paper = rownames(lasso_prob), Prob = lasso_prob[, 1]) |>
   fmt_number(columns = "Prob",
              decimals = 2)
 ```
+
 Of course, we don't expect this to match perfectly. Embeddings capture the subject and meaning of the papers, *not* their writing style, so we're really using the *topics* to classify them, not stylometry.
+
 Compare this to your results from the original Federalist Papers lab.
