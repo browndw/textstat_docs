@@ -151,6 +151,6 @@ Could this measure narrative arcs, distinguishing tragedies from comedies from d
 - Jockers says he found "six or seven" unique trajectories that describe thousands of novels
 - But there is some controversy over this trajectory idea
 - @Swafford:2015 says "the package does not work as advertised"
-- We will explore this in the demo
+- We will explore this in the lab
 
 ## Works cited
