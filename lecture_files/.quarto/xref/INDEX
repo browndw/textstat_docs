@@ -25,5 +25,14 @@
   },
   "lec_cluster-analysis.qmd": {
     "lec_cluster-analysis.html": "0b0b56fd"
+  },
+  "lec_time-series.qmd": {
+    "lec_time-series.html": "3f626d16"
+  },
+  "lec_sentiment-analysis.qmd": {
+    "lec_sentiment-analysis.html": "14752f0d"
+  },
+  "lec_embeddings.qmd": {
+    "lec_embeddings.html": "be3644d2"
   }
 }
