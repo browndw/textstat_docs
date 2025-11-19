@@ -52,6 +52,7 @@ book:
          - lectures/embed_cluster-analysis.qmd
          - lectures/embed_time-series.qmd
          - lectures/embed_sentiment-analysis.qmd
+         - lectures/embed_embeddings.qmd
          
 bibliography: references.bib
 
