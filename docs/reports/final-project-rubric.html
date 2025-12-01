@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>31&nbsp; Time Series – Text Analysis for Statistics &amp; Data Science</title>
+<title>23&nbsp; Final Project Rubric – Text Analysis for Statistics &amp; Data Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../lectures/embed_sentiment-analysis.html" rel="next">
-<link href="../lectures/embed_cluster-analysis.html" rel="prev">
+<link href="../lectures/embed_linguistic-facts.html" rel="next">
+<link href="../reports/final-project.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -70,14 +70,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
- 
-  <style>
-  .slide-deck {
-      border: 3px solid #dee2e6;
-      width: 100%;
-  }
-  </style>
-  
 
 
 </head>
@@ -108,7 +100,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/embed_linguistic-facts.html">Lectures</a></li><li class="breadcrumb-item"><a href="../lectures/embed_time-series.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Time Series</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reports/cbe_01.html">Report Templates</a></li><li class="breadcrumb-item"><a href="../reports/final-project-rubric.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Final Project Rubric</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -291,7 +283,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reports/final-project-rubric.html" class="sidebar-item-text sidebar-link">
+  <a href="../reports/final-project-rubric.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Final Project Rubric</span></span></a>
   </div>
 </li>
@@ -350,7 +342,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../lectures/embed_time-series.html" class="sidebar-item-text sidebar-link active">
+  <a href="../lectures/embed_time-series.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Time Series</span></span></a>
   </div>
 </li>
@@ -373,15 +365,27 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">23.1</span> Introduction</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">23.2</span> Data</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">23.3</span> Methods</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">23.4</span> Results</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">23.5</span> Discussion</a></li>
+  <li><a href="#figures-and-tables" id="toc-figures-and-tables" class="nav-link" data-scroll-target="#figures-and-tables"><span class="header-section-number">23.6</span> Figures and tables</a></li>
+  <li><a href="#writing-and-style" id="toc-writing-and-style" class="nav-link" data-scroll-target="#writing-and-style"><span class="header-section-number">23.7</span> Writing and style</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/browndw/textstat_docs/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/embed_linguistic-facts.html">Lectures</a></li><li class="breadcrumb-item"><a href="../lectures/embed_time-series.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Time Series</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reports/cbe_01.html">Report Templates</a></li><li class="breadcrumb-item"><a href="../reports/final-project-rubric.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Final Project Rubric</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Time Series</span></h1>
+<h1 class="title"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Final Project Rubric</span></h1>
 </div>
 
 
@@ -398,16 +402,298 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-    <p><a href="slides/lec_time-series.html" target="_blank">View slides in full screen</a></p>
-       <div class="ratio ratio-16x9">
-      <iframe class="slide-deck" src="slides/lec_time-series.html" height="500px"></iframe>
-    </div>
-  
-<ul>
-<li></li>
-</ul>
+<p>This rubric should guide how you structure your final product report, and will be the basis of how we grade your submissions.</p>
+<section id="introduction" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">23.1</span> Introduction</h2>
+<p>The introduction should concisely and clearly set out the questions you are investigating and why these are interesting.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>Excellent</th>
+<th>Needs revision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Motivates the problem</td>
+<td>Introduction summarizes questions to be answered and their importance</td>
+<td>Unclear what questions will be answered in the report, or does not provide context that illustrates their importance</td>
+</tr>
+<tr class="even">
+<td>Gives hypotheses</td>
+<td>Introductions states theories or alternative explanations to be tested using the data</td>
+<td>Unclear what theories will be tested using the data</td>
+</tr>
+<tr class="odd">
+<td>Describes data source</td>
+<td>Introduction describes the source of the data and summarizes its relevance to the problem</td>
+<td>Unclear what the source of the data was or how it was collected; unclear how the data is relevant to the research questions at hand</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="data"><span class="header-section-number">23.2</span> Data</h2>
+<p>What are the data? And how were they gathered/obtained? For linguistic analysis, the description of the data conventionally includes a table of the kind Brezina shows on pg. 30.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>Excellent</th>
+<th>Needs revision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Describes corpus selection</td>
+<td>Describes how corpus was compiled, such as sources and inclusion criteria, or what existing source was used</td>
+<td>Unclear how the corpus was created and what’s included</td>
+</tr>
+<tr class="even">
+<td>Summarizes corpus</td>
+<td>States the size of the corpus, the types of documents included, and other summaries that provide the context for the reader</td>
+<td>Unclear how big the corpus is, what documents are included, what dates, etc.</td>
+</tr>
+<tr class="odd">
+<td>Limitations</td>
+<td>Limitations of data for the research questions, including problems with generalizability or omitted variables</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="methods" class="level2" data-number="23.3">
+<h2 data-number="23.3" class="anchored" data-anchor-id="methods"><span class="header-section-number">23.3</span> Methods</h2>
+<p>Your Methods section should clearly explain which methods you chose and why.</p>
+<p>These criteria apply to the analysis used to answer <strong>each</strong> substantive question addressed in the report.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>Excellent</th>
+<th>Needs revision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Connected to substance</td>
+<td>Chosen analysis is clearly connected to substantive question</td>
+<td>Analysis does not or cannot answer the substantive question</td>
+</tr>
+<tr class="even">
+<td>Connection explained</td>
+<td>Chosen analysis is explained in terms of the substantive question, not purely statistically</td>
+<td>Text discusses models and code but does not explain how these connect to the substantive question</td>
+</tr>
+<tr class="odd">
+<td>Decisions explained</td>
+<td>Report explains choices made in model building, such as choice of tests, which variables are included, etc.</td>
+<td>Unclear how or why the models were made</td>
+</tr>
+<tr class="even">
+<td>Appropriateness verified</td>
+<td>Analysis is supported by diagnostics or goodness-of-fit metrics that assess whether the tests or models are suitable for the data</td>
+<td>Unclear if assumptions are checked or if the procedures are appropriate for the given data</td>
+</tr>
+<tr class="odd">
+<td>Problems noted</td>
+<td>Caveats and problems are noted and their potential effect on results explained</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="results" class="level2" data-number="23.4">
+<h2 data-number="23.4" class="anchored" data-anchor-id="results"><span class="header-section-number">23.4</span> Results</h2>
+<p>Describe your results and how they answer the research questions. You don’t have to show <em>every</em> result; given the page limit, focus on those that are useful and explanatory. Do not include pages of tiny unreadable plots.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>Excellent</th>
+<th>Needs revision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Results answer questions</td>
+<td>Statistical results answer the questions asked</td>
+<td>Statistical results do not answer the substantive questions</td>
+</tr>
+<tr class="even">
+<td>Statistical results clearly presented</td>
+<td>Tests and estimates are presented clearly and accurately</td>
+<td>Explanation misstates what the results show or misinterprets the statistics</td>
+</tr>
+<tr class="odd">
+<td>Statistical results correct</td>
+<td>Statistical methods correctly implemented</td>
+<td>Errors in code or math mean the results are incorrect</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="discussion" class="level2" data-number="23.5">
+<h2 data-number="23.5" class="anchored" data-anchor-id="discussion"><span class="header-section-number">23.5</span> Discussion</h2>
+<p>What conclusions might you draw from your findings? Do they suggest interesting directions? Or dead-ends?</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>Excellent</th>
+<th>Needs revision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Conclusion presents results</td>
+<td>Summarizes conclusions presented in report</td>
+<td>Describes conclusions not justified or described in the body of the report, or doesn’t say conclusions</td>
+</tr>
+<tr class="even">
+<td>Results translated to linguistic terms</td>
+<td>Conclusion explains how the statistical results answer the linguistic questions</td>
+<td>Statistical results presented with little mention of practical importance or scientific meaning</td>
+</tr>
+<tr class="odd">
+<td>Conclusions note limitations</td>
+<td>Conclusion notes any limitations of results and what could be done to address these</td>
+<td>Conclusion ignores limitations of results or is too confident</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="figures-and-tables" class="level2" data-number="23.6">
+<h2 data-number="23.6" class="anchored" data-anchor-id="figures-and-tables"><span class="header-section-number">23.6</span> Figures and tables</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>Excellent</th>
+<th>Needs revision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Function and purpose</td>
+<td>Connection between figures and narrative is clear from text and caption</td>
+<td>Not clear what point the figures are making or how they support the argument; some figures have no purpose</td>
+</tr>
+<tr class="even">
+<td>Legibility and design</td>
+<td>Figures are clear, simple, legible, and attractive</td>
+<td>Figures are hard to read; fonts are often too small; some graphics are blurry or squished</td>
+</tr>
+<tr class="odd">
+<td>Labeling</td>
+<td>All legends and axes are clearly labeled, including units</td>
+<td>Labs missing or use raw variable names instead of descriptive text</td>
+</tr>
+<tr class="even">
+<td>Choice of figures</td>
+<td>Types of figures are well-chosen, illustrating the intended points clearly</td>
+<td>Figures do not make intended points and should be replaced</td>
+</tr>
+<tr class="odd">
+<td>Used when needed</td>
+<td>Figures are used whenever the text needs them</td>
+<td>Many points should be illustrated with figures but are not</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="writing-and-style" class="level2" data-number="23.7">
+<h2 data-number="23.7" class="anchored" data-anchor-id="writing-and-style"><span class="header-section-number">23.7</span> Writing and style</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>Excellent</th>
+<th>Needs revision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Grammar and style</td>
+<td>Grammar is correct and style is appropriate to audience</td>
+<td>Grammatical or spelling errors make text hard to read</td>
+</tr>
+<tr class="even">
+<td>Formatting</td>
+<td>Formatting is clear and legible; font is a reasonable size; margins are wide enough to allow easy reading</td>
+<td>Text is poorly typeset or in unusual sizes; figures are in inconvenient places; math is hard to read; margins are tiny</td>
+</tr>
+<tr class="odd">
+<td>Logic and structure</td>
+<td>All text works to support the conclusions; there is a clear logical flow between sections</td>
+<td>Purpose of some text is unclear; sections redundant or not clearly split</td>
+</tr>
+<tr class="even">
+<td>Precision</td>
+<td>Descriptions of methods and results are clear and unambiguous</td>
+<td>Unclear what some results are or how the analysis was conducted</td>
+</tr>
+<tr class="odd">
+<td>Uncertainty always given</td>
+<td>Results presented with clear measures of uncertainty (like confidence intervals)</td>
+<td>Many results given without confidence intervals/standard errors</td>
+</tr>
+<tr class="even">
+<td>No R code or output</td>
+<td>NO R code or raw output is presented in the report, only relevant results</td>
+<td>Chunks of R code or output are shown directly in the report</td>
+</tr>
+<tr class="odd">
+<td>Sourcing (if applicable)</td>
+<td>References are clearly given to information from outside sources; quotation marks clearly mark any verbatim text from sources</td>
+<td>Some references not given; text or figures used without attribution. <strong>Warning:</strong> Using text or figures from other sources without <em>clear</em> attribution is an academic integrity violation.</td>
+</tr>
+<tr class="even">
+<td>Citation style (if applicable)</td>
+<td>Citations formatted in a common style used in statistics or linguistics journals</td>
+<td>Citations poorly formatted or incomplete</td>
+</tr>
+</tbody>
+</table>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -812,13 +1098,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../lectures/embed_cluster-analysis.html" class="pagination-link" aria-label="Cluster Analysis">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Cluster Analysis</span></span>
+      <a href="../reports/final-project.html" class="pagination-link" aria-label="Final Project">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Final Project</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../lectures/embed_sentiment-analysis.html" class="pagination-link" aria-label="Sentiment Analysis">
-        <span class="nav-page-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Sentiment Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../lectures/embed_linguistic-facts.html" class="pagination-link" aria-label="Linguistic Facts of Life">
+        <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Linguistic Facts of Life</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -827,4 +1113,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/browndw/textstat_docs/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/browndw/textstat_docs/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
