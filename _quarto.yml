@@ -41,6 +41,7 @@ book:
          - reports/cbe_01.qmd
          - reports/cbe_02.qmd
          - reports/final-project.qmd
+         - reports/final-project-rubric.qmd
     - part: Lectures
       chapters:
          - lectures/embed_linguistic-facts.qmd

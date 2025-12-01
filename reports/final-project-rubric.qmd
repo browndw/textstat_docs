@@ -1,0 +1,88 @@
+# Final Project Rubric
+
+This rubric should guide how you structure your final product report, and will
+be the basis of how we grade your submissions.
+
+## Introduction
+
+The introduction should concisely and clearly set out the questions you are
+investigating and why these are interesting.
+
+| Area | Excellent | Needs revision |
+|------|-----------|-----------|
+| Motivates the problem | Introduction summarizes questions to be answered and their importance | Unclear what questions will be answered in the report, or does not provide context that illustrates their importance |
+| Gives hypotheses | Introductions states theories or alternative explanations to be tested using the data | Unclear what theories will be tested using the data |
+| Describes data source | Introduction describes the source of the data and summarizes its relevance to the problem | Unclear what the source of the data was or how it was collected; unclear how the data is relevant to the research questions at hand |
+
+## Data
+
+What are the data? And how were they gathered/obtained? For linguistic analysis,
+the description of the data conventionally includes a table of the kind Brezina
+shows on pg. 30.
+
+| Area | Excellent | Needs revision |
+|------|-----------|-----------|
+| Describes corpus selection | Describes how corpus was compiled, such as sources and inclusion criteria, or what existing source was used | Unclear how the corpus was created and what's included |
+| Summarizes corpus | States the size of the corpus, the types of documents included, and other summaries that provide the context for the reader | Unclear how big the corpus is, what documents are included, what dates, etc. |
+| Limitations | Limitations of data for the research questions, including problems with generalizability or omitted variables |
+
+## Methods
+
+Your Methods section should clearly explain which methods you chose and why. 
+
+These criteria apply to the analysis used to answer **each** substantive
+question addressed in the report.
+
+| Area | Excellent | Needs revision |
+|------|-----------|-----------|
+| Connected to substance | Chosen analysis is clearly connected to substantive question | Analysis does not or cannot answer the substantive question |
+| Connection explained | Chosen analysis is explained in terms of the substantive question, not purely statistically | Text discusses models and code but does not explain how these connect to the substantive question |
+| Decisions explained | Report explains choices made in model building, such as choice of tests, which variables are included, etc. | Unclear how or why the models were made |
+| Appropriateness verified | Analysis is supported by diagnostics or goodness-of-fit metrics that assess whether the tests or models are suitable for the data | Unclear if assumptions are checked or if the procedures are appropriate for the given data |
+| Problems noted | Caveats and problems are noted and their potential effect on results explained |
+
+## Results
+
+Describe your results and how they answer the research questions. You don't have
+to show *every* result; given the page limit, focus on those that are useful and
+explanatory. Do not include pages of tiny unreadable plots.
+
+| Area | Excellent | Needs revision |
+|------|-----------|-----------|
+| Results answer questions | Statistical results answer the questions asked | Statistical results do not answer the substantive questions|
+| Statistical results clearly presented | Tests and estimates are presented clearly and accurately| Explanation misstates what the results show or misinterprets the statistics |
+| Statistical results correct | Statistical methods correctly implemented | Errors in code or math mean the results are incorrect |
+
+## Discussion
+
+What conclusions might you draw from your findings? Do they suggest interesting
+directions? Or dead-ends?
+
+| Area | Excellent | Needs revision |
+|------|-----------|-----------|
+| Conclusion presents results | Summarizes conclusions presented in report| Describes conclusions not justified or described in the body of the report, or doesn’t say conclusions|
+| Results translated to linguistic terms | Conclusion explains how the statistical results answer the linguistic questions | Statistical results presented with little mention of practical importance or scientific meaning |
+| Conclusions note limitations | Conclusion notes any limitations of results and what could be done to address these | Conclusion ignores limitations of results or is too confident |
+
+## Figures and tables
+
+| Area | Excellent | Needs revision |
+|------|-----------|-----------|
+| Function and purpose | Connection between figures and narrative is clear from text and caption | Not clear what point the figures are making or how they support the argument; some figures have no purpose |
+| Legibility and design | Figures are clear, simple, legible, and attractive | Figures are hard to read; fonts are often too small; some graphics are blurry or squished |
+| Labeling | All legends and axes are clearly labeled, including units | Labs missing or use raw variable names instead of descriptive text |
+| Choice of figures | Types of figures are well-chosen, illustrating the intended points clearly | Figures do not make intended points and should be replaced |
+| Used when needed | Figures are used whenever the text needs them | Many points should be illustrated with figures but are not |
+
+## Writing and style
+
+| Area | Excellent | Needs revision |
+|------|-----------|-----------|
+| Grammar and style | Grammar is correct and style is appropriate to audience | Grammatical or spelling errors make text hard to read |
+| Formatting | Formatting is clear and legible; font is a reasonable size; margins are wide enough to allow easy reading | Text is poorly typeset or in unusual sizes; figures are in inconvenient places; math is hard to read; margins are tiny |
+| Logic and structure | All text works to support the conclusions; there is a clear logical flow between sections | Purpose of some text is unclear; sections redundant or not clearly split |
+| Precision | Descriptions of methods and results are clear and unambiguous | Unclear what some results are or how the analysis was conducted |
+| Uncertainty always given | Results presented with clear measures of uncertainty (like confidence intervals) | Many results given without confidence intervals/standard errors |
+| No R code or output | NO R code or raw output is presented in the report, only relevant results | Chunks of R code or output are shown directly in the report |
+| Sourcing (if applicable) | References are clearly given to information from outside sources; quotation marks clearly mark any verbatim text from sources | Some references not given; text or figures used without attribution. **Warning:** Using text or figures from other sources without *clear* attribution is an academic integrity violation. |
+| Citation style (if applicable) | Citations formatted in a common style used in statistics or linguistics journals | Citations poorly formatted or incomplete |
