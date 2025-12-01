@@ -413,7 +413,7 @@ dialects_raster <- dialects_raster[us, ]
 
 And plot the result... (Note that we're dropping *other*.)
 
-```{r warning=FALSE, message=FALSE, fig.height=4, fig.width=7}
+```{r}
 #| warning: false
 #| message: false
 #| fig-width: 7
