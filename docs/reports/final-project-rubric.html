@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -492,26 +521,31 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
+<td>Precision</td>
+<td>Methods clearly stated, including details like thresholds, window sizes, word lists, etc.</td>
+<td>Unclear what methods were used or with what parameters</td>
+</tr>
+<tr class="even">
 <td>Connected to substance</td>
 <td>Chosen analysis is clearly connected to substantive question</td>
 <td>Analysis does not or cannot answer the substantive question</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Connection explained</td>
 <td>Chosen analysis is explained in terms of the substantive question, not purely statistically</td>
 <td>Text discusses models and code but does not explain how these connect to the substantive question</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Decisions explained</td>
 <td>Report explains choices made in model building, such as choice of tests, which variables are included, etc.</td>
 <td>Unclear how or why the models were made</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Appropriateness verified</td>
 <td>Analysis is supported by diagnostics or goodness-of-fit metrics that assess whether the tests or models are suitable for the data</td>
 <td>Unclear if assumptions are checked or if the procedures are appropriate for the given data</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Problems noted</td>
 <td>Caveats and problems are noted and their potential effect on results explained</td>
 <td></td>
@@ -550,6 +584,16 @@ ul.task-list li input[type="checkbox"] {
 <td>Statistical results correct</td>
 <td>Statistical methods correctly implemented</td>
 <td>Errors in code or math mean the results are incorrect</td>
+</tr>
+<tr class="even">
+<td>Tests presented with details</td>
+<td>If hypothesis tests are used, the test statistic and <em>p</em> value are clearly stated (e.g., <span class="math inline">\(G^2 = 530\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>)</td>
+<td>Text just says the result is significant, doesn’t state the test statistic, or doesn’t say what test was used</td>
+</tr>
+<tr class="odd">
+<td>Uncertainty given</td>
+<td>When possible, results presented with clear measures of uncertainty (like confidence intervals)</td>
+<td>Many results given without confidence intervals/standard errors</td>
 </tr>
 </tbody>
 </table>
@@ -663,16 +707,6 @@ ul.task-list li input[type="checkbox"] {
 <td>Logic and structure</td>
 <td>All text works to support the conclusions; there is a clear logical flow between sections</td>
 <td>Purpose of some text is unclear; sections redundant or not clearly split</td>
-</tr>
-<tr class="even">
-<td>Precision</td>
-<td>Descriptions of methods and results are clear and unambiguous</td>
-<td>Unclear what some results are or how the analysis was conducted</td>
-</tr>
-<tr class="odd">
-<td>Uncertainty always given</td>
-<td>Results presented with clear measures of uncertainty (like confidence intervals)</td>
-<td>Many results given without confidence intervals/standard errors</td>
 </tr>
 <tr class="even">
 <td>No R code or output</td>
