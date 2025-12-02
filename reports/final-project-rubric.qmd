@@ -35,6 +35,7 @@ question addressed in the report.
 
 | Area | Excellent | Needs revision |
 |------|-----------|-----------|
+| Precision | Methods clearly stated, including details like thresholds, window sizes, word lists, etc. | Unclear what methods were used or with what parameters |
 | Connected to substance | Chosen analysis is clearly connected to substantive question | Analysis does not or cannot answer the substantive question |
 | Connection explained | Chosen analysis is explained in terms of the substantive question, not purely statistically | Text discusses models and code but does not explain how these connect to the substantive question |
 | Decisions explained | Report explains choices made in model building, such as choice of tests, which variables are included, etc. | Unclear how or why the models were made |
@@ -50,8 +51,10 @@ explanatory. Do not include pages of tiny unreadable plots.
 | Area | Excellent | Needs revision |
 |------|-----------|-----------|
 | Results answer questions | Statistical results answer the questions asked | Statistical results do not answer the substantive questions|
-| Statistical results clearly presented | Tests and estimates are presented clearly and accurately| Explanation misstates what the results show or misinterprets the statistics |
+| Statistical results clearly presented | Tests and estimates are presented clearly and accurately | Explanation misstates what the results show or misinterprets the statistics |
 | Statistical results correct | Statistical methods correctly implemented | Errors in code or math mean the results are incorrect |
+| Tests presented with details | If hypothesis tests are used, the test statistic and *p* value are clearly stated (e.g., $G^2 = 530$, $p < 0.001$) | Text just says the result is significant, doesn't state the test statistic, or doesn't say what test was used |
+| Uncertainty given | When possible, results presented with clear measures of uncertainty (like confidence intervals) | Many results given without confidence intervals/standard errors |
 
 ## Discussion
 
@@ -81,8 +84,6 @@ directions? Or dead-ends?
 | Grammar and style | Grammar is correct and style is appropriate to audience | Grammatical or spelling errors make text hard to read |
 | Formatting | Formatting is clear and legible; font is a reasonable size; margins are wide enough to allow easy reading | Text is poorly typeset or in unusual sizes; figures are in inconvenient places; math is hard to read; margins are tiny |
 | Logic and structure | All text works to support the conclusions; there is a clear logical flow between sections | Purpose of some text is unclear; sections redundant or not clearly split |
-| Precision | Descriptions of methods and results are clear and unambiguous | Unclear what some results are or how the analysis was conducted |
-| Uncertainty always given | Results presented with clear measures of uncertainty (like confidence intervals) | Many results given without confidence intervals/standard errors |
 | No R code or output | NO R code or raw output is presented in the report, only relevant results | Chunks of R code or output are shown directly in the report |
 | Sourcing (if applicable) | References are clearly given to information from outside sources; quotation marks clearly mark any verbatim text from sources | Some references not given; text or figures used without attribution. **Warning:** Using text or figures from other sources without *clear* attribution is an academic integrity violation. |
 | Citation style (if applicable) | Citations formatted in a common style used in statistics or linguistics journals | Citations poorly formatted or incomplete |
